@@ -12,6 +12,9 @@
   "author": "Robin Wieruch <opensource@rwieruch.com> (https://www.robinwieruch.de)",
   "license": "MIT",
   "dependencies": {
+    "antd": "^3.26.6",
+    "babel-plugin-import": "^1.13.0",
+    "babel-plugin-inline-import": "^3.0.0",
     "isomorphic-unfetch": "^3.0.0",
     "next": "^9.1.7",
     "react": "^16.12.0",
@@ -26,6 +29,7 @@
     "@types/styled-components": "^4.4.1",
     "babel-core": "^6.26.3",
     "babel-jest": "^24.9.0",
+    "babel-plugin-module-resolver": "^4.0.0",
     "jest": "^24.9.0",
     "react-test-renderer": "^16.12.0",
     "typescript": "^3.7.4"

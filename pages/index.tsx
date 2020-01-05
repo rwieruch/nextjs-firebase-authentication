@@ -1,28 +1,35 @@
-import Link from 'next/link';
 import fetch from 'isomorphic-unfetch';
 import { NextApiRequest } from 'next';
 
-import HeadlinePrimary from '../src/components/HeadlinePrimary';
+import { Button } from 'antd';
 
-type DashboardProps = {
+import HeadlinePrimary from '@components/HeadlinePrimary';
+import Layout from '@components/Layout';
+
+type DashboardPageProps = {
   stars: number;
 };
 
-const DashboardPage = ({ stars }: DashboardProps) => (
-  <div>
+const DashboardPage = ({ stars }: DashboardPageProps) => (
+  <Layout>
     <HeadlinePrimary>Next stars: {stars}</HeadlinePrimary>
 
-    <Link href="/signin">
-      <a>To Sign In page</a>
-    </Link>
-  </div>
+    <Button size="large" type="primary" htmlType="submit">
+      OK
+    </Button>
+    <Button size="large" style={{ marginLeft: 8 }}>
+      Cancel
+    </Button>
+  </Layout>
 );
+
+type DashboardPageInitialProps = {
+  req: NextApiRequest;
+};
 
 DashboardPage.getInitialProps = async ({
   req,
-}: {
-  req: NextApiRequest;
-}) => {
+}: DashboardPageInitialProps) => {
   const res = await fetch(
     'https://api.github.com/repos/zeit/next.js'
   );

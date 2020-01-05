@@ -2,13 +2,14 @@ import Link from 'next/link';
 
 import Layout from '@components/Layout';
 
-const SignInPage = () => (
+const SignUpPage = () => (
   <Layout>
-    <p>Sign In Page</p>
+    <p>Sign Up Page</p>
+
     <Link href="/">
       <a>To Dashboard Page</a>
     </Link>
   </Layout>
 );
 
-export default SignInPage;
+export default SignUpPage;

@@ -2,9 +2,30 @@
   "presets": ["next/babel"],
   "plugins": [
     [
+      "module-resolver",
+      {
+        "root": ["./"],
+        "alias": {
+          "@components": "./src/components"
+        }
+      }
+    ],
+    [
       "styled-components",
       {
         "ssr": true
+      }
+    ],
+    [
+      "inline-import",
+      {
+        "extensions": [".css"]
+      }
+    ],
+    [
+      "import",
+      {
+        "libraryName": "antd"
       }
     ]
   ]
