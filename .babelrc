@@ -1,3 +1,6 @@
+// https://github.com/zeit/next.js/blob/canary/examples/with-ant-design-less/next.config.js
+// https://github.com/zeit/next.js/blob/canary/examples/with-styled-components/pages/_document.js
+
 {
   "presets": ["next/babel"],
   "plugins": [

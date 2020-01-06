@@ -1,3 +1,5 @@
+// https://github.com/zeit/next.js/blob/canary/examples/with-next-page-transitions/pages/_app.js
+
 import App from 'next/app';
 import React from 'react';
 import { ThemeProvider, createGlobalStyle } from 'styled-components';
@@ -61,22 +63,38 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-export default ({ Component, pageProps }) => (
-  <ThemeProvider theme={theme}>
-    <GlobalStyle />
+export default class MyApp extends App {
+  static async getInitialProps({ Component, ctx }) {
+    let pageProps = {};
 
-    <PageTransition
-      timeout={TIMEOUT}
-      classNames="page-transition"
-      loadingComponent={<Loader />}
-      loadingDelay={500}
-      loadingTimeout={{
-        enter: TIMEOUT,
-        exit: 0,
-      }}
-      loadingClassNames="loading-indicator"
-    >
-      <Component {...pageProps} />
-    </PageTransition>
-  </ThemeProvider>
-);
+    if (Component.getInitialProps) {
+      pageProps = await Component.getInitialProps(ctx);
+    }
+
+    return { pageProps };
+  }
+
+  render() {
+    const { Component, pageProps } = this.props;
+
+    return (
+      <ThemeProvider theme={theme}>
+        <GlobalStyle />
+
+        <PageTransition
+          timeout={TIMEOUT}
+          classNames="page-transition"
+          loadingComponent={<Loader />}
+          loadingDelay={500}
+          loadingTimeout={{
+            enter: TIMEOUT,
+            exit: 0,
+          }}
+          loadingClassNames="loading-indicator"
+        >
+          <Component {...pageProps} />
+        </PageTransition>
+      </ThemeProvider>
+    );
+  }
+}

@@ -1,4 +1,5 @@
-/* eslint-disable */
+//github.com/zeit/next.js/blob/canary/examples/with-ant-design-less/next.config.js
+
 const withLess = require('@zeit/next-less');
 const lessToJS = require('less-vars-to-js');
 const fs = require('fs');

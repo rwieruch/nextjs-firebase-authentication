@@ -1,3 +1,5 @@
+// https://github.com/zeit/next.js/blob/canary/examples/with-styled-components/pages/_document.js
+
 import Document from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
 
