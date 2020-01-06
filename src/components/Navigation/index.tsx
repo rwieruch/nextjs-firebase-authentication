@@ -3,18 +3,11 @@ import Link from 'next/link';
 import { Menu, Icon } from 'antd';
 
 import * as ROUTES from '@constants/routes';
+import AuthUserContext from '@context/authUser';
+import { doSignOut } from '@services/firebase/auth';
 
 import { ExternalLink } from './types';
-
-const MORE_COURSES = [
-  { title: 'The Road to React', url: 'https://roadtoreact.com/' },
-  {
-    title: 'The Road to Firebase',
-    url: 'https://roadtofirebase.com/',
-  },
-  { title: 'The Road to GraphQL', url: 'https://roadtographql.com/' },
-  { title: 'The Road to Redux', url: 'https://roadtoredux.com/' },
-];
+import { MORE_COURSES } from './constants';
 
 const ExternalCourseLink = ({ title, url }: ExternalLink) => (
   <a href={url} target="_blank" rel="noopener noreferrer">
@@ -31,10 +24,7 @@ const NavigationAuth = () => (
       </Link>
     </Menu.Item> */}
 
-    <Menu.Item
-      style={{ float: 'right' }}
-      onClick={() => alert('clicked')}
-    >
+    <Menu.Item style={{ float: 'right' }} onClick={doSignOut}>
       Sign Out
     </Menu.Item>
 
@@ -72,18 +62,18 @@ const NavigationNonAuth = () => (
   </Menu>
 );
 
-type NavigationProps = {
-  authUser: any;
-};
+const Navigation = () => {
+  const authUser = React.useContext(AuthUserContext);
 
-const Navigation = ({ authUser }: NavigationProps) => (
-  <>
-    {authUser ? (
-      <NavigationAuth></NavigationAuth>
-    ) : (
-      <NavigationNonAuth></NavigationNonAuth>
-    )}
-  </>
-);
+  return (
+    <>
+      {authUser ? (
+        <NavigationAuth></NavigationAuth>
+      ) : (
+        <NavigationNonAuth></NavigationNonAuth>
+      )}
+    </>
+  );
+};
 
 export default Navigation;

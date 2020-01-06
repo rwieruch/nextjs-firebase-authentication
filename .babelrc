@@ -11,7 +11,8 @@
         "alias": {
           "@components": "./src/components",
           "@services": "./src/services",
-          "@constants": "./src/constants"
+          "@constants": "./src/constants",
+          "@context": "./src/context"
         }
       }
     ],

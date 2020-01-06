@@ -15,7 +15,7 @@ type LayoutProps = {
 
 const Layout = ({ children }: LayoutProps) => (
   <>
-    <Navigation authUser={null} />
+    <Navigation />
     <AntdLayout>{children}</AntdLayout>
   </>
 );

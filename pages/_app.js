@@ -6,6 +6,8 @@ import { ThemeProvider, createGlobalStyle } from 'styled-components';
 import { PageTransition } from 'next-page-transitions';
 
 import Loader from '@components/Loader';
+import { auth } from '@services/firebase/firebase';
+import AuthUserContext from '@context/authUser';
 
 const TIMEOUT = 400;
 
@@ -63,14 +65,21 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-export default class MyApp extends App {
-  render() {
-    const { Component, pageProps } = this.props;
+const MyAppF = ({ children }) => {
+  const [authUser, setAuthUser] = React.useState();
 
-    return (
-      <ThemeProvider theme={theme}>
+  React.useEffect(() => {
+    let onAuthStateListener = auth.onAuthStateChanged(authUser => {
+      authUser ? setAuthUser(authUser) : setAuthUser(null);
+    });
+
+    return () => onAuthStateListener();
+  }, []);
+
+  return (
+    <ThemeProvider theme={theme}>
+      <AuthUserContext.Provider value={authUser}>
         <GlobalStyle />
-
         <PageTransition
           timeout={TIMEOUT}
           classNames="page-transition"
@@ -82,9 +91,21 @@ export default class MyApp extends App {
           }}
           loadingClassNames="loading-indicator"
         >
-          <Component {...pageProps} />
+          {children}
         </PageTransition>
-      </ThemeProvider>
+      </AuthUserContext.Provider>
+    </ThemeProvider>
+  );
+};
+
+export default class MyApp extends App {
+  render() {
+    const { Component, pageProps } = this.props;
+
+    return (
+      <MyAppF>
+        <Component {...pageProps} />
+      </MyAppF>
     );
   }
 }
