@@ -2,10 +2,9 @@ import React from 'react';
 import Link from 'next/link';
 import { Menu, Icon } from 'antd';
 
-type ExternalLink = {
-  title: string;
-  url: string;
-};
+import * as ROUTES from '@constants/routes';
+
+import { ExternalLink } from './types';
 
 const MORE_COURSES = [
   { title: 'The Road to React', url: 'https://roadtoreact.com/' },
@@ -58,7 +57,7 @@ const NavigationNonAuth = () => (
     </Menu.Item> */}
 
     <Menu.Item style={{ float: 'right' }}>
-      <Link href="/sign-in">
+      <Link href={ROUTES.SIGN_IN}>
         <a>Sign In</a>
       </Link>
     </Menu.Item>

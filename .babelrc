@@ -9,7 +9,9 @@
       {
         "root": ["./"],
         "alias": {
-          "@components": "./src/components"
+          "@components": "./src/components",
+          "@services": "./src/services",
+          "@constants": "./src/constants"
         }
       }
     ],

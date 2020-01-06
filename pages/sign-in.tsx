@@ -1,13 +1,16 @@
 import React from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
-import { Form, Input, Card } from 'antd';
+import { Form, Input, Card, message } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 
+import * as ROUTES from '@constants/routes';
 import Layout from '@components/Layout';
 import FormIcon from '@components/Form/Icon';
 import FormItem from '@components/Form/Item';
 import FormStretchedButton from '@components/Form/StretchedButton';
+import { doSignInWithEmailAndPassword } from '@services/firebase/auth';
 
 const SignInPageLayout = styled.div`
   display: flex;
@@ -27,11 +30,34 @@ const ForgetPasswordAnchor = styled.a`
 `;
 
 const SignInForm = ({ form }: FormComponentProps) => {
+  const router = useRouter();
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     form.validateFields((error, values) => {
-      if (!error) {
-        console.log('Received values of form: ', values);
-      }
+      if (error) return;
+
+      message.loading({
+        content: 'Loading ...',
+        key: ROUTES.SIGN_IN,
+      });
+
+      doSignInWithEmailAndPassword(values.email, values.password)
+        .then(result => {
+          message.success({
+            content: 'Success!',
+            key: ROUTES.SIGN_IN,
+            duration: 2,
+          });
+
+          router.push(ROUTES.INDEX);
+        })
+        .catch(error =>
+          message.error({
+            content: error.message,
+            key: ROUTES.SIGN_IN,
+            duration: 2,
+          })
+        );
     });
 
     event.preventDefault();
@@ -84,12 +110,12 @@ const SignInForm = ({ form }: FormComponentProps) => {
 
         <>
           Or&nbsp;
-          <Link href="/sign-up">
+          <Link href={ROUTES.SIGN_UP}>
             <a>sign up now!</a>
           </Link>
         </>
 
-        <Link href="/forgot-password">
+        <Link href={ROUTES.PASSWORD_FORGOT}>
           <ForgetPasswordAnchor>Forgot password</ForgetPasswordAnchor>
         </Link>
       </FormItem>
@@ -97,7 +123,7 @@ const SignInForm = ({ form }: FormComponentProps) => {
   );
 };
 
-const SignInFormEnhanced = Form.create({ name: 'sign-in' })(
+const SignInFormEnhanced = Form.create({ name: ROUTES.SIGN_IN })(
   SignInForm
 );
 

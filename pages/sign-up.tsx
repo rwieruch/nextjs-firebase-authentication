@@ -1,12 +1,15 @@
 import React from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
-import { Form, Input, Card } from 'antd';
+import { Form, Input, Card, message } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 
+import * as ROUTES from '@constants/routes';
 import Layout from '@components/Layout';
 import FormItem from '@components/Form/Item';
 import FormStretchedButton from '@components/Form/StretchedButton';
+import { doCreateUserWithEmailAndPassword } from '@services/firebase/auth';
 
 const SignUpPageLayout = styled.div`
   display: flex;
@@ -21,6 +24,8 @@ const StyledCard = styled(Card)`
 `;
 
 const SignUpForm = ({ form }: FormComponentProps) => {
+  const router = useRouter();
+
   const [
     confirmPasswordDirty,
     setConfirmPasswordDirty,
@@ -59,9 +64,27 @@ const SignUpForm = ({ form }: FormComponentProps) => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     form.validateFieldsAndScroll((error, values) => {
-      if (!error) {
-        console.log('Received values of form: ', values);
-      }
+      if (error) return;
+
+      // TODO create in DB, extract in /firebase/api with auth and db usage
+
+      doCreateUserWithEmailAndPassword(values.email, values.password)
+        .then(result => {
+          message.success({
+            content: 'Success!',
+            key: ROUTES.SIGN_UP,
+            duration: 2,
+          });
+
+          router.push(ROUTES.INDEX);
+        })
+        .catch(error =>
+          message.error({
+            content: error.message,
+            key: ROUTES.SIGN_UP,
+            duration: 2,
+          })
+        );
     });
 
     event.preventDefault();
@@ -158,7 +181,7 @@ const SignUpForm = ({ form }: FormComponentProps) => {
 
         <>
           Already have an account?&nbsp;
-          <Link href="/sign-in">
+          <Link href={ROUTES.SIGN_IN}>
             <a>Sign in!</a>
           </Link>
         </>
@@ -167,7 +190,7 @@ const SignUpForm = ({ form }: FormComponentProps) => {
   );
 };
 
-const SignUpFormEnhanced = Form.create({ name: 'sign-up' })(
+const SignUpFormEnhanced = Form.create({ name: ROUTES.SIGN_UP })(
   SignUpForm
 );
 
