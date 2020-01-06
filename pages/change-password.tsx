@@ -8,7 +8,7 @@ import Layout from '@components/Layout';
 import FormItem from '@components/Form/Item';
 import FormStretchedButton from '@components/Form/StretchedButton';
 
-const SignUpPageLayout = styled.div`
+const PasswordChangePageLayout = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -20,7 +20,7 @@ const StyledCard = styled(Card)`
   min-width: 200px;
 `;
 
-const SignUpForm = ({ form }: FormComponentProps) => {
+const PasswordChangeForm = ({ form }: FormComponentProps) => {
   const [
     confirmPasswordDirty,
     setConfirmPasswordDirty,
@@ -80,37 +80,6 @@ const SignUpForm = ({ form }: FormComponentProps) => {
 
   return (
     <Form {...formItemLayout} onSubmit={handleSubmit}>
-      <FormItem label={<span>Personal Name</span>}>
-        {form.getFieldDecorator('username', {
-          rules: [
-            {
-              required: true,
-              message: 'Please input your name!',
-              whitespace: true,
-            },
-          ],
-          validateFirst: true,
-          validateTrigger: 'onBlur',
-        })(<Input />)}
-      </FormItem>
-
-      <FormItem label="E-mail">
-        {form.getFieldDecorator('email', {
-          rules: [
-            {
-              type: 'email',
-              message: 'The input is not valid E-mail!',
-            },
-            {
-              required: true,
-              message: 'Please input your E-mail!',
-            },
-          ],
-          validateFirst: true,
-          validateTrigger: 'onBlur',
-        })(<Input />)}
-      </FormItem>
-
       <FormItem label="Password" hasFeedback>
         {form.getFieldDecorator('password', {
           rules: [
@@ -153,32 +122,26 @@ const SignUpForm = ({ form }: FormComponentProps) => {
 
       <FormItem wrapperCol={{ sm: 24 }}>
         <FormStretchedButton type="primary" htmlType="submit">
-          Sign Up
+          Change Password
         </FormStretchedButton>
-
-        <>
-          Already have an account?&nbsp;
-          <Link href="/sign-in">
-            <a>Sign in!</a>
-          </Link>
-        </>
       </FormItem>
     </Form>
   );
 };
 
-const SignUpFormEnhanced = Form.create({ name: 'sign-up' })(
-  SignUpForm
-);
+const PasswordChangeFormEnhanced = Form.create({
+  name: 'password-change',
+})(PasswordChangeForm);
 
-const SignUpPage = () => (
+const PasswordChangePage = () => (
   <Layout>
-    <SignUpPageLayout>
-      <StyledCard title="Register your account">
-        <SignUpFormEnhanced />
+    <PasswordChangePageLayout>
+      <StyledCard title="Change your password">
+        <PasswordChangeFormEnhanced />
       </StyledCard>
-    </SignUpPageLayout>
+    </PasswordChangePageLayout>
   </Layout>
 );
 
-export default SignUpPage;
+// TODO secure
+export default PasswordChangePage;

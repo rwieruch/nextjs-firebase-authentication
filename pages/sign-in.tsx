@@ -1,11 +1,13 @@
 import React from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
-import { Form, Input, Button, Card } from 'antd';
+import { Form, Input, Card } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 
 import Layout from '@components/Layout';
-import FormIcon from '@components/FormIcon';
+import FormIcon from '@components/Form/Icon';
+import FormItem from '@components/Form/Item';
+import FormStretchedButton from '@components/Form/StretchedButton';
 
 const SignInPageLayout = styled.div`
   display: flex;
@@ -18,10 +20,6 @@ const SignInPageLayout = styled.div`
 const StyledCard = styled(Card)`
   min-width: 200px;
   max-width: 600px;
-`;
-
-const StyledButton = styled(Button)`
-  width: 100%;
 `;
 
 const ForgetPasswordAnchor = styled.a`
@@ -41,7 +39,7 @@ const SignInForm = ({ form }: FormComponentProps) => {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <Form.Item>
+      <FormItem>
         {form.getFieldDecorator('email', {
           rules: [
             {
@@ -60,8 +58,8 @@ const SignInForm = ({ form }: FormComponentProps) => {
             placeholder="E-mail"
           />
         )}
-      </Form.Item>
-      <Form.Item>
+      </FormItem>
+      <FormItem>
         {form.getFieldDecorator('password', {
           rules: [
             {
@@ -77,12 +75,12 @@ const SignInForm = ({ form }: FormComponentProps) => {
             placeholder="Password"
           />
         )}
-      </Form.Item>
+      </FormItem>
 
-      <Form.Item>
-        <StyledButton type="primary" htmlType="submit">
+      <FormItem>
+        <FormStretchedButton type="primary" htmlType="submit">
           Sign In
-        </StyledButton>
+        </FormStretchedButton>
 
         <>
           Or&nbsp;
@@ -94,7 +92,7 @@ const SignInForm = ({ form }: FormComponentProps) => {
         <Link href="/forgot-password">
           <ForgetPasswordAnchor>Forgot password</ForgetPasswordAnchor>
         </Link>
-      </Form.Item>
+      </FormItem>
     </Form>
   );
 };
