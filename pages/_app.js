@@ -2,7 +2,7 @@ import App from 'next/app';
 import React from 'react';
 import { ThemeProvider, createGlobalStyle } from 'styled-components';
 
-import stylesheet from 'antd/dist/antd.min.css';
+// import stylesheet from 'antd/dist/antd.min.css';
 
 const theme = {
   colors: {
@@ -26,14 +26,14 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-const AntdStyle = () => (
-  <style dangerouslySetInnerHTML={{ __html: stylesheet }} />
-);
+// const AntdStyle = () => (
+//   <style dangerouslySetInnerHTML={{ __html: stylesheet }} />
+// );
+// <AntdStyle />
 
 export default ({ Component, pageProps }) => (
   <ThemeProvider theme={theme}>
     <GlobalStyle />
-    <AntdStyle />
 
     <Component {...pageProps} />
   </ThemeProvider>

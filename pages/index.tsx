@@ -3,7 +3,6 @@ import { NextApiRequest } from 'next';
 
 import { Button } from 'antd';
 
-import HeadlinePrimary from '@components/HeadlinePrimary';
 import Layout from '@components/Layout';
 
 type DashboardPageProps = {
@@ -12,8 +11,7 @@ type DashboardPageProps = {
 
 const DashboardPage = ({ stars }: DashboardPageProps) => (
   <Layout>
-    <HeadlinePrimary>Next stars: {stars}</HeadlinePrimary>
-
+    Next stars: {stars}
     <Button size="large" type="primary" htmlType="submit">
       OK
     </Button>

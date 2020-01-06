@@ -6,8 +6,8 @@ const SignUpPage = () => (
   <Layout>
     <p>Sign Up Page</p>
 
-    <Link href="/">
-      <a>To Dashboard Page</a>
+    <Link href="/sign-in">
+      <a>Or: Sign In</a>
     </Link>
   </Layout>
 );
