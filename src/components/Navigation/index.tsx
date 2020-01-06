@@ -39,7 +39,7 @@ const NavigationAuth = () => (
       Sign Out
     </Menu.Item>
 
-    <Menu.SubMenu style={{ float: 'right' }} title="Browse">
+    <Menu.SubMenu style={{ float: 'right' }} title="Browse Courses">
       {MORE_COURSES.map(link => (
         <Menu.Item key={link.title}>
           <ExternalCourseLink {...link} />
@@ -63,7 +63,7 @@ const NavigationNonAuth = () => (
       </Link>
     </Menu.Item>
 
-    <Menu.SubMenu style={{ float: 'right' }} title="Browse">
+    <Menu.SubMenu style={{ float: 'right' }} title="Browse Courses">
       {MORE_COURSES.map(link => (
         <Menu.Item key={link.title}>
           <ExternalCourseLink {...link} />

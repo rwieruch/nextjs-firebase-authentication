@@ -17,7 +17,7 @@ const SignInPageLayout = styled.div`
 
 const StyledCard = styled(Card)`
   min-width: 200px;
-  max-width: 400px;
+  max-width: 600px;
 `;
 
 const StyledButton = styled(Button)`
@@ -40,7 +40,7 @@ const SignInForm = ({ form }: FormComponentProps) => {
   };
 
   return (
-    <Form onSubmit={handleSubmit} className="login-form">
+    <Form onSubmit={handleSubmit}>
       <Form.Item>
         {form.getFieldDecorator('email', {
           rules: [
@@ -78,14 +78,18 @@ const SignInForm = ({ form }: FormComponentProps) => {
           />
         )}
       </Form.Item>
+
       <Form.Item>
         <StyledButton type="primary" htmlType="submit">
-          Sign in
+          Sign In
         </StyledButton>
 
-        <Link href="/sign-up">
-          <a>Or sign up now!</a>
-        </Link>
+        <>
+          Or&nbsp;
+          <Link href="/sign-up">
+            <a>sign up now!</a>
+          </Link>
+        </>
 
         <Link href="/forgot-password">
           <ForgetPasswordAnchor>Forgot password</ForgetPasswordAnchor>
@@ -95,14 +99,14 @@ const SignInForm = ({ form }: FormComponentProps) => {
   );
 };
 
-const SignInFormEnhanced = Form.create({ name: 'signin' })(
+const SignInFormEnhanced = Form.create({ name: 'sign-in' })(
   SignInForm
 );
 
 const SignInPage = () => (
   <Layout>
     <SignInPageLayout>
-      <StyledCard>
+      <StyledCard title="Log in and get to learn">
         <SignInFormEnhanced />
       </StyledCard>
     </SignInPageLayout>
