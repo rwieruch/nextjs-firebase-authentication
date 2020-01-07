@@ -11,7 +11,6 @@ import { MORE_COURSES } from './constants';
 
 const ExternalCourseLink = ({ title, url }: ExternalLink) => (
   <a href={url} target="_blank" rel="noopener noreferrer">
-    <Icon type="link" />
     {title}
   </a>
 );
@@ -43,18 +42,47 @@ const Navigation = () => {
       )}
 
       {session.authUser && (
-        <Menu.Item style={{ float: 'right' }} onClick={doSignOut}>
-          Sign Out
-        </Menu.Item>
+        <Menu.SubMenu style={{ float: 'right' }} title="Home">
+          <Menu.Item key="0">
+            <a href={ROUTES.ACCOUNT}>
+              <Icon type="user" />
+              Account
+            </a>
+          </Menu.Item>
+          <Menu.Item key="1" onClick={doSignOut}>
+            <Icon type="poweroff" />
+            Sign Out
+          </Menu.Item>
+        </Menu.SubMenu>
       )}
 
-      <Menu.SubMenu style={{ float: 'right' }} title="Browse Courses">
-        {MORE_COURSES.map(link => (
-          <Menu.Item key={link.title}>
-            <ExternalCourseLink {...link} />
-          </Menu.Item>
-        ))}
-      </Menu.SubMenu>
+      {!session.authUser && (
+        <Menu.SubMenu style={{ float: 'right' }} title="Courses">
+          {MORE_COURSES.map(link => (
+            <Menu.Item key={link.title}>
+              <ExternalCourseLink {...link} />
+            </Menu.Item>
+          ))}
+        </Menu.SubMenu>
+      )}
+
+      {session.authUser && (
+        <Menu.SubMenu style={{ float: 'right' }} title="Courses">
+          <Menu.ItemGroup key="0" title="My Courses">
+            <Menu.Item>
+              <a href={ROUTES.INDEX}>Get Started</a>
+            </Menu.Item>
+          </Menu.ItemGroup>
+
+          <Menu.ItemGroup key="1" title="More Courses">
+            {MORE_COURSES.map(link => (
+              <Menu.Item key={link.title}>
+                <ExternalCourseLink {...link} />
+              </Menu.Item>
+            ))}
+          </Menu.ItemGroup>
+        </Menu.SubMenu>
+      )}
     </Menu>
   );
 };
