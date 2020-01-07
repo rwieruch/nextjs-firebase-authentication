@@ -1,11 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Form, Input, Card } from 'antd';
+import { Form, Input, Card, message } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 
+import * as ROUTES from '@constants/routes';
 import Layout from '@components/Layout';
 import FormItem from '@components/Form/Item';
 import FormStretchedButton from '@components/Form/StretchedButton';
+import { doPasswordReset } from '@services/firebase/auth';
 
 const Container = styled.div`
   display: flex;
@@ -21,9 +23,30 @@ const StyledCard = styled(Card)`
 const PasswordForgotForm = ({ form }: FormComponentProps) => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     form.validateFields((error, values) => {
-      if (!error) {
-        console.log('Received values of form: ', values);
-      }
+      if (error) return;
+
+      message.loading({
+        content: 'Loading ...',
+        key: ROUTES.PASSWORD_FORGOT,
+      });
+
+      doPasswordReset(values.email)
+        .then(result => {
+          message.success({
+            content: 'Success!',
+            key: ROUTES.PASSWORD_FORGOT,
+            duration: 2,
+          });
+
+          form.resetFields();
+        })
+        .catch(error =>
+          message.error({
+            content: error.message,
+            key: ROUTES.PASSWORD_FORGOT,
+            duration: 2,
+          })
+        );
     });
 
     event.preventDefault();

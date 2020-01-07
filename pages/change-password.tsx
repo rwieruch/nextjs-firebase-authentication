@@ -1,12 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Form, Input, Card } from 'antd';
+import { Form, Input, Card, message } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 
+import * as ROUTES from '@constants/routes';
 import Layout from '@components/Layout';
 import FormItem from '@components/Form/Item';
 import FormStretchedButton from '@components/Form/StretchedButton';
 import withAuthorization from '@components/Session/withAuthorization';
+import { doPasswordUpdate } from '@services/firebase/auth';
 
 import { Session } from '@typeDefs/session';
 
@@ -40,7 +42,7 @@ const PasswordChangeForm = ({ form }: FormComponentProps) => {
     value: any,
     callback: any
   ) => {
-    if (value && value !== form.getFieldValue('password')) {
+    if (value && value !== form.getFieldValue('newPassword')) {
       callback('Your passwords are different.');
     } else {
       callback();
@@ -53,16 +55,37 @@ const PasswordChangeForm = ({ form }: FormComponentProps) => {
     callback: any
   ) => {
     if (value && confirmPasswordDirty) {
-      form.validateFields(['confirm'], { force: true });
+      form.validateFields(['confirmNewPassword'], { force: true });
     }
     callback();
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    form.validateFieldsAndScroll((error, values) => {
-      if (!error) {
-        console.log('Received values of form: ', values);
-      }
+    form.validateFields((error, values) => {
+      if (error) return;
+
+      message.loading({
+        content: 'Loading ...',
+        key: ROUTES.PASSWORD_CHANGE,
+      });
+
+      doPasswordUpdate(values.newPassword)
+        .then(result => {
+          message.success({
+            content: 'Success!',
+            key: ROUTES.PASSWORD_CHANGE,
+            duration: 2,
+          });
+
+          form.resetFields();
+        })
+        .catch(error =>
+          message.error({
+            content: error.message,
+            key: ROUTES.PASSWORD_CHANGE,
+            duration: 2,
+          })
+        );
     });
 
     event.preventDefault();
@@ -81,8 +104,25 @@ const PasswordChangeForm = ({ form }: FormComponentProps) => {
 
   return (
     <Form {...formItemLayout} onSubmit={handleSubmit}>
-      <FormItem label="Password" hasFeedback>
-        {form.getFieldDecorator('password', {
+      <FormItem label="Old Password" hasFeedback>
+        {form.getFieldDecorator('oldPassword', {
+          rules: [
+            {
+              required: true,
+              message: 'Please input your Password!',
+            },
+            {
+              min: 6,
+              message: 'Your password is too short.',
+            },
+          ],
+          validateFirst: true,
+          validateTrigger: 'onBlur',
+        })(<Input.Password />)}
+      </FormItem>
+
+      <FormItem label="New Password" hasFeedback>
+        {form.getFieldDecorator('newPassword', {
           rules: [
             {
               required: true,
@@ -102,7 +142,7 @@ const PasswordChangeForm = ({ form }: FormComponentProps) => {
       </FormItem>
 
       <FormItem label="Confirm Password" hasFeedback>
-        {form.getFieldDecorator('confirm', {
+        {form.getFieldDecorator('confirmNewPassword', {
           rules: [
             {
               required: true,

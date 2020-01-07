@@ -62,7 +62,7 @@ const SignUpForm = ({ form }: FormComponentProps) => {
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    form.validateFieldsAndScroll((error, values) => {
+    form.validateFields((error, values) => {
       if (error) return;
 
       // TODO create in DB, extract in /firebase/api with auth and db usage

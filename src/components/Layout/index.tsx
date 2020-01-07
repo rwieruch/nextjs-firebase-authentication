@@ -6,8 +6,11 @@ const { Header, Content, Footer, Sider } = MyLayout;
 
 import Navigation from '@components/Navigation';
 
-// heights: Menu 48px; Menu Padding 8px; Footer 70px;
-const MyContent = styled(Content)`
+// heights:
+// Menu 48px;
+// Menu Padding 8px;
+// Footer 70px;
+const StyledContent = styled(Content)`
   min-height: calc(100vh - 48px - 8px - 70px);
 
   display: flex;
@@ -16,6 +19,10 @@ const MyContent = styled(Content)`
   div {
     flex: 1;
   }
+`;
+
+const StyledFooter = styled(Footer)`
+  text-align: center;
 `;
 
 type LayoutProps = {
@@ -27,10 +34,13 @@ const Layout = ({ children }: LayoutProps) => (
     <header>
       <Navigation />
     </header>
-    <MyContent>{children}</MyContent>
-    <Footer style={{ textAlign: 'center' }}>
-      ©2020 Created by Robin Wieruch
-    </Footer>
+
+    <StyledContent>{children}</StyledContent>
+
+    <StyledFooter>
+      ©2020 Created by{' '}
+      <a href="https://www.robinwieruch.de/">Robin Wieruch</a>
+    </StyledFooter>
   </MyLayout>
 );
 

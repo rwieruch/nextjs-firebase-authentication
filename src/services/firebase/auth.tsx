@@ -17,6 +17,8 @@ export const doPasswordReset = (email: string) =>
 
 export const doPasswordUpdate = (password: string) => {
   if (auth.currentUser) {
-    auth.currentUser.updatePassword(password);
+    return auth.currentUser.updatePassword(password);
+  } else {
+    return Promise.reject(new Error('No authenticated user.'));
   }
 };
