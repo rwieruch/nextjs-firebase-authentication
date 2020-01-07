@@ -16,56 +16,47 @@ const ExternalCourseLink = ({ title, url }: ExternalLink) => (
   </a>
 );
 
-const NavigationAuth = () => (
-  <Menu mode="horizontal">
-    {/* <Menu.Item style={{ float: 'left' }}>
-      <Link href="/">
-        <Icon component={() => <img src="/image.svg" />} />
-      </Link>
-    </Menu.Item> */}
-
-    <Menu.Item style={{ float: 'right' }} onClick={doSignOut}>
-      Sign Out
-    </Menu.Item>
-
-    <Menu.SubMenu style={{ float: 'right' }} title="Browse Courses">
-      {MORE_COURSES.map(link => (
-        <Menu.Item key={link.title}>
-          <ExternalCourseLink {...link} />
-        </Menu.Item>
-      ))}
-    </Menu.SubMenu>
-  </Menu>
-);
-
-const NavigationNonAuth = () => (
-  <Menu mode="horizontal">
-    {/* <Menu.Item style={{ float: 'left' }}>
-      <Link href="/">
-        <Icon component={() => <img src="/image.svg" />} />
-      </Link>
-    </Menu.Item> */}
-
-    <Menu.Item style={{ float: 'right' }}>
-      <Link href={ROUTES.SIGN_IN}>
-        <a>Sign In</a>
-      </Link>
-    </Menu.Item>
-
-    <Menu.SubMenu style={{ float: 'right' }} title="Browse Courses">
-      {MORE_COURSES.map(link => (
-        <Menu.Item key={link.title}>
-          <ExternalCourseLink {...link} />
-        </Menu.Item>
-      ))}
-    </Menu.SubMenu>
-  </Menu>
-);
-
 const Navigation = () => {
-  const { authUser } = React.useContext(SessionContext);
+  const session = React.useContext(SessionContext);
 
-  return authUser ? <NavigationAuth /> : <NavigationNonAuth />;
+  return (
+    <Menu mode="horizontal">
+      <Menu.Item
+        style={{
+          float: 'left',
+          borderBottom: '2px solid transparent',
+        }}
+      >
+        <Link href="/">
+          <a>
+            <img height="40" src="/logo.svg" alt="logo" />
+          </a>
+        </Link>
+      </Menu.Item>
+
+      {!session.authUser && (
+        <Menu.Item style={{ float: 'right' }}>
+          <Link href={ROUTES.SIGN_IN}>
+            <a>Sign In</a>
+          </Link>
+        </Menu.Item>
+      )}
+
+      {session.authUser && (
+        <Menu.Item style={{ float: 'right' }} onClick={doSignOut}>
+          Sign Out
+        </Menu.Item>
+      )}
+
+      <Menu.SubMenu style={{ float: 'right' }} title="Browse Courses">
+        {MORE_COURSES.map(link => (
+          <Menu.Item key={link.title}>
+            <ExternalCourseLink {...link} />
+          </Menu.Item>
+        ))}
+      </Menu.SubMenu>
+    </Menu>
+  );
 };
 
 export default Navigation;

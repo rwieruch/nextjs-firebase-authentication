@@ -7,7 +7,6 @@ const lessToJS = require('less-vars-to-js');
 const fs = require('fs');
 const path = require('path');
 
-// Where your antd-custom.less file lives
 const themeVariables = lessToJS(
   fs.readFileSync(
     path.resolve(__dirname, './assets/antd-custom.less'),
@@ -18,7 +17,7 @@ const themeVariables = lessToJS(
 module.exports = withLess({
   lessLoaderOptions: {
     javascriptEnabled: true,
-    modifyVars: themeVariables, // make your antd custom effective
+    modifyVars: themeVariables,
   },
   env: {
     FIREBASE_API_KEY: process.env.FIREBASE_API_KEY,
@@ -32,6 +31,8 @@ module.exports = withLess({
   },
   webpack: (config, { isServer }) => {
     if (isServer) {
+      // ** AntD Styles **
+
       const antStyles = /antd\/.*?\/style.*?/;
       const origExternals = [...config.externals];
       config.externals = [
@@ -53,6 +54,7 @@ module.exports = withLess({
         use: 'null-loader',
       });
     }
+
     return config;
   },
 });
