@@ -9,6 +9,13 @@ import Navigation from '@components/Navigation';
 // heights: Menu 48px; Menu Padding 8px; Footer 70px;
 const MyContent = styled(Content)`
   min-height: calc(100vh - 48px - 8px - 70px);
+
+  display: flex;
+  flex-direction: row;
+
+  div {
+    flex: 1;
+  }
 `;
 
 type LayoutProps = {

@@ -15,12 +15,11 @@ const SignUpPageLayout = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-
-  flex: 1;
 `;
 
 const StyledCard = styled(Card)`
   min-width: 200px;
+  max-width: 400px;
 `;
 
 const SignUpForm = ({ form }: FormComponentProps) => {

@@ -7,17 +7,15 @@ import Layout from '@components/Layout';
 import FormItem from '@components/Form/Item';
 import FormStretchedButton from '@components/Form/StretchedButton';
 
-const PasswordForgotPageLayout = styled.div`
+const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-
-  flex: 1;
 `;
 
 const StyledCard = styled(Card)`
   min-width: 200px;
-  max-width: 600px;
+  max-width: 400px;
 `;
 
 const PasswordForgotForm = ({ form }: FormComponentProps) => {
@@ -76,11 +74,11 @@ const PasswordForgotFormEnhanced = Form.create({
 
 const PasswordForgotPage = () => (
   <Layout>
-    <PasswordForgotPageLayout>
+    <Container>
       <StyledCard title="Reset your password">
         <PasswordForgotFormEnhanced />
       </StyledCard>
-    </PasswordForgotPageLayout>
+    </Container>
   </Layout>
 );
 

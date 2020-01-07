@@ -2,23 +2,14 @@
 
 require('dotenv').config();
 
-const withLess = require('@zeit/next-less');
-const lessToJS = require('less-vars-to-js');
 const fs = require('fs');
 const path = require('path');
 
-const themeVariables = lessToJS(
-  fs.readFileSync(
-    path.resolve(__dirname, './assets/antd-custom.less'),
-    'utf8'
-  )
-);
+const withPlugins = require('next-compose-plugins');
+const withLess = require('@zeit/next-less');
+const lessToJS = require('less-vars-to-js');
 
-module.exports = withLess({
-  lessLoaderOptions: {
-    javascriptEnabled: true,
-    modifyVars: themeVariables,
-  },
+const nextConfig = {
   env: {
     FIREBASE_API_KEY: process.env.FIREBASE_API_KEY,
     FIREBASE_AUTH_DOMAIN: process.env.FIREBASE_AUTH_DOMAIN,
@@ -29,10 +20,20 @@ module.exports = withLess({
       process.env.FIREBASE_MESSAGING_SENDER_ID,
     FIREBASE_APP_ID: process.env.FIREBASE_APP_ID,
   },
+};
+
+const lessWithAntdConfig = {
+  lessLoaderOptions: {
+    javascriptEnabled: true,
+    modifyVars: lessToJS(
+      fs.readFileSync(
+        path.resolve(__dirname, './assets/antd-custom.less'),
+        'utf8'
+      )
+    ),
+  },
   webpack: (config, { isServer }) => {
     if (isServer) {
-      // ** AntD Styles **
-
       const antStyles = /antd\/.*?\/style.*?/;
       const origExternals = [...config.externals];
       config.externals = [
@@ -57,4 +58,9 @@ module.exports = withLess({
 
     return config;
   },
-});
+};
+
+module.exports = withPlugins(
+  [[withLess, lessWithAntdConfig]],
+  nextConfig
+);

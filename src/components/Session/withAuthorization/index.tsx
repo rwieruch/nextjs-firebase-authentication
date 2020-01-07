@@ -12,7 +12,6 @@ const withAuthorization = (condition: Condition) => (
   Component: React.ComponentType
 ) => (props: any) => {
   const router = useRouter();
-
   const session = React.useContext(SessionContext);
 
   React.useEffect(() => {
@@ -21,7 +20,7 @@ const withAuthorization = (condition: Condition) => (
     }
 
     if (!condition(session)) {
-      router.push(ROUTES.SIGN_IN);
+      router.push('/error', ROUTES.SIGN_IN);
     }
   }, [session]);
 

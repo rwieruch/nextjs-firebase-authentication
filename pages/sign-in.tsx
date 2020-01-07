@@ -16,13 +16,11 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-
-  flex: 1;
 `;
 
 const StyledCard = styled(Card)`
   min-width: 200px;
-  max-width: 600px;
+  max-width: 400px;
 `;
 
 const ForgetPasswordAnchor = styled.a`
