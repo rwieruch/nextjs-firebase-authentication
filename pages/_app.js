@@ -1,13 +1,14 @@
 // https://github.com/zeit/next.js/blob/canary/examples/with-next-page-transitions/pages/_app.js
 
-import App from 'next/app';
 import React from 'react';
+import NextApp from 'next/app';
+import { useRouter } from 'next/router';
 import { ThemeProvider, createGlobalStyle } from 'styled-components';
 import { PageTransition } from 'next-page-transitions';
 
 import Loader from '@components/Loader';
 import { auth } from '@services/firebase/firebase';
-import AuthUserContext from '@context/authUser';
+import SessionContext from '@context/session';
 
 const TIMEOUT = 400;
 
@@ -65,47 +66,59 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-const MyAppF = ({ children }) => {
-  const [authUser, setAuthUser] = React.useState();
+const useAuthentication = () => {
+  const [session, setSession] = React.useState({
+    authUser: null,
+    isSessionChecked: false,
+  });
 
   React.useEffect(() => {
     let onAuthStateListener = auth.onAuthStateChanged(authUser => {
-      authUser ? setAuthUser(authUser) : setAuthUser(null);
+      authUser
+        ? setSession({ authUser, isSessionChecked: true })
+        : setSession({ authUser: null, isSessionChecked: true });
     });
 
     return () => onAuthStateListener();
   }, []);
 
+  return session;
+};
+
+const MyComponent = ({ children }) => {
+  const router = useRouter();
+  const session = useAuthentication();
+
   return (
     <ThemeProvider theme={theme}>
-      <AuthUserContext.Provider value={authUser}>
+      <SessionContext.Provider value={session}>
         <GlobalStyle />
         <PageTransition
           timeout={TIMEOUT}
           classNames="page-transition"
+          loadingClassNames="loading-indicator"
           loadingComponent={<Loader />}
           loadingDelay={500}
           loadingTimeout={{
             enter: TIMEOUT,
             exit: 0,
           }}
-          loadingClassNames="loading-indicator"
         >
-          {children}
+          {React.cloneElement(children, { key: router.route })}
         </PageTransition>
-      </AuthUserContext.Provider>
+      </SessionContext.Provider>
     </ThemeProvider>
   );
 };
 
-export default class MyApp extends App {
+export default class MyApp extends NextApp {
   render() {
     const { Component, pageProps } = this.props;
 
     return (
-      <MyAppF>
+      <MyComponent>
         <Component {...pageProps} />
-      </MyAppF>
+      </MyComponent>
     );
   }
 }

@@ -10,9 +10,11 @@
         "root": ["./"],
         "alias": {
           "@components": "./src/components",
+          "@hooks": "./src/hooks",
           "@services": "./src/services",
           "@constants": "./src/constants",
-          "@context": "./src/context"
+          "@context": "./src/context",
+          "@typeDefs": "./src/types"
         }
       }
     ],

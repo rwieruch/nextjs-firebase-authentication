@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Menu, Icon } from 'antd';
 
 import * as ROUTES from '@constants/routes';
-import AuthUserContext from '@context/authUser';
+import SessionContext from '@context/session';
 import { doSignOut } from '@services/firebase/auth';
 
 import { ExternalLink } from './types';
@@ -63,17 +63,9 @@ const NavigationNonAuth = () => (
 );
 
 const Navigation = () => {
-  const authUser = React.useContext(AuthUserContext);
+  const { authUser } = React.useContext(SessionContext);
 
-  return (
-    <>
-      {authUser ? (
-        <NavigationAuth></NavigationAuth>
-      ) : (
-        <NavigationNonAuth></NavigationNonAuth>
-      )}
-    </>
-  );
+  return authUser ? <NavigationAuth /> : <NavigationNonAuth />;
 };
 
 export default Navigation;
