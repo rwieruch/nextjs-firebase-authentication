@@ -1,5 +1,4 @@
 import React from 'react';
-import Link from 'next/link';
 import styled from 'styled-components';
 import { Form, Input, Card } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
@@ -7,6 +6,9 @@ import { FormComponentProps } from 'antd/lib/form';
 import Layout from '@components/Layout';
 import FormItem from '@components/Form/Item';
 import FormStretchedButton from '@components/Form/StretchedButton';
+import withAuthorization from '@components/Session/withAuthorization';
+
+import { Session } from '@typeDefs/session';
 
 const PasswordChangePageLayout = styled.div`
   display: flex;
@@ -143,5 +145,6 @@ const PasswordChangePage = () => (
   </Layout>
 );
 
-// TODO secure
-export default PasswordChangePage;
+const condition = (session: Session): boolean => !!session.authUser;
+
+export default withAuthorization(condition)(PasswordChangePage);

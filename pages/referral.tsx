@@ -33,7 +33,7 @@ const StyledCard = styled(Card)`
   }
 `;
 
-const DashboardPage = () => {
+const ReferralPage = () => {
   const [tab, setTab] = React.useState('tab1');
 
   const handleTabChange = (key: string) => {
@@ -43,18 +43,8 @@ const DashboardPage = () => {
   return (
     <Layout>
       <Container>
-        <StyledCard title="Protected Course X">
-          <Card.Grid>Content</Card.Grid>
-          <Card.Grid>Content</Card.Grid>
-          <Card.Grid>Content</Card.Grid>
-          <Card.Grid>Content</Card.Grid>
-          <Card.Grid>Content</Card.Grid>
-          <Card.Grid>Content</Card.Grid>
-          <Card.Grid>Content</Card.Grid>
-        </StyledCard>
-
         <StyledCard
-          title="Course Content"
+          title="Referral Program"
           tabList={tabList}
           activeTabKey={tab}
           onTabChange={handleTabChange}
@@ -68,4 +58,4 @@ const DashboardPage = () => {
 
 const condition = (session: Session): boolean => !!session.authUser;
 
-export default withAuthorization(condition)(DashboardPage);
+export default withAuthorization(condition)(ReferralPage);

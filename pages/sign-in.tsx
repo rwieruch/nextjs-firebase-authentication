@@ -12,7 +12,7 @@ import FormItem from '@components/Form/Item';
 import FormStretchedButton from '@components/Form/StretchedButton';
 import { doSignInWithEmailAndPassword } from '@services/firebase/auth';
 
-const SignInPageLayout = styled.div`
+const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -129,11 +129,11 @@ const SignInFormEnhanced = Form.create({ name: ROUTES.SIGN_IN })(
 
 const SignInPage = () => (
   <Layout>
-    <SignInPageLayout>
+    <Container>
       <StyledCard title="Log in and get to learn">
         <SignInFormEnhanced />
       </StyledCard>
-    </SignInPageLayout>
+    </Container>
   </Layout>
 );
 
