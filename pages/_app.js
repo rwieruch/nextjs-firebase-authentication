@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import { ThemeProvider, createGlobalStyle } from 'styled-components';
 import { PageTransition } from 'next-page-transitions';
 
+import Head from '@components/Head';
 import Loader from '@components/Loader';
 import { auth } from '@services/firebase/firebase';
 import SessionContext from '@context/session';
@@ -93,6 +94,7 @@ const MyComponent = ({ children }) => {
     <ThemeProvider theme={theme}>
       <SessionContext.Provider value={session}>
         <GlobalStyle />
+        <Head />
         <PageTransition
           timeout={TIMEOUT}
           classNames="page-transition"
