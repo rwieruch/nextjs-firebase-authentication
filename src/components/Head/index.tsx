@@ -33,7 +33,7 @@ export default () => (
     <meta name="og:description" content="Courses by Robin Wieruch" />
     <meta
       name="og:image"
-      content="/facebook.png"}
+      content="/facebook.png"
     />
 
     <link
