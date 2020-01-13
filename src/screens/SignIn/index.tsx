@@ -121,7 +121,7 @@ const SignInForm = ({ form }: FormComponentProps) => {
   );
 };
 
-export const SignInFormEnhanced = Form.create({
+const SignInFormEnhanced = Form.create({
   name: ROUTES.SIGN_IN,
 })(SignInForm);
 

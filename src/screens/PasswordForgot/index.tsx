@@ -91,7 +91,7 @@ const PasswordForgotForm = ({ form }: FormComponentProps) => {
   );
 };
 
-export const PasswordForgotFormEnhanced = Form.create({
+const PasswordForgotFormEnhanced = Form.create({
   name: ROUTES.PASSWORD_FORGOT,
 })(PasswordForgotForm);
 

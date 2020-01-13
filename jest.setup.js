@@ -18,3 +18,6 @@ jest.mock('next/router', () => ({
     push: jest.fn(),
   }),
 }));
+
+// https://github.com/react-component/menu/issues/232
+jest.mock('./src/components/Navigation', () => 'Navigation');

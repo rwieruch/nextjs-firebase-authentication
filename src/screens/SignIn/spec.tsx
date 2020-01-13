@@ -6,9 +6,9 @@ import { message } from 'antd';
 import * as ROUTES from '@constants/routes';
 import * as authService from '@services/firebase/auth';
 
-import { SignInFormEnhanced } from '.';
+import SignInPage from '.';
 
-describe('SignInFormEnhanced', () => {
+describe('SignInPage', () => {
   let component: any;
   let getComponent: any;
   let defaultProps: any;
@@ -17,7 +17,7 @@ describe('SignInFormEnhanced', () => {
     defaultProps = {};
 
     getComponent = (props: any = defaultProps) => (
-      <SignInFormEnhanced {...props} />
+      <SignInPage {...props} />
     );
 
     component = renderer.create(getComponent());

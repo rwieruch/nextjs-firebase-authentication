@@ -6,9 +6,9 @@ import { message } from 'antd';
 import * as ROUTES from '@constants/routes';
 import * as authService from '@services/firebase/auth';
 
-import { SignUpFormEnhanced } from '.';
+import SignUpPage from '.';
 
-describe('SignUpFormEnhanced', () => {
+describe('SignUpPage', () => {
   let component: any;
   let getComponent: any;
   let defaultProps: any;
@@ -17,7 +17,7 @@ describe('SignUpFormEnhanced', () => {
     defaultProps = {};
 
     getComponent = (props: any = defaultProps) => (
-      <SignUpFormEnhanced {...props} />
+      <SignUpPage {...props} />
     );
 
     component = renderer.create(getComponent());

@@ -5,9 +5,9 @@ import { message } from 'antd';
 
 import * as authService from '@services/firebase/auth';
 
-import { PasswordForgotFormEnhanced } from '.';
+import PasswordForgotPage from '.';
 
-describe('PasswordForgotFormEnhanced', () => {
+describe('PasswordForgotPage', () => {
   let component: any;
   let getComponent: any;
   let defaultProps: any;
@@ -16,7 +16,7 @@ describe('PasswordForgotFormEnhanced', () => {
     defaultProps = {};
 
     getComponent = (props: any = defaultProps) => (
-      <PasswordForgotFormEnhanced {...props} />
+      <PasswordForgotPage {...props} />
     );
 
     component = renderer.create(getComponent());

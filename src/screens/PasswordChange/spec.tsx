@@ -1,12 +1,12 @@
 import renderer from 'react-test-renderer';
 
-import { PasswordChangeFormEnhanced } from '.';
+import PasswordChangePage from '.';
 
 jest.mock('@services/firebase/auth', () => ({
   doPasswordUpdate: Promise.resolve(),
 }));
 
-describe('PasswordChangeFormEnhanced', () => {
+describe('PasswordChangePage', () => {
   let component: any;
   let getComponent: any;
   let defaultProps: any;
@@ -15,7 +15,7 @@ describe('PasswordChangeFormEnhanced', () => {
     defaultProps = {};
 
     getComponent = (props: any = defaultProps) => (
-      <PasswordChangeFormEnhanced {...props} />
+      <PasswordChangePage {...props} />
     );
 
     component = renderer.create(getComponent());

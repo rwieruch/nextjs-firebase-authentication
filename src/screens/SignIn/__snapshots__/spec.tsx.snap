@@ -1,251 +1,300 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SignInFormEnhanced renders 1`] = `
-<form
-  className="ant-form ant-form-horizontal"
-  onSubmit={[Function]}
+exports[`SignInPage renders 1`] = `
+<section
+  className="ant-layout"
 >
-  <div
-    className="ant-row ant-form-item Item__StyledFormItem-sc-13gzk8a-0 lhvvBo"
-    style={Object {}}
+  <header>
+    <Navigation />
+  </header>
+  <main
+    className="Layout__StyledContent-c7co8e-0 bHHvoJ ant-layout-content"
   >
     <div
-      className="ant-col ant-form-item-control-wrapper"
-      style={Object {}}
+      className="SignIn__Container-sc-1yv7v7t-0 iByvrY"
     >
       <div
-        className="ant-form-item-control"
+        className="ant-card SignIn__StyledCard-sc-1yv7v7t-1 hHvOpL ant-card-bordered"
       >
-        <span
-          className="ant-form-item-children"
+        <div
+          className="ant-card-head"
+          style={Object {}}
         >
-          <span
-            className="ant-input-affix-wrapper"
+          <div
+            className="ant-card-head-wrapper"
           >
-            <span
-              className="ant-input-prefix"
+            <div
+              className="ant-card-head-title"
             >
-              <i
-                aria-label="icon: user"
-                className="anticon anticon-user Icon__FormIcon-sc-9ekww7-0 jYbuOE"
-              >
-                <svg
-                  aria-hidden="true"
-                  className=""
-                  data-icon="user"
-                  fill="currentColor"
-                  focusable="false"
-                  height="1em"
-                  viewBox="64 64 896 896"
-                  width="1em"
-                >
-                  <path
-                    d="M858.5 763.6a374 374 0 0 0-80.6-119.5 375.63 375.63 0 0 0-119.5-80.6c-.4-.2-.8-.3-1.2-.5C719.5 518 760 444.7 760 362c0-137-111-248-248-248S264 225 264 362c0 82.7 40.5 156 102.8 201.1-.4.2-.8.3-1.2.5-44.8 18.9-85 46-119.5 80.6a375.63 375.63 0 0 0-80.6 119.5A371.7 371.7 0 0 0 136 901.8a8 8 0 0 0 8 8.2h60c4.4 0 7.9-3.5 8-7.8 2-77.2 33-149.5 87.8-204.3 56.7-56.7 132-87.9 212.2-87.9s155.5 31.2 212.2 87.9C779 752.7 810 825 812 902.2c.1 4.4 3.6 7.8 8 7.8h60a8 8 0 0 0 8-8.2c-1-47.8-10.9-94.3-29.5-138.2zM512 534c-45.9 0-89.1-17.9-121.6-50.4S340 407.9 340 362c0-45.9 17.9-89.1 50.4-121.6S466.1 190 512 190s89.1 17.9 121.6 50.4S684 316.1 684 362c0 45.9-17.9 89.1-50.4 121.6S557.9 534 512 534z"
-                  />
-                </svg>
-              </i>
-            </span>
-            <input
-              className="ant-input"
-              data-__field={
-                Object {
-                  "name": "email",
-                }
-              }
-              data-__meta={
-                Object {
-                  "name": "email",
-                  "originalProps": Object {
-                    "placeholder": "E-mail",
-                    "prefix": <ForwardRef(Icon__FormIcon)
-                      type="user"
-                    />,
-                    "type": "text",
-                  },
-                  "ref": null,
-                  "rules": Array [
-                    Object {
-                      "message": "The input is not valid E-mail!",
-                      "type": "email",
-                    },
-                    Object {
-                      "message": "Please input your E-mail!",
-                      "required": true,
-                    },
-                  ],
-                  "trigger": "onChange",
-                  "validate": Array [
-                    Object {
-                      "rules": Array [
-                        Object {
-                          "message": "The input is not valid E-mail!",
-                          "type": "email",
-                        },
-                        Object {
-                          "message": "Please input your E-mail!",
-                          "required": true,
-                        },
-                      ],
-                      "trigger": Array [
-                        "onBlur",
-                      ],
-                    },
-                  ],
-                  "validateTrigger": "onBlur",
-                  "valuePropName": "value",
-                }
-              }
-              id="/sign-in_email"
-              onBlur={[Function]}
-              onChange={[Function]}
-              onKeyDown={[Function]}
-              placeholder="E-mail"
-              style={null}
-              type="text"
-              value=""
-            />
-          </span>
-        </span>
-      </div>
-    </div>
-  </div>
-  <div
-    className="ant-row ant-form-item Item__StyledFormItem-sc-13gzk8a-0 lhvvBo"
-    style={Object {}}
-  >
-    <div
-      className="ant-col ant-form-item-control-wrapper"
-      style={Object {}}
-    >
-      <div
-        className="ant-form-item-control"
-      >
-        <span
-          className="ant-form-item-children"
+              Log in and get to learn
+            </div>
+          </div>
+        </div>
+        <div
+          className="ant-card-body"
+          style={Object {}}
         >
-          <span
-            className="ant-input-affix-wrapper"
+          <form
+            className="ant-form ant-form-horizontal"
+            onSubmit={[Function]}
           >
-            <span
-              className="ant-input-prefix"
+            <div
+              className="ant-row ant-form-item Item__StyledFormItem-sc-13gzk8a-0 lhvvBo"
+              style={Object {}}
             >
-              <i
-                aria-label="icon: lock"
-                className="anticon anticon-lock Icon__FormIcon-sc-9ekww7-0 jYbuOE"
+              <div
+                className="ant-col ant-form-item-control-wrapper"
+                style={Object {}}
               >
-                <svg
-                  aria-hidden="true"
-                  className=""
-                  data-icon="lock"
-                  fill="currentColor"
-                  focusable="false"
-                  height="1em"
-                  viewBox="64 64 896 896"
-                  width="1em"
+                <div
+                  className="ant-form-item-control"
                 >
-                  <path
-                    d="M832 464h-68V240c0-70.7-57.3-128-128-128H388c-70.7 0-128 57.3-128 128v224h-68c-17.7 0-32 14.3-32 32v384c0 17.7 14.3 32 32 32h640c17.7 0 32-14.3 32-32V496c0-17.7-14.3-32-32-32zM332 240c0-30.9 25.1-56 56-56h248c30.9 0 56 25.1 56 56v224H332V240zm460 600H232V536h560v304zM484 701v53c0 4.4 3.6 8 8 8h40c4.4 0 8-3.6 8-8v-53a48.01 48.01 0 1 0-56 0z"
-                  />
-                </svg>
-              </i>
-            </span>
-            <input
-              className="ant-input"
-              data-__field={
-                Object {
-                  "name": "password",
-                }
-              }
-              data-__meta={
-                Object {
-                  "name": "password",
-                  "originalProps": Object {
-                    "placeholder": "Password",
-                    "prefix": <ForwardRef(Icon__FormIcon)
-                      type="lock"
-                    />,
-                    "type": "password",
-                  },
-                  "ref": null,
-                  "rules": Array [
-                    Object {
-                      "message": "Please input your Password!",
-                      "required": true,
-                    },
-                  ],
-                  "trigger": "onChange",
-                  "validate": Array [
-                    Object {
-                      "rules": Array [
-                        Object {
-                          "message": "Please input your Password!",
-                          "required": true,
-                        },
-                      ],
-                      "trigger": Array [
-                        "onBlur",
-                      ],
-                    },
-                  ],
-                  "validateTrigger": "onBlur",
-                  "valuePropName": "value",
-                }
-              }
-              id="/sign-in_password"
-              onBlur={[Function]}
-              onChange={[Function]}
-              onKeyDown={[Function]}
-              placeholder="Password"
-              style={null}
-              type="password"
-              value=""
-            />
-          </span>
-        </span>
+                  <span
+                    className="ant-form-item-children"
+                  >
+                    <span
+                      className="ant-input-affix-wrapper"
+                    >
+                      <span
+                        className="ant-input-prefix"
+                      >
+                        <i
+                          aria-label="icon: user"
+                          className="anticon anticon-user Icon__FormIcon-sc-9ekww7-0 jYbuOE"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            className=""
+                            data-icon="user"
+                            fill="currentColor"
+                            focusable="false"
+                            height="1em"
+                            viewBox="64 64 896 896"
+                            width="1em"
+                          >
+                            <path
+                              d="M858.5 763.6a374 374 0 0 0-80.6-119.5 375.63 375.63 0 0 0-119.5-80.6c-.4-.2-.8-.3-1.2-.5C719.5 518 760 444.7 760 362c0-137-111-248-248-248S264 225 264 362c0 82.7 40.5 156 102.8 201.1-.4.2-.8.3-1.2.5-44.8 18.9-85 46-119.5 80.6a375.63 375.63 0 0 0-80.6 119.5A371.7 371.7 0 0 0 136 901.8a8 8 0 0 0 8 8.2h60c4.4 0 7.9-3.5 8-7.8 2-77.2 33-149.5 87.8-204.3 56.7-56.7 132-87.9 212.2-87.9s155.5 31.2 212.2 87.9C779 752.7 810 825 812 902.2c.1 4.4 3.6 7.8 8 7.8h60a8 8 0 0 0 8-8.2c-1-47.8-10.9-94.3-29.5-138.2zM512 534c-45.9 0-89.1-17.9-121.6-50.4S340 407.9 340 362c0-45.9 17.9-89.1 50.4-121.6S466.1 190 512 190s89.1 17.9 121.6 50.4S684 316.1 684 362c0 45.9-17.9 89.1-50.4 121.6S557.9 534 512 534z"
+                            />
+                          </svg>
+                        </i>
+                      </span>
+                      <input
+                        className="ant-input"
+                        data-__field={
+                          Object {
+                            "name": "email",
+                          }
+                        }
+                        data-__meta={
+                          Object {
+                            "name": "email",
+                            "originalProps": Object {
+                              "placeholder": "E-mail",
+                              "prefix": <ForwardRef(Icon__FormIcon)
+                                type="user"
+                              />,
+                              "type": "text",
+                            },
+                            "ref": null,
+                            "rules": Array [
+                              Object {
+                                "message": "The input is not valid E-mail!",
+                                "type": "email",
+                              },
+                              Object {
+                                "message": "Please input your E-mail!",
+                                "required": true,
+                              },
+                            ],
+                            "trigger": "onChange",
+                            "validate": Array [
+                              Object {
+                                "rules": Array [
+                                  Object {
+                                    "message": "The input is not valid E-mail!",
+                                    "type": "email",
+                                  },
+                                  Object {
+                                    "message": "Please input your E-mail!",
+                                    "required": true,
+                                  },
+                                ],
+                                "trigger": Array [
+                                  "onBlur",
+                                ],
+                              },
+                            ],
+                            "validateTrigger": "onBlur",
+                            "valuePropName": "value",
+                          }
+                        }
+                        id="/sign-in_email"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onKeyDown={[Function]}
+                        placeholder="E-mail"
+                        style={null}
+                        type="text"
+                        value=""
+                      />
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div
+              className="ant-row ant-form-item Item__StyledFormItem-sc-13gzk8a-0 lhvvBo"
+              style={Object {}}
+            >
+              <div
+                className="ant-col ant-form-item-control-wrapper"
+                style={Object {}}
+              >
+                <div
+                  className="ant-form-item-control"
+                >
+                  <span
+                    className="ant-form-item-children"
+                  >
+                    <span
+                      className="ant-input-affix-wrapper"
+                    >
+                      <span
+                        className="ant-input-prefix"
+                      >
+                        <i
+                          aria-label="icon: lock"
+                          className="anticon anticon-lock Icon__FormIcon-sc-9ekww7-0 jYbuOE"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            className=""
+                            data-icon="lock"
+                            fill="currentColor"
+                            focusable="false"
+                            height="1em"
+                            viewBox="64 64 896 896"
+                            width="1em"
+                          >
+                            <path
+                              d="M832 464h-68V240c0-70.7-57.3-128-128-128H388c-70.7 0-128 57.3-128 128v224h-68c-17.7 0-32 14.3-32 32v384c0 17.7 14.3 32 32 32h640c17.7 0 32-14.3 32-32V496c0-17.7-14.3-32-32-32zM332 240c0-30.9 25.1-56 56-56h248c30.9 0 56 25.1 56 56v224H332V240zm460 600H232V536h560v304zM484 701v53c0 4.4 3.6 8 8 8h40c4.4 0 8-3.6 8-8v-53a48.01 48.01 0 1 0-56 0z"
+                            />
+                          </svg>
+                        </i>
+                      </span>
+                      <input
+                        className="ant-input"
+                        data-__field={
+                          Object {
+                            "name": "password",
+                          }
+                        }
+                        data-__meta={
+                          Object {
+                            "name": "password",
+                            "originalProps": Object {
+                              "placeholder": "Password",
+                              "prefix": <ForwardRef(Icon__FormIcon)
+                                type="lock"
+                              />,
+                              "type": "password",
+                            },
+                            "ref": null,
+                            "rules": Array [
+                              Object {
+                                "message": "Please input your Password!",
+                                "required": true,
+                              },
+                            ],
+                            "trigger": "onChange",
+                            "validate": Array [
+                              Object {
+                                "rules": Array [
+                                  Object {
+                                    "message": "Please input your Password!",
+                                    "required": true,
+                                  },
+                                ],
+                                "trigger": Array [
+                                  "onBlur",
+                                ],
+                              },
+                            ],
+                            "validateTrigger": "onBlur",
+                            "valuePropName": "value",
+                          }
+                        }
+                        id="/sign-in_password"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onKeyDown={[Function]}
+                        placeholder="Password"
+                        style={null}
+                        type="password"
+                        value=""
+                      />
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div
+              className="ant-row ant-form-item Item__StyledFormItem-sc-13gzk8a-0 lhvvBo"
+              style={Object {}}
+            >
+              <div
+                className="ant-col ant-form-item-control-wrapper"
+                style={Object {}}
+              >
+                <div
+                  className="ant-form-item-control"
+                >
+                  <span
+                    className="ant-form-item-children"
+                  >
+                    <button
+                      className="ant-btn StretchedButton-sc-1skj5p1-0 gqwrSP ant-btn-primary"
+                      onClick={[Function]}
+                      type="submit"
+                    >
+                      <span>
+                        Sign In
+                      </span>
+                    </button>
+                    Or 
+                    <a
+                      href="/sign-up"
+                      onClick={[Function]}
+                      onMouseEnter={[Function]}
+                    >
+                      sign up now!
+                    </a>
+                    <a
+                      className="SignIn__PasswordForgotAnchor-sc-1yv7v7t-2 eQWuHj"
+                      onClick={[Function]}
+                      onMouseEnter={[Function]}
+                    >
+                      Forgot password
+                    </a>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
-  </div>
-  <div
-    className="ant-row ant-form-item Item__StyledFormItem-sc-13gzk8a-0 lhvvBo"
-    style={Object {}}
+  </main>
+  <footer
+    className="Layout__StyledFooter-c7co8e-1 klwLpk ant-layout-footer"
   >
-    <div
-      className="ant-col ant-form-item-control-wrapper"
-      style={Object {}}
+    ©2020 Created by
+     
+    <a
+      href="https://www.robinwieruch.de/"
     >
-      <div
-        className="ant-form-item-control"
-      >
-        <span
-          className="ant-form-item-children"
-        >
-          <button
-            className="ant-btn StretchedButton-sc-1skj5p1-0 gqwrSP ant-btn-primary"
-            onClick={[Function]}
-            type="submit"
-          >
-            <span>
-              Sign In
-            </span>
-          </button>
-          Or 
-          <a
-            href="/sign-up"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-          >
-            sign up now!
-          </a>
-          <a
-            className="SignIn__PasswordForgotAnchor-sc-1yv7v7t-2 eQWuHj"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-          >
-            Forgot password
-          </a>
-        </span>
-      </div>
-    </div>
-  </div>
-</form>
+      Robin Wieruch
+    </a>
+  </footer>
+</section>
 `;
