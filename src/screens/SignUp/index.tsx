@@ -1,4 +1,6 @@
 import React from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { Form, Input, Card, message } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
@@ -7,12 +9,9 @@ import * as ROUTES from '@constants/routes';
 import Layout from '@components/Layout';
 import FormItem from '@components/Form/Item';
 import FormStretchedButton from '@components/Form/StretchedButton';
-import withAuthorization from '@components/Session/withAuthorization';
-import { doPasswordUpdate } from '@services/firebase/auth';
+import { doCreateUserWithEmailAndPassword } from '@services/firebase/auth';
 
-import { Session } from '@typeDefs/session';
-
-const PasswordChangePageLayout = styled.div`
+const SignUpPageLayout = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -23,7 +22,9 @@ const StyledCard = styled(Card)`
   max-width: 400px;
 `;
 
-const PasswordChangeForm = ({ form }: FormComponentProps) => {
+const SignUpForm = ({ form }: FormComponentProps) => {
+  const router = useRouter();
+
   const [
     confirmPasswordDirty,
     setConfirmPasswordDirty,
@@ -42,7 +43,7 @@ const PasswordChangeForm = ({ form }: FormComponentProps) => {
     value: any,
     callback: any
   ) => {
-    if (value && value !== form.getFieldValue('newPassword')) {
+    if (value && value !== form.getFieldValue('password')) {
       callback('Your passwords are different.');
     } else {
       callback();
@@ -55,7 +56,7 @@ const PasswordChangeForm = ({ form }: FormComponentProps) => {
     callback: any
   ) => {
     if (value && confirmPasswordDirty) {
-      form.validateFields(['confirmNewPassword'], { force: true });
+      form.validateFields(['confirm'], { force: true });
     }
     callback();
   };
@@ -64,25 +65,20 @@ const PasswordChangeForm = ({ form }: FormComponentProps) => {
     form.validateFields((error, values) => {
       if (error) return;
 
-      message.loading({
-        content: 'Loading ...',
-        key: ROUTES.PASSWORD_CHANGE,
-      });
-
-      doPasswordUpdate(values.newPassword)
+      doCreateUserWithEmailAndPassword(values.email, values.password)
         .then(result => {
           message.success({
             content: 'Success!',
-            key: ROUTES.PASSWORD_CHANGE,
+            key: ROUTES.SIGN_UP,
             duration: 2,
           });
 
-          form.resetFields();
+          router.push(ROUTES.INDEX);
         })
         .catch(error =>
           message.error({
             content: error.message,
-            key: ROUTES.PASSWORD_CHANGE,
+            key: ROUTES.SIGN_UP,
             duration: 2,
           })
         );
@@ -104,25 +100,39 @@ const PasswordChangeForm = ({ form }: FormComponentProps) => {
 
   return (
     <Form {...formItemLayout} onSubmit={handleSubmit}>
-      <FormItem label="Old Password" hasFeedback>
-        {form.getFieldDecorator('oldPassword', {
+      <FormItem label={<span>Personal Name</span>}>
+        {form.getFieldDecorator('username', {
           rules: [
             {
               required: true,
-              message: 'Please input your Password!',
-            },
-            {
-              min: 6,
-              message: 'Your password is too short.',
+              message: 'Please input your name!',
+              whitespace: true,
             },
           ],
           validateFirst: true,
           validateTrigger: 'onBlur',
-        })(<Input.Password />)}
+        })(<Input />)}
       </FormItem>
 
-      <FormItem label="New Password" hasFeedback>
-        {form.getFieldDecorator('newPassword', {
+      <FormItem label="E-mail">
+        {form.getFieldDecorator('email', {
+          rules: [
+            {
+              type: 'email',
+              message: 'The input is not valid E-mail!',
+            },
+            {
+              required: true,
+              message: 'Please input your E-mail!',
+            },
+          ],
+          validateFirst: true,
+          validateTrigger: 'onBlur',
+        })(<Input />)}
+      </FormItem>
+
+      <FormItem label="Password" hasFeedback>
+        {form.getFieldDecorator('password', {
           rules: [
             {
               required: true,
@@ -142,7 +152,7 @@ const PasswordChangeForm = ({ form }: FormComponentProps) => {
       </FormItem>
 
       <FormItem label="Confirm Password" hasFeedback>
-        {form.getFieldDecorator('confirmNewPassword', {
+        {form.getFieldDecorator('confirm', {
           rules: [
             {
               required: true,
@@ -163,27 +173,32 @@ const PasswordChangeForm = ({ form }: FormComponentProps) => {
 
       <FormItem wrapperCol={{ sm: 24 }}>
         <FormStretchedButton type="primary" htmlType="submit">
-          Change Password
+          Sign Up
         </FormStretchedButton>
+
+        <>
+          Already have an account?&nbsp;
+          <Link href={ROUTES.SIGN_IN}>
+            <a>Sign in!</a>
+          </Link>
+        </>
       </FormItem>
     </Form>
   );
 };
 
-const PasswordChangeFormEnhanced = Form.create({
-  name: 'password-change',
-})(PasswordChangeForm);
+export const SignUpFormEnhanced = Form.create({
+  name: ROUTES.SIGN_UP,
+})(SignUpForm);
 
-const PasswordChangePage = () => (
+const SignUpPage = () => (
   <Layout>
-    <PasswordChangePageLayout>
-      <StyledCard title="Change your password">
-        <PasswordChangeFormEnhanced />
+    <SignUpPageLayout>
+      <StyledCard title="Register your account">
+        <SignUpFormEnhanced />
       </StyledCard>
-    </PasswordChangePageLayout>
+    </SignUpPageLayout>
   </Layout>
 );
 
-const condition = (session: Session): boolean => !!session.authUser;
-
-export default withAuthorization(condition)(PasswordChangePage);
+export default SignUpPage;

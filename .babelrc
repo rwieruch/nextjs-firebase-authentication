@@ -10,6 +10,7 @@
         "root": ["./"],
         "alias": {
           "@components": "./src/components",
+          "@screens": "./src/screens",
           "@hooks": "./src/hooks",
           "@services": "./src/services",
           "@constants": "./src/constants",

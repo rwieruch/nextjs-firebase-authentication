@@ -1,0 +1,121 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PasswordForgotFormEnhanced renders 1`] = `
+<form
+  className="ant-form ant-form-horizontal"
+  onSubmit={[Function]}
+>
+  <div
+    className="ant-row ant-form-item Item__StyledFormItem-sc-13gzk8a-0 lhvvBo"
+    style={Object {}}
+  >
+    <div
+      className="ant-col ant-form-item-label ant-col-xs-24 ant-col-sm-6"
+      style={Object {}}
+    >
+      <label
+        className="ant-form-item-required"
+        htmlFor="password-forgot_email"
+        onClick={[Function]}
+        title="E-mail"
+      >
+        E-mail
+      </label>
+    </div>
+    <div
+      className="ant-col ant-form-item-control-wrapper ant-col-xs-24 ant-col-sm-18"
+      style={Object {}}
+    >
+      <div
+        className="ant-form-item-control"
+      >
+        <span
+          className="ant-form-item-children"
+        >
+          <input
+            className="ant-input"
+            data-__field={
+              Object {
+                "name": "email",
+              }
+            }
+            data-__meta={
+              Object {
+                "name": "email",
+                "originalProps": Object {
+                  "type": "text",
+                },
+                "ref": null,
+                "rules": Array [
+                  Object {
+                    "message": "The input is not valid E-mail!",
+                    "type": "email",
+                  },
+                  Object {
+                    "message": "Please input your E-mail!",
+                    "required": true,
+                  },
+                ],
+                "trigger": "onChange",
+                "validate": Array [
+                  Object {
+                    "rules": Array [
+                      Object {
+                        "message": "The input is not valid E-mail!",
+                        "type": "email",
+                      },
+                      Object {
+                        "message": "Please input your E-mail!",
+                        "required": true,
+                      },
+                    ],
+                    "trigger": Array [
+                      "onBlur",
+                    ],
+                  },
+                ],
+                "validateFirst": true,
+                "validateTrigger": "onBlur",
+                "valuePropName": "value",
+              }
+            }
+            id="password-forgot_email"
+            onBlur={[Function]}
+            onChange={[Function]}
+            onKeyDown={[Function]}
+            type="text"
+            value=""
+          />
+        </span>
+      </div>
+    </div>
+  </div>
+  <div
+    className="ant-row ant-form-item Item__StyledFormItem-sc-13gzk8a-0 lhvvBo"
+    style={Object {}}
+  >
+    <div
+      className="ant-col ant-form-item-control-wrapper ant-col-sm-24"
+      style={Object {}}
+    >
+      <div
+        className="ant-form-item-control"
+      >
+        <span
+          className="ant-form-item-children"
+        >
+          <button
+            className="ant-btn StretchedButton-sc-1skj5p1-0 gqwrSP ant-btn-primary"
+            onClick={[Function]}
+            type="submit"
+          >
+            <span>
+              Reset Password
+            </span>
+          </button>
+        </span>
+      </div>
+    </div>
+  </div>
+</form>
+`;
