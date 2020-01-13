@@ -15,7 +15,7 @@ exports[`PasswordForgotFormEnhanced renders 1`] = `
     >
       <label
         className="ant-form-item-required"
-        htmlFor="password-forgot_email"
+        htmlFor="/password-forgot_email"
         onClick={[Function]}
         title="E-mail"
       >
@@ -79,7 +79,7 @@ exports[`PasswordForgotFormEnhanced renders 1`] = `
                 "valuePropName": "value",
               }
             }
-            id="password-forgot_email"
+            id="/password-forgot_email"
             onBlur={[Function]}
             onChange={[Function]}
             onKeyDown={[Function]}

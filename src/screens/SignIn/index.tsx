@@ -23,7 +23,7 @@ const StyledCard = styled(Card)`
   max-width: 400px;
 `;
 
-const ForgetPasswordAnchor = styled.a`
+const PasswordForgotAnchor = styled.a`
   float: right;
 `;
 
@@ -114,7 +114,7 @@ const SignInForm = ({ form }: FormComponentProps) => {
         </>
 
         <Link href={ROUTES.PASSWORD_FORGOT}>
-          <ForgetPasswordAnchor>Forgot password</ForgetPasswordAnchor>
+          <PasswordForgotAnchor>Forgot password</PasswordForgotAnchor>
         </Link>
       </FormItem>
     </Form>

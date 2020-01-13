@@ -237,7 +237,7 @@ exports[`SignInFormEnhanced renders 1`] = `
             sign up now!
           </a>
           <a
-            className="SignIn__ForgetPasswordAnchor-sc-1yv7v7t-2 djzeIl"
+            className="SignIn__PasswordForgotAnchor-sc-1yv7v7t-2 eQWuHj"
             onClick={[Function]}
             onMouseEnter={[Function]}
           >

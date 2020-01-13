@@ -15,7 +15,7 @@ exports[`PasswordChangeFormEnhanced renders 1`] = `
     >
       <label
         className="ant-form-item-required"
-        htmlFor="password-change_oldPassword"
+        htmlFor="/password-change_oldPassword"
         onClick={[Function]}
         title="Old Password"
       >
@@ -86,7 +86,7 @@ exports[`PasswordChangeFormEnhanced renders 1`] = `
                   "valuePropName": "value",
                 }
               }
-              id="password-change_oldPassword"
+              id="/password-change_oldPassword"
               onBlur={[Function]}
               onChange={[Function]}
               onKeyDown={[Function]}
@@ -138,7 +138,7 @@ exports[`PasswordChangeFormEnhanced renders 1`] = `
     >
       <label
         className="ant-form-item-required"
-        htmlFor="password-change_newPassword"
+        htmlFor="/password-change_newPassword"
         onClick={[Function]}
         title="New Password"
       >
@@ -215,7 +215,7 @@ exports[`PasswordChangeFormEnhanced renders 1`] = `
                   "valuePropName": "value",
                 }
               }
-              id="password-change_newPassword"
+              id="/password-change_newPassword"
               onBlur={[Function]}
               onChange={[Function]}
               onKeyDown={[Function]}
@@ -267,7 +267,7 @@ exports[`PasswordChangeFormEnhanced renders 1`] = `
     >
       <label
         className="ant-form-item-required"
-        htmlFor="password-change_confirmNewPassword"
+        htmlFor="/password-change_confirmNewPassword"
         onClick={[Function]}
         title="Confirm Password"
       >
@@ -345,7 +345,7 @@ exports[`PasswordChangeFormEnhanced renders 1`] = `
                   "valuePropName": "value",
                 }
               }
-              id="password-change_confirmNewPassword"
+              id="/password-change_confirmNewPassword"
               onBlur={[Function]}
               onChange={[Function]}
               onKeyDown={[Function]}

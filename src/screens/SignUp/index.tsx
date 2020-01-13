@@ -65,6 +65,11 @@ const SignUpForm = ({ form }: FormComponentProps) => {
     form.validateFields((error, values) => {
       if (error) return;
 
+      message.loading({
+        content: 'Loading ...',
+        key: ROUTES.SIGN_UP,
+      });
+
       doCreateUserWithEmailAndPassword(values.email, values.password)
         .then(result => {
           message.success({

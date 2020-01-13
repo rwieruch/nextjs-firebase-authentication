@@ -92,7 +92,7 @@ const PasswordForgotForm = ({ form }: FormComponentProps) => {
 };
 
 export const PasswordForgotFormEnhanced = Form.create({
-  name: 'password-forgot',
+  name: ROUTES.PASSWORD_FORGOT,
 })(PasswordForgotForm);
 
 const PasswordForgotPage = () => (

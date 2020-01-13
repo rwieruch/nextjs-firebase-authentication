@@ -171,7 +171,7 @@ const PasswordChangeForm = ({ form }: FormComponentProps) => {
 };
 
 export const PasswordChangeFormEnhanced = Form.create({
-  name: 'password-change',
+  name: ROUTES.PASSWORD_CHANGE,
 })(PasswordChangeForm);
 
 const PasswordChangePage = () => (
