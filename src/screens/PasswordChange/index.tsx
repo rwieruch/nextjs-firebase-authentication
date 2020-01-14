@@ -118,7 +118,9 @@ const PasswordChangeForm = ({ form }: FormComponentProps) => {
           ],
           validateFirst: true,
           validateTrigger: 'onBlur',
-        })(<Input.Password />)}
+        })(
+          <Input.Password aria-label="password-change-password-old" />
+        )}
       </FormItem>
 
       <FormItem label="New Password" hasFeedback>
@@ -138,7 +140,9 @@ const PasswordChangeForm = ({ form }: FormComponentProps) => {
           ],
           validateFirst: true,
           validateTrigger: 'onBlur',
-        })(<Input.Password />)}
+        })(
+          <Input.Password aria-label="password-change-password-new" />
+        )}
       </FormItem>
 
       <FormItem label="Confirm Password" hasFeedback>
@@ -158,11 +162,20 @@ const PasswordChangeForm = ({ form }: FormComponentProps) => {
           ],
           validateFirst: true,
           validateTrigger: 'onBlur',
-        })(<Input.Password onBlur={handleConfirmBlur} />)}
+        })(
+          <Input.Password
+            onBlur={handleConfirmBlur}
+            aria-label="password-change-password-confirm"
+          />
+        )}
       </FormItem>
 
       <FormItem wrapperCol={{ sm: 24 }}>
-        <FormStretchedButton type="primary" htmlType="submit">
+        <FormStretchedButton
+          type="primary"
+          htmlType="submit"
+          aria-label="password-change-submit"
+        >
           Change Password
         </FormStretchedButton>
       </FormItem>

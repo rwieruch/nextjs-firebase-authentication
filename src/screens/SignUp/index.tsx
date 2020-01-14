@@ -116,7 +116,7 @@ const SignUpForm = ({ form }: FormComponentProps) => {
           ],
           validateFirst: true,
           validateTrigger: 'onBlur',
-        })(<Input />)}
+        })(<Input aria-label="sign-up-username" />)}
       </FormItem>
 
       <FormItem label="E-mail">
@@ -133,7 +133,7 @@ const SignUpForm = ({ form }: FormComponentProps) => {
           ],
           validateFirst: true,
           validateTrigger: 'onBlur',
-        })(<Input />)}
+        })(<Input aria-label="sign-up-email" />)}
       </FormItem>
 
       <FormItem label="Password" hasFeedback>
@@ -153,7 +153,7 @@ const SignUpForm = ({ form }: FormComponentProps) => {
           ],
           validateFirst: true,
           validateTrigger: 'onBlur',
-        })(<Input.Password />)}
+        })(<Input.Password aria-label="sign-up-password" />)}
       </FormItem>
 
       <FormItem label="Confirm Password" hasFeedback>
@@ -173,18 +173,27 @@ const SignUpForm = ({ form }: FormComponentProps) => {
           ],
           validateFirst: true,
           validateTrigger: 'onBlur',
-        })(<Input.Password onBlur={handleConfirmBlur} />)}
+        })(
+          <Input.Password
+            onBlur={handleConfirmBlur}
+            aria-label="sign-up-password-confirm"
+          />
+        )}
       </FormItem>
 
       <FormItem wrapperCol={{ sm: 24 }}>
-        <FormStretchedButton type="primary" htmlType="submit">
+        <FormStretchedButton
+          type="primary"
+          htmlType="submit"
+          aria-label="sign-up-submit"
+        >
           Sign Up
         </FormStretchedButton>
 
         <>
           Already have an account?&nbsp;
           <Link href={ROUTES.SIGN_IN}>
-            <a>Sign in!</a>
+            <a aria-label="sign-in-link">Sign in!</a>
           </Link>
         </>
       </FormItem>

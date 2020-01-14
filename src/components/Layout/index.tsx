@@ -38,7 +38,7 @@ const Layout = ({ children }: LayoutProps) => (
     <StyledContent>{children}</StyledContent>
 
     <StyledFooter>
-      ©2020 Created by{' '}
+      Created by{' '}
       <a href="https://www.robinwieruch.de/">Robin Wieruch</a>
     </StyledFooter>
   </MyLayout>

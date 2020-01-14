@@ -1,4 +1,4 @@
-import renderer from 'react-test-renderer';
+import { render, fireEvent } from '@testing-library/react';
 import waitForExpect from 'wait-for-expect';
 
 import { message } from 'antd';
@@ -8,9 +8,14 @@ import * as authService from '@services/firebase/auth';
 import PasswordForgotPage from '.';
 
 describe('PasswordForgotPage', () => {
+  const email = 'example@example.com';
+
   let component: any;
   let getComponent: any;
   let defaultProps: any;
+
+  let emailInput: any;
+  let submitButton: any;
 
   beforeEach(() => {
     defaultProps = {};
@@ -19,27 +24,21 @@ describe('PasswordForgotPage', () => {
       <PasswordForgotPage {...props} />
     );
 
-    component = renderer.create(getComponent());
-  });
+    component = render(getComponent());
 
-  beforeEach(() => {
     message.loading = jest.fn();
     message.error = jest.fn();
     message.success = jest.fn();
-  });
 
-  it('renders', () => {
-    const tree = component.toJSON();
-    expect(tree).toMatchSnapshot();
+    emailInput = component.getByLabelText('password-forgot-email');
+    submitButton = component.getByLabelText('password-forgot-submit');
   });
 
   describe('resets a password', () => {
-    const email = 'example@example.com';
-
     beforeEach(() => {
-      component.root
-        .findByProps({ id: '/password-forgot_email' })
-        .props.onChange({ target: { value: email } });
+      fireEvent.change(emailInput, {
+        target: { value: email },
+      });
     });
 
     it('with success', async () => {
@@ -47,9 +46,7 @@ describe('PasswordForgotPage', () => {
         .spyOn(authService, 'doPasswordReset')
         .mockImplementation(() => Promise.resolve());
 
-      component.root
-        .findByType('form')
-        .props.onSubmit({ preventDefault: () => {} });
+      fireEvent.click(submitButton);
 
       expect(spy).toHaveBeenCalledTimes(1);
       expect(spy).toHaveBeenCalledWith(email);
@@ -69,9 +66,7 @@ describe('PasswordForgotPage', () => {
           Promise.reject(new Error('Wrong password.'))
         );
 
-      component.root
-        .findByType('form')
-        .props.onSubmit({ preventDefault: () => {} });
+      fireEvent.click(submitButton);
 
       expect(spy).toHaveBeenCalledTimes(1);
       expect(spy).toHaveBeenCalledWith(email);

@@ -1,4 +1,4 @@
-import renderer from 'react-test-renderer';
+import { render, fireEvent } from '@testing-library/react';
 import waitForExpect from 'wait-for-expect';
 
 import { message } from 'antd';
@@ -9,9 +9,18 @@ import * as authService from '@services/firebase/auth';
 import SignInPage from '.';
 
 describe('SignInPage', () => {
+  const email = 'example@example.com';
+  const password = 'mypassword';
+
   let component: any;
   let getComponent: any;
   let defaultProps: any;
+
+  let emailInput: any;
+  let passwordInput: any;
+  let submitButton: any;
+  let signUpLink: any;
+  let passwordForgotLink: any;
 
   beforeEach(() => {
     defaultProps = {};
@@ -20,46 +29,40 @@ describe('SignInPage', () => {
       <SignInPage {...props} />
     );
 
-    component = renderer.create(getComponent());
-  });
+    component = render(getComponent());
 
-  beforeEach(() => {
     message.loading = jest.fn();
     message.error = jest.fn();
     message.success = jest.fn();
-  });
 
-  it('renders', () => {
-    const tree = component.toJSON();
-    expect(tree).toMatchSnapshot();
+    emailInput = component.getByLabelText('sign-in-email');
+    passwordInput = component.getByLabelText('sign-in-password');
+    submitButton = component.getByLabelText('sign-in-submit');
+    signUpLink = component.getByLabelText('sign-up-link');
+    passwordForgotLink = component.getByLabelText(
+      'password-forgot-link'
+    );
   });
 
   it('renders a sign up link', () => {
-    expect(
-      component.root.findByProps({ href: ROUTES.SIGN_UP })
-    ).toBeDefined();
+    expect(signUpLink.getAttribute('href')).toEqual(ROUTES.SIGN_UP);
   });
 
   it('renders a password forgot link', () => {
-    expect(
-      component.root.findByProps({ href: ROUTES.PASSWORD_FORGOT })
-    ).toBeDefined();
+    expect(passwordForgotLink.getAttribute('href')).toEqual(
+      ROUTES.PASSWORD_FORGOT
+    );
   });
 
   describe('signs in a user', () => {
-    const email = 'example@example.com';
-    const password = 'mypassword';
-
     beforeEach(() => {
-      component.root
-        .findByProps({ id: '/sign-in_email' })
-        .props.onChange({ target: { value: email } });
+      fireEvent.change(emailInput, {
+        target: { value: email },
+      });
 
-      component.root
-        .findByProps({ id: '/sign-in_password' })
-        .props.onChange({
-          target: { value: password },
-        });
+      fireEvent.change(passwordInput, {
+        target: { value: password },
+      });
     });
 
     it('with success', async () => {
@@ -72,9 +75,7 @@ describe('SignInPage', () => {
           })
         );
 
-      component.root
-        .findByType('form')
-        .props.onSubmit({ preventDefault: () => {} });
+      fireEvent.click(submitButton);
 
       expect(spy).toHaveBeenCalledTimes(1);
       expect(spy).toHaveBeenCalledWith(email, password);
@@ -94,9 +95,7 @@ describe('SignInPage', () => {
           Promise.reject(new Error('Wrong password.'))
         );
 
-      component.root
-        .findByType('form')
-        .props.onSubmit({ preventDefault: () => {} });
+      fireEvent.click(submitButton);
 
       expect(spy).toHaveBeenCalledTimes(1);
       expect(spy).toHaveBeenCalledWith(email, password);

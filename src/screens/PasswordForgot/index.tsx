@@ -79,11 +79,15 @@ const PasswordForgotForm = ({ form }: FormComponentProps) => {
           ],
           validateFirst: true,
           validateTrigger: 'onBlur',
-        })(<Input />)}
+        })(<Input aria-label="password-forgot-email" />)}
       </FormItem>
 
       <FormItem wrapperCol={{ sm: 24 }}>
-        <FormStretchedButton type="primary" htmlType="submit">
+        <FormStretchedButton
+          type="primary"
+          htmlType="submit"
+          aria-label="password-forgot-submit"
+        >
           Reset Password
         </FormStretchedButton>
       </FormItem>

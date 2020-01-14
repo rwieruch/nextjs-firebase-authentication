@@ -1,4 +1,4 @@
-import renderer from 'react-test-renderer';
+import { render } from '@testing-library/react';
 
 import { Session } from '@typeDefs/session';
 import SessionContext from '@context/session';
@@ -21,23 +21,21 @@ describe('ReferralPage', () => {
   });
 
   it('does not render when not authorized', () => {
-    component = renderer.create(
+    component = render(
       getComponent(null, { authUser: null, isSessionChecked: true })
     );
 
-    const tree = component.toJSON();
-    expect(tree).toMatchSnapshot();
+    expect(component.container.querySelector('h1')).toBeFalsy();
   });
 
-  // it('renders when authorized', () => {
-  //   component = renderer.create(
-  //     getComponent(null, {
-  //       authUser: { uid: '1' },
-  //       isSessionChecked: true,
-  //     })
-  //   );
+  it('renders when authorized', () => {
+    component = render(
+      getComponent(null, {
+        authUser: { uid: '1' },
+        isSessionChecked: true,
+      })
+    );
 
-  //   const tree = component.toJSON();
-  //   expect(tree).toMatchSnapshot();
-  // });
+    expect(component.container.querySelector('h1')).toBeTruthy();
+  });
 });

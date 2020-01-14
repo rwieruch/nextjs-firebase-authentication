@@ -29,6 +29,7 @@
     "styled-components": "^4.4.1"
   },
   "devDependencies": {
+    "@testing-library/react": "^9.4.0",
     "@types/express": "^4.17.2",
     "@types/jest": "^24.0.25",
     "@types/node": "^13.1.4",

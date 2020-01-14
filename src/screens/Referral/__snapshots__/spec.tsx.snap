@@ -1,3 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`ReferralPage does not render when not authorized 1`] = `null`;

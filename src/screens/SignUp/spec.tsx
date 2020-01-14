@@ -1,4 +1,4 @@
-import renderer from 'react-test-renderer';
+import { render, fireEvent } from '@testing-library/react';
 import waitForExpect from 'wait-for-expect';
 
 import { message } from 'antd';
@@ -9,9 +9,20 @@ import * as authService from '@services/firebase/auth';
 import SignUpPage from '.';
 
 describe('SignUpPage', () => {
+  const username = 'example';
+  const email = 'example@example.com';
+  const password = 'mypassword';
+
   let component: any;
   let getComponent: any;
   let defaultProps: any;
+
+  let usernameInput: any;
+  let emailInput: any;
+  let passwordInput: any;
+  let passwordConfirmInput: any;
+  let submitButton: any;
+  let signInLink: any;
 
   beforeEach(() => {
     defaultProps = {};
@@ -20,51 +31,43 @@ describe('SignUpPage', () => {
       <SignUpPage {...props} />
     );
 
-    component = renderer.create(getComponent());
-  });
+    component = render(getComponent());
 
-  beforeEach(() => {
     message.loading = jest.fn();
     message.error = jest.fn();
     message.success = jest.fn();
-  });
 
-  it('renders', () => {
-    const tree = component.toJSON();
-    expect(tree).toMatchSnapshot();
+    usernameInput = component.getByLabelText('sign-up-username');
+    emailInput = component.getByLabelText('sign-up-email');
+    passwordInput = component.getByLabelText('sign-up-password');
+    passwordConfirmInput = component.getByLabelText(
+      'sign-up-password-confirm'
+    );
+    submitButton = component.getByLabelText('sign-up-submit');
+    signInLink = component.getByLabelText('sign-in-link');
   });
 
   it('renders a sign in link', () => {
-    expect(
-      component.root.findByProps({ href: ROUTES.SIGN_IN })
-    ).toBeDefined();
+    expect(signInLink.getAttribute('href')).toEqual(ROUTES.SIGN_IN);
   });
 
   describe('signs up a user', () => {
-    const username = 'example';
-    const email = 'example@example.com';
-    const password = 'mypassword';
-
     beforeEach(() => {
-      component.root
-        .findByProps({ id: '/sign-up_username' })
-        .props.onChange({ target: { value: username } });
+      fireEvent.change(usernameInput, {
+        target: { value: username },
+      });
 
-      component.root
-        .findByProps({ id: '/sign-up_email' })
-        .props.onChange({ target: { value: email } });
+      fireEvent.change(emailInput, {
+        target: { value: email },
+      });
 
-      component.root
-        .findByProps({ id: '/sign-up_password' })
-        .props.onChange({
-          target: { value: password },
-        });
+      fireEvent.change(passwordInput, {
+        target: { value: password },
+      });
 
-      component.root
-        .findByProps({ id: '/sign-up_confirm' })
-        .props.onChange({
-          target: { value: password },
-        });
+      fireEvent.change(passwordConfirmInput, {
+        target: { value: password },
+      });
     });
 
     it('with success', async () => {
@@ -77,9 +80,7 @@ describe('SignUpPage', () => {
           })
         );
 
-      component.root
-        .findByType('form')
-        .props.onSubmit({ preventDefault: () => {} });
+      fireEvent.click(submitButton);
 
       expect(spy).toHaveBeenCalledTimes(1);
       expect(spy).toHaveBeenCalledWith(email, password);
@@ -99,9 +100,7 @@ describe('SignUpPage', () => {
           Promise.reject(new Error('Weak password.'))
         );
 
-      component.root
-        .findByType('form')
-        .props.onSubmit({ preventDefault: () => {} });
+      fireEvent.click(submitButton);
 
       expect(spy).toHaveBeenCalledTimes(1);
       expect(spy).toHaveBeenCalledWith(email, password);

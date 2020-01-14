@@ -23,8 +23,9 @@ const StyledCard = styled(Card)`
   max-width: 400px;
 `;
 
-const PasswordForgotAnchor = styled.a`
-  float: right;
+const StyledFormFooter = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
 
 const SignInForm = ({ form }: FormComponentProps) => {
@@ -80,6 +81,7 @@ const SignInForm = ({ form }: FormComponentProps) => {
           <Input
             prefix={<FormIcon type="user" />}
             placeholder="E-mail"
+            aria-label="sign-in-email"
           />
         )}
       </FormItem>
@@ -97,32 +99,39 @@ const SignInForm = ({ form }: FormComponentProps) => {
             prefix={<FormIcon type="lock" />}
             type="password"
             placeholder="Password"
+            aria-label="sign-in-password"
           />
         )}
       </FormItem>
 
       <FormItem>
-        <FormStretchedButton type="primary" htmlType="submit">
+        <FormStretchedButton
+          type="primary"
+          htmlType="submit"
+          aria-label="sign-in-submit"
+        >
           Sign In
         </FormStretchedButton>
 
-        <>
-          Or&nbsp;
-          <Link href={ROUTES.SIGN_UP}>
-            <a>sign up now!</a>
-          </Link>
-        </>
+        <StyledFormFooter>
+          <span>
+            Or&nbsp;
+            <Link href={ROUTES.SIGN_UP}>
+              <a aria-label="sign-up-link">sign up now!</a>
+            </Link>
+          </span>
 
-        <Link href={ROUTES.PASSWORD_FORGOT}>
-          <PasswordForgotAnchor>Forgot password</PasswordForgotAnchor>
-        </Link>
+          <Link href={ROUTES.PASSWORD_FORGOT}>
+            <a aria-label="password-forgot-link">Forgot password</a>
+          </Link>
+        </StyledFormFooter>
       </FormItem>
     </Form>
   );
 };
 
 const SignInFormEnhanced = Form.create({
-  name: ROUTES.SIGN_IN,
+  name: 'sign-in',
 })(SignInForm);
 
 const SignInPage = () => (

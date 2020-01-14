@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card } from 'antd';
+import { Typography, Card } from 'antd';
 
 import Layout from '@components/Layout';
 import withAuthorization from '@components/Session/withAuthorization';
@@ -43,8 +43,9 @@ const ReferralPage = () => {
   return (
     <Layout>
       <Container>
+        <Typography.Title>Referral Program</Typography.Title>
         <StyledCard
-          title="Referral Program"
+          title="Referrer Dashboard"
           tabList={tabList}
           activeTabKey={tab}
           onTabChange={handleTabChange}
