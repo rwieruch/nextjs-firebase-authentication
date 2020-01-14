@@ -7,6 +7,7 @@
     "start": "next start -p 3002",
     "dev": "next",
     "build": "next build",
+    "test:ci": "jest",
     "test": "jest --watch"
   },
   "author": "Robin Wieruch <opensource@rwieruch.com> (https://www.robinwieruch.de)",

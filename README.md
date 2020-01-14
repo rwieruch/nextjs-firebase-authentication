@@ -1,10 +1,12 @@
 # Next.js Starter with User Authentication/Authorization
 
+[![Build Status](https://travis-ci.org/rwieruch/nextjs-firebase-authentication.svg?branch=master)](https://travis-ci.org/rwieruch/nextjs-firebase-authentication) [![Slack](https://slack-the-road-to-learn-react.wieruch.com/badge.svg)](https://slack-the-road-to-learn-react.wieruch.com/) [![Greenkeeper badge](https://badges.greenkeeper.io/rwieruch/nextjs-firebase-authentication.svg)](https://greenkeeper.io/)
+
 - [Demo](https://courses.robinwieruch.de/)
 
 **User Management with**
 
-- [Firebase](https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial)
+- Firebase ([Tutorial](https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial))
   - Sign In
   - Sign Up
   - Sign Out
@@ -36,7 +38,7 @@
 
 **Absolute Imports with**
 
-- [Babel Module Resolver](https://www.robinwieruch.de/babel-module-resolver/)
+- Babel Module Resolver ([Tutorial](https://www.robinwieruch.de/babel-module-resolver/))
 
 ## Installation
 
