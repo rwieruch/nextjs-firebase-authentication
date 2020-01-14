@@ -1,10 +1,12 @@
+import React from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
-import { Card, Col, Row } from 'antd';
+import { Card, Col, Row, Typography } from 'antd';
 
 import * as ROUTES from '@constants/routes';
 import Layout from '@components/Layout';
 import withAuthorization from '@components/Session/withAuthorization';
+import SessionContext from '@context/session';
 
 import { Session } from '@typeDefs/session';
 
@@ -13,26 +15,21 @@ const Container = styled.div`
 `;
 
 const AccountPage = () => {
+  const session = React.useContext(SessionContext);
+
   return (
     <Layout>
       <Container>
+        <Typography.Title>Your Account</Typography.Title>
         <Row gutter={[16, 16]}>
           <Col span={12}>
-            <Card title="Referral">
+            <Card title="Details">
               <ul>
                 <li>
-                  <Link href={ROUTES.REFERRAL}>
-                    <a>Referral Program</a>
-                  </Link>
+                  <strong>ID:</strong> {session?.authUser?.uid}
                 </li>
-              </ul>
-            </Card>
-          </Col>
-          <Col span={12}>
-            <Card title="Troubleshoot">
-              <ul>
                 <li>
-                  <a href="mailto:hello@rwieruch.com">Contact</a>
+                  <strong>Email:</strong> {session?.authUser?.email}
                 </li>
               </ul>
             </Card>
@@ -49,6 +46,26 @@ const AccountPage = () => {
                   <Link href={ROUTES.PASSWORD_FORGOT}>
                     <a>Forgot Password</a>
                   </Link>
+                </li>
+              </ul>
+            </Card>
+          </Col>
+          <Col span={12}>
+            <Card title="Referral">
+              <ul>
+                <li>
+                  <Link href={ROUTES.REFERRAL}>
+                    <a>Referral Program</a>
+                  </Link>
+                </li>
+              </ul>
+            </Card>
+          </Col>
+          <Col span={12}>
+            <Card title="Troubleshoot">
+              <ul>
+                <li>
+                  <a href="mailto:hello@rwieruch.com">Contact</a>
                 </li>
               </ul>
             </Card>
