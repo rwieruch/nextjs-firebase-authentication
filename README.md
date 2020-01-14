@@ -37,3 +37,21 @@
 **Absolute Imports with**
 
 - [Babel Module Resolver](https://www.robinwieruch.de/babel-module-resolver/)
+
+## Installation
+
+## Installation
+
+- `git clone git@github.com:rwieruch/nextjs-firebase-authentication.git`
+- `cd nextjs-firebase-authentication`
+- see: "Use your own Firebase Credentials"
+- `npm install`
+- `npm test`
+- `npm run dev`
+- visit http://localhost:3000/
+
+### Use your own Firebase Credentials
+
+- visit https://firebase.google.com/ and create a Firebase App
+- copy and paste your Credentials from your Firebase App into _src/services/firebase/firebase.tsx_
+- activate Email/Password Sign-In Method in your Firebase App
