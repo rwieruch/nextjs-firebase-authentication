@@ -4,9 +4,9 @@ import '@testing-library/jest-dom/extend-expect';
 import { Session } from '@typeDefs/session';
 import SessionContext from '@context/session';
 
-import PasswordForgotPage from '.';
+import IndexPage from '.';
 
-describe('PasswordForgotPage', () => {
+describe('IndexPage', () => {
   const noSession = { authUser: null, isSessionChecked: true };
   const session = {
     authUser: { uid: '1' },
@@ -21,7 +21,7 @@ describe('PasswordForgotPage', () => {
 
     getComponent = (props: any = defaultProps, session: Session) => (
       <SessionContext.Provider value={session}>
-        <PasswordForgotPage {...props} />
+        <IndexPage {...props} />
       </SessionContext.Provider>
     );
   });
@@ -29,16 +29,14 @@ describe('PasswordForgotPage', () => {
   it('renders when not authorized', () => {
     render(getComponent(null, noSession));
 
-    expect(
-      screen.queryByText('Reset your password')
-    ).toBeInTheDocument();
+    expect(screen.queryByText('Course Dashboard')).toBeNull();
   });
 
   it('renders when authorized', () => {
     render(getComponent(null, session));
 
     expect(
-      screen.queryByText('Reset your password')
+      screen.queryByText('Course Dashboard')
     ).toBeInTheDocument();
   });
 });

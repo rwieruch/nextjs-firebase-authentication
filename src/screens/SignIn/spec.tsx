@@ -1,111 +1,44 @@
-import { render, fireEvent } from '@testing-library/react';
-import waitForExpect from 'wait-for-expect';
+import { render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
 
-import { message } from 'antd';
-
-import * as ROUTES from '@constants/routes';
-import * as authService from '@services/firebase/auth';
+import { Session } from '@typeDefs/session';
+import SessionContext from '@context/session';
 
 import SignInPage from '.';
 
 describe('SignInPage', () => {
-  const email = 'example@example.com';
-  const password = 'mypassword';
+  const noSession = { authUser: null, isSessionChecked: true };
+  const session = {
+    authUser: { uid: '1' },
+    isSessionChecked: true,
+  };
 
-  let component: any;
   let getComponent: any;
   let defaultProps: any;
-
-  let emailInput: any;
-  let passwordInput: any;
-  let submitButton: any;
-  let signUpLink: any;
-  let passwordForgotLink: any;
 
   beforeEach(() => {
     defaultProps = {};
 
-    getComponent = (props: any = defaultProps) => (
-      <SignInPage {...props} />
-    );
-
-    component = render(getComponent());
-
-    message.loading = jest.fn();
-    message.error = jest.fn();
-    message.success = jest.fn();
-
-    emailInput = component.getByLabelText('sign-in-email');
-    passwordInput = component.getByLabelText('sign-in-password');
-    submitButton = component.getByLabelText('sign-in-submit');
-    signUpLink = component.getByLabelText('sign-up-link');
-    passwordForgotLink = component.getByLabelText(
-      'password-forgot-link'
+    getComponent = (props: any = defaultProps, session: Session) => (
+      <SessionContext.Provider value={session}>
+        <SignInPage {...props} />
+      </SessionContext.Provider>
     );
   });
 
-  it('renders a sign up link', () => {
-    expect(signUpLink.getAttribute('href')).toEqual(ROUTES.SIGN_UP);
+  it('renders when not authorized', () => {
+    render(getComponent(null, noSession));
+
+    expect(
+      screen.queryByText('Log in and get to learn')
+    ).toBeInTheDocument();
   });
 
-  it('renders a password forgot link', () => {
-    expect(passwordForgotLink.getAttribute('href')).toEqual(
-      ROUTES.PASSWORD_FORGOT
-    );
-  });
+  it('renders when authorized', () => {
+    render(getComponent(null, session));
 
-  describe('signs in a user', () => {
-    beforeEach(() => {
-      fireEvent.change(emailInput, {
-        target: { value: email },
-      });
-
-      fireEvent.change(passwordInput, {
-        target: { value: password },
-      });
-    });
-
-    it('with success', async () => {
-      const spy = jest
-        .spyOn(authService, 'doSignInWithEmailAndPassword')
-        .mockImplementation(() =>
-          Promise.resolve({
-            credential: null,
-            user: null,
-          })
-        );
-
-      fireEvent.click(submitButton);
-
-      expect(spy).toHaveBeenCalledTimes(1);
-      expect(spy).toHaveBeenCalledWith(email, password);
-
-      expect(message.loading).toHaveBeenCalledTimes(1);
-
-      await waitForExpect(() => {
-        expect(message.error).toHaveBeenCalledTimes(0);
-        expect(message.success).toHaveBeenCalledTimes(1);
-      });
-    });
-
-    it('with error', async () => {
-      const spy = jest
-        .spyOn(authService, 'doSignInWithEmailAndPassword')
-        .mockImplementation(() =>
-          Promise.reject(new Error('Wrong password.'))
-        );
-
-      fireEvent.click(submitButton);
-
-      expect(spy).toHaveBeenCalledTimes(1);
-      expect(spy).toHaveBeenCalledWith(email, password);
-
-      expect(message.loading).toHaveBeenCalledTimes(1);
-
-      await waitForExpect(() => {
-        expect(message.error).toHaveBeenCalledTimes(1);
-        expect(message.success).toHaveBeenCalledTimes(0);
-      });
-    });
+    expect(
+      screen.queryByText('Log in and get to learn')
+    ).toBeInTheDocument();
   });
 });

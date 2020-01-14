@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card } from 'antd';
+import { Typography, Card } from 'antd';
 
 import Layout from '@components/Layout';
 import withAuthorization from '@components/Session/withAuthorization';
@@ -43,6 +43,7 @@ const DashboardPage = () => {
   return (
     <Layout>
       <Container>
+        <Typography.Title>Course Dashboard</Typography.Title>
         <StyledCard title="Protected Course X">
           <Card.Grid>Content</Card.Grid>
           <Card.Grid>Content</Card.Grid>
