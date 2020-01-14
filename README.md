@@ -20,7 +20,7 @@
 **Styling with**
 
 - Ant Design
-- Styled Components
+- Styled Components ([Tutorial](https://www.robinwieruch.de/react-styled-components))
 - Page Transitions
 
 **Type Support with**
@@ -29,7 +29,7 @@
 
 **Tested Code Base with**
 
-- Jest
+- Jest ([Tutorial](https://www.robinwieruch.de/react-testing-jest))
 - React Testing Library
 
 **Environment Variables with**
