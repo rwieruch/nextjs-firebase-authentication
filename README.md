@@ -40,8 +40,6 @@
 
 ## Installation
 
-## Installation
-
 - `git clone git@github.com:rwieruch/nextjs-firebase-authentication.git`
 - `cd nextjs-firebase-authentication`
 - see: "Use your own Firebase Credentials"
