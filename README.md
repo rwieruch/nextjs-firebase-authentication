@@ -2,8 +2,6 @@
 
 [![Build Status](https://travis-ci.org/rwieruch/nextjs-firebase-authentication.svg?branch=master)](https://travis-ci.org/rwieruch/nextjs-firebase-authentication) [![Slack](https://slack-the-road-to-learn-react.wieruch.com/badge.svg)](https://slack-the-road-to-learn-react.wieruch.com/) [![Greenkeeper badge](https://badges.greenkeeper.io/rwieruch/nextjs-firebase-authentication.svg)](https://greenkeeper.io/)
 
-![Screenshot 2020-01-14 at 16 41 09](https://user-images.githubusercontent.com/2479967/72358362-ba0fc980-36ec-11ea-8eb3-6805f80708e7.png)
-
 - [Demo](https://courses.robinwieruch.de/)
 
 **User Management with**
