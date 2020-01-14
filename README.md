@@ -1,4 +1,4 @@
-User Management with
+**User Management with**
 
 - Firebase
   - Sign In
@@ -7,29 +7,29 @@ User Management with
   - Password Change
   - Password Reset
 
-Protected Routes with
+**Protected Routes with**
 
 - NextJs and Firebase
 
-Styling with
+**Styling with**
 
 - Ant Design
 - Styled Components
 - Page Transitions
 
-Type Support with
+**Type Support with**
 
 - TypeScript
 
-Tested Code Base with
+**Tested Code Base with**
 
 - Jest
 - React Testing Library
 
-Environment Variables with
+**Environment Variables with**
 
 - Dotenv
 
-Absolute Imports with
+**Absolute Imports with**
 
 - Babel Module Resolver
