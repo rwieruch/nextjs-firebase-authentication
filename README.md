@@ -1,6 +1,10 @@
+# Next.js Starter with User Authentication/Authorization
+
+- [Demo](https://courses.robinwieruch.de/)
+
 **User Management with**
 
-- Firebase
+- [Firebase](https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial)
   - Sign In
   - Sign Up
   - Sign Out
@@ -32,4 +36,4 @@
 
 **Absolute Imports with**
 
-- Babel Module Resolver
+- [Babel Module Resolver](https://www.robinwieruch.de/babel-module-resolver/)
