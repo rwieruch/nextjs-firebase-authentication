@@ -8,6 +8,7 @@ const path = require('path');
 const withPlugins = require('next-compose-plugins');
 const withLess = require('@zeit/next-less');
 const lessToJS = require('less-vars-to-js');
+const FilterWarningsPlugin = require('webpack-filter-warnings-plugin');
 
 const nextConfig = {
   env: {
@@ -55,6 +56,12 @@ const lessWithAntdConfig = {
         use: 'null-loader',
       });
     }
+
+    config.plugins.push(
+      new FilterWarningsPlugin({
+        exclude: /mini-css-extract-plugin[^]*Conflicting order between:/,
+      })
+    );
 
     return config;
   },
