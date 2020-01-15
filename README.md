@@ -53,5 +53,5 @@
 ### Use your own Firebase Credentials
 
 - visit https://firebase.google.com/ and create a Firebase App
-- copy and paste your Credentials from your Firebase App into _src/services/firebase/firebase.tsx_
+- copy and paste your Credentials from your Firebase App into _next.config.js_ or in a non-source controlled _.env_ file
 - activate Email/Password Sign-In Method in your Firebase App
