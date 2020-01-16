@@ -8,6 +8,7 @@ const path = require('path');
 const withPlugins = require('next-compose-plugins');
 const withLess = require('@zeit/next-less');
 const lessToJS = require('less-vars-to-js');
+const bundleAnalyzer = require('@next/bundle-analyzer');
 
 const nextConfig = {
   env: {
@@ -60,7 +61,11 @@ const lessWithAntdConfig = {
   },
 };
 
+const withBundleAnalyzer = bundleAnalyzer({
+  enabled: process.env.ANALYZE === 'true',
+});
+
 module.exports = withPlugins(
-  [[withLess, lessWithAntdConfig]],
+  [[withLess, lessWithAntdConfig], [withBundleAnalyzer]],
   nextConfig
 );
