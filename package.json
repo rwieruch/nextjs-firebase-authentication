@@ -31,7 +31,7 @@
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^9.2.0",
-    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/jest-dom": "^5.0.0",
     "@testing-library/react": "^9.4.0",
     "@types/jest": "^24.9.0",
     "@types/node": "^13.1.7",
