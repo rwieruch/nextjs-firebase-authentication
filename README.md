@@ -15,26 +15,26 @@
 
 **Protected Routes with**
 
-- NextJs and Firebase
+- [Next.js](https://nextjs.org/) and [Firebase](https://firebase.google.com/)
 
 **Styling with**
 
-- Ant Design
-- Styled Components ([Tutorial](https://www.robinwieruch.de/react-styled-components))
+- [Ant Design](https://ant.design/)
+- [Styled Components](https://www.styled-components.com/) ([Tutorial](https://www.robinwieruch.de/react-styled-components))
 - Page Transitions
 
 **Type Support with**
 
-- TypeScript
+- [TypeScript](https://www.typescriptlang.org/)
 
 **Tested Code Base with**
 
-- Jest ([Tutorial](https://www.robinwieruch.de/react-testing-jest))
-- React Testing Library
+- [Jest](https://jestjs.io/) ([Tutorial](https://www.robinwieruch.de/react-testing-jest))
+- [React Testing Library](https://github.com/testing-library/react-testing-library)
 
 **Environment Variables with**
 
-- Dotenv
+- [Dotenv](https://github.com/motdotla/dotenv)
 
 **Absolute Imports with**
 
@@ -44,14 +44,24 @@
 
 - `git clone git@github.com:rwieruch/nextjs-firebase-authentication.git`
 - `cd nextjs-firebase-authentication`
-- see: "Use your own Firebase Credentials"
+- See: "**Use your own Firebase Credentials**"
 - `npm install`
 - `npm test`
 - `npm run dev`
-- visit http://localhost:3000/
+- Visit http://localhost:3000/
 
 ### Use your own Firebase Credentials
 
-- visit https://firebase.google.com/ and create a Firebase App
-- copy and paste your Credentials from your Firebase App into _next.config.js_ or in a non-source controlled _.env_ file
-- activate Email/Password Sign-In Method in your Firebase App
+- Visit https://firebase.google.com/ and create a Firebase App
+- Create a _.env_ file to store your Firebase Credentials like so:
+  ```
+  FIREBASE_API_KEY=[apiKey]
+  FIREBASE_AUTH_DOMAIN=[authDomain]
+  FIREBASE_DATABASE_URL=[databaseURL]
+  FIREBASE_PROJECT_ID=[projectID]
+  FIREBASE_STORAGE_BUCKET=[storageBucket]
+  FIREBASE_MESSAGING_SENDER_ID=[messagingSenderId]
+  FIREBASE_APP_ID=[measurementID]
+  ```
+  **(It is advised you add this file you your .gitignore)**
+- Activate Email/Password Sign-In Method in your Firebase App
