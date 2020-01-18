@@ -61,7 +61,8 @@
   FIREBASE_PROJECT_ID=[projectID]
   FIREBASE_STORAGE_BUCKET=[storageBucket]
   FIREBASE_MESSAGING_SENDER_ID=[messagingSenderId]
-  FIREBASE_APP_ID=[measurementID]
+  FIREBASE_APP_ID=[appId]
+  FIREBASE_MEASUREMENT_ID=[measurementID]
   ```
   **(It is advised you add this file you your .gitignore)**
 - Activate Email/Password Sign-In Method in your Firebase App
