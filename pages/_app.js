@@ -4,10 +4,12 @@ import React from 'react';
 import NextApp from 'next/app';
 import { useRouter } from 'next/router';
 import { ThemeProvider, createGlobalStyle } from 'styled-components';
+import { ApolloProvider } from '@apollo/react-hooks';
 import { PageTransition } from 'next-page-transitions';
 
 import Head from '@components/Head';
 import Loader from '@components/Loader';
+import withApollo from '@services/apollo/withApollo';
 import { auth } from '@services/firebase/firebase';
 import SessionContext from '@context/session';
 
@@ -86,41 +88,45 @@ const useAuthentication = () => {
   return session;
 };
 
-const MyComponent = ({ children }) => {
+const MyComponent = ({ apollo, children }) => {
   const router = useRouter();
   const session = useAuthentication();
 
   return (
     <ThemeProvider theme={theme}>
-      <SessionContext.Provider value={session}>
-        <GlobalStyle />
-        <Head />
-        <PageTransition
-          timeout={TIMEOUT}
-          classNames="page-transition"
-          loadingClassNames="loading-indicator"
-          loadingComponent={<Loader />}
-          loadingDelay={500}
-          loadingTimeout={{
-            enter: TIMEOUT,
-            exit: 0,
-          }}
-        >
-          {React.cloneElement(children, { key: router.route })}
-        </PageTransition>
-      </SessionContext.Provider>
+      <ApolloProvider client={apollo}>
+        <SessionContext.Provider value={session}>
+          <GlobalStyle />
+          <Head />
+          <PageTransition
+            timeout={TIMEOUT}
+            classNames="page-transition"
+            loadingClassNames="loading-indicator"
+            loadingComponent={<Loader />}
+            loadingDelay={500}
+            loadingTimeout={{
+              enter: TIMEOUT,
+              exit: 0,
+            }}
+          >
+            {React.cloneElement(children, { key: router.route })}
+          </PageTransition>
+        </SessionContext.Provider>
+      </ApolloProvider>
     </ThemeProvider>
   );
 };
 
-export default class MyApp extends NextApp {
+class MyApp extends NextApp {
   render() {
-    const { Component, pageProps } = this.props;
+    const { Component, pageProps, apollo } = this.props;
 
     return (
-      <MyComponent>
+      <MyComponent apollo={apollo}>
         <Component {...pageProps} />
       </MyComponent>
     );
   }
 }
+
+export default withApollo(MyApp);

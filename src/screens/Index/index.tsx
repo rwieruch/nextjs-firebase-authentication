@@ -1,6 +1,9 @@
 import React from 'react';
+import { NextPage } from 'next';
 import styled from 'styled-components';
 import { Typography, Card } from 'antd';
+import { useQuery } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
 
 import Layout from '@components/Layout';
 import withAuthorization from '@components/Session/withAuthorization';
@@ -33,12 +36,26 @@ const StyledCard = styled(Card)`
   }
 `;
 
-const DashboardPage = () => {
+const GET_ME = gql`
+  query {
+    me {
+      username
+    }
+  }
+`;
+
+interface DashboardPageProps {}
+
+const DashboardPageBase: NextPage<DashboardPageProps> = () => {
+  const { loading, error, data } = useQuery(GET_ME);
+
   const [tab, setTab] = React.useState('tab1');
 
   const handleTabChange = (key: string) => {
     setTab(key);
   };
+
+  console.log(data);
 
   return (
     <Layout>
@@ -69,4 +86,14 @@ const DashboardPage = () => {
 
 const condition = (session: Session): boolean => !!session.authUser;
 
-export default withAuthorization(condition)(DashboardPage);
+const DashboardPage = withAuthorization(condition)(DashboardPageBase);
+
+DashboardPage.getInitialProps = async ctx => {
+  const { apolloClient } = ctx;
+
+  const { data } = await apolloClient.query({ query: GET_ME });
+
+  return {};
+};
+
+export default DashboardPage;
