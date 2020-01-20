@@ -16,5 +16,22 @@ export default {
 
       return { sessionToken };
     },
+    signUp: async (
+      _: any,
+      {
+        username,
+        email,
+        password,
+      }: { username: string; email: string; password: string },
+      { firebase }: ResolverContext
+    ) => {
+      await firebase.auth().createUser({
+        email,
+        password,
+        displayName: username,
+      });
+
+      return true;
+    },
   },
 };

@@ -3,14 +3,18 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Form, Input, message } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
+import { useApolloClient } from '@apollo/react-hooks';
 
 import * as ROUTES from '@constants/routes';
 import FormItem from '@components/Form/Item';
 import FormStretchedButton from '@components/Form/StretchedButton';
-import { doCreateUserWithEmailAndPassword } from '@services/firebase/auth';
+
+import signIn from '@screens/SignIn/SignInForm/signIn';
+import signUp from './signUp';
 
 const SignUpForm = ({ form }: FormComponentProps) => {
   const router = useRouter();
+  const apolloClient = useApolloClient();
 
   const [
     confirmPasswordDirty,
@@ -49,7 +53,7 @@ const SignUpForm = ({ form }: FormComponentProps) => {
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    form.validateFields((error, values) => {
+    form.validateFields(async (error, values) => {
       if (error) return;
 
       message.loading({
@@ -57,23 +61,30 @@ const SignUpForm = ({ form }: FormComponentProps) => {
         key: ROUTES.SIGN_UP,
       });
 
-      doCreateUserWithEmailAndPassword(values.email, values.password)
-        .then(result => {
-          message.success({
-            content: 'Success!',
-            key: ROUTES.SIGN_UP,
-            duration: 2,
-          });
-
-          router.push(ROUTES.INDEX);
-        })
-        .catch(error =>
-          message.error({
-            content: error.message,
-            key: ROUTES.SIGN_UP,
-            duration: 2,
-          })
+      try {
+        await signUp(
+          apolloClient,
+          values.username,
+          values.email,
+          values.password
         );
+
+        await signIn(apolloClient, values.email, values.password);
+
+        message.success({
+          content: 'Success!',
+          key: ROUTES.SIGN_UP,
+          duration: 2,
+        });
+
+        router.push(ROUTES.INDEX);
+      } catch (error) {
+        message.error({
+          content: error.message,
+          key: ROUTES.SIGN_UP,
+          duration: 2,
+        });
+      }
     });
 
     event.preventDefault();

@@ -1,8 +1,6 @@
 import app from 'firebase/app';
 
-import 'firebase/database';
 import 'firebase/auth';
-import 'firebase/storage';
 
 const config = {
   apiKey: process.env.FIREBASE_API_KEY,
@@ -18,14 +16,8 @@ if (!app.apps.length) {
   app.initializeApp(config);
 }
 
-const db = app.database();
-const auth = app.auth();
-const storage = app.storage();
-
 // TODO
 // As httpOnly cookies are to be used, do not persist any state client side.
-// firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE);
+app.auth().setPersistence(app.auth.Auth.Persistence.NONE);
 
 export default app;
-
-export { db, auth, storage };

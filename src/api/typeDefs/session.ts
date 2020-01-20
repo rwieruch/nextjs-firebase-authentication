@@ -3,6 +3,12 @@ import { gql } from 'apollo-server-micro';
 export default gql`
   extend type Mutation {
     signIn(idToken: String!): SessionToken!
+
+    signUp(
+      username: String!
+      email: String!
+      password: String!
+    ): Boolean
   }
 
   type SessionToken {

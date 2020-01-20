@@ -1,8 +1,6 @@
-// https://github.com/zeit/next.js/blob/canary/examples/with-next-page-transitions/pages/_app.js
-
 import React from 'react';
 import NextApp from 'next/app';
-import Router, { useRouter } from 'next/router';
+import Router from 'next/router';
 import nextCookie from 'next-cookies';
 import { ThemeProvider, createGlobalStyle } from 'styled-components';
 import { ApolloProvider } from '@apollo/react-hooks';
@@ -11,7 +9,6 @@ import { PageTransition } from 'next-page-transitions';
 import Head from '@components/Head';
 import Loader from '@components/Loader';
 import withApollo from '@services/apollo/withApollo';
-import { auth } from '@services/firebase/firebase';
 import SessionContext from '@context/session';
 import * as ROUTES from '@constants/routes';
 

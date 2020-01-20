@@ -5,28 +5,17 @@ import styled from 'styled-components';
 import { Form, Input, message } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import { useApolloClient } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
-import cookie from 'js-cookie';
 
 import * as ROUTES from '@constants/routes';
-import { EXPIRES_IN } from '@constants/cookie';
 import FormIcon from '@components/Form/Icon';
 import FormItem from '@components/Form/Item';
 import FormStretchedButton from '@components/Form/StretchedButton';
 
-import { doSignInWithEmailAndPassword } from '@services/firebase/auth';
+import signIn from './signIn';
 
 const StyledFormFooter = styled.div`
   display: flex;
   justify-content: space-between;
-`;
-
-const SIGN_IN = gql`
-  mutation($idToken: String!) {
-    signIn(idToken: $idToken) {
-      sessionToken
-    }
-  }
 `;
 
 const SignInForm = ({ form }: FormComponentProps) => {
@@ -43,26 +32,7 @@ const SignInForm = ({ form }: FormComponentProps) => {
       });
 
       try {
-        const { user } = await doSignInWithEmailAndPassword(
-          values.email,
-          values.password
-        );
-
-        const idToken = await user?.getIdToken();
-        // const csrfToken = getCookie('csrfToken'); // https://firebase.google.com/docs/auth/admin/manage-cookies#sign_in
-
-        const { data } = await apolloClient.mutate({
-          mutation: SIGN_IN,
-          variables: {
-            idToken,
-          },
-        });
-
-        cookie.set('session', data.signIn.sessionToken, {
-          expires: EXPIRES_IN,
-          // httpOnly: true,
-          // secure: true,
-        });
+        await signIn(apolloClient, values.email, values.password);
 
         message.success({
           content: 'Success!',
