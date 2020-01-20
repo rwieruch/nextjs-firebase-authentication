@@ -1,20 +1,20 @@
-import { gql } from 'apollo-server-micro';
+import { gql } from 'apollo-server-express';
 
-export default gql`
+import sessionSchema from './session';
+import userSchema from './user';
+
+const linkSchema = gql`
   type Query {
-    me: User
-  }
-
-  type User {
-    email: String!
-    uid: String!
+    _: Boolean
   }
 
   type Mutation {
-    signIn(idToken: String!): SessionToken!
+    _: Boolean
   }
 
-  type SessionToken {
-    sessionToken: String!
+  type Subscription {
+    _: Boolean
   }
 `;
+
+export default [linkSchema, sessionSchema, userSchema];
