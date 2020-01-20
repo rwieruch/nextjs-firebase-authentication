@@ -21,7 +21,7 @@ interface AccountPageProps {
 }
 
 type NextAuthPage = NextPage<AccountPageProps> & {
-  isAuthorized: Function;
+  isAuthorized: (session: Session) => boolean;
 };
 
 const AccountPage: NextAuthPage = ({ data }) => {

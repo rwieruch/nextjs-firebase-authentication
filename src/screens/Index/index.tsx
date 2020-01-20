@@ -41,7 +41,7 @@ interface DashboardPageProps {
 }
 
 type NextAuthPage = NextPage<DashboardPageProps> & {
-  isAuthorized: Function;
+  isAuthorized: (session: Session) => boolean;
 };
 
 const DashboardPage: NextAuthPage = ({ data }) => {

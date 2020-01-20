@@ -57,7 +57,7 @@ const Navigation = () => {
                 Account
               </a>
             </Menu.Item>
-            <Menu.Item key="1" onClick={signOut}>
+            <Menu.Item key="1" onClick={() => signOut()}>
               <Icon type="poweroff" />
               Sign Out
             </Menu.Item>
