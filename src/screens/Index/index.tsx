@@ -2,13 +2,11 @@ import React from 'react';
 import { NextPage } from 'next';
 import styled from 'styled-components';
 import { Typography, Card } from 'antd';
-import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 
-import Layout from '@components/Layout';
-import withAuthorization from '@components/Session/withAuthorization';
-
+import { Me } from '@typeDefs/me';
 import { Session } from '@typeDefs/session';
+import Layout from '@components/Layout';
 
 const tabList = [
   {
@@ -36,26 +34,22 @@ const StyledCard = styled(Card)`
   }
 `;
 
-const GET_ME = gql`
-  query {
-    me {
-      username
-    }
-  }
-`;
+interface DashboardPageProps {
+  data: {
+    me: Me;
+  };
+}
 
-interface DashboardPageProps {}
+type NextAuthPage = NextPage<DashboardPageProps> & {
+  isAuthorized: Function;
+};
 
-const DashboardPageBase: NextPage<DashboardPageProps> = () => {
-  const { loading, error, data } = useQuery(GET_ME);
-
+const DashboardPage: NextAuthPage = ({ data }) => {
   const [tab, setTab] = React.useState('tab1');
 
   const handleTabChange = (key: string) => {
     setTab(key);
   };
-
-  console.log(data);
 
   return (
     <Layout>
@@ -84,16 +78,33 @@ const DashboardPageBase: NextPage<DashboardPageProps> = () => {
   );
 };
 
-const condition = (session: Session): boolean => !!session.authUser;
-
-const DashboardPage = withAuthorization(condition)(DashboardPageBase);
+DashboardPage.isAuthorized = (session: Session) => !!session;
 
 DashboardPage.getInitialProps = async ctx => {
-  const { apolloClient } = ctx;
+  const isServer = ctx.req || ctx.res;
 
-  const { data } = await apolloClient.query({ query: GET_ME });
+  const context = isServer
+    ? {
+        context: {
+          headers: {
+            cookie: ctx?.req?.headers.cookie,
+          },
+        },
+      }
+    : null;
 
-  return {};
+  const { data } = await ctx.apolloClient.query({
+    query: gql`
+      query {
+        me {
+          email
+        }
+      }
+    `,
+    ...(isServer && context),
+  });
+
+  return { data };
 };
 
 export default DashboardPage;

@@ -55,13 +55,16 @@
 - Visit https://firebase.google.com/ and create a Firebase App
 - Create a _.env_ file to store your Firebase Credentials like so:
   ```
-  FIREBASE_API_KEY=[apiKey]
-  FIREBASE_AUTH_DOMAIN=[authDomain]
-  FIREBASE_DATABASE_URL=[databaseURL]
-  FIREBASE_PROJECT_ID=[projectID]
-  FIREBASE_STORAGE_BUCKET=[storageBucket]
-  FIREBASE_MESSAGING_SENDER_ID=[messagingSenderId]
-  FIREBASE_APP_ID=[measurementID]
+  FIREBASE_API_KEY=apiKey
+  FIREBASE_AUTH_DOMAIN=authDomain
+  FIREBASE_DATABASE_URL=databaseURL
+  FIREBASE_PROJECT_ID=projectID
+  FIREBASE_STORAGE_BUCKET=storageBucket
+  FIREBASE_MESSAGING_SENDER_ID=messagingSenderId
+  FIREBASE_APP_ID=measurementID
   ```
-  **(It is advised you add this file you your .gitignore)**
 - Activate Email/Password Sign-In Method in your Firebase App
+
+- Visit https://firebase.google.com/docs/admin/setup/#initialize-sdk for Firebase Admin SDK and generate a _firebaseServiceAccountKey.json_ file from there which should be in your project's root folder.
+
+**Important: It is advised to add _.env_ and _firebaseServiceAccountKey.json_ to your .gitignore**

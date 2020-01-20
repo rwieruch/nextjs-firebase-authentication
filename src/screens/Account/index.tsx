@@ -1,22 +1,30 @@
 import React from 'react';
+import { NextPage } from 'next';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { Card, Col, Row, Typography } from 'antd';
+import gql from 'graphql-tag';
 
+import { Me } from '@typeDefs/me';
+import { Session } from '@typeDefs/session';
 import * as ROUTES from '@constants/routes';
 import Layout from '@components/Layout';
-import withAuthorization from '@components/Session/withAuthorization';
-import SessionContext from '@context/session';
-
-import { Session } from '@typeDefs/session';
 
 const Container = styled.div`
   margin: 32px;
 `;
 
-const AccountPage = () => {
-  const session = React.useContext(SessionContext);
+interface AccountPageProps {
+  data: {
+    me: Me;
+  };
+}
 
+type NextAuthPage = NextPage<AccountPageProps> & {
+  isAuthorized: Function;
+};
+
+const AccountPage: NextAuthPage = ({ data }) => {
   return (
     <Layout>
       <Container>
@@ -26,10 +34,10 @@ const AccountPage = () => {
             <Card title="Details">
               <ul>
                 <li>
-                  <strong>ID:</strong> {session?.authUser?.uid}
+                  <strong>ID:</strong> {data.me.uid}
                 </li>
                 <li>
-                  <strong>Email:</strong> {session?.authUser?.email}
+                  <strong>Email:</strong> {data.me.email}
                 </li>
               </ul>
             </Card>
@@ -76,6 +84,34 @@ const AccountPage = () => {
   );
 };
 
-const condition = (session: Session): boolean => !!session.authUser;
+AccountPage.isAuthorized = (session: Session) => !!session;
 
-export default withAuthorization(condition)(AccountPage);
+AccountPage.getInitialProps = async ctx => {
+  const isServer = ctx.req || ctx.res;
+
+  const context = isServer
+    ? {
+        context: {
+          headers: {
+            cookie: ctx?.req?.headers.cookie,
+          },
+        },
+      }
+    : null;
+
+  const { data } = await ctx.apolloClient.query({
+    query: gql`
+      query {
+        me {
+          email
+          uid
+        }
+      }
+    `,
+    ...(isServer && context),
+  });
+
+  return { data };
+};
+
+export default AccountPage;

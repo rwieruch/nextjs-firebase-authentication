@@ -5,10 +5,10 @@ import { Menu, Icon } from 'antd';
 
 import * as ROUTES from '@constants/routes';
 import SessionContext from '@context/session';
-import { doSignOut } from '@services/firebase/auth';
 
 import { ExternalLink } from './types';
 import { MORE_COURSES } from './constants';
+import signOut from './signOut';
 
 const Container = styled.nav`
   ul {
@@ -41,7 +41,7 @@ const Navigation = () => {
           </Link>
         </Menu.Item>
 
-        {!session.authUser && (
+        {!session && (
           <Menu.Item style={{ float: 'right' }}>
             <Link href={ROUTES.SIGN_IN}>
               <a>Sign In</a>
@@ -49,7 +49,7 @@ const Navigation = () => {
           </Menu.Item>
         )}
 
-        {session.authUser && (
+        {session && (
           <Menu.SubMenu style={{ float: 'right' }} title="Home">
             <Menu.Item key="0">
               <a href={ROUTES.ACCOUNT}>
@@ -57,14 +57,14 @@ const Navigation = () => {
                 Account
               </a>
             </Menu.Item>
-            <Menu.Item key="1" onClick={doSignOut}>
+            <Menu.Item key="1" onClick={signOut}>
               <Icon type="poweroff" />
               Sign Out
             </Menu.Item>
           </Menu.SubMenu>
         )}
 
-        {!session.authUser && (
+        {!session && (
           <Menu.SubMenu style={{ float: 'right' }} title="Courses">
             {MORE_COURSES.map(link => (
               <Menu.Item key={link.title}>
@@ -74,7 +74,7 @@ const Navigation = () => {
           </Menu.SubMenu>
         )}
 
-        {session.authUser && (
+        {session && (
           <Menu.SubMenu style={{ float: 'right' }} title="Courses">
             <Menu.ItemGroup key="0" title="My Courses">
               <Menu.Item>

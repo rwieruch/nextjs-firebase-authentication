@@ -1,10 +1,5 @@
 import React from 'react';
 
-import { Session } from '@typeDefs/session';
-
-const SessionContext = React.createContext({
-  authUser: null,
-  isSessionChecked: false,
-} as Session);
+const SessionContext = React.createContext(null);
 
 export default SessionContext;

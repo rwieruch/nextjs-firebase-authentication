@@ -2,10 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { Typography, Card } from 'antd';
 
-import Layout from '@components/Layout';
-import withAuthorization from '@components/Session/withAuthorization';
-
 import { Session } from '@typeDefs/session';
+import Layout from '@components/Layout';
 
 const tabList = [
   {
@@ -57,6 +55,6 @@ const ReferralPage = () => {
   );
 };
 
-const condition = (session: Session): boolean => !!session.authUser;
+ReferralPage.isAuthorized = (session: Session) => !!session;
 
-export default withAuthorization(condition)(ReferralPage);
+export default ReferralPage;

@@ -2,7 +2,8 @@
 
 import React from 'react';
 import NextApp from 'next/app';
-import { useRouter } from 'next/router';
+import Router, { useRouter } from 'next/router';
+import nextCookie from 'next-cookies';
 import { ThemeProvider, createGlobalStyle } from 'styled-components';
 import { ApolloProvider } from '@apollo/react-hooks';
 import { PageTransition } from 'next-page-transitions';
@@ -12,6 +13,7 @@ import Loader from '@components/Loader';
 import withApollo from '@services/apollo/withApollo';
 import { auth } from '@services/firebase/firebase';
 import SessionContext from '@context/session';
+import * as ROUTES from '@constants/routes';
 
 const TIMEOUT = 400;
 
@@ -69,62 +71,61 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-const useAuthentication = () => {
-  const [session, setSession] = React.useState({
-    authUser: null,
-    isSessionChecked: false,
-  });
-
-  React.useEffect(() => {
-    let onAuthStateListener = auth.onAuthStateChanged(authUser => {
-      authUser
-        ? setSession({ authUser, isSessionChecked: true })
-        : setSession({ authUser: null, isSessionChecked: true });
-    });
-
-    return () => onAuthStateListener();
-  }, []);
-
-  return session;
-};
-
-const MyComponent = ({ apollo, children }) => {
-  const router = useRouter();
-  const session = useAuthentication();
-
-  return (
-    <ThemeProvider theme={theme}>
-      <ApolloProvider client={apollo}>
-        <SessionContext.Provider value={session}>
-          <GlobalStyle />
-          <Head />
-          <PageTransition
-            timeout={TIMEOUT}
-            classNames="page-transition"
-            loadingClassNames="loading-indicator"
-            loadingComponent={<Loader />}
-            loadingDelay={500}
-            loadingTimeout={{
-              enter: TIMEOUT,
-              exit: 0,
-            }}
-          >
-            {React.cloneElement(children, { key: router.route })}
-          </PageTransition>
-        </SessionContext.Provider>
-      </ApolloProvider>
-    </ThemeProvider>
-  );
-};
-
 class MyApp extends NextApp {
+  static async getInitialProps({ Component, ctx }) {
+    const isServer = ctx.req || ctx.res;
+
+    const { session } = nextCookie(ctx);
+
+    // Redirect server/client-side if not authorized
+    if (Component.isAuthorized && !Component.isAuthorized(session)) {
+      if (isServer) {
+        ctx?.res?.writeHead(302, { Location: ROUTES.SIGN_IN });
+        ctx?.res?.end();
+      } else {
+        Router.push(ROUTES.SIGN_IN);
+      }
+      return {};
+    }
+
+    const pageProps = Component.getInitialProps
+      ? await Component.getInitialProps(ctx)
+      : {};
+
+    return { pageProps, session };
+  }
+
   render() {
-    const { Component, pageProps, apollo } = this.props;
+    const {
+      Component,
+      pageProps,
+      session,
+      apollo,
+      router,
+    } = this.props;
 
     return (
-      <MyComponent apollo={apollo}>
-        <Component {...pageProps} />
-      </MyComponent>
+      <ThemeProvider theme={theme}>
+        <SessionContext.Provider value={session}>
+          <ApolloProvider client={apollo}>
+            <GlobalStyle />
+            <Head />
+            <PageTransition
+              timeout={TIMEOUT}
+              classNames="page-transition"
+              loadingClassNames="loading-indicator"
+              loadingComponent={<Loader />}
+              loadingDelay={500}
+              loadingTimeout={{
+                enter: TIMEOUT,
+                exit: 0,
+              }}
+            >
+              <Component {...pageProps} key={router.route} />
+            </PageTransition>
+          </ApolloProvider>
+        </SessionContext.Provider>
+      </ThemeProvider>
     );
   }
 }
