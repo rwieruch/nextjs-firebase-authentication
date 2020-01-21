@@ -64,12 +64,7 @@ export default {
       { email }: { email: string },
       { firebase }: ResolverContext
     ) => {
-      // await firebaseAdmin.auth().generatePasswordResetLink(email);
-
-      await firebase.auth().sendSignInLinkToEmail(email, {
-        handleCodeInApp: true,
-        url: process.env.BASE_URL || '',
-      });
+      await firebase.auth().sendPasswordResetEmail(email);
 
       return true;
     },
