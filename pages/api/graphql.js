@@ -24,7 +24,7 @@ const apolloServer = new ApolloServer({
 });
 
 const withCors = cors({
-  origin: '*',
+  origin: 'http://138.68.80.97:3002',
 });
 
 export const config = {
@@ -33,6 +33,8 @@ export const config = {
   },
 };
 
-export default apolloServer.createHandler({
-  path: '/api/graphql',
-});
+export default withCors(
+  apolloServer.createHandler({
+    path: '/api/graphql',
+  })
+);
