@@ -1,19 +1,19 @@
-# Next.js Starter with User Authentication/Authorization
+# Next.js Starter
 
 [![Build Status](https://travis-ci.org/rwieruch/nextjs-firebase-authentication.svg?branch=master)](https://travis-ci.org/rwieruch/nextjs-firebase-authentication) [![Slack](https://slack-the-road-to-learn-react.wieruch.com/badge.svg)](https://slack-the-road-to-learn-react.wieruch.com/) [![Greenkeeper badge](https://badges.greenkeeper.io/rwieruch/nextjs-firebase-authentication.svg)](https://greenkeeper.io/)
 
 - [Demo](https://courses.robinwieruch.de/)
 
-**User Management with**
+**Server-Side User Authentication and Management with**
 
-- Firebase ([Tutorial](https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial))
+- GraphQL ([Tutorial](https://www.robinwieruch.de/graphql-apollo-server-tutorial)) and Firebase ([Tutorial](https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial))
   - Sign In
   - Sign Up
   - Sign Out
   - Password Change
   - Password Reset
 
-**Protected Routes with**
+**Client and Server-Side Protected Routes with**
 
 - [Next.js](https://nextjs.org/) and [Firebase](https://firebase.google.com/)
 
@@ -46,7 +46,6 @@
 - `cd nextjs-firebase-authentication`
 - See: "**Use your own Firebase Credentials**"
 - `npm install`
-- `npm test`
 - `npm run dev`
 - Visit http://localhost:3000/
 
