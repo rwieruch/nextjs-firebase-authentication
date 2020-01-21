@@ -64,11 +64,11 @@ export default {
       { email }: { email: string },
       { firebaseAdmin }: ResolverContext
     ) => {
-      // await firebaseAdmin.auth().generatePasswordResetLink(email);
+      await firebaseAdmin.auth().generatePasswordResetLink(email);
 
-      await firebaseAdmin.auth().generateSignInWithEmailLink(email, {
-        url: process.env.BASE_URL || '',
-      });
+      // await firebaseAdmin.auth().generateSignInWithEmailLink(email, {
+      //   url: process.env.BASE_URL || '',
+      // });
 
       return true;
     },
