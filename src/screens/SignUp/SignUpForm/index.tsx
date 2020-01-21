@@ -1,5 +1,4 @@
 import React from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Form, Input, message } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
@@ -8,12 +7,21 @@ import { useApolloClient } from '@apollo/react-hooks';
 import * as ROUTES from '@constants/routes';
 import FormItem from '@components/Form/Item';
 import FormStretchedButton from '@components/Form/StretchedButton';
+import FormAtomButton from '@components/Form/AtomButton';
 
 import signUp from './signUp';
 
-const SignUpForm = ({ form }: FormComponentProps) => {
+interface SignUpFormProps extends FormComponentProps {
+  onNavigateSignIn: () => void;
+}
+
+const SignUpForm = ({ form, onNavigateSignIn }: SignUpFormProps) => {
   const router = useRouter();
   const apolloClient = useApolloClient();
+
+  const handleNavigateSignIn = onNavigateSignIn
+    ? onNavigateSignIn
+    : () => router.push(ROUTES.SIGN_IN);
 
   const [
     confirmPasswordDirty,
@@ -188,15 +196,19 @@ const SignUpForm = ({ form }: FormComponentProps) => {
 
         <>
           Already have an account?&nbsp;
-          <Link href={ROUTES.SIGN_IN}>
-            <a aria-label="sign-in-link">Sign in!</a>
-          </Link>
+          <FormAtomButton
+            type="link"
+            onClick={onNavigateSignIn}
+            aria-label="sign-in-link"
+          >
+            Sign in!
+          </FormAtomButton>
         </>
       </FormItem>
     </Form>
   );
 };
 
-export default Form.create({
+export default Form.create<SignUpFormProps>({
   name: 'sign-up',
 })(SignUpForm);

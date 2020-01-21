@@ -1,5 +1,4 @@
 import React from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { Form, Input, message } from 'antd';
@@ -10,6 +9,7 @@ import * as ROUTES from '@constants/routes';
 import FormIcon from '@components/Form/Icon';
 import FormItem from '@components/Form/Item';
 import FormStretchedButton from '@components/Form/StretchedButton';
+import FormAtomButton from '@components/Form/AtomButton';
 
 import signIn from './signIn';
 
@@ -18,9 +18,26 @@ const StyledFormFooter = styled.div`
   justify-content: space-between;
 `;
 
-const SignInForm = ({ form }: FormComponentProps) => {
+interface SignInFormProps extends FormComponentProps {
+  onNavigateSignUp: () => void;
+  onNavigatePasswordForgot: () => void;
+}
+
+const SignInForm = ({
+  form,
+  onNavigateSignUp,
+  onNavigatePasswordForgot,
+}: SignInFormProps) => {
   const router = useRouter();
   const apolloClient = useApolloClient();
+
+  const handleNavigateSignUp = onNavigateSignUp
+    ? onNavigateSignUp
+    : () => router.push(ROUTES.SIGN_UP);
+
+  const handleNavigatePasswordForgot = onNavigatePasswordForgot
+    ? onNavigatePasswordForgot
+    : () => router.push(ROUTES.PASSWORD_FORGOT);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     form.validateFields(async (error, values) => {
@@ -108,20 +125,28 @@ const SignInForm = ({ form }: FormComponentProps) => {
         <StyledFormFooter>
           <span>
             Or&nbsp;
-            <Link href={ROUTES.SIGN_UP}>
-              <a aria-label="sign-up-link">sign up now!</a>
-            </Link>
+            <FormAtomButton
+              type="link"
+              onClick={onNavigateSignUp}
+              aria-label="sign-up-link"
+            >
+              sign up now!
+            </FormAtomButton>
           </span>
 
-          <Link href={ROUTES.PASSWORD_FORGOT}>
-            <a aria-label="password-forgot-link">Forgot password</a>
-          </Link>
+          <FormAtomButton
+            type="link"
+            onClick={onNavigatePasswordForgot}
+            aria-label="password-forgot-link"
+          >
+            Forgot password
+          </FormAtomButton>
         </StyledFormFooter>
       </FormItem>
     </Form>
   );
 };
 
-export default Form.create({
+export default Form.create<SignInFormProps>({
   name: 'sign-in',
 })(SignInForm);
