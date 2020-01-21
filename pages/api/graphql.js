@@ -24,7 +24,7 @@ const apolloServer = new ApolloServer({
 });
 
 const withCors = cors({
-  origin: 'http://138.68.80.97:3002',
+  origin: '*',
 });
 
 export const config = {

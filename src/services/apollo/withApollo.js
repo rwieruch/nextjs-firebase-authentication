@@ -8,7 +8,7 @@ import signOut from '@components/Navigation/signOut';
 
 const httpLink = new HttpLink({
   uri: `${process.env.BASE_URL}/api/graphql`,
-  credentials: 'include',
+  credentials: 'same-origin',
 });
 
 const getErrorLink = ctx =>

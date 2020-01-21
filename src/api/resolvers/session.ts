@@ -14,14 +14,7 @@ export default {
         .auth()
         .signInWithEmailAndPassword(email, password);
 
-      console.log(email, password);
-
-      console.log(user);
-
       const idToken = await user?.getIdToken();
-
-      console.log(idToken);
-
       const sessionToken = await firebaseAdmin
         .auth()
         .createSessionCookie(idToken || '', {
