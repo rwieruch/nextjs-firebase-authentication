@@ -31,6 +31,7 @@
 
 - [Jest](https://jestjs.io/) ([Tutorial](https://www.robinwieruch.de/react-testing-jest))
 - [React Testing Library](https://github.com/testing-library/react-testing-library)
+- [Apollo Mocks](https://www.apollographql.com/docs/react/development-testing/testing/)
 
 **Environment Variables with**
 
@@ -60,7 +61,7 @@
   FIREBASE_PROJECT_ID=projectID
   FIREBASE_STORAGE_BUCKET=storageBucket
   FIREBASE_MESSAGING_SENDER_ID=messagingSenderId
-  FIREBASE_APP_ID=measurementID
+  FIREBASE_APP_ID=appId
   ```
 - Activate Email/Password Sign-In Method in your Firebase App
 
