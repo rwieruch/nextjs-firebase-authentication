@@ -1,13 +1,17 @@
 import React from 'react';
 import { Form, Input, message } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
+import { useApolloClient } from '@apollo/react-hooks';
 
 import * as ROUTES from '@constants/routes';
 import FormItem from '@components/Form/Item';
 import FormStretchedButton from '@components/Form/StretchedButton';
-import { doPasswordUpdate } from '@services/firebase/auth';
+
+import passwordChange from './passwordChange';
 
 const PasswordChangeForm = ({ form }: FormComponentProps) => {
+  const apolloClient = useApolloClient();
+
   const [
     confirmPasswordDirty,
     setConfirmPasswordDirty,
@@ -45,31 +49,32 @@ const PasswordChangeForm = ({ form }: FormComponentProps) => {
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    form.validateFields((error, values) => {
+    form.validateFields(async (error, values) => {
       if (error) return;
 
       message.loading({
         content: 'Loading ...',
         key: ROUTES.PASSWORD_CHANGE,
+        duration: 0,
       });
 
-      doPasswordUpdate(values.newPassword)
-        .then(result => {
-          message.success({
-            content: 'Success!',
-            key: ROUTES.PASSWORD_CHANGE,
-            duration: 2,
-          });
+      try {
+        await passwordChange(apolloClient, values.newPassword);
 
-          form.resetFields();
-        })
-        .catch(error =>
-          message.error({
-            content: error.message,
-            key: ROUTES.PASSWORD_CHANGE,
-            duration: 2,
-          })
-        );
+        message.success({
+          content: 'Success!',
+          key: ROUTES.PASSWORD_CHANGE,
+          duration: 2,
+        });
+
+        form.resetFields();
+      } catch (error) {
+        message.error({
+          content: error.message,
+          key: ROUTES.PASSWORD_CHANGE,
+          duration: 2,
+        });
+      }
     });
 
     event.preventDefault();

@@ -29,6 +29,7 @@ const SignInForm = ({ form }: FormComponentProps) => {
       message.loading({
         content: 'Loading ...',
         key: ROUTES.SIGN_IN,
+        duration: 0,
       });
 
       try {

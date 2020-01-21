@@ -59,6 +59,7 @@ const SignUpForm = ({ form }: FormComponentProps) => {
       message.loading({
         content: 'Loading ...',
         key: ROUTES.SIGN_UP,
+        duration: 0,
       });
 
       try {

@@ -1,40 +1,44 @@
 import React from 'react';
 import { Form, Input, message } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
+import { useApolloClient } from '@apollo/react-hooks';
 
 import * as ROUTES from '@constants/routes';
-import Layout from '@components/Layout';
 import FormItem from '@components/Form/Item';
 import FormStretchedButton from '@components/Form/StretchedButton';
-import { doPasswordReset } from '@services/firebase/auth';
+
+import passwordForgot from './passwordForgot';
 
 const PasswordForgotForm = ({ form }: FormComponentProps) => {
+  const apolloClient = useApolloClient();
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    form.validateFields((error, values) => {
+    form.validateFields(async (error, values) => {
       if (error) return;
 
       message.loading({
         content: 'Loading ...',
         key: ROUTES.PASSWORD_FORGOT,
+        duration: 0,
       });
 
-      doPasswordReset(values.email)
-        .then(result => {
-          message.success({
-            content: 'Success!',
-            key: ROUTES.PASSWORD_FORGOT,
-            duration: 2,
-          });
+      try {
+        await passwordForgot(apolloClient, values.email);
 
-          form.resetFields();
-        })
-        .catch(error =>
-          message.error({
-            content: error.message,
-            key: ROUTES.PASSWORD_FORGOT,
-            duration: 2,
-          })
-        );
+        message.success({
+          content: 'Success!',
+          key: ROUTES.PASSWORD_FORGOT,
+          duration: 2,
+        });
+
+        form.resetFields();
+      } catch (error) {
+        message.error({
+          content: error.message,
+          key: ROUTES.PASSWORD_FORGOT,
+          duration: 2,
+        });
+      }
     });
 
     event.preventDefault();

@@ -33,5 +33,25 @@ export default {
 
       return true;
     },
+    passwordForgot: async (
+      _: any,
+      { email }: { email: string },
+      { firebase }: ResolverContext
+    ) => {
+      await firebase.auth().generatePasswordResetLink(email);
+
+      return true;
+    },
+    passwordChange: async (
+      _: any,
+      { password }: { password: string },
+      { me, firebase }: ResolverContext
+    ) => {
+      await firebase.auth().updateUser(me.uid, {
+        password,
+      });
+
+      return true;
+    },
   },
 };
