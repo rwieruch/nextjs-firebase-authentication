@@ -43,7 +43,7 @@
     "next": "^9.2.0",
     "next-cookies": "^2.0.3",
     "next-page-transitions": "^1.0.0-beta.2",
-    "next-with-apollo": "^4.3.0",
+    "next-with-apollo": "^5.0.0",
     "null-loader": "^3.0.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
