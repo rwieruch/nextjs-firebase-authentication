@@ -25,7 +25,7 @@ describe('SignInForm', () => {
       {
         request: {
           query: SIGN_IN,
-          variables: { idToken: '1' },
+          variables: { email, password },
         },
         result: () => {
           mutationCalled = true;
@@ -65,7 +65,7 @@ describe('SignInForm', () => {
       {
         request: {
           query: SIGN_IN,
-          variables: { idToken: '1' },
+          variables: { email, password },
         },
         result: () => {
           mutationCalled = true;

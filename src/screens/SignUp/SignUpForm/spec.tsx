@@ -7,7 +7,6 @@ import { message } from 'antd';
 
 import SignUpForm from '.';
 import { SIGN_UP } from './signUp';
-import { SIGN_IN } from '@screens/SignIn/SignInForm/signIn';
 
 describe('SignUpForm', () => {
   const username = 'myusername';
@@ -31,15 +30,8 @@ describe('SignUpForm', () => {
         },
         result: () => {
           mutationCalled = true;
-          return { data: { signUp: null } };
+          return { data: { signUp: { sessionToken: '1' } } };
         },
-      },
-      {
-        request: {
-          query: SIGN_IN,
-          variables: { idToken: '1' },
-        },
-        result: { data: { signIn: { sessionToken: '1' } } },
       },
     ];
 
@@ -91,13 +83,6 @@ describe('SignUpForm', () => {
           mutationCalled = true;
           return { errors: [new GraphQLError('Error!')] };
         },
-      },
-      {
-        request: {
-          query: SIGN_IN,
-          variables: { idToken: '1' },
-        },
-        result: { data: { signIn: { sessionToken: '1' } } },
       },
     ];
 

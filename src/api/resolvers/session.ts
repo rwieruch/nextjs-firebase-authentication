@@ -5,14 +5,24 @@ export default {
   Mutation: {
     signIn: async (
       _: any,
-      { idToken }: { idToken: string },
-      { firebase }: ResolverContext
+      { email, password }: { email: string; password: string },
+      { firebaseAdmin, firebase }: ResolverContext
     ) => {
-      const sessionToken = await firebase
+      const {
+        user,
+      } = await firebase
         .auth()
-        .createSessionCookie(idToken, {
+        .signInWithEmailAndPassword(email, password);
+
+      const idToken = await user?.getIdToken();
+      const sessionToken = await firebaseAdmin
+        .auth()
+        .createSessionCookie(idToken || '', {
           expiresIn: EXPIRES_IN,
         });
+
+      // We manage the session ourselves.
+      await firebase.auth().signOut();
 
       return { sessionToken };
     },
@@ -23,31 +33,47 @@ export default {
         email,
         password,
       }: { username: string; email: string; password: string },
-      { firebase }: ResolverContext
+      { firebaseAdmin, firebase }: ResolverContext
     ) => {
-      await firebase.auth().createUser({
+      await firebaseAdmin.auth().createUser({
         email,
         password,
         displayName: username,
       });
 
-      return true;
+      const {
+        user,
+      } = await firebase
+        .auth()
+        .signInWithEmailAndPassword(email, password);
+
+      const idToken = await user?.getIdToken();
+      const sessionToken = await firebaseAdmin
+        .auth()
+        .createSessionCookie(idToken || '', {
+          expiresIn: EXPIRES_IN,
+        });
+
+      // We manage the session ourselves.
+      await firebase.auth().signOut();
+
+      return { sessionToken };
     },
     passwordForgot: async (
       _: any,
       { email }: { email: string },
-      { firebase }: ResolverContext
+      { firebaseAdmin }: ResolverContext
     ) => {
-      await firebase.auth().generatePasswordResetLink(email);
+      await firebaseAdmin.auth().generatePasswordResetLink(email);
 
       return true;
     },
     passwordChange: async (
       _: any,
       { password }: { password: string },
-      { me, firebase }: ResolverContext
+      { me, firebaseAdmin }: ResolverContext
     ) => {
-      await firebase.auth().updateUser(me.uid, {
+      await firebaseAdmin.auth().updateUser(me.uid, {
         password,
       });
 

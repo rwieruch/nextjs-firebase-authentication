@@ -9,7 +9,6 @@ import * as ROUTES from '@constants/routes';
 import FormItem from '@components/Form/Item';
 import FormStretchedButton from '@components/Form/StretchedButton';
 
-import signIn from '@screens/SignIn/SignInForm/signIn';
 import signUp from './signUp';
 
 const SignUpForm = ({ form }: FormComponentProps) => {
@@ -69,8 +68,6 @@ const SignUpForm = ({ form }: FormComponentProps) => {
           values.email,
           values.password
         );
-
-        await signIn(apolloClient, values.email, values.password);
 
         message.success({
           content: 'Success!',

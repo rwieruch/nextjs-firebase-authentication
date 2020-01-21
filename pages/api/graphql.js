@@ -1,29 +1,22 @@
 import { ApolloServer } from 'apollo-server-micro';
-import * as firebase from 'firebase-admin';
 import cors from 'micro-cors';
 
 import typeDefs from '@api/typeDefs';
 import resolvers from '@api/resolvers';
 import getMe from '@api/middleware/getMe';
-
-import firebaseServiceAccountKey from '../../firebaseServiceAccountKey.json';
-
-if (!firebase.apps.length) {
-  firebase.initializeApp({
-    credential: firebase.credential.cert(firebaseServiceAccountKey),
-    databaseURL: process.env.FIREBASE_DATABASE_URL,
-  });
-}
+import firebase from '@services/firebase/client';
+import firebaseAdmin from '@services/firebase/admin';
 
 const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
   context: async ({ req, res }) => {
-    const me = await getMe(req, res, firebase);
+    const me = await getMe(req, res, firebaseAdmin);
 
     return {
       req,
       res,
+      firebaseAdmin,
       firebase,
       me,
     };

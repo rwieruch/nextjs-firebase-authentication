@@ -3,11 +3,10 @@ import gql from 'graphql-tag';
 import cookie from 'js-cookie';
 
 import { EXPIRES_IN } from '@constants/cookie';
-import firebase from '@services/firebase';
 
 export const SIGN_IN = gql`
-  mutation($idToken: String!) {
-    signIn(idToken: $idToken) {
+  mutation($email: String!, $password: String!) {
+    signIn(email: $email, password: $password) {
       sessionToken
     }
   }
@@ -18,19 +17,14 @@ export default async (
   email: string,
   password: string
 ) => {
-  const { user } = await firebase
-    .auth()
-    .signInWithEmailAndPassword(email, password);
-
-  const idToken = await user?.getIdToken();
-
   // TODO
   // const csrfToken = getCookie('csrfToken'); // https://firebase.google.com/docs/auth/admin/manage-cookies#sign_in
 
   const { data } = await apolloClient.mutate({
     mutation: SIGN_IN,
     variables: {
-      idToken,
+      email,
+      password,
     },
   });
 
@@ -40,7 +34,4 @@ export default async (
     // httpOnly: true,
     // secure: true,
   });
-
-  // We manage the session ourselves.
-  await firebase.auth().signOut();
 };
