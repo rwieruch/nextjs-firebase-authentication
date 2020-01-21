@@ -62,13 +62,13 @@ export default {
     passwordForgot: async (
       _: any,
       { email }: { email: string },
-      { firebaseAdmin }: ResolverContext
+      { firebase }: ResolverContext
     ) => {
-      await firebaseAdmin.auth().generatePasswordResetLink(email);
+      // await firebaseAdmin.auth().generatePasswordResetLink(email);
 
-      // await firebaseAdmin.auth().generateSignInWithEmailLink(email, {
-      //   url: process.env.BASE_URL || '',
-      // });
+      await firebase.auth().sendSignInLinkToEmail(email, {
+        url: process.env.BASE_URL || '',
+      });
 
       return true;
     },
