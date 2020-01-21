@@ -1,7 +1,7 @@
 import { ApolloClient } from 'apollo-client';
 import gql from 'graphql-tag';
 
-const PASSWORD_CHANGE = gql`
+export const PASSWORD_CHANGE = gql`
   mutation($password: String!) {
     passwordChange(password: $password)
   }

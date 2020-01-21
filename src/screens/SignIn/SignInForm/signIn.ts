@@ -5,7 +5,7 @@ import cookie from 'js-cookie';
 import { EXPIRES_IN } from '@constants/cookie';
 import firebase from '@services/firebase';
 
-const SIGN_IN = gql`
+export const SIGN_IN = gql`
   mutation($idToken: String!) {
     signIn(idToken: $idToken) {
       sessionToken

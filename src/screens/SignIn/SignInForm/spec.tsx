@@ -1,111 +1,102 @@
 import { render, fireEvent } from '@testing-library/react';
 import waitForExpect from 'wait-for-expect';
+import { MockedProvider } from '@apollo/react-testing';
+import { GraphQLError } from 'graphql';
 
 import { message } from 'antd';
 
-import * as ROUTES from '@constants/routes';
-import * as authService from '@services/firebase/auth';
-
 import SignInForm from '.';
+import { SIGN_IN } from './signIn';
 
 describe('SignInForm', () => {
   const email = 'example@example.com';
   const password = 'mypassword';
 
-  let component: any;
-  let getComponent: any;
-  let defaultProps: any;
-
-  let emailInput: any;
-  let passwordInput: any;
-  let submitButton: any;
-  let signUpLink: any;
-  let passwordForgotLink: any;
+  let mutationCalled = false;
 
   beforeEach(() => {
-    defaultProps = {};
-
-    getComponent = (props: any = defaultProps) => (
-      <SignInForm {...props} />
-    );
-
-    component = render(getComponent());
-
     message.loading = jest.fn();
     message.error = jest.fn();
     message.success = jest.fn();
+  });
 
-    emailInput = component.getByLabelText('sign-in-email');
-    passwordInput = component.getByLabelText('sign-in-password');
-    submitButton = component.getByLabelText('sign-in-submit');
-    signUpLink = component.getByLabelText('sign-up-link');
-    passwordForgotLink = component.getByLabelText(
-      'password-forgot-link'
+  it('signs in with success', async () => {
+    const mocks = [
+      {
+        request: {
+          query: SIGN_IN,
+          variables: { idToken: '1' },
+        },
+        result: () => {
+          mutationCalled = true;
+          return { data: { signIn: { sessionToken: '1' } } };
+        },
+      },
+    ];
+
+    const component = render(
+      <MockedProvider mocks={mocks} addTypename={false}>
+        <SignInForm />
+      </MockedProvider>
     );
-  });
 
-  it('renders a sign up link', () => {
-    expect(signUpLink.getAttribute('href')).toEqual(ROUTES.SIGN_UP);
-  });
-
-  it('renders a password forgot link', () => {
-    expect(passwordForgotLink.getAttribute('href')).toEqual(
-      ROUTES.PASSWORD_FORGOT
-    );
-  });
-
-  describe('signs in a user', () => {
-    beforeEach(() => {
-      fireEvent.change(emailInput, {
-        target: { value: email },
-      });
-
-      fireEvent.change(passwordInput, {
-        target: { value: password },
-      });
+    fireEvent.change(component.getByLabelText('sign-in-email'), {
+      target: { value: email },
     });
 
-    it('with success', async () => {
-      const spy = jest
-        .spyOn(authService, 'doSignInWithEmailAndPassword')
-        .mockImplementation(() =>
-          Promise.resolve({
-            credential: null,
-            user: null,
-          })
-        );
-
-      fireEvent.click(submitButton);
-
-      expect(spy).toHaveBeenCalledTimes(1);
-      expect(spy).toHaveBeenCalledWith(email, password);
-
-      expect(message.loading).toHaveBeenCalledTimes(1);
-
-      await waitForExpect(() => {
-        expect(message.error).toHaveBeenCalledTimes(0);
-        expect(message.success).toHaveBeenCalledTimes(1);
-      });
+    fireEvent.change(component.getByLabelText('sign-in-password'), {
+      target: { value: password },
     });
 
-    it('with error', async () => {
-      const spy = jest
-        .spyOn(authService, 'doSignInWithEmailAndPassword')
-        .mockImplementation(() =>
-          Promise.reject(new Error('Wrong password.'))
-        );
+    fireEvent.click(component.getByLabelText('sign-in-submit'));
 
-      fireEvent.click(submitButton);
+    expect(message.loading).toHaveBeenCalledTimes(1);
 
-      expect(spy).toHaveBeenCalledTimes(1);
-      expect(spy).toHaveBeenCalledWith(email, password);
+    await waitForExpect(() => {
+      expect(message.error).toHaveBeenCalledTimes(0);
+      expect(message.success).toHaveBeenCalledTimes(1);
 
-      expect(message.loading).toHaveBeenCalledTimes(1);
+      expect(mutationCalled).toBe(true);
+    });
+  });
 
-      await waitForExpect(() => {
-        expect(message.error).toHaveBeenCalledTimes(1);
-        expect(message.success).toHaveBeenCalledTimes(0);
-      });
+  it('signs in with error', async () => {
+    const mocks = [
+      {
+        request: {
+          query: SIGN_IN,
+          variables: { idToken: '1' },
+        },
+        result: () => {
+          mutationCalled = true;
+          return { errors: [new GraphQLError('Error!')] };
+        },
+      },
+    ];
+
+    const component = render(
+      <MockedProvider mocks={mocks} addTypename={false}>
+        <SignInForm />
+      </MockedProvider>
+    );
+
+    fireEvent.change(component.getByLabelText('sign-in-email'), {
+      target: { value: email },
+    });
+
+    fireEvent.change(component.getByLabelText('sign-in-password'), {
+      target: { value: password },
+    });
+
+    fireEvent.click(component.getByLabelText('sign-in-submit'));
+
+    expect(message.loading).toHaveBeenCalledTimes(1);
+
+    await waitForExpect(() => {
+      expect(message.error).toHaveBeenCalledTimes(1);
+      expect(message.success).toHaveBeenCalledTimes(0);
+
+      expect(mutationCalled).toBe(true);
     });
   });
 });

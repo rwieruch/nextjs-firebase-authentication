@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Card } from 'antd';
 
+import { Session } from '@typeDefs/session';
 import Layout from '@components/Layout';
 
 import PasswordForgotForm from './PasswordForgotForm';
@@ -26,5 +27,7 @@ const PasswordForgotPage = () => (
     </Container>
   </Layout>
 );
+
+PasswordForgotPage.isAuthorized = (session: Session) => true;
 
 export default PasswordForgotPage;

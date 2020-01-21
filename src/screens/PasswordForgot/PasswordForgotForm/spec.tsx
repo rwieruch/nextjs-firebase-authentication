@@ -1,82 +1,103 @@
 import { render, fireEvent } from '@testing-library/react';
 import waitForExpect from 'wait-for-expect';
+import { MockedProvider } from '@apollo/react-testing';
+import { GraphQLError } from 'graphql';
 
 import { message } from 'antd';
 
-import * as authService from '@services/firebase/auth';
-
 import PasswordForgotForm from '.';
+import { PASSWORD_FORGOT } from './passwordForgot';
 
 describe('PasswordForgotForm', () => {
   const email = 'example@example.com';
 
-  let component: any;
-  let getComponent: any;
-  let defaultProps: any;
-
-  let emailInput: any;
-  let submitButton: any;
+  let mutationCalled = false;
 
   beforeEach(() => {
-    defaultProps = {};
-
-    getComponent = (props: any = defaultProps) => (
-      <PasswordForgotForm {...props} />
-    );
-
-    component = render(getComponent());
-
     message.loading = jest.fn();
     message.error = jest.fn();
     message.success = jest.fn();
-
-    emailInput = component.getByLabelText('password-forgot-email');
-    submitButton = component.getByLabelText('password-forgot-submit');
   });
 
-  describe('resets a password', () => {
-    beforeEach(() => {
-      fireEvent.change(emailInput, {
+  it('resets a password with success', async () => {
+    const mocks = [
+      {
+        request: {
+          query: PASSWORD_FORGOT,
+          variables: { email },
+        },
+        result: () => {
+          mutationCalled = true;
+          return { data: { passwordForgot: null } };
+        },
+      },
+    ];
+
+    const component = render(
+      <MockedProvider mocks={mocks} addTypename={false}>
+        <PasswordForgotForm />
+      </MockedProvider>
+    );
+
+    fireEvent.change(
+      component.getByLabelText('password-forgot-email'),
+      {
         target: { value: email },
-      });
+      }
+    );
+
+    fireEvent.click(
+      component.getByLabelText('password-forgot-submit')
+    );
+
+    expect(message.loading).toHaveBeenCalledTimes(1);
+
+    await waitForExpect(() => {
+      expect(message.error).toHaveBeenCalledTimes(0);
+      expect(message.success).toHaveBeenCalledTimes(1);
+
+      expect(mutationCalled).toBe(true);
     });
+  });
 
-    it('with success', async () => {
-      const spy = jest
-        .spyOn(authService, 'doPasswordReset')
-        .mockImplementation(() => Promise.resolve());
+  it('resets a password with error', async () => {
+    const mocks = [
+      {
+        request: {
+          query: PASSWORD_FORGOT,
+          variables: { email },
+        },
+        result: () => {
+          mutationCalled = true;
+          return { errors: [new GraphQLError('Error!')] };
+        },
+      },
+    ];
 
-      fireEvent.click(submitButton);
+    const component = render(
+      <MockedProvider mocks={mocks} addTypename={false}>
+        <PasswordForgotForm />
+      </MockedProvider>
+    );
 
-      expect(spy).toHaveBeenCalledTimes(1);
-      expect(spy).toHaveBeenCalledWith(email);
+    fireEvent.change(
+      component.getByLabelText('password-forgot-email'),
+      {
+        target: { value: email },
+      }
+    );
 
-      expect(message.loading).toHaveBeenCalledTimes(1);
+    fireEvent.click(
+      component.getByLabelText('password-forgot-submit')
+    );
 
-      await waitForExpect(() => {
-        expect(message.error).toHaveBeenCalledTimes(0);
-        expect(message.success).toHaveBeenCalledTimes(1);
-      });
-    });
+    expect(message.loading).toHaveBeenCalledTimes(1);
 
-    it('with error', async () => {
-      const spy = jest
-        .spyOn(authService, 'doPasswordReset')
-        .mockImplementation(() =>
-          Promise.reject(new Error('Wrong password.'))
-        );
+    await waitForExpect(() => {
+      expect(message.error).toHaveBeenCalledTimes(1);
+      expect(message.success).toHaveBeenCalledTimes(0);
 
-      fireEvent.click(submitButton);
-
-      expect(spy).toHaveBeenCalledTimes(1);
-      expect(spy).toHaveBeenCalledWith(email);
-
-      expect(message.loading).toHaveBeenCalledTimes(1);
-
-      await waitForExpect(() => {
-        expect(message.error).toHaveBeenCalledTimes(1);
-        expect(message.success).toHaveBeenCalledTimes(0);
-      });
+      expect(mutationCalled).toBe(true);
     });
   });
 });

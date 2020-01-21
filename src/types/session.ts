@@ -1,1 +1,1 @@
-export type Session = string;
+export type Session = string | null;

@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Card } from 'antd';
 
+import { Session } from '@typeDefs/session';
 import Layout from '@components/Layout';
 
 import SignUpForm from './SignUpForm';
@@ -26,5 +27,7 @@ const SignUpPage = () => (
     </SignUpPageLayout>
   </Layout>
 );
+
+SignUpPage.isAuthorized = (session: Session) => true;
 
 export default SignUpPage;

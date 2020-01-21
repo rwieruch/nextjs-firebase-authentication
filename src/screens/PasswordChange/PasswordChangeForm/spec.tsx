@@ -1,101 +1,132 @@
 import { render, fireEvent } from '@testing-library/react';
 import waitForExpect from 'wait-for-expect';
+import { MockedProvider } from '@apollo/react-testing';
+import { GraphQLError } from 'graphql';
 
 import { message } from 'antd';
 
-import * as authService from '@services/firebase/auth';
-
 import PasswordChangeForm from '.';
+import { PASSWORD_CHANGE } from './passwordChange';
 
 describe('PasswordChangeForm', () => {
   const oldPassword = 'myoldpassword';
   const newPassword = 'mynewpassword';
 
-  let component: any;
-  let getComponent: any;
-  let defaultProps: any;
-
-  let oldPasswordInput: any;
-  let newPasswordInput: any;
-  let confirmPasswordInput: any;
-  let submitButton: any;
+  let mutationCalled = false;
 
   beforeEach(() => {
-    defaultProps = {};
-
-    getComponent = (props: any = defaultProps) => (
-      <PasswordChangeForm {...props} />
-    );
-
-    component = render(getComponent());
-
     message.loading = jest.fn();
     message.error = jest.fn();
     message.success = jest.fn();
-
-    oldPasswordInput = component.getByLabelText(
-      'password-change-password-old'
-    );
-    newPasswordInput = component.getByLabelText(
-      'password-change-password-new'
-    );
-    confirmPasswordInput = component.getByLabelText(
-      'password-change-password-confirm'
-    );
-    submitButton = component.getByLabelText('password-change-submit');
   });
 
-  describe('updates a password', () => {
-    beforeEach(() => {
-      fireEvent.change(oldPasswordInput, {
+  it('changes a password with success', async () => {
+    const mocks = [
+      {
+        request: {
+          query: PASSWORD_CHANGE,
+          variables: { password: 'mynewpassword' },
+        },
+        result: () => {
+          mutationCalled = true;
+          return { data: { passwordChange: null } };
+        },
+      },
+    ];
+
+    const component = render(
+      <MockedProvider mocks={mocks} addTypename={false}>
+        <PasswordChangeForm />
+      </MockedProvider>
+    );
+
+    fireEvent.change(
+      component.getByLabelText('password-change-password-old'),
+      {
         target: { value: oldPassword },
-      });
+      }
+    );
 
-      fireEvent.change(newPasswordInput, {
+    fireEvent.change(
+      component.getByLabelText('password-change-password-new'),
+      {
         target: { value: newPassword },
-      });
+      }
+    );
 
-      fireEvent.change(confirmPasswordInput, {
+    fireEvent.change(
+      component.getByLabelText('password-change-password-confirm'),
+      {
         target: { value: newPassword },
-      });
+      }
+    );
+
+    fireEvent.click(
+      component.getByLabelText('password-change-submit')
+    );
+
+    expect(message.loading).toHaveBeenCalledTimes(1);
+
+    await waitForExpect(() => {
+      expect(message.error).toHaveBeenCalledTimes(0);
+      expect(message.success).toHaveBeenCalledTimes(1);
+
+      expect(mutationCalled).toBe(true);
     });
+  });
 
-    it('with success', async () => {
-      const spy = jest
-        .spyOn(authService, 'doPasswordUpdate')
-        .mockImplementation(() => Promise.resolve());
+  it('changes a password with error', async () => {
+    const mocks = [
+      {
+        request: {
+          query: PASSWORD_CHANGE,
+          variables: { password: 'mynewpassword' },
+        },
+        result: () => {
+          mutationCalled = true;
+          return { errors: [new GraphQLError('Error!')] };
+        },
+      },
+    ];
 
-      fireEvent.click(submitButton);
+    const component = render(
+      <MockedProvider mocks={mocks} addTypename={false}>
+        <PasswordChangeForm />
+      </MockedProvider>
+    );
 
-      expect(spy).toHaveBeenCalledTimes(1);
-      expect(spy).toHaveBeenCalledWith(newPassword);
+    fireEvent.change(
+      component.getByLabelText('password-change-password-old'),
+      {
+        target: { value: oldPassword },
+      }
+    );
 
-      expect(message.loading).toHaveBeenCalledTimes(1);
+    fireEvent.change(
+      component.getByLabelText('password-change-password-new'),
+      {
+        target: { value: newPassword },
+      }
+    );
 
-      await waitForExpect(() => {
-        expect(message.error).toHaveBeenCalledTimes(0);
-        expect(message.success).toHaveBeenCalledTimes(1);
-      });
-    });
+    fireEvent.change(
+      component.getByLabelText('password-change-password-confirm'),
+      {
+        target: { value: newPassword },
+      }
+    );
 
-    it('with error', async () => {
-      const spy = jest
-        .spyOn(authService, 'doPasswordUpdate')
-        .mockImplementation(() =>
-          Promise.reject(new Error('Weak password.'))
-        );
+    fireEvent.click(
+      component.getByLabelText('password-change-submit')
+    );
 
-      fireEvent.click(submitButton);
+    expect(message.loading).toHaveBeenCalledTimes(1);
 
-      expect(spy).toHaveBeenCalledTimes(1);
-      expect(spy).toHaveBeenCalledWith(newPassword);
+    await waitForExpect(() => {
+      expect(message.error).toHaveBeenCalledTimes(1);
+      expect(message.success).toHaveBeenCalledTimes(0);
 
-      expect(message.loading).toHaveBeenCalledTimes(1);
-
-      await waitForExpect(() => {
-        expect(message.error).toHaveBeenCalledTimes(1);
-        expect(message.success).toHaveBeenCalledTimes(0);
-      });
+      expect(mutationCalled).toBe(true);
     });
   });
 });

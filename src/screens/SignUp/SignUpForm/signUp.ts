@@ -1,7 +1,7 @@
 import { ApolloClient } from 'apollo-client';
 import gql from 'graphql-tag';
 
-const SIGN_UP = gql`
+export const SIGN_UP = gql`
   mutation($username: String!, $email: String!, $password: String!) {
     signUp(username: $username, email: $email, password: $password)
   }

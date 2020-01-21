@@ -3,15 +3,19 @@ jest.mock('firebase/app', () => ({
   default: {
     initializeApp: jest.fn(),
     apps: [],
-    database: jest.fn(),
-    auth: jest.fn(),
-    storage: jest.fn(),
+    auth: jest.fn(() => ({
+      setPersistence: jest.fn(),
+      signInWithEmailAndPassword: jest.fn(() => ({
+        user: {
+          getIdToken: jest.fn(() => '1'),
+        },
+      })),
+      signOut: jest.fn(),
+    })),
   },
 }));
 
-jest.mock('firebase/database');
 jest.mock('firebase/auth');
-jest.mock('firebase/storage');
 
 jest.mock('next/router', () => ({
   useRouter: () => ({

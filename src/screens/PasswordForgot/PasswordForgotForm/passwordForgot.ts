@@ -1,7 +1,7 @@
 import { ApolloClient } from 'apollo-client';
 import gql from 'graphql-tag';
 
-const PASSWORD_FORGOT = gql`
+export const PASSWORD_FORGOT = gql`
   mutation($email: String!) {
     passwordForgot(email: $email)
   }
