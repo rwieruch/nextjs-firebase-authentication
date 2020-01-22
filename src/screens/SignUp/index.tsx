@@ -1,7 +1,9 @@
 import React from 'react';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { Card, message } from 'antd';
 
+import * as ROUTES from '@constants/routes';
 import { Session } from '@typeDefs/session';
 import Layout from '@components/Layout';
 
@@ -19,6 +21,12 @@ const StyledCard = styled(Card)`
 `;
 
 const SignUpPage = () => {
+  const router = useRouter();
+
+  const handleSuccess = () => {
+    router.push(ROUTES.INDEX);
+  };
+
   const handleLoadingMessage = () => {
     message.loading({
       content: 'Loading ...',
@@ -48,6 +56,7 @@ const SignUpPage = () => {
       <SignUpPageLayout>
         <StyledCard title="Register your account">
           <SignUpForm
+            onSuccess={handleSuccess}
             onLoadingMessage={handleLoadingMessage}
             onSuccessMessage={handleSuccessMessage}
             onErrorMessage={handleErrorMessage}

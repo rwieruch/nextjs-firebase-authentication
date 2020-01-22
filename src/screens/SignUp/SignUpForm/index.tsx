@@ -12,18 +12,20 @@ import FormAtomButton from '@components/Form/AtomButton';
 import signUp from './signUp';
 
 interface SignUpFormProps extends FormComponentProps {
+  onSuccess: () => void;
+  onLoadingMessage: () => void;
+  onSuccessMessage: () => void;
+  onErrorMessage: (error: any) => void;
   onNavigateSignIn?: () => void;
-  onLoadingMessage?: () => void;
-  onSuccessMessage?: () => void;
-  onErrorMessage?: (error: any) => void;
 }
 
 const SignUpForm = ({
   form,
+  onSuccess,
+  onLoadingMessage,
+  onSuccessMessage,
+  onErrorMessage,
   onNavigateSignIn,
-  onLoadingMessage = () => {},
-  onSuccessMessage = () => {},
-  onErrorMessage = () => {},
 }: SignUpFormProps) => {
   const router = useRouter();
   const apolloClient = useApolloClient();
@@ -84,7 +86,7 @@ const SignUpForm = ({
 
         onSuccessMessage();
 
-        router.push(ROUTES.INDEX);
+        onSuccess();
       } catch (error) {
         onErrorMessage(error);
       }
@@ -195,7 +197,7 @@ const SignUpForm = ({
           Already have an account?&nbsp;
           <FormAtomButton
             type="link"
-            onClick={onNavigateSignIn}
+            onClick={handleNavigateSignIn}
             aria-label="sign-in-link"
           >
             Sign in!

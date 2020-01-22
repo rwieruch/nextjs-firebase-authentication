@@ -94,12 +94,14 @@ const FadeWait = styled.div`
 `;
 
 type AccountProps = {
+  onSuccess: () => void;
   onLoadingMessage: () => void;
   onSuccessMessage: () => void;
   onErrorMessage: (error: any) => void;
 };
 
 const Account = ({
+  onSuccess,
   onLoadingMessage,
   onSuccessMessage,
   onErrorMessage,
@@ -130,20 +132,22 @@ const Account = ({
         <div key={currentSelection}>
           {currentSelection === SELECTIONS.SIGN_IN && (
             <SignInForm
-              onNavigateSignUp={handleNavigateSignUp}
-              onNavigatePasswordForgot={handleNavigatePasswordForgot}
+              onSuccess={onSuccess}
               onLoadingMessage={onLoadingMessage}
               onSuccessMessage={onSuccessMessage}
               onErrorMessage={onErrorMessage}
+              onNavigateSignUp={handleNavigateSignUp}
+              onNavigatePasswordForgot={handleNavigatePasswordForgot}
             />
           )}
 
           {currentSelection === SELECTIONS.SIGN_UP && (
             <SignUpForm
-              onNavigateSignIn={handleNavigateSignIn}
+              onSuccess={onSuccess}
               onLoadingMessage={onLoadingMessage}
               onSuccessMessage={onSuccessMessage}
               onErrorMessage={onErrorMessage}
+              onNavigateSignIn={handleNavigateSignIn}
             />
           )}
 
@@ -195,8 +199,6 @@ const CheckoutWizard = () => {
       key: 'checkout',
       duration: 2,
     });
-
-    handleNext();
   };
 
   const handleErrorMessageAccount = (error: any) => {
@@ -223,6 +225,7 @@ const CheckoutWizard = () => {
         <div className="steps-content">
           {currentStep === 0 && (
             <Account
+              onSuccess={handleNext}
               onLoadingMessage={handleLoadingMessageAccount}
               onSuccessMessage={handleSuccessMessageAccount}
               onErrorMessage={handleErrorMessageAccount}

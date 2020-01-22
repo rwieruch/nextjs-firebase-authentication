@@ -10,16 +10,16 @@ import FormStretchedButton from '@components/Form/StretchedButton';
 import passwordForgot from './passwordForgot';
 
 interface PasswordForgotFormProps extends FormComponentProps {
-  onLoadingMessage?: () => void;
-  onSuccessMessage?: () => void;
-  onErrorMessage?: (error: any) => void;
+  onLoadingMessage: () => void;
+  onSuccessMessage: () => void;
+  onErrorMessage: (error: any) => void;
 }
 
 const PasswordForgotForm = ({
   form,
-  onLoadingMessage = () => {},
-  onSuccessMessage = () => {},
-  onErrorMessage = () => {},
+  onLoadingMessage,
+  onSuccessMessage,
+  onErrorMessage,
 }: PasswordForgotFormProps) => {
   const apolloClient = useApolloClient();
 

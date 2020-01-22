@@ -19,20 +19,22 @@ const StyledFormFooter = styled.div`
 `;
 
 interface SignInFormProps extends FormComponentProps {
+  onSuccess: () => void;
+  onLoadingMessage: () => void;
+  onSuccessMessage: () => void;
+  onErrorMessage: (error: any) => void;
   onNavigateSignUp?: () => void;
   onNavigatePasswordForgot?: () => void;
-  onLoadingMessage?: () => void;
-  onSuccessMessage?: () => void;
-  onErrorMessage?: (error: any) => void;
 }
 
 const SignInForm = ({
   form,
+  onSuccess,
+  onLoadingMessage,
+  onSuccessMessage,
+  onErrorMessage,
   onNavigateSignUp,
   onNavigatePasswordForgot,
-  onLoadingMessage = () => {},
-  onSuccessMessage = () => {},
-  onErrorMessage = () => {},
 }: SignInFormProps) => {
   const router = useRouter();
   const apolloClient = useApolloClient();
@@ -55,8 +57,7 @@ const SignInForm = ({
         await signIn(apolloClient, values.email, values.password);
 
         onSuccessMessage();
-
-        router.push(ROUTES.INDEX);
+        onSuccess();
       } catch (error) {
         onErrorMessage(error);
       }
@@ -121,7 +122,7 @@ const SignInForm = ({
             Or&nbsp;
             <FormAtomButton
               type="link"
-              onClick={onNavigateSignUp}
+              onClick={handleNavigateSignUp}
               aria-label="sign-up-link"
             >
               sign up now!
@@ -130,7 +131,7 @@ const SignInForm = ({
 
           <FormAtomButton
             type="link"
-            onClick={onNavigatePasswordForgot}
+            onClick={handleNavigatePasswordForgot}
             aria-label="password-forgot-link"
           >
             Forgot password
