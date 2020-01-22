@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
-import { Form, Input, message } from 'antd';
+import { Form, Input } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import { useApolloClient } from '@apollo/react-hooks';
 
@@ -19,14 +19,20 @@ const StyledFormFooter = styled.div`
 `;
 
 interface SignInFormProps extends FormComponentProps {
-  onNavigateSignUp: () => void;
-  onNavigatePasswordForgot: () => void;
+  onNavigateSignUp?: () => void;
+  onNavigatePasswordForgot?: () => void;
+  onLoadingMessage?: () => void;
+  onSuccessMessage?: () => void;
+  onErrorMessage?: (error: any) => void;
 }
 
 const SignInForm = ({
   form,
   onNavigateSignUp,
   onNavigatePasswordForgot,
+  onLoadingMessage = () => {},
+  onSuccessMessage = () => {},
+  onErrorMessage = () => {},
 }: SignInFormProps) => {
   const router = useRouter();
   const apolloClient = useApolloClient();
@@ -43,28 +49,16 @@ const SignInForm = ({
     form.validateFields(async (error, values) => {
       if (error) return;
 
-      message.loading({
-        content: 'Loading ...',
-        key: ROUTES.SIGN_IN,
-        duration: 0,
-      });
+      onLoadingMessage();
 
       try {
         await signIn(apolloClient, values.email, values.password);
 
-        message.success({
-          content: 'Success!',
-          key: ROUTES.SIGN_IN,
-          duration: 2,
-        });
+        onSuccessMessage();
 
         router.push(ROUTES.INDEX);
       } catch (error) {
-        message.error({
-          content: error.message,
-          key: ROUTES.SIGN_IN,
-          duration: 2,
-        });
+        onErrorMessage(error);
       }
     });
 

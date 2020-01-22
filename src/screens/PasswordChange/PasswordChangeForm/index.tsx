@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, message } from 'antd';
+import { Form, Input } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import { useApolloClient } from '@apollo/react-hooks';
 
@@ -9,7 +9,18 @@ import FormStretchedButton from '@components/Form/StretchedButton';
 
 import passwordChange from './passwordChange';
 
-const PasswordChangeForm = ({ form }: FormComponentProps) => {
+interface PasswordChangeFormProps extends FormComponentProps {
+  onLoadingMessage?: () => void;
+  onSuccessMessage?: () => void;
+  onErrorMessage?: (error: any) => void;
+}
+
+const PasswordChangeForm = ({
+  form,
+  onLoadingMessage = () => {},
+  onSuccessMessage = () => {},
+  onErrorMessage = () => {},
+}: PasswordChangeFormProps) => {
   const apolloClient = useApolloClient();
 
   const [
@@ -52,28 +63,16 @@ const PasswordChangeForm = ({ form }: FormComponentProps) => {
     form.validateFields(async (error, values) => {
       if (error) return;
 
-      message.loading({
-        content: 'Loading ...',
-        key: ROUTES.PASSWORD_CHANGE,
-        duration: 0,
-      });
+      onLoadingMessage();
 
       try {
         await passwordChange(apolloClient, values.newPassword);
 
-        message.success({
-          content: 'Success!',
-          key: ROUTES.PASSWORD_CHANGE,
-          duration: 2,
-        });
+        onSuccessMessage();
 
         form.resetFields();
       } catch (error) {
-        message.error({
-          content: error.message,
-          key: ROUTES.PASSWORD_CHANGE,
-          duration: 2,
-        });
+        onErrorMessage(error);
       }
     });
 
@@ -172,6 +171,6 @@ const PasswordChangeForm = ({ form }: FormComponentProps) => {
   );
 };
 
-export default Form.create({
+export default Form.create<PasswordChangeFormProps>({
   name: 'password-change',
 })(PasswordChangeForm);

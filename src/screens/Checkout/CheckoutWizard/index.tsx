@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card, Steps } from 'antd';
+import { Card, Steps, Icon, message } from 'antd';
 import { useApolloClient } from '@apollo/react-hooks';
 import ReactCSSTransitionReplace from 'react-css-transition-replace';
 
@@ -72,6 +72,7 @@ const FadeWait = styled.div`
   .fade-wait-leave {
     opacity: 1;
   }
+
   .fade-wait-leave.fade-wait-leave-active {
     opacity: 0;
     transition: opacity 0.4s ease-in;
@@ -80,6 +81,7 @@ const FadeWait = styled.div`
   .fade-wait-enter {
     opacity: 0;
   }
+
   .fade-wait-enter.fade-wait-enter-active {
     opacity: 1;
     /* Delay the enter animation until the leave completes */
@@ -91,7 +93,17 @@ const FadeWait = styled.div`
   }
 `;
 
-const Account = () => {
+type AccountProps = {
+  onLoadingMessage: () => void;
+  onSuccessMessage: () => void;
+  onErrorMessage: (error: any) => void;
+};
+
+const Account = ({
+  onLoadingMessage,
+  onSuccessMessage,
+  onErrorMessage,
+}: AccountProps) => {
   const [currentSelection, setCurrentSelection] = React.useState(
     SELECTIONS.SIGN_IN
   );
@@ -120,16 +132,28 @@ const Account = () => {
             <SignInForm
               onNavigateSignUp={handleNavigateSignUp}
               onNavigatePasswordForgot={handleNavigatePasswordForgot}
+              onLoadingMessage={onLoadingMessage}
+              onSuccessMessage={onSuccessMessage}
+              onErrorMessage={onErrorMessage}
             />
           )}
 
           {currentSelection === SELECTIONS.SIGN_UP && (
-            <SignUpForm onNavigateSignIn={handleNavigateSignIn} />
+            <SignUpForm
+              onNavigateSignIn={handleNavigateSignIn}
+              onLoadingMessage={onLoadingMessage}
+              onSuccessMessage={onSuccessMessage}
+              onErrorMessage={onErrorMessage}
+            />
           )}
 
           {currentSelection === SELECTIONS.PASSWORD_FORGOT && (
             <>
-              <PasswordForgotForm />
+              <PasswordForgotForm
+                onLoadingMessage={onLoadingMessage}
+                onSuccessMessage={onSuccessMessage}
+                onErrorMessage={onErrorMessage}
+              />
               <PasswordForgotFooter
                 onNavigateSignUp={handleNavigateSignUp}
                 onNavigateSignIn={handleNavigateSignIn}
@@ -146,33 +170,64 @@ const CheckoutWizard = () => {
   const session = React.useContext(SessionContext);
   const apolloClient = useApolloClient();
 
-  const steps = [
-    {
-      title: 'Account',
-    },
-    {
-      title: 'Pay',
-    },
-  ];
-
   const [currentStep, setCurrentStep] = React.useState(
     session ? 1 : 0
   );
+
+  const [pending, setLoading] = React.useState({
+    one: false,
+    two: false,
+  });
 
   const handleNext = () => {
     setCurrentStep(currentStep + 1);
   };
 
+  const handleLoadingMessageAccount = () => {
+    setLoading({ ...pending, one: true });
+  };
+
+  const handleSuccessMessageAccount = () => {
+    setLoading({ ...pending, one: false });
+
+    message.success({
+      content: 'Success!',
+      key: 'checkout',
+      duration: 2,
+    });
+
+    handleNext();
+  };
+
+  const handleErrorMessageAccount = (error: any) => {
+    setLoading({ ...pending, one: false });
+
+    message.error({
+      content: error.message,
+      key: 'checkout',
+      duration: 2,
+    });
+  };
+
   return (
     <Container>
       <StyledSteps current={currentStep}>
-        <Steps.Step title="Account" />
+        <Steps.Step
+          title="Account"
+          icon={pending.one && <Icon type="loading" />}
+        />
         <Steps.Step title="Pay" />
       </StyledSteps>
 
       <Card>
         <div className="steps-content">
-          {currentStep === 0 && <Account />}
+          {currentStep === 0 && (
+            <Account
+              onLoadingMessage={handleLoadingMessageAccount}
+              onSuccessMessage={handleSuccessMessageAccount}
+              onErrorMessage={handleErrorMessageAccount}
+            />
+          )}
           {currentStep === 1 && <Pay />}
         </div>
       </Card>

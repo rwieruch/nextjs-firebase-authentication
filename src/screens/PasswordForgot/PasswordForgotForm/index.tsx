@@ -9,35 +9,34 @@ import FormStretchedButton from '@components/Form/StretchedButton';
 
 import passwordForgot from './passwordForgot';
 
-const PasswordForgotForm = ({ form }: FormComponentProps) => {
+interface PasswordForgotFormProps extends FormComponentProps {
+  onLoadingMessage?: () => void;
+  onSuccessMessage?: () => void;
+  onErrorMessage?: (error: any) => void;
+}
+
+const PasswordForgotForm = ({
+  form,
+  onLoadingMessage = () => {},
+  onSuccessMessage = () => {},
+  onErrorMessage = () => {},
+}: PasswordForgotFormProps) => {
   const apolloClient = useApolloClient();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     form.validateFields(async (error, values) => {
       if (error) return;
 
-      message.loading({
-        content: 'Loading ...',
-        key: ROUTES.PASSWORD_FORGOT,
-        duration: 0,
-      });
+      onLoadingMessage();
 
       try {
         await passwordForgot(apolloClient, values.email);
 
-        message.success({
-          content: 'Success!',
-          key: ROUTES.PASSWORD_FORGOT,
-          duration: 2,
-        });
+        onSuccessMessage();
 
         form.resetFields();
       } catch (error) {
-        message.error({
-          content: error.message,
-          key: ROUTES.PASSWORD_FORGOT,
-          duration: 2,
-        });
+        onErrorMessage(error);
       }
     });
 
@@ -87,6 +86,6 @@ const PasswordForgotForm = ({ form }: FormComponentProps) => {
   );
 };
 
-export default Form.create({
+export default Form.create<PasswordForgotFormProps>({
   name: 'password-forgot',
 })(PasswordForgotForm);
