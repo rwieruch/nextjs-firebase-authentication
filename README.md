@@ -50,10 +50,15 @@
 - `npm run dev`
 - Visit http://localhost:3000/
 
+### Setup a BASE_URL
+- Create a _.env_ file and add a `BASE_URL`, example for local development:
+  ```
+  BASE_URL=http://localhost:3000
+  ```
 ### Use your own Firebase Credentials
 
 - Visit https://firebase.google.com/ and create a Firebase App
-- Create a _.env_ file to store your Firebase Credentials like so:
+- Modify your _.env_ file to store your Firebase Credentials like so:
   ```
   FIREBASE_API_KEY=apiKey
   FIREBASE_AUTH_DOMAIN=authDomain
