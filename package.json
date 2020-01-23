@@ -47,6 +47,7 @@
     "next-with-apollo": "^4.3.0",
     "null-loader": "^3.0.0",
     "react": "^16.12.0",
+    "react-async-script-loader": "^0.3.0",
     "react-css-transition-replace": "^4.0.2",
     "react-dom": "^16.12.0",
     "styled-components": "^5.0.0"

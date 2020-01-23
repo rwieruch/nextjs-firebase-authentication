@@ -1,12 +1,13 @@
 import React from 'react';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { Card, Steps, Icon, message } from 'antd';
-import { useApolloClient } from '@apollo/react-hooks';
 import ReactCSSTransitionReplace from 'react-css-transition-replace';
 
 import SessionContext from '@context/session';
 import * as ROUTES from '@constants/routes';
 
+import Pay from '@components/Pay';
 import SignInForm from '@screens/SignIn/SignInForm';
 import SignUpForm from '@screens/SignUp/SignUpForm';
 import PasswordForgotForm from '@screens/PasswordForgot/PasswordForgotForm';
@@ -20,10 +21,6 @@ const Container = styled.div`
 const StyledSteps = styled(Steps)`
   padding: 16px;
 `;
-
-const Pay = () => {
-  return <div>Second-content</div>;
-};
 
 const StyledPasswordForgotFooter = styled.div`
   display: flex;
@@ -172,7 +169,7 @@ const Account = ({
 
 const CheckoutWizard = () => {
   const session = React.useContext(SessionContext);
-  const apolloClient = useApolloClient();
+  const router = useRouter();
 
   const [currentStep, setCurrentStep] = React.useState(
     session ? 1 : 0
@@ -184,7 +181,11 @@ const CheckoutWizard = () => {
   });
 
   const handleNext = () => {
-    setCurrentStep(currentStep + 1);
+    if (currentStep === 0) {
+      setCurrentStep(1);
+    } else {
+      router.push(ROUTES.INDEX);
+    }
   };
 
   const handleLoadingMessageAccount = () => {
@@ -231,7 +232,7 @@ const CheckoutWizard = () => {
               onErrorMessage={handleErrorMessageAccount}
             />
           )}
-          {currentStep === 1 && <Pay />}
+          {currentStep === 1 && <Pay onSuccess={handleNext} />}
         </div>
       </Card>
     </Container>
