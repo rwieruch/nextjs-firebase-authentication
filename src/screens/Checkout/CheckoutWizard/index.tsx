@@ -4,9 +4,9 @@ import styled from 'styled-components';
 import { Card, Steps, Icon, message } from 'antd';
 import ReactCSSTransitionReplace from 'react-css-transition-replace';
 
+import { Storefront } from '@typeDefs/storefront';
 import SessionContext from '@context/session';
 import * as ROUTES from '@constants/routes';
-
 import Pay from '@components/Pay';
 import SignInForm from '@screens/SignIn/SignInForm';
 import SignUpForm from '@screens/SignUp/SignUpForm';
@@ -167,7 +167,15 @@ const Account = ({
   );
 };
 
-const CheckoutWizard = () => {
+type CheckoutWizardProps = {
+  storefront: Storefront;
+  imageUrl: string;
+};
+
+const CheckoutWizard = ({
+  storefront,
+  imageUrl,
+}: CheckoutWizardProps) => {
   const session = React.useContext(SessionContext);
   const router = useRouter();
 
@@ -222,7 +230,18 @@ const CheckoutWizard = () => {
         <Steps.Step title="Pay" />
       </StyledSteps>
 
-      <Card>
+      <Card
+        cover={
+          currentStep === 1 &&
+          imageUrl && (
+            <img
+              style={{ padding: '16px 64px 0' }}
+              alt="cover"
+              src={imageUrl}
+            />
+          )
+        }
+      >
         <div className="steps-content">
           {currentStep === 0 && (
             <Account
@@ -232,7 +251,9 @@ const CheckoutWizard = () => {
               onErrorMessage={handleErrorMessageAccount}
             />
           )}
-          {currentStep === 1 && <Pay onSuccess={handleNext} />}
+          {currentStep === 1 && (
+            <Pay onSuccess={handleNext} storefront={storefront} />
+          )}
         </div>
       </Card>
     </Container>

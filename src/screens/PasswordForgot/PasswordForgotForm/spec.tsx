@@ -3,21 +3,17 @@ import waitForExpect from 'wait-for-expect';
 import { MockedProvider } from '@apollo/react-testing';
 import { GraphQLError } from 'graphql';
 
-import { message } from 'antd';
-
 import PasswordForgotForm from '.';
 import { PASSWORD_FORGOT } from './passwordForgot';
 
 describe('PasswordForgotForm', () => {
   const email = 'example@example.com';
 
-  let mutationCalled = false;
+  const onLoadingMessage = jest.fn();
+  const onSuccessMessage = jest.fn();
+  const onErrorMessage = jest.fn();
 
-  beforeEach(() => {
-    message.loading = jest.fn();
-    message.error = jest.fn();
-    message.success = jest.fn();
-  });
+  let mutationCalled = false;
 
   it('resets a password with success', async () => {
     const mocks = [
@@ -35,7 +31,11 @@ describe('PasswordForgotForm', () => {
 
     const component = render(
       <MockedProvider mocks={mocks} addTypename={false}>
-        <PasswordForgotForm />
+        <PasswordForgotForm
+          onLoadingMessage={onLoadingMessage}
+          onSuccessMessage={onSuccessMessage}
+          onErrorMessage={onErrorMessage}
+        />
       </MockedProvider>
     );
 
@@ -50,11 +50,11 @@ describe('PasswordForgotForm', () => {
       component.getByLabelText('password-forgot-submit')
     );
 
-    expect(message.loading).toHaveBeenCalledTimes(1);
+    expect(onLoadingMessage).toHaveBeenCalledTimes(1);
 
     await waitForExpect(() => {
-      expect(message.error).toHaveBeenCalledTimes(0);
-      expect(message.success).toHaveBeenCalledTimes(1);
+      expect(onErrorMessage).toHaveBeenCalledTimes(0);
+      expect(onSuccessMessage).toHaveBeenCalledTimes(1);
 
       expect(mutationCalled).toBe(true);
     });
@@ -76,7 +76,11 @@ describe('PasswordForgotForm', () => {
 
     const component = render(
       <MockedProvider mocks={mocks} addTypename={false}>
-        <PasswordForgotForm />
+        <PasswordForgotForm
+          onLoadingMessage={onLoadingMessage}
+          onSuccessMessage={onSuccessMessage}
+          onErrorMessage={onErrorMessage}
+        />
       </MockedProvider>
     );
 
@@ -91,11 +95,11 @@ describe('PasswordForgotForm', () => {
       component.getByLabelText('password-forgot-submit')
     );
 
-    expect(message.loading).toHaveBeenCalledTimes(1);
+    expect(onLoadingMessage).toHaveBeenCalledTimes(1);
 
     await waitForExpect(() => {
-      expect(message.error).toHaveBeenCalledTimes(1);
-      expect(message.success).toHaveBeenCalledTimes(0);
+      expect(onErrorMessage).toHaveBeenCalledTimes(1);
+      expect(onSuccessMessage).toHaveBeenCalledTimes(0);
 
       expect(mutationCalled).toBe(true);
     });

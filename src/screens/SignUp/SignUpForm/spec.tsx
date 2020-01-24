@@ -3,8 +3,6 @@ import waitForExpect from 'wait-for-expect';
 import { MockedProvider } from '@apollo/react-testing';
 import { GraphQLError } from 'graphql';
 
-import { message } from 'antd';
-
 import SignUpForm from '.';
 import { SIGN_UP } from './signUp';
 
@@ -13,13 +11,12 @@ describe('SignUpForm', () => {
   const email = 'example@example.com';
   const password = 'mypassword';
 
-  let mutationCalled = false;
+  const onSuccess = jest.fn();
+  const onLoadingMessage = jest.fn();
+  const onSuccessMessage = jest.fn();
+  const onErrorMessage = jest.fn();
 
-  beforeEach(() => {
-    message.loading = jest.fn();
-    message.error = jest.fn();
-    message.success = jest.fn();
-  });
+  let mutationCalled = false;
 
   it('signs up with success', async () => {
     const mocks = [
@@ -37,7 +34,12 @@ describe('SignUpForm', () => {
 
     const component = render(
       <MockedProvider mocks={mocks} addTypename={false}>
-        <SignUpForm />
+        <SignUpForm
+          onSuccess={onSuccess}
+          onLoadingMessage={onLoadingMessage}
+          onSuccessMessage={onSuccessMessage}
+          onErrorMessage={onErrorMessage}
+        />
       </MockedProvider>
     );
 
@@ -62,11 +64,13 @@ describe('SignUpForm', () => {
 
     fireEvent.click(component.getByLabelText('sign-up-submit'));
 
-    expect(message.loading).toHaveBeenCalledTimes(1);
+    expect(onLoadingMessage).toHaveBeenCalledTimes(1);
 
     await waitForExpect(() => {
-      expect(message.error).toHaveBeenCalledTimes(0);
-      expect(message.success).toHaveBeenCalledTimes(1);
+      expect(onErrorMessage).toHaveBeenCalledTimes(0);
+      expect(onSuccessMessage).toHaveBeenCalledTimes(1);
+
+      expect(onSuccess).toHaveBeenCalledTimes(1);
 
       expect(mutationCalled).toBe(true);
     });
@@ -88,7 +92,12 @@ describe('SignUpForm', () => {
 
     const component = render(
       <MockedProvider mocks={mocks} addTypename={false}>
-        <SignUpForm />
+        <SignUpForm
+          onSuccess={onSuccess}
+          onLoadingMessage={onLoadingMessage}
+          onSuccessMessage={onSuccessMessage}
+          onErrorMessage={onErrorMessage}
+        />
       </MockedProvider>
     );
 
@@ -113,11 +122,11 @@ describe('SignUpForm', () => {
 
     fireEvent.click(component.getByLabelText('sign-up-submit'));
 
-    expect(message.loading).toHaveBeenCalledTimes(1);
+    expect(onLoadingMessage).toHaveBeenCalledTimes(1);
 
     await waitForExpect(() => {
-      expect(message.error).toHaveBeenCalledTimes(1);
-      expect(message.success).toHaveBeenCalledTimes(0);
+      expect(onErrorMessage).toHaveBeenCalledTimes(1);
+      expect(onSuccessMessage).toHaveBeenCalledTimes(0);
 
       expect(mutationCalled).toBe(true);
     });
