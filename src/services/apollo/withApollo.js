@@ -7,7 +7,7 @@ import withApollo from 'next-with-apollo';
 import signOut from '@components/Navigation/signOut';
 
 const httpLink = new HttpLink({
-  uri: `${process.env.BASE_URL || ''}/api/graphql`,
+  uri: `${process.env.BASE_URL}/api/graphql`,
   credentials: 'same-origin',
 });
 
