@@ -5,6 +5,7 @@ import nextCookie from 'next-cookies';
 import { ThemeProvider, createGlobalStyle } from 'styled-components';
 import { ApolloProvider } from '@apollo/react-hooks';
 import { PageTransition } from 'next-page-transitions';
+import * as Sentry from '@sentry/browser';
 
 import Head from '@components/Head';
 import Loader from '@components/Loader';
@@ -13,6 +14,10 @@ import SessionContext from '@context/session';
 import * as ROUTES from '@constants/routes';
 
 const TIMEOUT = 400;
+
+Sentry.init({
+  dsn: process.env.SENTRY_DSN
+});
 
 const theme = {
   colors: {
@@ -90,6 +95,18 @@ class MyApp extends NextApp {
       : {};
 
     return { pageProps, session };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    Sentry.withScope((scope) => {
+      Object.keys(errorInfo).forEach((key) => {
+        scope.setExtra(key, errorInfo[key]);
+      });
+
+      Sentry.captureException(error);
+    });
+
+    super.componentDidCatch(error, errorInfo);
   }
 
   render() {
