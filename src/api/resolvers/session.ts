@@ -4,7 +4,7 @@ import { EXPIRES_IN } from '@constants/cookie';
 export default {
   Mutation: {
     signIn: async (
-      _: any,
+      parent: any,
       { email, password }: { email: string; password: string },
       { firebaseAdmin, firebase }: ResolverContext
     ) => {
@@ -27,7 +27,7 @@ export default {
       return { sessionToken };
     },
     signUp: async (
-      _: any,
+      parent: any,
       {
         username,
         email,
@@ -60,7 +60,7 @@ export default {
       return { sessionToken };
     },
     passwordForgot: async (
-      _: any,
+      parent: any,
       { email }: { email: string },
       { firebase }: ResolverContext
     ) => {
@@ -69,7 +69,7 @@ export default {
       return true;
     },
     passwordChange: async (
-      _: any,
+      parent: any,
       { password }: { password: string },
       { me, firebaseAdmin }: ResolverContext
     ) => {

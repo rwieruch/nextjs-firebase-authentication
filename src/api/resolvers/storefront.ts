@@ -5,7 +5,7 @@ import storefront from '../../../content/course-storefront';
 export default {
   Query: {
     getStorefront: (
-      _: any,
+      parent: any,
       { courseId, bundleId }: { courseId: COURSE; bundleId: BUNDLE }
     ) => {
       if (!courseId || !bundleId) {

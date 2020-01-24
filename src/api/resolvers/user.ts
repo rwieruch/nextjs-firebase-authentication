@@ -7,7 +7,7 @@ export default {
   Query: {
     me: combineResolvers(
       isAuthenticated,
-      (_, __, { me }: ResolverContext) => {
+      (parent, args, { me }: ResolverContext) => {
         return {
           email: me.email,
           uid: me.uid,
