@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { Typography, Card } from 'antd';
 import gql from 'graphql-tag';
 
-import { Me } from '@typeDefs/me';
+import { GetMe } from '@generated/GetMe';
 import { Session } from '@typeDefs/session';
 import Layout from '@components/Layout';
 
@@ -35,9 +35,7 @@ const StyledCard = styled(Card)`
 `;
 
 interface DashboardPageProps {
-  data: {
-    me: Me;
-  };
+  data: GetMe;
 }
 
 type NextAuthPage = NextPage<DashboardPageProps> & {
@@ -95,7 +93,7 @@ DashboardPage.getInitialProps = async ctx => {
 
   const { data } = await ctx.apolloClient.query({
     query: gql`
-      query {
+      query GetMe {
         me {
           email
         }

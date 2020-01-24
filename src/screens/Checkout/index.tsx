@@ -4,8 +4,8 @@ import styled from 'styled-components';
 import gql from 'graphql-tag';
 import { useRouter } from 'next/router';
 
+import { GetStorefront } from '@generated/GetStorefront';
 import { Session } from '@typeDefs/session';
-import { Storefront } from '@typeDefs/storefront';
 import Layout from '@components/Layout';
 
 import CheckoutWizard from './CheckoutWizard';
@@ -17,9 +17,7 @@ const Container = styled.div`
 `;
 
 interface CheckoutPageProps {
-  data: {
-    getStorefront: Storefront;
-  };
+  data: GetStorefront;
 }
 
 type NextAuthPage = NextPage<CheckoutPageProps> & {
@@ -35,7 +33,7 @@ const CheckoutPage: NextAuthPage = ({ data }) => {
     <Layout>
       <Container>
         <CheckoutWizard
-          storefront={data.getStorefront}
+          data={data}
           imageUrl={
             // TODO weird
             imageUrl instanceof Array ? imageUrl.join('') : imageUrl
@@ -53,8 +51,8 @@ CheckoutPage.getInitialProps = async ctx => {
 
   const { data } = await ctx.apolloClient.query({
     query: gql`
-      query($courseId: String, $bundleId: String) {
-        getStorefront(courseId: $courseId, bundleId: $bundleId) {
+      query GetStorefront($courseId: String, $bundleId: String) {
+        storefront(courseId: $courseId, bundleId: $bundleId) {
           course {
             header
             courseId

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { Card, Steps, Icon, message } from 'antd';
 import ReactCSSTransitionReplace from 'react-css-transition-replace';
 
-import { Storefront } from '@typeDefs/storefront';
+import { GetStorefront } from '@generated/GetStorefront';
 import SessionContext from '@context/session';
 import * as ROUTES from '@constants/routes';
 import Pay from '@components/Pay';
@@ -168,14 +168,11 @@ const Account = ({
 };
 
 type CheckoutWizardProps = {
-  storefront: Storefront;
+  data: GetStorefront;
   imageUrl: string;
 };
 
-const CheckoutWizard = ({
-  storefront,
-  imageUrl,
-}: CheckoutWizardProps) => {
+const CheckoutWizard = ({ data, imageUrl }: CheckoutWizardProps) => {
   const session = React.useContext(SessionContext);
   const router = useRouter();
 
@@ -251,8 +248,20 @@ const CheckoutWizard = ({
               onErrorMessage={handleErrorMessageAccount}
             />
           )}
-          {currentStep === 1 && (
-            <Pay onSuccess={handleNext} storefront={storefront} />
+
+          {currentStep === 1 && !!data.storefront && (
+            <Pay
+              onSuccess={handleNext}
+              storefront={data.storefront}
+            />
+          )}
+
+          {currentStep === 1 && !data.storefront && (
+            <>
+              You haven't selected a course yet. Choose a course
+              first. You can find all the courses in the navigation.
+            </>
+            // TODO
           )}
         </div>
       </Card>

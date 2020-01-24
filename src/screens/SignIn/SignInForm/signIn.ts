@@ -5,7 +5,7 @@ import cookie from 'js-cookie';
 import { EXPIRES_IN } from '@constants/cookie';
 
 export const SIGN_IN = gql`
-  mutation($email: String!, $password: String!) {
+  mutation SignIn($email: String!, $password: String!) {
     signIn(email: $email, password: $password) {
       sessionToken
     }

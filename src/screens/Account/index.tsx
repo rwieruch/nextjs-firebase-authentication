@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { Card, Col, Row, Typography } from 'antd';
 import gql from 'graphql-tag';
 
-import { Me } from '@typeDefs/me';
+import { GetMeAccount } from 'src/generated/GetMeAccount';
 import { Session } from '@typeDefs/session';
 import * as ROUTES from '@constants/routes';
 import Layout from '@components/Layout';
@@ -15,9 +15,7 @@ const Container = styled.div`
 `;
 
 interface AccountPageProps {
-  data: {
-    me: Me;
-  };
+  data: GetMeAccount;
 }
 
 type NextAuthPage = NextPage<AccountPageProps> & {
@@ -34,10 +32,10 @@ const AccountPage: NextAuthPage = ({ data }) => {
             <Card title="Details">
               <ul>
                 <li>
-                  <strong>ID:</strong> {data.me.uid}
+                  <strong>ID:</strong> {data?.me?.uid}
                 </li>
                 <li>
-                  <strong>Email:</strong> {data.me.email}
+                  <strong>Email:</strong> {data?.me?.email}
                 </li>
               </ul>
             </Card>
@@ -101,7 +99,7 @@ AccountPage.getInitialProps = async ctx => {
 
   const { data } = await ctx.apolloClient.query({
     query: gql`
-      query {
+      query GetMeAccount {
         me {
           email
           uid

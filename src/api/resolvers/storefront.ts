@@ -4,7 +4,7 @@ import storefront from '../../../content/course-storefront';
 
 export default {
   Query: {
-    getStorefront: (
+    storefront: (
       parent: any,
       { courseId, bundleId }: { courseId: COURSE; bundleId: BUNDLE }
     ) => {

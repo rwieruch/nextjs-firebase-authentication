@@ -16,7 +16,8 @@
           "@services": "./src/services",
           "@constants": "./src/constants",
           "@context": "./src/context",
-          "@typeDefs": "./src/types"
+          "@typeDefs": "./src/types",
+          "@generated": "./src/generated"
         }
       }
     ],
