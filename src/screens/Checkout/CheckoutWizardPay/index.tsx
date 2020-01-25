@@ -3,9 +3,9 @@ import { Form, Input, Button, Row, Col } from 'antd';
 
 import { GetStorefront_storefront_course } from '@generated/GetStorefront';
 import FormIcon from '@components/Form/Icon';
-import FormAtomButton from '@components/Form/AtomButton';
 
 import PaypalCheckout from './Adapters/paypal';
+import StripeCheckout from './Adapters/stripe';
 
 const SELECTIONS = {
   IDLE: 'IDLE',
@@ -173,24 +173,18 @@ const Pay = ({ course, onSuccess, onError }: PayProps) => {
         coupon={coupon}
         onSuccess={onSuccess}
         onError={onError}
+        onBack={handleSelectIdle}
       />
 
-      {/*
-        <StripeCheckout
-          isShow={currentSelection === SELECTIONS.STRIPE}
-          courseId={course.courseId}
-          bundleId={course.bundle.bundleId}
-          coupon={coupon}
-          onSuccess={onSuccess}
-          onError={onError}
-        />
-      */}
-
-      {currentSelection !== SELECTIONS.IDLE && (
-        <FormAtomButton type="link" onClick={handleSelectIdle}>
-          Go back
-        </FormAtomButton>
-      )}
+      <StripeCheckout
+        isShow={currentSelection === SELECTIONS.STRIPE}
+        courseId={course.courseId}
+        bundleId={course.bundle.bundleId}
+        coupon={coupon}
+        onSuccess={onSuccess}
+        onError={onError}
+        onBack={handleSelectIdle}
+      />
 
       {currentSelection === SELECTIONS.IDLE && (
         <IdleForm

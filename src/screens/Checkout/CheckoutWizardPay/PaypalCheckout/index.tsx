@@ -4,6 +4,8 @@ import React from 'react';
 import { useApolloClient } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 
+import FormAtomButton from '@components/Form/AtomButton';
+
 const PAYPAL_CREATE_ORDER = gql`
   mutation PaypalCreateOrder(
     $courseId: String!
@@ -32,14 +34,16 @@ export type PaypalCheckoutProps = {
   coupon: string;
   onSuccess: () => void;
   onError: (error: Error) => void;
+  onBack: () => void;
 };
 
 const PaypalCheckout = ({
   courseId,
   bundleId,
   coupon,
-  onSuccess,
-  onError,
+  onSuccess, // TODO
+  onError, // TODO
+  onBack,
 }: PaypalCheckoutProps) => {
   const apolloClient = useApolloClient();
 
@@ -56,8 +60,6 @@ const PaypalCheckout = ({
             },
           });
 
-          console.log(data);
-
           return data.paypalCreateOrder.orderId;
         },
         onApprove: async (data: { orderID: string }) => {
@@ -72,7 +74,14 @@ const PaypalCheckout = ({
       .render('#paypal-button-container');
   }, []);
 
-  return <div id="paypal-button-container"></div>;
+  return (
+    <>
+      <div id="paypal-button-container"></div>
+      <FormAtomButton type="link" onClick={onBack}>
+        Go back
+      </FormAtomButton>
+    </>
+  );
 };
 
 export default PaypalCheckout;
