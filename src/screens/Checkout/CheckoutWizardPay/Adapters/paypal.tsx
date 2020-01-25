@@ -1,14 +1,17 @@
+// https://developer.paypal.com/docs/checkout/integrate/
+
 import React from 'react';
 import scriptLoader from 'react-async-script-loader';
 
-import PaypalCheckoutBase from '../PaypalCheckout';
+import PaypalCheckoutBase, {
+  PaypalCheckoutProps,
+} from '../PaypalCheckout';
 
 type PaypalCheckoutAdapterProps = {
   isScriptLoaded: boolean;
   isScriptLoadSucceed: boolean;
   isShow: boolean;
-  coupon: string;
-};
+} & PaypalCheckoutProps;
 
 const PaypalCheckoutAdapter = ({
   isScriptLoaded,
@@ -21,5 +24,6 @@ const PaypalCheckoutAdapter = ({
   isShow && <PaypalCheckoutBase {...props} />;
 
 export default scriptLoader(
-  'https://www.paypal.com/sdk/js?client-id=sb'
+  `https://www.paypal.com/sdk/js?client-id=${process.env
+    .PAYPAL_CLIENT_ID || 'sb'}`
 )(PaypalCheckoutAdapter);

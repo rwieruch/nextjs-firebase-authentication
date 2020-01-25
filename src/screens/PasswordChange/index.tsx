@@ -35,7 +35,7 @@ const PasswordChangePage = () => {
     });
   };
 
-  const handleErrorMessage = (error: any) => {
+  const handleErrorMessage = (error: Error) => {
     message.error({
       content: error.message,
       key: 'password',

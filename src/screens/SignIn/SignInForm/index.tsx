@@ -22,7 +22,7 @@ interface SignInFormProps extends FormComponentProps {
   onSuccess: () => void;
   onLoadingMessage: () => void;
   onSuccessMessage: () => void;
-  onErrorMessage: (error: any) => void;
+  onErrorMessage: (error: Error) => void;
   onNavigateSignUp?: () => void;
   onNavigatePasswordForgot?: () => void;
 }

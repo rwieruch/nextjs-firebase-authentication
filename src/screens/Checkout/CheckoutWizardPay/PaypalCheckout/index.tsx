@@ -1,47 +1,76 @@
-import React from 'react';
+// https://developer.paypal.com/docs/checkout/integrate/
 
-type PaypalCheckoutProps = {
+import React from 'react';
+import { useApolloClient } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
+
+const PAYPAL_CREATE_ORDER = gql`
+  mutation PaypalCreateOrder(
+    $courseId: String!
+    $bundleId: String!
+    $coupon: String
+  ) {
+    paypalCreateOrder(
+      courseId: $courseId
+      bundleId: $bundleId
+      coupon: $coupon
+    ) {
+      orderId
+    }
+  }
+`;
+
+const PAYPAL_APPROVE_ORDER = gql`
+  mutation PaypalApproveOrder($orderId: String!) {
+    paypalApproveOrder(orderId: $orderId)
+  }
+`;
+
+export type PaypalCheckoutProps = {
+  courseId: string;
+  bundleId: string;
   coupon: string;
+  onSuccess: () => void;
+  onError: (error: Error) => void;
 };
 
-const PaypalCheckout = ({ coupon }: PaypalCheckoutProps) => {
-  React.useLayoutEffect(() => {
+const PaypalCheckout = ({
+  courseId,
+  bundleId,
+  coupon,
+  onSuccess,
+  onError,
+}: PaypalCheckoutProps) => {
+  const apolloClient = useApolloClient();
+
+  React.useEffect(() => {
     (window as any).paypal
-      .Buttons()
+      .Buttons({
+        createOrder: async () => {
+          const { data } = await apolloClient.mutate({
+            mutation: PAYPAL_CREATE_ORDER,
+            variables: {
+              courseId,
+              bundleId,
+              coupon,
+            },
+          });
+
+          console.log(data);
+
+          return data.paypalCreateOrder.orderId;
+        },
+        onApprove: async (data: { orderID: string }) => {
+          await apolloClient.mutate({
+            mutation: PAYPAL_APPROVE_ORDER,
+            variables: {
+              orderId: data.orderID,
+            },
+          });
+        },
+      })
       .render('#paypal-button-container');
   }, []);
-
-  // const handleSubmit = async event => {
-  //   event.preventDefault();
-
-  //   const session = await axios.post(
-  //     `${PAYMENT_SERVER_URL}/payment/session-initiate/ROADTOREACT_COM`,
-  //     {
-  //       customerEmail: authUser.email,
-  //       clientReferenceId: authUser.uid,
-  //       courseId,
-  //       packageId,
-  //       images: [`https://roadtoreact.com${image}`],
-  //       // lineItem: {
-  //       //   name: courseId,
-  //       //   description: packageId,
-  //       //   images: [`https://roadtoreact.com${image}`],
-  //       //   amount: fromTalerToCent(amount),
-  //       //   currency: CURRENCIES.USD.toLowerCase(),
-  //       //   quantity: 1,
-  //       // },
-  //       coupon,
-  //       successUrl: 'https://roadtoreact.com/my-courses',
-  //       cancelUrl: 'https://roadtoreact.com',
-  //     }
-  //   );
-
-  //   const result = await stripe.redirectToCheckout({
-  //     sessionId: session.data.id,
-  //   });
-
-  //   onError(result.error.message);
-  // };
 
   return <div id="paypal-button-container"></div>;
 };

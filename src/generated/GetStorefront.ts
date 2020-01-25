@@ -22,7 +22,7 @@ export interface GetStorefront_storefront_course {
 
 export interface GetStorefront_storefront {
   __typename: "Storefront";
-  course: GetStorefront_storefront_course | null;
+  course: GetStorefront_storefront_course;
 }
 
 export interface GetStorefront {

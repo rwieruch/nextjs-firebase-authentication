@@ -38,11 +38,18 @@ const CheckoutWizard = ({ data, imageUrl }: CheckoutWizardProps) => {
   });
 
   const handleNext = () => {
-    if (currentStep === 0) {
-      setCurrentStep(1);
-    } else {
-      router.push(ROUTES.INDEX);
-    }
+    setCurrentStep(1);
+  };
+
+  const handleSuccess = () => {
+    router.push(ROUTES.INDEX);
+  };
+
+  const handleError = (error: Error) => {
+    message.error({
+      content: error.message,
+      duration: 2,
+    });
   };
 
   const handleLoadingMessageAccount = () => {
@@ -59,7 +66,7 @@ const CheckoutWizard = ({ data, imageUrl }: CheckoutWizardProps) => {
     });
   };
 
-  const handleErrorMessageAccount = (error: any) => {
+  const handleErrorMessageAccount = (error: Error) => {
     setLoading({ ...pending, one: false });
 
     message.error({
@@ -103,8 +110,9 @@ const CheckoutWizard = ({ data, imageUrl }: CheckoutWizardProps) => {
 
           {currentStep === 1 && !!data.storefront && (
             <CheckoutWizardPay
-              onSuccess={handleNext}
-              storefront={data.storefront}
+              course={data.storefront.course}
+              onSuccess={handleSuccess}
+              onError={handleError}
             />
           )}
 

@@ -12,7 +12,7 @@ import passwordForgot from './passwordForgot';
 interface PasswordForgotFormProps extends FormComponentProps {
   onLoadingMessage: () => void;
   onSuccessMessage: () => void;
-  onErrorMessage: (error: any) => void;
+  onErrorMessage: (error: Error) => void;
 }
 
 const PasswordForgotForm = ({

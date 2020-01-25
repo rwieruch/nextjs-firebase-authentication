@@ -12,7 +12,7 @@ import passwordChange from './passwordChange';
 interface PasswordChangeFormProps extends FormComponentProps {
   onLoadingMessage: () => void;
   onSuccessMessage: () => void;
-  onErrorMessage: (error: any) => void;
+  onErrorMessage: (error: Error) => void;
 }
 
 const PasswordChangeForm = ({

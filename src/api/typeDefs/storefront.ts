@@ -6,7 +6,7 @@ export default gql`
   }
 
   type Storefront {
-    course: Course
+    course: Course!
   }
 
   type Course {

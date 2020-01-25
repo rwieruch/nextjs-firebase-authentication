@@ -3,6 +3,7 @@ import { gql } from 'apollo-server-express';
 import sessionSchema from './session';
 import userSchema from './user';
 import storefrontSchema from './storefront';
+import paypalSchema from './paypal';
 
 const linkSchema = gql`
   type Query {
@@ -23,4 +24,5 @@ export default [
   sessionSchema,
   userSchema,
   storefrontSchema,
+  paypalSchema,
 ];

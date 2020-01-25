@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form, Input, Button, Row, Col } from 'antd';
 
-import { GetStorefront_storefront } from '@generated/GetStorefront';
+import { GetStorefront_storefront_course } from '@generated/GetStorefront';
 import FormIcon from '@components/Form/Icon';
 import FormAtomButton from '@components/Form/AtomButton';
 
@@ -124,11 +124,12 @@ const IdleForm = ({
 };
 
 type PayProps = {
-  storefront: GetStorefront_storefront;
+  course: GetStorefront_storefront_course;
   onSuccess: () => void;
+  onError: (error: Error) => void;
 };
 
-const Pay = ({ storefront, onSuccess }: PayProps) => {
+const Pay = ({ course, onSuccess, onError }: PayProps) => {
   const [coupon, setCoupon] = React.useState('');
   const [currentSelection, setCurrentSelection] = React.useState(
     SELECTIONS.IDLE
@@ -152,22 +153,36 @@ const Pay = ({ storefront, onSuccess }: PayProps) => {
     setCurrentSelection(SELECTIONS.STRIPE);
   };
 
-  const handleSelectFree = () => {
+  const handleSelectFree = async () => {
     // TODO
-    // API request with course addition in DB
-    // but check if it's really free first
+    try {
+      // API request with course addition in DB
+      // but check if it's really free first
+      // onSuccess();
+    } catch (error) {
+      onError(error);
+    }
   };
 
   return (
     <>
       <PaypalCheckout
         isShow={currentSelection === SELECTIONS.PAYPAL}
+        courseId={course.courseId}
+        bundleId={course.bundle.bundleId}
         coupon={coupon}
+        onSuccess={onSuccess}
+        onError={onError}
       />
 
       {/*
         <StripeCheckout
           isShow={currentSelection === SELECTIONS.STRIPE}
+          courseId={course.courseId}
+          bundleId={course.bundle.bundleId}
+          coupon={coupon}
+          onSuccess={onSuccess}
+          onError={onError}
         />
       */}
 
@@ -179,9 +194,9 @@ const Pay = ({ storefront, onSuccess }: PayProps) => {
 
       {currentSelection === SELECTIONS.IDLE && (
         <IdleForm
-          courseHeader={storefront?.course?.header}
-          bundleHeader={storefront?.course?.bundle.header}
-          price={storefront?.course?.bundle.price}
+          courseHeader={course.header}
+          bundleHeader={course.bundle.header}
+          price={course.bundle.price}
           coupon={coupon}
           onCouponChange={handleCouponChange}
           onSelectPaypal={handleSelectPaypal}

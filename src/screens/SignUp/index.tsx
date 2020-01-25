@@ -43,7 +43,7 @@ const SignUpPage = () => {
     });
   };
 
-  const handleErrorMessage = (error: any) => {
+  const handleErrorMessage = (error: Error) => {
     message.error({
       content: error.message,
       key: 'register',

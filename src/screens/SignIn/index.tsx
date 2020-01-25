@@ -43,7 +43,7 @@ const SignInPage = () => {
     });
   };
 
-  const handleErrorMessage = (error: any) => {
+  const handleErrorMessage = (error: Error) => {
     message.error({
       content: error.message,
       key: 'login',
