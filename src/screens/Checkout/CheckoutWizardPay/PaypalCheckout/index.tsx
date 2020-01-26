@@ -23,8 +23,16 @@ const PAYPAL_CREATE_ORDER = gql`
 `;
 
 const PAYPAL_APPROVE_ORDER = gql`
-  mutation PaypalApproveOrder($orderId: String!) {
-    paypalApproveOrder(orderId: $orderId)
+  mutation PaypalApproveOrder(
+    $courseId: String!
+    $bundleId: String!
+    $orderId: String!
+  ) {
+    paypalApproveOrder(
+      courseId: $courseId
+      bundleId: $bundleId
+      orderId: $orderId
+    )
   }
 `;
 
@@ -41,8 +49,8 @@ const PaypalCheckout = ({
   courseId,
   bundleId,
   coupon,
-  onSuccess, // TODO
-  onError, // TODO
+  onSuccess,
+  onError,
   onBack,
 }: PaypalCheckoutProps) => {
   const apolloClient = useApolloClient();
@@ -51,24 +59,36 @@ const PaypalCheckout = ({
     (window as any).paypal
       .Buttons({
         createOrder: async () => {
-          const { data } = await apolloClient.mutate({
-            mutation: PAYPAL_CREATE_ORDER,
-            variables: {
-              courseId,
-              bundleId,
-              coupon,
-            },
-          });
+          try {
+            const { data } = await apolloClient.mutate({
+              mutation: PAYPAL_CREATE_ORDER,
+              variables: {
+                courseId,
+                bundleId,
+                coupon,
+              },
+            });
 
-          return data.paypalCreateOrder.orderId;
+            return data.paypalCreateOrder.orderId;
+          } catch (error) {
+            onError(error);
+          }
         },
         onApprove: async (data: { orderID: string }) => {
-          await apolloClient.mutate({
-            mutation: PAYPAL_APPROVE_ORDER,
-            variables: {
-              orderId: data.orderID,
-            },
-          });
+          try {
+            await apolloClient.mutate({
+              mutation: PAYPAL_APPROVE_ORDER,
+              variables: {
+                orderId: data.orderID,
+                courseId,
+                bundleId,
+              },
+            });
+
+            onSuccess();
+          } catch (error) {
+            onError(error);
+          }
         },
       })
       .render('#paypal-button-container');

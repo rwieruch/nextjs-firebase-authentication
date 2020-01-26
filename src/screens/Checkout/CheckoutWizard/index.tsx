@@ -110,6 +110,7 @@ const CheckoutWizard = ({ data, imageUrl }: CheckoutWizardProps) => {
 
           {currentStep === 1 && !!data.storefront && (
             <CheckoutWizardPay
+              imageUrl={imageUrl}
               course={data.storefront.course}
               onSuccess={handleSuccess}
               onError={handleError}

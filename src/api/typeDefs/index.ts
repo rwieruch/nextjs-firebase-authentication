@@ -4,6 +4,7 @@ import sessionSchema from './session';
 import userSchema from './user';
 import storefrontSchema from './storefront';
 import paypalSchema from './paypal';
+import stripeSchema from './stripe';
 
 const linkSchema = gql`
   type Query {
@@ -25,4 +26,5 @@ export default [
   userSchema,
   storefrontSchema,
   paypalSchema,
+  stripeSchema,
 ];

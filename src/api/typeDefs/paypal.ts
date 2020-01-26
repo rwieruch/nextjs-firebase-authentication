@@ -8,7 +8,11 @@ export default gql`
       coupon: String
     ): OrderId!
 
-    paypalApproveOrder(orderId: String!): Boolean
+    paypalApproveOrder(
+      courseId: String!
+      bundleId: String!
+      orderId: String!
+    ): Boolean
   }
 
   type OrderId {
