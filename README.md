@@ -4,7 +4,7 @@
 
 - [Demo](https://courses.robinwieruch.de/)
 
-**Server-Side User Authentication and Management with**
+**Server-Side User Management with**
 
 - GraphQL ([Tutorial](https://www.robinwieruch.de/graphql-apollo-server-tutorial)) and Firebase ([Tutorial](https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial))
   - Sign In
@@ -15,17 +15,22 @@
 
 **Client and Server-Side Protected Routes with**
 
-- [Next.js](https://nextjs.org/) and [Firebase](https://firebase.google.com/)
+- Next.js Authorization and Firebase Session
+
+**Payment with**
+
+- Stripe
+- PayPal
 
 **Styling with**
 
 - [Ant Design](https://ant.design/)
-- [Styled Components](https://www.styled-components.com/) ([Tutorial](https://www.robinwieruch.de/react-styled-components))
+- Styled Components ([Tutorial](https://www.robinwieruch.de/react-styled-components))
 - Page Transitions
 
 **Type Support with**
 
-- [TypeScript](https://www.typescriptlang.org/)
+- TypeScript
 
 **Tested Code Base with**
 
@@ -45,31 +50,41 @@
 
 - `git clone git@github.com:rwieruch/nextjs-firebase-authentication.git`
 - `cd nextjs-firebase-authentication`
-- See: "**Use your own Firebase Credentials**"
+- See: ".env file"
+- See: "firebaseServiceAccountKey.json file"
 - `npm install`
 - `npm run dev`
 - Visit http://localhost:3000/
 
-### Setup a BASE_URL
-- Create a _.env_ file and add a `BASE_URL`, example for local development:
-  ```
-  BASE_URL=http://localhost:3000
-  ```
-### Use your own Firebase Credentials
+### .env file
 
-- Visit https://firebase.google.com/ and create a Firebase App
-- Modify your _.env_ file to store your Firebase Credentials like so:
-  ```
-  FIREBASE_API_KEY=apiKey
-  FIREBASE_AUTH_DOMAIN=authDomain
-  FIREBASE_DATABASE_URL=databaseURL
-  FIREBASE_PROJECT_ID=projectID
-  FIREBASE_STORAGE_BUCKET=storageBucket
-  FIREBASE_MESSAGING_SENDER_ID=messagingSenderId
-  FIREBASE_APP_ID=appId
-  ```
-- Activate Email/Password Sign-In Method in your Firebase App
+Create a _.env_ file. If using git, add it to your _.gitignore_ file.
 
-- Visit https://firebase.google.com/docs/admin/setup/#initialize-sdk for Firebase Admin SDK and generate a _firebaseServiceAccountKey.json_ file from there which should be in your project's root folder.
+Values may differ for development and production:
 
-**Important: It is advised to add _.env_ and _firebaseServiceAccountKey.json_ to your .gitignore**
+```
+BASE_URL=http://localhost:3000
+
+FIREBASE_API_KEY=apiKey
+FIREBASE_AUTH_DOMAIN=authDomain
+FIREBASE_DATABASE_URL=databaseURL
+FIREBASE_PROJECT_ID=projectID
+FIREBASE_STORAGE_BUCKET=storageBucket
+FIREBASE_MESSAGING_SENDER_ID=messagingSenderId
+FIREBASE_APP_ID=appId
+
+PAYPAL_CLIENT_ID=xxx
+PAYPAL_CLIENT_SECRET=xxx
+
+STRIPE_CLIENT_ID=pk_test_xxx
+STRIPE_CLIENT_SECRET=sk_test_xxx
+```
+
+- [FIREBASE](https://firebase.google.com/)
+  - Activate Email/Password Sign-In Method for your Firebase Project
+- [PAYPAY](https://developer.paypal.com/)
+- [STRIPE](https://stripe.com/)
+
+### .firebaseServiceAccountKey.json file
+
+Visit [here](https://firebase.google.com/docs/admin/setup/#initialize-sdk) for Firebase Admin SDK and generate a _firebaseServiceAccountKey.json_ file from there which should be in your project's root folder. If using git, add it to your _.gitignore_ file.
