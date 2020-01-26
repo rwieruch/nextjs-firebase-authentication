@@ -5,12 +5,11 @@ import { GetStorefront_storefront_course } from '@generated/GetStorefront';
 import FormIcon from '@components/Form/Icon';
 
 import PaypalCheckout from './Adapters/paypal';
-import StripeCheckout from './Adapters/stripe';
+import StripeCheckoutButton from './Adapters/stripe';
 
 const SELECTIONS = {
   IDLE: 'IDLE',
   PAYPAL: 'PAYPAL',
-  STRIPE: 'STRIPE',
 };
 
 type IdleFormProps = {
@@ -22,8 +21,8 @@ type IdleFormProps = {
     event: React.ChangeEvent<HTMLInputElement>
   ) => void;
   onSelectPaypal: () => void;
-  onSelectStripe: () => void;
   onSelectFree: () => void;
+  children: React.ReactNode;
 };
 
 const IdleForm = ({
@@ -33,8 +32,8 @@ const IdleForm = ({
   price,
   onCouponChange,
   onSelectPaypal,
-  onSelectStripe,
   onSelectFree,
+  children,
 }: IdleFormProps) => {
   const formItemLayout = {
     labelCol: {
@@ -98,21 +97,15 @@ const IdleForm = ({
               PayPal
             </Button>
           )}
-          {!isFree && (
-            <Button
-              onClick={onSelectStripe}
-              type="primary"
-              aria-label="stripe"
-            >
-              Credit Card
-            </Button>
-          )}
+
+          {/* StripeCheckoutButton */}
+          {!isFree && children}
 
           {isFree && (
             <Button
               onClick={onSelectFree}
               type="primary"
-              aria-label="stripe"
+              aria-label="unlock"
             >
               Unlock
             </Button>
@@ -150,10 +143,6 @@ const Pay = ({ imageUrl, course, onSuccess, onError }: PayProps) => {
     setCurrentSelection(SELECTIONS.PAYPAL);
   };
 
-  const handleSelectStripe = () => {
-    setCurrentSelection(SELECTIONS.STRIPE);
-  };
-
   const handleSelectFree = async () => {
     // TODO
     try {
@@ -177,17 +166,6 @@ const Pay = ({ imageUrl, course, onSuccess, onError }: PayProps) => {
         onBack={handleSelectIdle}
       />
 
-      <StripeCheckout
-        isShow={currentSelection === SELECTIONS.STRIPE}
-        imageUrl={imageUrl}
-        courseId={course.courseId}
-        bundleId={course.bundle.bundleId}
-        coupon={coupon}
-        onSuccess={onSuccess}
-        onError={onError}
-        onBack={handleSelectIdle}
-      />
-
       {currentSelection === SELECTIONS.IDLE && (
         <IdleForm
           courseHeader={course.header}
@@ -196,9 +174,16 @@ const Pay = ({ imageUrl, course, onSuccess, onError }: PayProps) => {
           coupon={coupon}
           onCouponChange={handleCouponChange}
           onSelectPaypal={handleSelectPaypal}
-          onSelectStripe={handleSelectStripe}
           onSelectFree={handleSelectFree}
-        />
+        >
+          <StripeCheckoutButton
+            imageUrl={imageUrl}
+            courseId={course.courseId}
+            bundleId={course.bundle.bundleId}
+            coupon={coupon}
+            onError={onError}
+          />
+        </IdleForm>
       )}
     </>
   );

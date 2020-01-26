@@ -3,13 +3,7 @@
 import React from 'react';
 import { useApolloClient } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
-import styled from 'styled-components';
 import { Button } from 'antd';
-
-const Container = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
 
 const STRIPE_CREATE_ORDER = gql`
   mutation StripeCreateOrder(
@@ -36,7 +30,6 @@ export type StripeCheckoutProps = {
   coupon: string;
   onSuccess: () => void;
   onError: (error: Error) => void;
-  onBack: () => void;
 };
 
 const StripeCheckout = ({
@@ -44,9 +37,7 @@ const StripeCheckout = ({
   courseId,
   bundleId,
   coupon,
-  onSuccess,
   onError,
-  onBack,
 }: StripeCheckoutProps) => {
   const apolloClient = useApolloClient();
 
@@ -71,14 +62,9 @@ const StripeCheckout = ({
   };
 
   return (
-    <Container>
-      <Button type="link" onClick={onBack}>
-        Go back
-      </Button>
-      <Button type="primary" onClick={handlePay}>
-        Pay
-      </Button>
-    </Container>
+    <Button type="primary" onClick={handlePay}>
+      Credit Card
+    </Button>
   );
 };
 
