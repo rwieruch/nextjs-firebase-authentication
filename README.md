@@ -50,8 +50,7 @@
 
 - `git clone git@github.com:rwieruch/nextjs-firebase-authentication.git`
 - `cd nextjs-firebase-authentication`
-- See: ".env file"
-- See: "firebaseServiceAccountKey.json file"
+- See other installation instructions below ...
 - `npm install`
 - `npm run dev`
 - Visit http://localhost:3000/
@@ -78,13 +77,34 @@ PAYPAL_CLIENT_SECRET=xxx
 
 STRIPE_CLIENT_ID=pk_test_xxx
 STRIPE_CLIENT_SECRET=sk_test_xxx
+STRIPE_WEBHOOK_SECRET=xxx
 ```
 
 - [FIREBASE](https://firebase.google.com/)
   - Activate Email/Password Sign-In Method for your Firebase Project
-- [PAYPAY](https://developer.paypal.com/)
+- [PAYPAL](https://developer.paypal.com/)
+  - [Checkout](https://developer.paypal.com/docs/checkout/)
 - [STRIPE](https://stripe.com/)
+  - [Checkout](https://stripe.com/docs/payments/checkout/one-time)
+  - [Webhook](https://stripe.com/docs/payments/checkout/fulfillment#webhooks)
 
 ### .firebaseServiceAccountKey.json file
 
 Visit [here](https://firebase.google.com/docs/admin/setup/#initialize-sdk) for Firebase Admin SDK and generate a _firebaseServiceAccountKey.json_ file from there which should be in your project's root folder. If using git, add it to your _.gitignore_ file.
+
+### Stripe CLI for Webhook in Development Mode
+
+[Stripe CLI](https://stripe.com/docs/stripe-cli)
+
+```
+stripe login
+stripe listen --forward-to localhost:3000/api/stripe-webhook
+```
+
+Generates a `secret` which can be used in _.env_:
+
+```
+STRIPE_WEBHOOK_SECRET=secret
+```
+
+Then fake a request with Stripe CLI `stripe payment_intents create --amount=100 --currency=usd` or use the web application's Stripe Checkout feature.

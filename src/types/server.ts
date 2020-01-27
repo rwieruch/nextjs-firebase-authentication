@@ -5,6 +5,7 @@ import {
 
 export interface ServerRequest extends ServerRequestBase {
   cookies: { [key: string]: string };
+  body: any;
 }
 
 export interface ServerResponse extends ServerResponseBase {}
