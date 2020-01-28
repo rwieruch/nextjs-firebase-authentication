@@ -3,6 +3,8 @@ import paypal from '@paypal/checkout-server-sdk';
 
 import { ResolverContext } from '@typeDefs/resolver';
 
+import { Coupon } from '@services/coupon/types';
+import { getAsDiscount } from '@services/coupon';
 import paypalClient from '@services/paypal';
 
 import { COURSE } from '../../../content/course-keys';
@@ -18,17 +20,17 @@ export default {
         courseId,
         bundleId,
         coupon,
-      }: { courseId: COURSE; bundleId: BUNDLE; coupon: string },
+      }: { courseId: COURSE; bundleId: BUNDLE; coupon: Coupon },
       { me }: ResolverContext
     ) => {
       const course = storefront[courseId];
       const bundle = course.bundles[bundleId];
 
+      const price = await getAsDiscount(bundle.price, coupon);
+
       const request = new paypal.orders.OrdersCreateRequest();
 
       request.prefer('return=representation');
-
-      // TODO apply discount if coupon
 
       request.requestBody({
         intent: 'CAPTURE',
@@ -36,7 +38,7 @@ export default {
           {
             amount: {
               currency_code: 'USD',
-              value: (bundle.price / 100).toFixed(2),
+              value: (price / 100).toFixed(2),
             },
           },
         ],

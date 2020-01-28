@@ -30,6 +30,7 @@
     "apollo-link-http": "^1.5.16",
     "apollo-server": "^2.9.16",
     "apollo-server-micro": "^2.9.16",
+    "axios": "^0.19.2",
     "babel-plugin-import": "^1.13.0",
     "babel-plugin-inline-import": "^3.0.0",
     "dotenv": "^8.2.0",

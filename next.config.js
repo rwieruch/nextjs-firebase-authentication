@@ -26,6 +26,8 @@ const nextConfig = {
     STRIPE_CLIENT_ID: process.env.STRIPE_CLIENT_ID,
     STRIPE_CLIENT_SECRET: process.env.STRIPE_CLIENT_SECRET,
     STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
+    COUPON_SALT: process.env.COUPON_SALT,
+    COUPON_URL: process.env.COUPON_URL,
   },
 };
 

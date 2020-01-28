@@ -2,6 +2,9 @@ const stripe = require('stripe')(process.env.STRIPE_CLIENT_SECRET);
 
 import { ResolverContext } from '@typeDefs/resolver';
 
+import { Coupon } from '@services/coupon/types';
+import { getAsDiscount } from '@services/coupon';
+
 import { COURSE } from '../../../content/course-keys';
 import { BUNDLE } from '../../../content/course-keys';
 import storefront from '../../../content/course-storefront';
@@ -20,14 +23,14 @@ export default {
         imageUrl: string;
         courseId: COURSE;
         bundleId: BUNDLE;
-        coupon: string;
+        coupon: Coupon;
       },
       { me }: ResolverContext
     ) => {
       const course = storefront[courseId];
       const bundle = course.bundles[bundleId];
 
-      // TODO apply discount if coupon
+      const price = await getAsDiscount(bundle.price, coupon);
 
       let session;
 
@@ -41,7 +44,7 @@ export default {
               name: course.header,
               description: bundle.header,
               images: [imageUrl],
-              amount: bundle.price,
+              amount: price,
               currency: 'usd',
               quantity: 1,
             },

@@ -11,7 +11,7 @@ const httpLink = new HttpLink({
   credentials: 'same-origin',
 });
 
-const getErrorLink = ctx =>
+const getErrorLink = (ctx = { req: null, res: null }) =>
   onError(({ graphQLErrors, networkError }) => {
     if (graphQLErrors) {
       graphQLErrors.forEach(
