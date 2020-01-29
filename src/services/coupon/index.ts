@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { Ppp, Coupon } from './types';
+import { Ppp } from './types';
 
 const getPpp = async (countryCodeIsoAlpha2: string) =>
   await axios.get(`${process.env.COUPON_URL}${countryCodeIsoAlpha2}`);
@@ -13,7 +13,7 @@ const getPppAmount = (amount: number, ppp: Ppp) => {
 
 export const getAsDiscount = async (
   amount: number,
-  coupon: Coupon
+  coupon?: string
 ) => {
   if (!coupon) {
     return amount;

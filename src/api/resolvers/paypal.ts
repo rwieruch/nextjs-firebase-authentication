@@ -3,7 +3,6 @@ import paypal from '@paypal/checkout-server-sdk';
 
 import { ResolverContext } from '@typeDefs/resolver';
 
-import { Coupon } from '@services/coupon/types';
 import { getAsDiscount } from '@services/coupon';
 import paypalClient from '@services/paypal';
 
@@ -20,7 +19,7 @@ export default {
         courseId,
         bundleId,
         coupon,
-      }: { courseId: COURSE; bundleId: BUNDLE; coupon: Coupon },
+      }: { courseId: COURSE; bundleId: BUNDLE; coupon?: string },
       { me }: ResolverContext
     ) => {
       const course = storefront[courseId];

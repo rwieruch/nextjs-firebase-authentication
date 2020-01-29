@@ -2,7 +2,6 @@ const stripe = require('stripe')(process.env.STRIPE_CLIENT_SECRET);
 
 import { ResolverContext } from '@typeDefs/resolver';
 
-import { Coupon } from '@services/coupon/types';
 import { getAsDiscount } from '@services/coupon';
 
 import { COURSE } from '../../../content/course-keys';
@@ -23,7 +22,7 @@ export default {
         imageUrl: string;
         courseId: COURSE;
         bundleId: BUNDLE;
-        coupon: Coupon;
+        coupon?: string;
       },
       { me }: ResolverContext
     ) => {

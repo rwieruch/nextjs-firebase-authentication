@@ -34,7 +34,7 @@ describe('getAsDiscount', () => {
     const get = jest.spyOn(axios, 'get');
     get.mockImplementationOnce(() => Promise.resolve(data));
 
-    await expect(getAsDiscount(100, null)).resolves.toEqual(100);
+    await expect(getAsDiscount(100)).resolves.toEqual(100);
   });
 
   it('applies no discount if third-party API throws error', async () => {
