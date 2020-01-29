@@ -80,7 +80,9 @@ const Navigation = () => {
           <Menu.SubMenu style={{ float: 'right' }} title="Courses">
             <Menu.ItemGroup key="0" title="My Courses">
               <Menu.Item>
-                <a href={ROUTES.INDEX}>Get Started</a>
+                <Link href={ROUTES.INDEX}>
+                  <a>Get Started</a>
+                </Link>
               </Menu.Item>
             </Menu.ItemGroup>
 
