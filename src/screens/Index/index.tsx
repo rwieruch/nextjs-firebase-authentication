@@ -1,37 +1,31 @@
 import React from 'react';
 import { NextPage } from 'next';
 import styled from 'styled-components';
-import { Typography, Card } from 'antd';
+import { Typography, Layout as AntdLayout, Menu, Icon } from 'antd';
 import gql from 'graphql-tag';
+
+const { Content, Sider } = AntdLayout;
 
 import { GetMe } from '@generated/GetMe';
 import { Session } from '@typeDefs/session';
-import Layout from '@components/Layout';
+import Layout, { Footer } from '@components/Layout';
 
-const tabList = [
-  {
-    key: 'tab1',
-    tab: 'tab1',
-  },
-  {
-    key: 'tab2',
-    tab: 'tab2',
-  },
-];
-
-const contentList: { [key: string]: React.ReactNode } = {
-  tab1: <p>content1</p>,
-  tab2: <p>content2</p>,
-};
-
-const Container = styled.div`
+const StyledContent = styled(Content)`
   margin: 32px;
 `;
 
-const StyledCard = styled(Card)`
-  &:not(:first-of-type) {
-    margin-top: 16px;
-  }
+const StyledSider = styled(Sider)`
+  overflow: auto;
+  height: 100vh;
+  width: 200px;
+  background: #fff;
+  position: fixed;
+  top: 56px;
+`;
+
+const StyledInnerLayout = styled(AntdLayout)`
+  margin-left: 200px;
+  margin-top: 56px;
 `;
 
 interface DashboardPageProps {
@@ -43,35 +37,115 @@ type NextAuthPage = NextPage<DashboardPageProps> & {
 };
 
 const DashboardPage: NextAuthPage = ({ data }) => {
-  const [tab, setTab] = React.useState('tab1');
-
-  const handleTabChange = (key: string) => {
-    setTab(key);
-  };
-
   return (
-    <Layout>
-      <Container>
-        <Typography.Title>Course Dashboard</Typography.Title>
-        <StyledCard title="Protected Course X">
-          <Card.Grid>Content</Card.Grid>
-          <Card.Grid>Content</Card.Grid>
-          <Card.Grid>Content</Card.Grid>
-          <Card.Grid>Content</Card.Grid>
-          <Card.Grid>Content</Card.Grid>
-          <Card.Grid>Content</Card.Grid>
-          <Card.Grid>Content</Card.Grid>
-        </StyledCard>
-
-        <StyledCard
-          title="Course Content"
-          tabList={tabList}
-          activeTabKey={tab}
-          onTabChange={handleTabChange}
+    <Layout noFooter>
+      <StyledSider>
+        <Menu
+          mode="inline"
+          defaultSelectedKeys={['1']}
+          defaultOpenKeys={['sub1']}
+          style={{ height: '100%', borderRight: 0 }}
         >
-          {contentList[tab]}
-        </StyledCard>
-      </Container>
+          <Menu.SubMenu
+            key="sub1"
+            title={
+              <span>
+                <Icon type="user" />
+                subnav 1
+              </span>
+            }
+          >
+            <Menu.Item key="1">option1</Menu.Item>
+            <Menu.Item key="2">option2</Menu.Item>
+            <Menu.Item key="3">option3</Menu.Item>
+            <Menu.Item key="4">option4</Menu.Item>
+          </Menu.SubMenu>
+          <Menu.SubMenu
+            key="sub2"
+            title={
+              <span>
+                <Icon type="laptop" />
+                subnav 2
+              </span>
+            }
+          >
+            <Menu.Item key="5">option5</Menu.Item>
+            <Menu.Item key="6">option6</Menu.Item>
+            <Menu.Item key="7">option7</Menu.Item>
+            <Menu.Item key="8">option8</Menu.Item>
+          </Menu.SubMenu>
+          <Menu.SubMenu
+            key="sub3"
+            title={
+              <span>
+                <Icon type="notification" />
+                subnav 3
+              </span>
+            }
+          >
+            <Menu.Item key="9">option9</Menu.Item>
+            <Menu.Item key="10">option10</Menu.Item>
+            <Menu.Item key="11">option11</Menu.Item>
+            <Menu.Item key="12">option12</Menu.Item>
+          </Menu.SubMenu>
+          <Menu.SubMenu
+            key="sub2"
+            title={
+              <span>
+                <Icon type="laptop" />
+                subnav 2
+              </span>
+            }
+          >
+            <Menu.Item key="5">option5</Menu.Item>
+            <Menu.Item key="6">option6</Menu.Item>
+            <Menu.Item key="7">option7</Menu.Item>
+            <Menu.Item key="8">option8</Menu.Item>
+          </Menu.SubMenu>
+          <Menu.SubMenu
+            key="sub2"
+            title={
+              <span>
+                <Icon type="laptop" />
+                subnav 2
+              </span>
+            }
+          >
+            <Menu.Item key="5">option5</Menu.Item>
+            <Menu.Item key="6">option6</Menu.Item>
+            <Menu.Item key="7">option7</Menu.Item>
+            <Menu.Item key="8">option8</Menu.Item>
+          </Menu.SubMenu>
+        </Menu>
+      </StyledSider>
+
+      <StyledInnerLayout>
+        <StyledContent>
+          <Typography.Title>Course Dashboard</Typography.Title>
+          <Typography.Title>Course Dashboard</Typography.Title>
+
+          <Typography.Title>Course Dashboard</Typography.Title>
+          <Typography.Title>Course Dashboard</Typography.Title>
+          <Typography.Title>Course Dashboard</Typography.Title>
+          <Typography.Title>Course Dashboard</Typography.Title>
+          <Typography.Title>Course Dashboard</Typography.Title>
+          <Typography.Title>Course Dashboard</Typography.Title>
+
+          <Typography.Title>Course Dashboard</Typography.Title>
+          <Typography.Title>Course Dashboard</Typography.Title>
+          <Typography.Title>Course Dashboard</Typography.Title>
+          <Typography.Title>Course Dashboard</Typography.Title>
+          <Typography.Title>Course Dashboard</Typography.Title>
+          <Typography.Title>Course Dashboard</Typography.Title>
+
+          <Typography.Title>Course Dashboard</Typography.Title>
+          <Typography.Title>Course Dashboard</Typography.Title>
+          <Typography.Title>Course Dashboard</Typography.Title>
+          <Typography.Title>Course Dashboard</Typography.Title>
+        </StyledContent>
+
+        <Footer />
+      </StyledInnerLayout>
     </Layout>
   );
 };

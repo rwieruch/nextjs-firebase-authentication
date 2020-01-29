@@ -3,6 +3,7 @@ import { NextPage } from 'next';
 import styled from 'styled-components';
 import gql from 'graphql-tag';
 import { useRouter } from 'next/router';
+import { Layout as AntdLayout } from 'antd';
 
 import { GetStorefront } from '@generated/GetStorefront';
 import { Session } from '@typeDefs/session';
@@ -10,10 +11,12 @@ import Layout from '@components/Layout';
 
 import CheckoutWizard from './CheckoutWizard';
 
-const Container = styled.div`
+const StyledContent = styled(AntdLayout.Content)`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  margin-top: 56px;
 `;
 
 interface CheckoutPageProps {
@@ -31,7 +34,7 @@ const CheckoutPage: NextAuthPage = ({ data }) => {
 
   return (
     <Layout>
-      <Container>
+      <StyledContent>
         <CheckoutWizard
           data={data}
           imageUrl={
@@ -39,7 +42,7 @@ const CheckoutPage: NextAuthPage = ({ data }) => {
             imageUrl instanceof Array ? imageUrl.join('') : imageUrl
           }
         />
-      </Container>
+      </StyledContent>
     </Layout>
   );
 };

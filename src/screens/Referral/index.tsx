@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Typography, Card } from 'antd';
+import { Typography, Card, Layout as AntdLayout } from 'antd';
 
 import { Session } from '@typeDefs/session';
 import Layout from '@components/Layout';
@@ -21,8 +21,8 @@ const contentList: { [key: string]: React.ReactNode } = {
   tab2: <p>content2</p>,
 };
 
-const Container = styled.div`
-  margin: 32px;
+const StyledContent = styled(AntdLayout.Content)`
+  margin: calc(56px + 32px) 32px 32px;
 `;
 
 const StyledCard = styled(Card)`
@@ -40,7 +40,7 @@ const ReferralPage = () => {
 
   return (
     <Layout>
-      <Container>
+      <StyledContent>
         <Typography.Title>Referral Program</Typography.Title>
         <StyledCard
           title="Referrer Dashboard"
@@ -50,7 +50,7 @@ const ReferralPage = () => {
         >
           {contentList[tab]}
         </StyledCard>
-      </Container>
+      </StyledContent>
     </Layout>
   );
 };

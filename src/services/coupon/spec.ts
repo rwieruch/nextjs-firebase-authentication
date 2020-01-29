@@ -43,6 +43,6 @@ describe('getAsDiscount', () => {
       Promise.reject(new Error('error'))
     );
 
-    await expect(getAsDiscount(100, null)).resolves.toEqual(100);
+    await expect(getAsDiscount(100)).resolves.toEqual(100);
   });
 });

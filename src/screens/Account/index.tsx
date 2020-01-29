@@ -2,7 +2,13 @@ import React from 'react';
 import { NextPage } from 'next';
 import Link from 'next/link';
 import styled from 'styled-components';
-import { Card, Col, Row, Typography } from 'antd';
+import {
+  Card,
+  Col,
+  Row,
+  Typography,
+  Layout as AntdLayout,
+} from 'antd';
 import gql from 'graphql-tag';
 
 import { GetMeAccount } from 'src/generated/GetMeAccount';
@@ -10,8 +16,8 @@ import { Session } from '@typeDefs/session';
 import * as ROUTES from '@constants/routes';
 import Layout from '@components/Layout';
 
-const Container = styled.div`
-  margin: 32px;
+const StyledContent = styled(AntdLayout.Content)`
+  margin: calc(56px + 32px) 32px 32px;
 `;
 
 interface AccountPageProps {
@@ -25,7 +31,7 @@ type NextAuthPage = NextPage<AccountPageProps> & {
 const AccountPage: NextAuthPage = ({ data }) => {
   return (
     <Layout>
-      <Container>
+      <StyledContent>
         <Typography.Title>Your Account</Typography.Title>
         <Row gutter={[16, 16]}>
           <Col span={12}>
@@ -77,7 +83,7 @@ const AccountPage: NextAuthPage = ({ data }) => {
             </Card>
           </Col>
         </Row>
-      </Container>
+      </StyledContent>
     </Layout>
   );
 };

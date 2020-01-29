@@ -1,16 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card, message } from 'antd';
+import { Card, message, Layout as AntdLayout } from 'antd';
 
 import { Session } from '@typeDefs/session';
 import Layout from '@components/Layout';
 
 import PasswordForgotForm from './PasswordForgotForm';
 
-const Container = styled.div`
+const StyledContent = styled(AntdLayout.Content)`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  margin-top: 56px;
 `;
 
 const StyledCard = styled(Card)`
@@ -45,7 +47,7 @@ const PasswordForgotPage = () => {
 
   return (
     <Layout>
-      <Container>
+      <StyledContent>
         <StyledCard title="Reset your password">
           <PasswordForgotForm
             onLoadingMessage={handleLoadingMessage}
@@ -53,7 +55,7 @@ const PasswordForgotPage = () => {
             onErrorMessage={handleErrorMessage}
           />
         </StyledCard>
-      </Container>
+      </StyledContent>
     </Layout>
   );
 };

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
-import { Card, message } from 'antd';
+import { Card, message, Layout as AntdLayout } from 'antd';
 
 import * as ROUTES from '@constants/routes';
 import { Session } from '@typeDefs/session';
@@ -9,10 +9,12 @@ import Layout from '@components/Layout';
 
 import SignUpForm from './SignUpForm';
 
-const SignUpPageLayout = styled.div`
+const StyledContent = styled(AntdLayout.Content)`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  margin-top: 56px;
 `;
 
 const StyledCard = styled(Card)`
@@ -53,7 +55,7 @@ const SignUpPage = () => {
 
   return (
     <Layout>
-      <SignUpPageLayout>
+      <StyledContent>
         <StyledCard title="Register your account">
           <SignUpForm
             onSuccess={handleSuccess}
@@ -62,7 +64,7 @@ const SignUpPage = () => {
             onErrorMessage={handleErrorMessage}
           />
         </StyledCard>
-      </SignUpPageLayout>
+      </StyledContent>
     </Layout>
   );
 };

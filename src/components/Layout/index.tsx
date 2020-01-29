@@ -1,17 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Layout as MyLayout } from 'antd';
+import { Layout as AntdLayout } from 'antd';
 
-const { Header, Content, Footer, Sider } = MyLayout;
+const { Header: AntdHeader, Footer: AntdFooter } = AntdLayout;
 
 import Navigation from '@components/Navigation';
 
-// heights:
-// Menu 48px;
-// Menu Padding 8px;
-// Footer 70px;
-const StyledContent = styled(Content)`
-  min-height: calc(100vh - 48px - 8px - 70px);
+const StyledAntdLayout = styled(AntdLayout)<{ footer: boolean }>`
+  min-height: calc(100vh - ${props => (props.footer ? 70 : 0)}px);
 
   display: flex;
   flex-direction: row;
@@ -21,27 +17,43 @@ const StyledContent = styled(Content)`
   }
 `;
 
-const StyledFooter = styled(Footer)`
+const StyledAntdFooter = styled(AntdFooter)`
   text-align: center;
 `;
 
 type LayoutProps = {
+  noFooter?: boolean;
   children: React.ReactNode;
 };
 
-const Layout = ({ children }: LayoutProps) => (
-  <MyLayout>
-    <header>
-      <Navigation />
-    </header>
-
-    <StyledContent>{children}</StyledContent>
-
-    <StyledFooter>
-      Created by{' '}
-      <a href="https://www.robinwieruch.de/">Robin Wieruch</a>
-    </StyledFooter>
-  </MyLayout>
+const Footer = () => (
+  <StyledAntdFooter>
+    Created by{' '}
+    <a href="https://www.robinwieruch.de/">Robin Wieruch</a>
+  </StyledAntdFooter>
 );
+
+const Layout = ({ noFooter = false, children }: LayoutProps) => (
+  <AntdLayout>
+    <AntdHeader
+      style={{
+        position: 'fixed',
+        zIndex: 1,
+        width: '100%',
+        height: '56px',
+        padding: 0,
+        margin: 0,
+      }}
+    >
+      <Navigation />
+    </AntdHeader>
+    <StyledAntdLayout footer={noFooter ? true : false}>
+      {children}
+    </StyledAntdLayout>
+    {!noFooter && <Footer />}
+  </AntdLayout>
+);
+
+export { Footer };
 
 export default Layout;

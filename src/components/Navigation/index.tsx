@@ -12,7 +12,10 @@ import signOut from './signOut';
 
 const Container = styled.nav`
   ul {
-    padding: 8px 32px 0;
+    padding-top: 8px;
+    padding: bottom: 0px;
+    padding-left: 30px;
+    padding-right: 32px;
   }
 `;
 
