@@ -52,10 +52,12 @@ const Navigation = () => {
         {session && (
           <Menu.SubMenu style={{ float: 'right' }} title="Home">
             <Menu.Item key="0">
-              <a href={ROUTES.ACCOUNT}>
-                <Icon type="user" />
-                Account
-              </a>
+              <Link href={ROUTES.ACCOUNT}>
+                <a>
+                  <Icon type="user" />
+                  Account
+                </a>
+              </Link>
             </Menu.Item>
             <Menu.Item key="1" onClick={() => signOut()}>
               <Icon type="poweroff" />
@@ -78,7 +80,9 @@ const Navigation = () => {
           <Menu.SubMenu style={{ float: 'right' }} title="Courses">
             <Menu.ItemGroup key="0" title="My Courses">
               <Menu.Item>
-                <a href={ROUTES.INDEX}>Get Started</a>
+                <Link href={ROUTES.INDEX}>
+                  <a>Get Started</a>
+                </Link>
               </Menu.Item>
             </Menu.ItemGroup>
 
