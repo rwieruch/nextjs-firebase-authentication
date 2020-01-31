@@ -42,15 +42,7 @@ const StripeCheckout = ({
   onError,
 }: StripeCheckoutProps) => {
   const [stripeCreateOrder, { loading, error }] = useMutation(
-    STRIPE_CREATE_ORDER,
-    {
-      variables: {
-        imageUrl,
-        courseId,
-        bundleId,
-        coupon,
-      },
-    }
+    STRIPE_CREATE_ORDER
   );
 
   useIndicators({
@@ -60,7 +52,14 @@ const StripeCheckout = ({
   });
 
   const handlePay = async () => {
-    const { data } = await stripeCreateOrder();
+    const { data } = await stripeCreateOrder({
+      variables: {
+        imageUrl,
+        courseId,
+        bundleId,
+        coupon,
+      },
+    });
 
     const { error } = await (window as any)
       .Stripe(process.env.STRIPE_CLIENT_ID)

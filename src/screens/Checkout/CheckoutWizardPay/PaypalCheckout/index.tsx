@@ -47,13 +47,7 @@ const PaypalCheckout = ({
   const [
     paypalCreateOrder,
     { loading: createOrderLoading, error: createOrderError },
-  ] = useMutation(PAYPAL_CREATE_ORDER, {
-    variables: {
-      courseId,
-      bundleId,
-      coupon,
-    },
-  });
+  ] = useMutation(PAYPAL_CREATE_ORDER);
 
   const [
     paypalApproveOrder,
@@ -68,7 +62,13 @@ const PaypalCheckout = ({
 
   React.useEffect(() => {
     const createOrder = async () => {
-      const { data } = await paypalCreateOrder();
+      const { data } = await paypalCreateOrder({
+        variables: {
+          courseId,
+          bundleId,
+          coupon,
+        },
+      });
       return data.paypalCreateOrder.orderId;
     };
 
