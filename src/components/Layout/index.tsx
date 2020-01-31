@@ -6,8 +6,8 @@ const { Header: AntdHeader, Footer: AntdFooter } = AntdLayout;
 
 import Navigation from '@components/Navigation';
 
-const StyledAntdLayout = styled(AntdLayout)<{ footer: boolean }>`
-  min-height: calc(100vh - ${props => (props.footer ? 70 : 0)}px);
+const StyledAntdLayout = styled(AntdLayout)<{ nofooter: number }>`
+  min-height: calc(100vh - ${props => (props.nofooter ? 70 : 0)}px);
 
   display: flex;
   flex-direction: row;
@@ -47,7 +47,7 @@ const Layout = ({ noFooter = false, children }: LayoutProps) => (
     >
       <Navigation />
     </AntdHeader>
-    <StyledAntdLayout footer={noFooter ? true : false}>
+    <StyledAntdLayout nofooter={noFooter ? 0 : 1}>
       {children}
     </StyledAntdLayout>
     {!noFooter && <Footer />}
