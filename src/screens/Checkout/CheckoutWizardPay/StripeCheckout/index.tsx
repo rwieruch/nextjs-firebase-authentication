@@ -1,9 +1,11 @@
 // https://stripe.com/docs/payments/checkout/one-time#create-one-time-payments
 
 import React from 'react';
-import { useApolloClient } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import { Button } from 'antd';
+
+import useIndicators from '@hooks/useIndicators';
 
 const STRIPE_CREATE_ORDER = gql`
   mutation StripeCreateOrder(
@@ -39,18 +41,26 @@ const StripeCheckout = ({
   coupon,
   onError,
 }: StripeCheckoutProps) => {
-  const apolloClient = useApolloClient();
-
-  const handlePay = async () => {
-    const { data } = await apolloClient.mutate({
-      mutation: STRIPE_CREATE_ORDER,
+  const [stripeCreateOrder, { loading, error }] = useMutation(
+    STRIPE_CREATE_ORDER,
+    {
       variables: {
         imageUrl,
         courseId,
         bundleId,
         coupon,
       },
-    });
+    }
+  );
+
+  useIndicators({
+    key: 'stripe',
+    loading,
+    error,
+  });
+
+  const handlePay = async () => {
+    const { data } = await stripeCreateOrder();
 
     const { error } = await (window as any)
       .Stripe(process.env.STRIPE_CLIENT_ID)
@@ -62,7 +72,7 @@ const StripeCheckout = ({
   };
 
   return (
-    <Button type="primary" onClick={handlePay}>
+    <Button type="primary" loading={loading} onClick={handlePay}>
       Credit Card
     </Button>
   );

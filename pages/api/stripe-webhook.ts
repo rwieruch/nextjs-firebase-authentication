@@ -1,7 +1,7 @@
 // https://stripe.com/docs/payments/checkout/fulfillment#webhooks
 
-import firebaseAdmin from '@services/firebase/admin';
 import stripe from '@services/stripe';
+import { createCourse } from '@services/firebase/course';
 
 import { send } from 'micro';
 import getRawBody from 'raw-body';
@@ -38,21 +38,13 @@ export default async (
       display_items,
     } = session;
 
-    firebaseAdmin
-      .database()
-      .ref(`users/${client_reference_id}/courses`)
-      .push()
-      .set({
-        courseId: metadata.courseId,
-        packageId: metadata.bundleId,
-        invoice: {
-          createdAt: firebaseAdmin.database.ServerValue.TIMESTAMP,
-          amount: (display_items[0].amount / 100).toFixed(2),
-          licensesCount: 1,
-          currency: 'USD',
-          paymentType: 'STRIPE',
-        },
-      });
+    await createCourse({
+      uid: client_reference_id,
+      courseId: metadata.courseId,
+      bundleId: metadata.bundleId,
+      amount: Number((display_items[0].amount / 100).toFixed(2)),
+      paymentType: 'STRIPE',
+    });
   }
 
   // TODO

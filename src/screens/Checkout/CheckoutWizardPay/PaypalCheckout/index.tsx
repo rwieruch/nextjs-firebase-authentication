@@ -1,9 +1,10 @@
 // https://developer.paypal.com/docs/checkout/integrate/
 
 import React from 'react';
-import { useApolloClient } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 
+import useIndicators from '@hooks/useIndicators';
 import FormAtomButton from '@components/Form/AtomButton';
 
 const PAYPAL_CREATE_ORDER = gql`
@@ -41,7 +42,6 @@ export type PaypalCheckoutProps = {
   bundleId: string;
   coupon: string;
   onSuccess: () => void;
-  onError: (error: Error) => void;
   onBack: () => void;
 };
 
@@ -50,46 +50,49 @@ const PaypalCheckout = ({
   bundleId,
   coupon,
   onSuccess,
-  onError,
   onBack,
 }: PaypalCheckoutProps) => {
-  const apolloClient = useApolloClient();
+  const [
+    paypalCreateOrder,
+    { loading: createOrderLoading, error: createOrderError },
+  ] = useMutation(PAYPAL_CREATE_ORDER, {
+    variables: {
+      courseId,
+      bundleId,
+      coupon,
+    },
+  });
+
+  const [
+    paypalApproveOrder,
+    { loading: approveOrderLoading, error: approveOrderError },
+  ] = useMutation(PAYPAL_APPROVE_ORDER);
+
+  const successMessage = useIndicators({
+    key: 'paypal',
+    loading: createOrderLoading || approveOrderLoading,
+    error: createOrderError || approveOrderError,
+  });
 
   React.useEffect(() => {
+    const createOrder = async () => {
+      const { data } = await paypalCreateOrder();
+      return data.paypalCreateOrder.orderId;
+    };
+
+    const onApprove = async (data: { orderID: string }) => {
+      await paypalApproveOrder({
+        variables: { orderId: data.orderID, courseId, bundleId },
+      });
+
+      successMessage();
+      onSuccess();
+    };
+
     (window as any).paypal
       .Buttons({
-        createOrder: async () => {
-          try {
-            const { data } = await apolloClient.mutate({
-              mutation: PAYPAL_CREATE_ORDER,
-              variables: {
-                courseId,
-                bundleId,
-                coupon,
-              },
-            });
-
-            return data.paypalCreateOrder.orderId;
-          } catch (error) {
-            onError(error);
-          }
-        },
-        onApprove: async (data: { orderID: string }) => {
-          try {
-            await apolloClient.mutate({
-              mutation: PAYPAL_APPROVE_ORDER,
-              variables: {
-                orderId: data.orderID,
-                courseId,
-                bundleId,
-              },
-            });
-
-            onSuccess();
-          } catch (error) {
-            onError(error);
-          }
-        },
+        createOrder,
+        onApprove,
       })
       .render('#paypal-button-container');
   }, []);

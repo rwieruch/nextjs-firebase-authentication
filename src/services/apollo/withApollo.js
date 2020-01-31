@@ -2,6 +2,7 @@ import { ApolloClient } from 'apollo-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { HttpLink } from 'apollo-link-http';
 import { onError } from 'apollo-link-error';
+
 import withApollo from 'next-with-apollo';
 
 import signOut from '@components/Navigation/signOut';

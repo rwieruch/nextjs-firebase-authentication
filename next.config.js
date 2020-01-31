@@ -28,6 +28,7 @@ const nextConfig = {
     STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
     COUPON_SALT: process.env.COUPON_SALT,
     COUPON_URL: process.env.COUPON_URL,
+    FIREBASE_ADMIN_UID: process.env.FIREBASE_ADMIN_UID,
   },
 };
 

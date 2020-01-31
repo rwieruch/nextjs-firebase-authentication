@@ -81,6 +81,7 @@ STRIPE_WEBHOOK_SECRET=xxx
 
 COUPON_SALT=SOMETHING TO BE REPLACED BEFORE HTTING THE COUPON URL
 COUPON_URL=URL TO GET A CONVERSION FACTOR
+FIREBASE_ADMIN_UID=SOME FIREBASE USER'S UID
 ```
 
 - [FIREBASE](https://firebase.google.com/)
@@ -94,6 +95,10 @@ COUPON_URL=URL TO GET A CONVERSION FACTOR
 ### .firebaseServiceAccountKey.json file
 
 Visit [here](https://firebase.google.com/docs/admin/setup/#initialize-sdk) for Firebase Admin SDK and generate a _firebaseServiceAccountKey.json_ file from there which should be in your project's root folder. If using git, add it to your _.gitignore_ file.
+
+### Admin Account
+
+If you want to have an account with Firebase admin claims, create this Firebase account first via UI, then set the user account's `uid` in _.env_ with `FIREBASE_ADMIN_UID`, and restart your sercer.
 
 ### Stripe CLI for Webhook in Development Mode
 

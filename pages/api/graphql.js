@@ -7,6 +7,12 @@ import getMe from '@api/middleware/getMe';
 import firebase from '@services/firebase/client';
 import firebaseAdmin from '@services/firebase/admin';
 
+firebaseAdmin
+  .auth()
+  .setCustomUserClaims(process.env.FIREBASE_ADMIN_UID, {
+    admin: true,
+  });
+
 const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,

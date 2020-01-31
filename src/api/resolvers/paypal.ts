@@ -5,7 +5,7 @@ import { ResolverContext } from '@typeDefs/resolver';
 
 import { getAsDiscount } from '@services/coupon';
 import paypalClient from '@services/paypal';
-import firebaseAdmin from '@services/firebase/admin';
+import { createCourse } from '@services/firebase/course';
 
 import { COURSE } from '../../../content/course-keys';
 import { BUNDLE } from '../../../content/course-keys';
@@ -63,9 +63,6 @@ export default {
       }: { courseId: COURSE; bundleId: BUNDLE; orderId: string },
       { me }: ResolverContext
     ) => {
-      const course = storefront[courseId];
-      const bundle = course.bundles[bundleId];
-
       const request = new paypal.orders.OrdersCaptureRequest(orderId);
       request.requestBody({});
 
@@ -76,21 +73,13 @@ export default {
           value,
         } = capture.result.purchase_units[0].payments.captures[0].amount;
 
-        firebaseAdmin
-          .database()
-          .ref(`users/${me.uid}/courses`)
-          .push()
-          .set({
-            courseId: course.courseId,
-            packageId: bundle.bundleId,
-            invoice: {
-              createdAt: firebaseAdmin.database.ServerValue.TIMESTAMP,
-              amount: value,
-              licensesCount: 1,
-              currency: 'USD',
-              paymentType: 'PAYPAL',
-            },
-          });
+        await createCourse({
+          uid: me.uid,
+          courseId,
+          bundleId,
+          amount: value,
+          paymentType: 'PAYPAL',
+        });
       } catch (error) {
         throw new Error(error.message);
       }

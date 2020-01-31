@@ -4,6 +4,7 @@ import { Form, Input, Button, Row, Col } from 'antd';
 import { GetStorefront_storefront_course } from '@generated/GetStorefront';
 import FormIcon from '@components/Form/Icon';
 
+import FreeCheckoutButton from './FreeCheckout';
 import PaypalCheckout from './Adapters/paypal';
 import StripeCheckoutButton from './Adapters/stripe';
 
@@ -14,15 +15,15 @@ const SELECTIONS = {
 
 type IdleFormProps = {
   coupon: string;
-  courseHeader: string | undefined;
-  bundleHeader: string | undefined;
-  price: number | undefined;
+  courseHeader: string;
+  bundleHeader: string;
+  price: number;
   onCouponChange: (
     event: React.ChangeEvent<HTMLInputElement>
   ) => void;
-  onSelectPaypal: () => void;
-  onSelectFree: () => void;
-  children: React.ReactNode;
+  freeButton: React.ReactNode;
+  stripeButton: React.ReactNode;
+  paypalButton: React.ReactNode;
 };
 
 const IdleForm = ({
@@ -31,9 +32,9 @@ const IdleForm = ({
   bundleHeader,
   price,
   onCouponChange,
-  onSelectPaypal,
-  onSelectFree,
-  children,
+  freeButton,
+  stripeButton,
+  paypalButton,
 }: IdleFormProps) => {
   const formItemLayout = {
     labelCol: {
@@ -62,7 +63,7 @@ const IdleForm = ({
         </Form.Item>
       )}
 
-      {price && !isFree && (
+      {!isFree && (
         <Form.Item style={{ margin: 0 }} label="Price">
           <span className="ant-form-text">
             {(price / 100).toLocaleString('en-US', {
@@ -87,29 +88,11 @@ const IdleForm = ({
 
       <Row>
         <Col span={24} style={{ textAlign: 'right' }}>
-          {!isFree && (
-            <Button
-              onClick={onSelectPaypal}
-              type="primary"
-              style={{ marginRight: '8px' }}
-              aria-label="paypal"
-            >
-              PayPal
-            </Button>
-          )}
+          {!isFree && paypalButton}
 
-          {/* StripeCheckoutButton */}
-          {!isFree && children}
+          {!isFree && stripeButton}
 
-          {isFree && (
-            <Button
-              onClick={onSelectFree}
-              type="primary"
-              aria-label="unlock"
-            >
-              Unlock
-            </Button>
-          )}
+          {isFree && freeButton}
         </Col>
       </Row>
     </Form>
@@ -143,17 +126,6 @@ const Pay = ({ imageUrl, course, onSuccess, onError }: PayProps) => {
     setCurrentSelection(SELECTIONS.PAYPAL);
   };
 
-  const handleSelectFree = async () => {
-    // TODO
-    try {
-      // API request with course addition in DB
-      // but check if it's really free first
-      // onSuccess();
-    } catch (error) {
-      onError(error);
-    }
-  };
-
   return (
     <>
       <PaypalCheckout
@@ -162,7 +134,6 @@ const Pay = ({ imageUrl, course, onSuccess, onError }: PayProps) => {
         bundleId={course.bundle.bundleId}
         coupon={coupon}
         onSuccess={onSuccess}
-        onError={onError}
         onBack={handleSelectIdle}
       />
 
@@ -173,17 +144,33 @@ const Pay = ({ imageUrl, course, onSuccess, onError }: PayProps) => {
           price={course.bundle.price}
           coupon={coupon}
           onCouponChange={handleCouponChange}
-          onSelectPaypal={handleSelectPaypal}
-          onSelectFree={handleSelectFree}
-        >
-          <StripeCheckoutButton
-            imageUrl={imageUrl}
-            courseId={course.courseId}
-            bundleId={course.bundle.bundleId}
-            coupon={coupon}
-            onError={onError}
-          />
-        </IdleForm>
+          freeButton={
+            <FreeCheckoutButton
+              courseId={course.courseId}
+              bundleId={course.bundle.bundleId}
+              onSuccess={onSuccess}
+            />
+          }
+          stripeButton={
+            <StripeCheckoutButton
+              imageUrl={imageUrl}
+              courseId={course.courseId}
+              bundleId={course.bundle.bundleId}
+              coupon={coupon}
+              onError={onError}
+            />
+          }
+          paypalButton={
+            <Button
+              onClick={handleSelectPaypal}
+              type="primary"
+              style={{ marginRight: '8px' }}
+              aria-label="paypal"
+            >
+              PayPal
+            </Button>
+          }
+        />
       )}
     </>
   );

@@ -19,8 +19,10 @@ export default async (
   return await firebaseAdmin
     .auth()
     .verifySessionCookie(session, checkRevoked)
-    .then(decodedClaims => {
-      return firebaseAdmin.auth().getUser(decodedClaims.uid);
+    .then(async claims => {
+      const me = await firebaseAdmin.auth().getUser(claims.uid);
+
+      return { ...me, claims };
     })
     .catch(error => {
       throw new AuthenticationError(error.message);
