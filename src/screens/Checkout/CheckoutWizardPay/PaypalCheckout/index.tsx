@@ -24,16 +24,8 @@ const PAYPAL_CREATE_ORDER = gql`
 `;
 
 const PAYPAL_APPROVE_ORDER = gql`
-  mutation PaypalApproveOrder(
-    $courseId: String!
-    $bundleId: String!
-    $orderId: String!
-  ) {
-    paypalApproveOrder(
-      courseId: $courseId
-      bundleId: $bundleId
-      orderId: $orderId
-    )
+  mutation PaypalApproveOrder($orderId: String!) {
+    paypalApproveOrder(orderId: $orderId)
   }
 `;
 
@@ -82,7 +74,7 @@ const PaypalCheckout = ({
 
     const onApprove = async (data: { orderID: string }) => {
       await paypalApproveOrder({
-        variables: { orderId: data.orderID, courseId, bundleId },
+        variables: { orderId: data.orderID },
       });
 
       successMessage();

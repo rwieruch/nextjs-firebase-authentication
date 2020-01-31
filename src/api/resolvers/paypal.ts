@@ -36,6 +36,8 @@ export default {
         intent: 'CAPTURE',
         purchase_units: [
           {
+            reference_id: courseId,
+            custom_id: JSON.stringify({ courseId, bundleId }),
             amount: {
               currency_code: 'USD',
               value: (price / 100).toFixed(2),
@@ -56,11 +58,7 @@ export default {
     // https://developer.paypal.com/docs/checkout/reference/server-integration/capture-transaction/
     paypalApproveOrder: async (
       parent: any,
-      {
-        courseId,
-        bundleId,
-        orderId,
-      }: { courseId: COURSE; bundleId: BUNDLE; orderId: string },
+      { orderId }: { orderId: string },
       { me }: ResolverContext
     ) => {
       const request = new paypal.orders.OrdersCaptureRequest(orderId);
@@ -70,14 +68,17 @@ export default {
         const capture = await paypalClient().execute(request);
 
         const {
-          value,
-        } = capture.result.purchase_units[0].payments.captures[0].amount;
+          amount,
+          custom_id,
+        } = capture.result.purchase_units[0].payments.captures[0];
+
+        const { courseId, bundleId } = JSON.parse(custom_id);
 
         await createCourse({
           uid: me.uid,
           courseId,
           bundleId,
-          amount: value,
+          amount: amount.value,
           paymentType: 'PAYPAL',
         });
       } catch (error) {
