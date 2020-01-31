@@ -1,8 +1,7 @@
-const stripe = require('stripe')(process.env.STRIPE_CLIENT_SECRET);
-
 import { ResolverContext } from '@typeDefs/resolver';
 
 import { getAsDiscount } from '@services/coupon';
+import stripe from '@services/stripe';
 
 import { COURSE } from '../../../content/course-keys';
 import { BUNDLE } from '../../../content/course-keys';

@@ -101,13 +101,15 @@ Visit [here](https://firebase.google.com/docs/admin/setup/#initialize-sdk) for F
 
 ```
 stripe login
+# follow instructions
 stripe listen --forward-to localhost:3000/api/stripe-webhook
+# copy and paste secret
 ```
 
-Generates a `secret` which can be used in _.env_:
+The `secret` can be used in _.env_:
 
 ```
 STRIPE_WEBHOOK_SECRET=secret
 ```
 
-Then fake a request with Stripe CLI `stripe payment_intents create --amount=100 --currency=usd` or use the web application's Stripe Checkout feature.
+Then fake a request with Stripe CLI `stripe payment_intents create --amount=100 --currency=usd` will work. Make sure the application is running too. Or use the web application's Stripe Checkout feature for real.

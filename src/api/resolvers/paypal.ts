@@ -5,6 +5,7 @@ import { ResolverContext } from '@typeDefs/resolver';
 
 import { getAsDiscount } from '@services/coupon';
 import paypalClient from '@services/paypal';
+import firebaseAdmin from '@services/firebase/admin';
 
 import { COURSE } from '../../../content/course-keys';
 import { BUNDLE } from '../../../content/course-keys';
@@ -71,10 +72,25 @@ export default {
       try {
         const capture = await paypalClient().execute(request);
 
-        // 4. Save the capture ID to your database. Implement logic to save capture to your database for future reference.
-        const captureId =
-          capture.result.purchase_units[0].payments.captures[0].id;
-        // await database.saveCaptureId(captureId);
+        const {
+          value,
+        } = capture.result.purchase_units[0].payments.captures[0].amount;
+
+        firebaseAdmin
+          .database()
+          .ref(`users/${me.uid}/courses`)
+          .push()
+          .set({
+            courseId: course.courseId,
+            packageId: bundle.bundleId,
+            invoice: {
+              createdAt: firebaseAdmin.database.ServerValue.TIMESTAMP,
+              amount: value,
+              licensesCount: 1,
+              currency: 'USD',
+              paymentType: 'PAYPAL',
+            },
+          });
       } catch (error) {
         throw new Error(error.message);
       }

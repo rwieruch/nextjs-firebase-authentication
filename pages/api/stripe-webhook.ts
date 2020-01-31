@@ -1,8 +1,9 @@
 // https://stripe.com/docs/payments/checkout/fulfillment#webhooks
 
-const stripe = require('stripe')(process.env.STRIPE_CLIENT_SECRET);
+import firebaseAdmin from '@services/firebase/admin';
+import stripe from '@services/stripe';
 
-import { send, text } from 'micro';
+import { send } from 'micro';
 import getRawBody from 'raw-body';
 
 import { ServerRequest, ServerResponse } from '@typeDefs/server';
@@ -27,21 +28,36 @@ export default async (
     send(response, 400, `Webhook Error: ${error.message}`);
   }
 
-  // Handle the checkout.session.completed event
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object;
 
-    console.log(session);
+    const {
+      metadata,
+      client_reference_id,
+      // customer_email,
+      display_items,
+    } = session;
 
-    const { metadata, client_reference_id, customer_email } = session;
-
-    // Fulfill the purchase...
-    // handleCheckoutSession(session);
+    firebaseAdmin
+      .database()
+      .ref(`users/${client_reference_id}/courses`)
+      .push()
+      .set({
+        courseId: metadata.courseId,
+        packageId: metadata.bundleId,
+        invoice: {
+          createdAt: firebaseAdmin.database.ServerValue.TIMESTAMP,
+          amount: (display_items[0].amount / 100).toFixed(2),
+          licensesCount: 1,
+          currency: 'USD',
+          paymentType: 'STRIPE',
+        },
+      });
   }
 
-  // Return a response to acknowledge receipt of the event
-  // response.json({ received: true });
-
+  // TODO
+  // accoring to Stripe documentation a response from express looks like: response.json({ received: true });
+  // I send the response with Micro now and experience that the Stripe server doesn't react to it. Is there anything wrong?
   send(response, 200, { received: true });
 };
 
