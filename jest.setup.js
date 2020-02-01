@@ -20,5 +20,6 @@ jest.mock('firebase/auth');
 jest.mock('next/router', () => ({
   useRouter: () => ({
     push: jest.fn(),
+    prefetch: jest.fn(),
   }),
 }));

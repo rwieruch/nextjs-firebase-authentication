@@ -1,21 +1,23 @@
-import { render, fireEvent } from '@testing-library/react';
-import waitForExpect from 'wait-for-expect';
+import { render, fireEvent, wait } from '@testing-library/react';
 import { MockedProvider } from '@apollo/react-testing';
 import { GraphQLError } from 'graphql';
+import { message } from 'antd';
 
-import SignInForm from '.';
-import { SIGN_IN } from './signIn';
+import SignInForm, { SIGN_IN } from '.';
 
 describe('SignInForm', () => {
   const email = 'example@example.com';
   const password = 'mypassword';
 
   const onSuccess = jest.fn();
-  const onLoadingMessage = jest.fn();
-  const onSuccessMessage = jest.fn();
-  const onErrorMessage = jest.fn();
 
-  let mutationCalled = false;
+  message.error = jest.fn();
+
+  let mutationCalled: boolean;
+
+  beforeEach(() => {
+    mutationCalled = false;
+  });
 
   it('signs in with success', async () => {
     const mocks = [
@@ -33,12 +35,7 @@ describe('SignInForm', () => {
 
     const component = render(
       <MockedProvider mocks={mocks} addTypename={false}>
-        <SignInForm
-          onSuccess={onSuccess}
-          onLoadingMessage={onLoadingMessage}
-          onSuccessMessage={onSuccessMessage}
-          onErrorMessage={onErrorMessage}
-        />
+        <SignInForm onSuccess={onSuccess} />
       </MockedProvider>
     );
 
@@ -52,13 +49,9 @@ describe('SignInForm', () => {
 
     fireEvent.click(component.getByLabelText('sign-in-submit'));
 
-    expect(onLoadingMessage).toHaveBeenCalledTimes(1);
-
-    await waitForExpect(() => {
-      expect(onErrorMessage).toHaveBeenCalledTimes(0);
-      expect(onSuccessMessage).toHaveBeenCalledTimes(1);
-
+    await wait(() => {
       expect(onSuccess).toHaveBeenCalledTimes(1);
+      expect(message.error).toHaveBeenCalledTimes(0);
 
       expect(mutationCalled).toBe(true);
     });
@@ -80,12 +73,7 @@ describe('SignInForm', () => {
 
     const component = render(
       <MockedProvider mocks={mocks} addTypename={false}>
-        <SignInForm
-          onSuccess={onSuccess}
-          onLoadingMessage={onLoadingMessage}
-          onSuccessMessage={onSuccessMessage}
-          onErrorMessage={onErrorMessage}
-        />
+        <SignInForm onSuccess={onSuccess} />
       </MockedProvider>
     );
 
@@ -99,11 +87,9 @@ describe('SignInForm', () => {
 
     fireEvent.click(component.getByLabelText('sign-in-submit'));
 
-    expect(onLoadingMessage).toHaveBeenCalledTimes(1);
-
-    await waitForExpect(() => {
-      expect(onErrorMessage).toHaveBeenCalledTimes(1);
-      expect(onSuccessMessage).toHaveBeenCalledTimes(0);
+    await wait(() => {
+      expect(onSuccess).toHaveBeenCalledTimes(0);
+      expect(message.error).toHaveBeenCalledTimes(1);
 
       expect(mutationCalled).toBe(true);
     });

@@ -2,33 +2,44 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import { Form, Input } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
-import { useApolloClient } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
+import cookie from 'js-cookie';
 
+import { EXPIRES_IN } from '@constants/cookie';
 import * as ROUTES from '@constants/routes';
 import FormItem from '@components/Form/Item';
 import FormStretchedButton from '@components/Form/StretchedButton';
 import FormAtomButton from '@components/Form/AtomButton';
+import useErrorIndicator from '@hooks/useErrorIndicator';
 
-import signUp from './signUp';
+export const SIGN_UP = gql`
+  mutation SignUp(
+    $username: String!
+    $email: String!
+    $password: String!
+  ) {
+    signUp(username: $username, email: $email, password: $password) {
+      sessionToken
+    }
+  }
+`;
 
 interface SignUpFormProps extends FormComponentProps {
   onSuccess: () => void;
-  onLoadingMessage: () => void;
-  onSuccessMessage: () => void;
-  onErrorMessage: (error: Error) => void;
   onNavigateSignIn?: () => void;
 }
 
 const SignUpForm = ({
   form,
   onSuccess,
-  onLoadingMessage,
-  onSuccessMessage,
-  onErrorMessage,
   onNavigateSignIn,
 }: SignUpFormProps) => {
   const router = useRouter();
-  const apolloClient = useApolloClient();
+
+  const [signUp, { loading, error }] = useMutation(SIGN_UP);
+
+  useErrorIndicator({ error });
 
   const handleNavigateSignIn = onNavigateSignIn
     ? onNavigateSignIn
@@ -74,22 +85,24 @@ const SignUpForm = ({
     form.validateFields(async (error, values) => {
       if (error) return;
 
-      onLoadingMessage();
-
       try {
-        await signUp(
-          apolloClient,
-          values.username,
-          values.email,
-          values.password
-        );
+        const { data } = await signUp({
+          variables: {
+            username: values.username,
+            email: values.email,
+            password: values.password,
+          },
+        });
 
-        onSuccessMessage();
+        cookie.set('session', data.signUp.sessionToken, {
+          expires: EXPIRES_IN,
+          // TODO: 1) Get it work with httpOnly 2) Get it work on the server. See SignUpForm.tsx
+          // httpOnly: true,
+          // secure: true,
+        });
 
         onSuccess();
-      } catch (error) {
-        onErrorMessage(error);
-      }
+      } catch (error) {}
     });
 
     event.preventDefault();
@@ -186,6 +199,7 @@ const SignUpForm = ({
 
       <FormItem wrapperCol={{ sm: 24 }}>
         <FormStretchedButton
+          loading={loading}
           type="primary"
           htmlType="submit"
           aria-label="sign-up-submit"

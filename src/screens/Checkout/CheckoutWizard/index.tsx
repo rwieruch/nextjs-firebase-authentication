@@ -32,11 +32,6 @@ const CheckoutWizard = ({ data, imageUrl }: CheckoutWizardProps) => {
     session ? 1 : 0
   );
 
-  const [pending, setLoading] = React.useState({
-    one: false,
-    two: false,
-  });
-
   const handleNext = () => {
     setCurrentStep(1);
   };
@@ -52,37 +47,10 @@ const CheckoutWizard = ({ data, imageUrl }: CheckoutWizardProps) => {
     });
   };
 
-  const handleLoadingMessageAccount = () => {
-    setLoading({ ...pending, one: true });
-  };
-
-  const handleSuccessMessageAccount = () => {
-    setLoading({ ...pending, one: false });
-
-    message.success({
-      content: 'Success!',
-      key: 'checkout',
-      duration: 2,
-    });
-  };
-
-  const handleErrorMessageAccount = (error: Error) => {
-    setLoading({ ...pending, one: false });
-
-    message.error({
-      content: error.message,
-      key: 'checkout',
-      duration: 2,
-    });
-  };
-
   return (
     <Container>
       <StyledSteps current={currentStep}>
-        <Steps.Step
-          title="Account"
-          icon={pending.one && <Icon type="loading" />}
-        />
+        <Steps.Step title="Account" />
         <Steps.Step title="Pay" />
       </StyledSteps>
 
@@ -100,12 +68,7 @@ const CheckoutWizard = ({ data, imageUrl }: CheckoutWizardProps) => {
       >
         <div className="steps-content">
           {currentStep === 0 && (
-            <CheckoutWizardAccount
-              onSuccess={handleNext}
-              onLoadingMessage={handleLoadingMessageAccount}
-              onSuccessMessage={handleSuccessMessageAccount}
-              onErrorMessage={handleErrorMessageAccount}
-            />
+            <CheckoutWizardAccount onSuccess={handleNext} />
           )}
 
           {currentStep === 1 && !!data.storefront && (

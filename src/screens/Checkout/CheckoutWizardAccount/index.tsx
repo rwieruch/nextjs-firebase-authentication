@@ -77,17 +77,9 @@ const FadeWait = styled.div`
 
 type AccountProps = {
   onSuccess: () => void;
-  onLoadingMessage: () => void;
-  onSuccessMessage: () => void;
-  onErrorMessage: (error: Error) => void;
 };
 
-const Account = ({
-  onSuccess,
-  onLoadingMessage,
-  onSuccessMessage,
-  onErrorMessage,
-}: AccountProps) => {
+const Account = ({ onSuccess }: AccountProps) => {
   const [currentSelection, setCurrentSelection] = React.useState(
     SELECTIONS.SIGN_IN
   );
@@ -115,9 +107,6 @@ const Account = ({
           {currentSelection === SELECTIONS.SIGN_IN && (
             <SignInForm
               onSuccess={onSuccess}
-              onLoadingMessage={onLoadingMessage}
-              onSuccessMessage={onSuccessMessage}
-              onErrorMessage={onErrorMessage}
               onNavigateSignUp={handleNavigateSignUp}
               onNavigatePasswordForgot={handleNavigatePasswordForgot}
             />
@@ -126,20 +115,13 @@ const Account = ({
           {currentSelection === SELECTIONS.SIGN_UP && (
             <SignUpForm
               onSuccess={onSuccess}
-              onLoadingMessage={onLoadingMessage}
-              onSuccessMessage={onSuccessMessage}
-              onErrorMessage={onErrorMessage}
               onNavigateSignIn={handleNavigateSignIn}
             />
           )}
 
           {currentSelection === SELECTIONS.PASSWORD_FORGOT && (
             <>
-              <PasswordForgotForm
-                onLoadingMessage={onLoadingMessage}
-                onSuccessMessage={onSuccessMessage}
-                onErrorMessage={onErrorMessage}
-              />
+              <PasswordForgotForm />
               <PasswordForgotFooter
                 onNavigateSignUp={handleNavigateSignUp}
                 onNavigateSignIn={handleNavigateSignIn}

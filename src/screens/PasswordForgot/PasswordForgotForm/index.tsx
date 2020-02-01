@@ -1,43 +1,41 @@
 import React from 'react';
-import { Form, Input, message } from 'antd';
+import { Form, Input } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
-import { useApolloClient } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
 
-import * as ROUTES from '@constants/routes';
 import FormItem from '@components/Form/Item';
 import FormStretchedButton from '@components/Form/StretchedButton';
+import useErrorIndicator from '@hooks/useErrorIndicator';
 
-import passwordForgot from './passwordForgot';
+export const PASSWORD_FORGOT = gql`
+  mutation PasswordForgot($email: String!) {
+    passwordForgot(email: $email)
+  }
+`;
 
-interface PasswordForgotFormProps extends FormComponentProps {
-  onLoadingMessage: () => void;
-  onSuccessMessage: () => void;
-  onErrorMessage: (error: Error) => void;
-}
+interface PasswordForgotFormProps extends FormComponentProps {}
 
-const PasswordForgotForm = ({
-  form,
-  onLoadingMessage,
-  onSuccessMessage,
-  onErrorMessage,
-}: PasswordForgotFormProps) => {
-  const apolloClient = useApolloClient();
+const PasswordForgotForm = ({ form }: PasswordForgotFormProps) => {
+  const [passwordForgot, { loading, error }] = useMutation(
+    PASSWORD_FORGOT
+  );
+
+  useErrorIndicator({ error });
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     form.validateFields(async (error, values) => {
       if (error) return;
 
-      onLoadingMessage();
-
       try {
-        await passwordForgot(apolloClient, values.email);
-
-        onSuccessMessage();
+        await passwordForgot({
+          variables: {
+            email: values.email,
+          },
+        });
 
         form.resetFields();
-      } catch (error) {
-        onErrorMessage(error);
-      }
+      } catch (error) {}
     });
 
     event.preventDefault();
@@ -75,6 +73,7 @@ const PasswordForgotForm = ({
 
       <FormItem wrapperCol={{ sm: 24 }}>
         <FormStretchedButton
+          loading={loading}
           type="primary"
           htmlType="submit"
           aria-label="password-forgot-submit"

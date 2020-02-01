@@ -1,27 +1,27 @@
 import React from 'react';
 import { Form, Input } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
-import { useApolloClient } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
 
-import * as ROUTES from '@constants/routes';
 import FormItem from '@components/Form/Item';
 import FormStretchedButton from '@components/Form/StretchedButton';
+import useErrorIndicator from '@hooks/useErrorIndicator';
 
-import passwordChange from './passwordChange';
+export const PASSWORD_CHANGE = gql`
+  mutation PasswordChange($password: String!) {
+    passwordChange(password: $password)
+  }
+`;
 
-interface PasswordChangeFormProps extends FormComponentProps {
-  onLoadingMessage: () => void;
-  onSuccessMessage: () => void;
-  onErrorMessage: (error: Error) => void;
-}
+interface PasswordChangeFormProps extends FormComponentProps {}
 
-const PasswordChangeForm = ({
-  form,
-  onLoadingMessage,
-  onSuccessMessage,
-  onErrorMessage,
-}: PasswordChangeFormProps) => {
-  const apolloClient = useApolloClient();
+const PasswordChangeForm = ({ form }: PasswordChangeFormProps) => {
+  const [passwordChange, { loading, error }] = useMutation(
+    PASSWORD_CHANGE
+  );
+
+  useErrorIndicator({ error });
 
   const [
     confirmPasswordDirty,
@@ -63,17 +63,15 @@ const PasswordChangeForm = ({
     form.validateFields(async (error, values) => {
       if (error) return;
 
-      onLoadingMessage();
-
       try {
-        await passwordChange(apolloClient, values.newPassword);
-
-        onSuccessMessage();
+        await passwordChange({
+          variables: {
+            password: values.newPassword,
+          },
+        });
 
         form.resetFields();
-      } catch (error) {
-        onErrorMessage(error);
-      }
+      } catch (error) {}
     });
 
     event.preventDefault();
@@ -160,6 +158,7 @@ const PasswordChangeForm = ({
 
       <FormItem wrapperCol={{ sm: 24 }}>
         <FormStretchedButton
+          loading={loading}
           type="primary"
           htmlType="submit"
           aria-label="password-change-submit"

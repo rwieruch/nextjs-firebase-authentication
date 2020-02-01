@@ -5,7 +5,7 @@ import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import { Button } from 'antd';
 
-import useIndicators from '@hooks/useIndicators';
+import useErrorIndicator from '@hooks/useErrorIndicator';
 
 const STRIPE_CREATE_ORDER = gql`
   mutation StripeCreateOrder(
@@ -45,9 +45,7 @@ const StripeCheckout = ({
     STRIPE_CREATE_ORDER
   );
 
-  useIndicators({
-    key: 'stripe',
-    loading,
+  useErrorIndicator({
     error,
   });
 

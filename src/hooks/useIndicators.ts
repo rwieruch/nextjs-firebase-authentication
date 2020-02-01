@@ -10,9 +10,11 @@ export default ({
   loading: boolean;
   error?: { message?: string };
 }) => {
+  let destroyMessage = React.useRef(() => {});
+
   React.useEffect(() => {
     if (loading) {
-      message.loading({
+      destroyMessage.current = message.loading({
         content: 'Loading ...',
         key: key,
         duration: 0,
@@ -25,7 +27,7 @@ export default ({
       let text = error?.message || 'Something went wrong ...';
       text = text.replace('GraphQL error: ', '');
 
-      message.error({
+      destroyMessage.current = message.error({
         content: text,
         key: key,
         duration: 2,
@@ -33,10 +35,13 @@ export default ({
     }
   }, [error]);
 
-  return () =>
-    message.success({
+  const successMessage = () => {
+    destroyMessage.current = message.success({
       content: 'Success!',
       key: key,
       duration: 2,
     });
+  };
+
+  return { successMessage, destroyMessage };
 };

@@ -1,20 +1,21 @@
-import { render, fireEvent } from '@testing-library/react';
-import waitForExpect from 'wait-for-expect';
+import { render, fireEvent, wait } from '@testing-library/react';
 import { MockedProvider } from '@apollo/react-testing';
 import { GraphQLError } from 'graphql';
+import { message } from 'antd';
 
-import PasswordChangeForm from '.';
-import { PASSWORD_CHANGE } from './passwordChange';
+import PasswordChangeForm, { PASSWORD_CHANGE } from '.';
 
 describe('PasswordChangeForm', () => {
   const oldPassword = 'myoldpassword';
   const newPassword = 'mynewpassword';
 
-  const onLoadingMessage = jest.fn();
-  const onSuccessMessage = jest.fn();
-  const onErrorMessage = jest.fn();
+  message.error = jest.fn();
 
-  let mutationCalled = false;
+  let mutationCalled: boolean;
+
+  beforeEach(() => {
+    mutationCalled = false;
+  });
 
   it('changes a password with success', async () => {
     const mocks = [
@@ -32,11 +33,7 @@ describe('PasswordChangeForm', () => {
 
     const component = render(
       <MockedProvider mocks={mocks} addTypename={false}>
-        <PasswordChangeForm
-          onLoadingMessage={onLoadingMessage}
-          onSuccessMessage={onSuccessMessage}
-          onErrorMessage={onErrorMessage}
-        />
+        <PasswordChangeForm />
       </MockedProvider>
     );
 
@@ -65,13 +62,10 @@ describe('PasswordChangeForm', () => {
       component.getByLabelText('password-change-submit')
     );
 
-    expect(onLoadingMessage).toHaveBeenCalledTimes(1);
-
-    await waitForExpect(() => {
-      expect(onErrorMessage).toHaveBeenCalledTimes(0);
-      expect(onSuccessMessage).toHaveBeenCalledTimes(1);
-
+    await wait(() => {
       expect(mutationCalled).toBe(true);
+
+      expect(message.error).toHaveBeenCalledTimes(0);
     });
   });
 
@@ -91,11 +85,7 @@ describe('PasswordChangeForm', () => {
 
     const component = render(
       <MockedProvider mocks={mocks} addTypename={false}>
-        <PasswordChangeForm
-          onLoadingMessage={onLoadingMessage}
-          onSuccessMessage={onSuccessMessage}
-          onErrorMessage={onErrorMessage}
-        />
+        <PasswordChangeForm />
       </MockedProvider>
     );
 
@@ -124,13 +114,10 @@ describe('PasswordChangeForm', () => {
       component.getByLabelText('password-change-submit')
     );
 
-    expect(onLoadingMessage).toHaveBeenCalledTimes(1);
-
-    await waitForExpect(() => {
-      expect(onErrorMessage).toHaveBeenCalledTimes(1);
-      expect(onSuccessMessage).toHaveBeenCalledTimes(0);
-
+    await wait(() => {
       expect(mutationCalled).toBe(true);
+
+      expect(message.error).toHaveBeenCalledTimes(1);
     });
   });
 });

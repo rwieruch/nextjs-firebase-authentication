@@ -74,7 +74,6 @@
     "identity-obj-proxy": "^3.0.0",
     "jest": "^24.9.0",
     "next-compose-plugins": "^2.2.0",
-    "typescript": "^3.7.5",
-    "wait-for-expect": "^3.0.1"
+    "typescript": "^3.7.5"
   }
 }

@@ -1,10 +1,9 @@
-import { render, fireEvent } from '@testing-library/react';
-import waitForExpect from 'wait-for-expect';
+import { render, fireEvent, wait } from '@testing-library/react';
 import { MockedProvider } from '@apollo/react-testing';
 import { GraphQLError } from 'graphql';
+import { message } from 'antd';
 
-import SignUpForm from '.';
-import { SIGN_UP } from './signUp';
+import SignUpForm, { SIGN_UP } from '.';
 
 describe('SignUpForm', () => {
   const username = 'myusername';
@@ -12,11 +11,14 @@ describe('SignUpForm', () => {
   const password = 'mypassword';
 
   const onSuccess = jest.fn();
-  const onLoadingMessage = jest.fn();
-  const onSuccessMessage = jest.fn();
-  const onErrorMessage = jest.fn();
 
-  let mutationCalled = false;
+  message.error = jest.fn();
+
+  let mutationCalled: boolean;
+
+  beforeEach(() => {
+    mutationCalled = false;
+  });
 
   it('signs up with success', async () => {
     const mocks = [
@@ -34,12 +36,7 @@ describe('SignUpForm', () => {
 
     const component = render(
       <MockedProvider mocks={mocks} addTypename={false}>
-        <SignUpForm
-          onSuccess={onSuccess}
-          onLoadingMessage={onLoadingMessage}
-          onSuccessMessage={onSuccessMessage}
-          onErrorMessage={onErrorMessage}
-        />
+        <SignUpForm onSuccess={onSuccess} />
       </MockedProvider>
     );
 
@@ -64,13 +61,9 @@ describe('SignUpForm', () => {
 
     fireEvent.click(component.getByLabelText('sign-up-submit'));
 
-    expect(onLoadingMessage).toHaveBeenCalledTimes(1);
-
-    await waitForExpect(() => {
-      expect(onErrorMessage).toHaveBeenCalledTimes(0);
-      expect(onSuccessMessage).toHaveBeenCalledTimes(1);
-
+    await wait(() => {
       expect(onSuccess).toHaveBeenCalledTimes(1);
+      expect(message.error).toHaveBeenCalledTimes(0);
 
       expect(mutationCalled).toBe(true);
     });
@@ -92,12 +85,7 @@ describe('SignUpForm', () => {
 
     const component = render(
       <MockedProvider mocks={mocks} addTypename={false}>
-        <SignUpForm
-          onSuccess={onSuccess}
-          onLoadingMessage={onLoadingMessage}
-          onSuccessMessage={onSuccessMessage}
-          onErrorMessage={onErrorMessage}
-        />
+        <SignUpForm onSuccess={onSuccess} />
       </MockedProvider>
     );
 
@@ -122,13 +110,11 @@ describe('SignUpForm', () => {
 
     fireEvent.click(component.getByLabelText('sign-up-submit'));
 
-    expect(onLoadingMessage).toHaveBeenCalledTimes(1);
-
-    await waitForExpect(() => {
-      expect(onErrorMessage).toHaveBeenCalledTimes(1);
-      expect(onSuccessMessage).toHaveBeenCalledTimes(0);
-
+    await wait(() => {
       expect(mutationCalled).toBe(true);
+
+      expect(onSuccess).toHaveBeenCalledTimes(0);
+      expect(message.error).toHaveBeenCalledTimes(1);
     });
   });
 });

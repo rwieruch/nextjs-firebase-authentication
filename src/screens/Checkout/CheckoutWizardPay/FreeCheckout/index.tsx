@@ -7,7 +7,7 @@ import { Button } from 'antd';
 import { useRouter } from 'next/router';
 
 import * as ROUTES from '@constants/routes';
-import useIndicators from '@hooks/useIndicators';
+import useErrorIndicator from '@hooks/useErrorIndicator';
 
 const CREATE_FREE_COURSE = gql`
   mutation CreateFreeCourse($courseId: String!, $bundleId: String!) {
@@ -32,9 +32,7 @@ const FreeCheckout = ({
     CREATE_FREE_COURSE
   );
 
-  const successMessage = useIndicators({
-    key: 'free',
-    loading,
+  useErrorIndicator({
     error,
   });
 
@@ -46,7 +44,6 @@ const FreeCheckout = ({
       variables: { courseId, bundleId },
     });
 
-    successMessage();
     onSuccess();
   };
 

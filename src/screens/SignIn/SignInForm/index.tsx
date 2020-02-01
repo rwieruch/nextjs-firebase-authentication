@@ -3,26 +3,33 @@ import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { Form, Input } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
-import { useApolloClient } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
+import cookie from 'js-cookie';
 
 import * as ROUTES from '@constants/routes';
+import { EXPIRES_IN } from '@constants/cookie';
 import FormIcon from '@components/Form/Icon';
 import FormItem from '@components/Form/Item';
 import FormStretchedButton from '@components/Form/StretchedButton';
 import FormAtomButton from '@components/Form/AtomButton';
-
-import signIn from './signIn';
+import useErrorIndicator from '@hooks/useErrorIndicator';
 
 const StyledFormFooter = styled.div`
   display: flex;
   justify-content: space-between;
 `;
 
+export const SIGN_IN = gql`
+  mutation SignIn($email: String!, $password: String!) {
+    signIn(email: $email, password: $password) {
+      sessionToken
+    }
+  }
+`;
+
 interface SignInFormProps extends FormComponentProps {
   onSuccess: () => void;
-  onLoadingMessage: () => void;
-  onSuccessMessage: () => void;
-  onErrorMessage: (error: Error) => void;
   onNavigateSignUp?: () => void;
   onNavigatePasswordForgot?: () => void;
 }
@@ -30,14 +37,14 @@ interface SignInFormProps extends FormComponentProps {
 const SignInForm = ({
   form,
   onSuccess,
-  onLoadingMessage,
-  onSuccessMessage,
-  onErrorMessage,
   onNavigateSignUp,
   onNavigatePasswordForgot,
 }: SignInFormProps) => {
   const router = useRouter();
-  const apolloClient = useApolloClient();
+
+  const [signIn, { loading, error }] = useMutation(SIGN_IN);
+
+  useErrorIndicator({ error });
 
   const handleNavigateSignUp = onNavigateSignUp
     ? onNavigateSignUp
@@ -51,16 +58,25 @@ const SignInForm = ({
     form.validateFields(async (error, values) => {
       if (error) return;
 
-      onLoadingMessage();
+      router.prefetch(ROUTES.INDEX);
 
       try {
-        await signIn(apolloClient, values.email, values.password);
+        const { data } = await signIn({
+          variables: {
+            email: values.email,
+            password: values.password,
+          },
+        });
 
-        onSuccessMessage();
+        cookie.set('session', data.signIn.sessionToken, {
+          expires: EXPIRES_IN,
+          // TODO: 1) Get it work with httpOnly 2) Get it work on the server. See SignUpForm.tsx
+          // httpOnly: true,
+          // secure: true,
+        });
+
         onSuccess();
-      } catch (error) {
-        onErrorMessage(error);
-      }
+      } catch (error) {}
     });
 
     event.preventDefault();
@@ -110,6 +126,7 @@ const SignInForm = ({
 
       <FormItem>
         <FormStretchedButton
+          loading={loading}
           type="primary"
           htmlType="submit"
           aria-label="sign-in-submit"

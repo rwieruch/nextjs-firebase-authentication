@@ -54,7 +54,7 @@ const PaypalCheckout = ({
     { loading: approveOrderLoading, error: approveOrderError },
   ] = useMutation(PAYPAL_APPROVE_ORDER);
 
-  const successMessage = useIndicators({
+  const { successMessage, destroyMessage } = useIndicators({
     key: 'paypal',
     loading: createOrderLoading || approveOrderLoading,
     error: createOrderError || approveOrderError,
@@ -81,10 +81,15 @@ const PaypalCheckout = ({
       onSuccess();
     };
 
+    const onCancel = () => {
+      destroyMessage.current();
+    };
+
     (window as any).paypal
       .Buttons({
         createOrder,
         onApprove,
+        onCancel,
       })
       .render('#paypal-button-container');
   }, []);
