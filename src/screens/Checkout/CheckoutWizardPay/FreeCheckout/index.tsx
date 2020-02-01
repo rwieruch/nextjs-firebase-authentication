@@ -26,8 +26,6 @@ const FreeCheckout = ({
   bundleId,
   onSuccess,
 }: FreeCheckoutProps) => {
-  const router = useRouter();
-
   const [createFreeCourse, { loading, error }] = useMutation(
     CREATE_FREE_COURSE
   );
@@ -37,9 +35,6 @@ const FreeCheckout = ({
   });
 
   const handlePay = async () => {
-    // TODO check if works in production, if works, use for paypal and stripe too
-    router.prefetch(ROUTES.INDEX);
-
     await createFreeCourse({
       variables: { courseId, bundleId },
     });

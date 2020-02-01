@@ -3,7 +3,7 @@
 import React from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
-import { Button } from 'antd';
+import { Button, message } from 'antd';
 
 import useErrorIndicator from '@hooks/useErrorIndicator';
 
@@ -31,7 +31,6 @@ export type StripeCheckoutProps = {
   bundleId: string;
   coupon: string;
   onSuccess: () => void;
-  onError: (error: Error) => void;
 };
 
 const StripeCheckout = ({
@@ -39,7 +38,6 @@ const StripeCheckout = ({
   courseId,
   bundleId,
   coupon,
-  onError,
 }: StripeCheckoutProps) => {
   const [stripeCreateOrder, { loading, error }] = useMutation(
     STRIPE_CREATE_ORDER
@@ -50,22 +48,31 @@ const StripeCheckout = ({
   });
 
   const handlePay = async () => {
-    const { data } = await stripeCreateOrder({
-      variables: {
-        imageUrl,
-        courseId,
-        bundleId,
-        coupon,
-      },
-    });
+    let result;
 
-    const { error } = await (window as any)
-      .Stripe(process.env.STRIPE_CLIENT_ID)
-      .redirectToCheckout({
-        sessionId: data.stripeCreateOrder.id,
+    try {
+      result = await stripeCreateOrder({
+        variables: {
+          imageUrl,
+          courseId,
+          bundleId,
+          coupon,
+        },
       });
+    } catch (error) {}
 
-    onError(error);
+    if (result) {
+      const { error } = await (window as any)
+        .Stripe(process.env.STRIPE_CLIENT_ID)
+        .redirectToCheckout({
+          sessionId: result.data.stripeCreateOrder.id,
+        });
+
+      message.error({
+        content: error.message,
+        duration: 2,
+      });
+    }
   };
 
   return (

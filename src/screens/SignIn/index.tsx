@@ -25,6 +25,10 @@ const StyledCard = styled(Card)`
 const SignInPage = () => {
   const router = useRouter();
 
+  React.useEffect(() => {
+    router.prefetch(ROUTES.INDEX);
+  });
+
   const handleSuccess = () => {
     router.push(ROUTES.INDEX);
   };

@@ -25,6 +25,7 @@ export default {
       },
       { me }: ResolverContext
     ) => {
+      throw new Error('error');
       const course = storefront[courseId];
       const bundle = course.bundles[bundleId];
 

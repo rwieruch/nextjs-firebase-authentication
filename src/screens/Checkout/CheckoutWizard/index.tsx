@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
-import { Card, Steps, Icon, message } from 'antd';
+import { Card, Steps } from 'antd';
 
 import { GetStorefront } from '@generated/GetStorefront';
 import SessionContext from '@context/session';
@@ -25,8 +25,9 @@ type CheckoutWizardProps = {
 };
 
 const CheckoutWizard = ({ data, imageUrl }: CheckoutWizardProps) => {
-  const session = React.useContext(SessionContext);
   const router = useRouter();
+
+  const session = React.useContext(SessionContext);
 
   const [currentStep, setCurrentStep] = React.useState(
     session ? 1 : 0
@@ -38,13 +39,6 @@ const CheckoutWizard = ({ data, imageUrl }: CheckoutWizardProps) => {
 
   const handleSuccess = () => {
     router.push(ROUTES.INDEX);
-  };
-
-  const handleError = (error: Error) => {
-    message.error({
-      content: error.message,
-      duration: 2,
-    });
   };
 
   return (
@@ -76,7 +70,6 @@ const CheckoutWizard = ({ data, imageUrl }: CheckoutWizardProps) => {
               imageUrl={imageUrl}
               course={data.storefront.course}
               onSuccess={handleSuccess}
-              onError={handleError}
             />
           )}
 

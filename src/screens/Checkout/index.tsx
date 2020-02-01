@@ -5,6 +5,7 @@ import gql from 'graphql-tag';
 import { useRouter } from 'next/router';
 import { Layout as AntdLayout } from 'antd';
 
+import * as ROUTES from '@constants/routes';
 import { GetStorefront } from '@generated/GetStorefront';
 import { Session } from '@typeDefs/session';
 import Layout from '@components/Layout';
@@ -29,6 +30,10 @@ type NextAuthPage = NextPage<CheckoutPageProps> & {
 
 const CheckoutPage: NextAuthPage = ({ data }) => {
   const router = useRouter();
+
+  React.useEffect(() => {
+    router.prefetch(ROUTES.INDEX);
+  });
 
   const { imageUrl } = router.query;
 

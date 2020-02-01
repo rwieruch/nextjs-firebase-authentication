@@ -62,23 +62,28 @@ const PaypalCheckout = ({
 
   React.useEffect(() => {
     const createOrder = async () => {
-      const { data } = await paypalCreateOrder({
-        variables: {
-          courseId,
-          bundleId,
-          coupon,
-        },
-      });
-      return data.paypalCreateOrder.orderId;
+      try {
+        const { data } = await paypalCreateOrder({
+          variables: {
+            courseId,
+            bundleId,
+            coupon,
+          },
+        });
+
+        return data.paypalCreateOrder.orderId;
+      } catch (error) {}
     };
 
     const onApprove = async (data: { orderID: string }) => {
-      await paypalApproveOrder({
-        variables: { orderId: data.orderID },
-      });
+      try {
+        await paypalApproveOrder({
+          variables: { orderId: data.orderID },
+        });
 
-      successMessage();
-      onSuccess();
+        successMessage();
+        onSuccess();
+      } catch (error) {}
     };
 
     const onCancel = () => {

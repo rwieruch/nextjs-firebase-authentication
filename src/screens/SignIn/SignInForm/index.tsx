@@ -58,8 +58,6 @@ const SignInForm = ({
     form.validateFields(async (error, values) => {
       if (error) return;
 
-      router.prefetch(ROUTES.INDEX);
-
       try {
         const { data } = await signIn({
           variables: {

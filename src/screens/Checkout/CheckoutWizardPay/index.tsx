@@ -103,10 +103,9 @@ type PayProps = {
   imageUrl: string;
   course: GetStorefront_storefront_course;
   onSuccess: () => void;
-  onError: (error: Error) => void;
 };
 
-const Pay = ({ imageUrl, course, onSuccess, onError }: PayProps) => {
+const Pay = ({ imageUrl, course, onSuccess }: PayProps) => {
   const [coupon, setCoupon] = React.useState('');
   const [currentSelection, setCurrentSelection] = React.useState(
     SELECTIONS.IDLE
@@ -157,7 +156,6 @@ const Pay = ({ imageUrl, course, onSuccess, onError }: PayProps) => {
               courseId={course.courseId}
               bundleId={course.bundle.bundleId}
               coupon={coupon}
-              onError={onError}
             />
           }
           paypalButton={
