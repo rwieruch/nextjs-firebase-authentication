@@ -47,13 +47,30 @@ describe('SignInForm', () => {
       target: { value: password },
     });
 
+    expect(
+      component
+        .getByLabelText('sign-in-submit')
+        .classList.contains('ant-btn-loading')
+    ).toBe(false);
+
     fireEvent.click(component.getByLabelText('sign-in-submit'));
+
+    expect(
+      component
+        .getByLabelText('sign-in-submit')
+        .classList.contains('ant-btn-loading')
+    ).toBe(true);
 
     await wait(() => {
       expect(onSuccess).toHaveBeenCalledTimes(1);
       expect(message.error).toHaveBeenCalledTimes(0);
-
       expect(mutationCalled).toBe(true);
+
+      expect(
+        component
+          .getByLabelText('sign-in-submit')
+          .classList.contains('ant-btn-loading')
+      ).toBe(false);
     });
   });
 
@@ -90,7 +107,6 @@ describe('SignInForm', () => {
     await wait(() => {
       expect(onSuccess).toHaveBeenCalledTimes(0);
       expect(message.error).toHaveBeenCalledTimes(1);
-
       expect(mutationCalled).toBe(true);
     });
   });

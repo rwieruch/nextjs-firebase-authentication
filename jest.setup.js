@@ -1,3 +1,5 @@
+require('@testing-library/jest-dom');
+
 jest.mock('firebase/app', () => ({
   __esModule: true,
   default: {

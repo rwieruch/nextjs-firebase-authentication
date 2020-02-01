@@ -58,14 +58,31 @@ describe('PasswordChangeForm', () => {
       }
     );
 
+    expect(
+      component
+        .getByLabelText('password-change-submit')
+        .classList.contains('ant-btn-loading')
+    ).toBe(false);
+
     fireEvent.click(
       component.getByLabelText('password-change-submit')
     );
 
+    expect(
+      component
+        .getByLabelText('password-change-submit')
+        .classList.contains('ant-btn-loading')
+    ).toBe(true);
+
     await wait(() => {
       expect(mutationCalled).toBe(true);
-
       expect(message.error).toHaveBeenCalledTimes(0);
+
+      expect(
+        component
+          .getByLabelText('password-change-submit')
+          .classList.contains('ant-btn-loading')
+      ).toBe(false);
     });
   });
 
@@ -116,7 +133,6 @@ describe('PasswordChangeForm', () => {
 
     await wait(() => {
       expect(mutationCalled).toBe(true);
-
       expect(message.error).toHaveBeenCalledTimes(1);
     });
   });

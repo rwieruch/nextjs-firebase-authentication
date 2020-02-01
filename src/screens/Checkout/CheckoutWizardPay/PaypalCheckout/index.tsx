@@ -7,7 +7,7 @@ import gql from 'graphql-tag';
 import useIndicators from '@hooks/useIndicators';
 import FormAtomButton from '@components/Form/AtomButton';
 
-const PAYPAL_CREATE_ORDER = gql`
+export const PAYPAL_CREATE_ORDER = gql`
   mutation PaypalCreateOrder(
     $courseId: String!
     $bundleId: String!
@@ -23,7 +23,7 @@ const PAYPAL_CREATE_ORDER = gql`
   }
 `;
 
-const PAYPAL_APPROVE_ORDER = gql`
+export const PAYPAL_APPROVE_ORDER = gql`
   mutation PaypalApproveOrder($orderId: String!) {
     paypalApproveOrder(orderId: $orderId)
   }
@@ -102,7 +102,11 @@ const PaypalCheckout = ({
   return (
     <>
       <div id="paypal-button-container"></div>
-      <FormAtomButton type="link" onClick={onBack}>
+      <FormAtomButton
+        type="link"
+        aria-label="back-button"
+        onClick={onBack}
+      >
         Go back
       </FormAtomButton>
     </>

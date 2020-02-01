@@ -4,12 +4,10 @@ import React from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import { Button } from 'antd';
-import { useRouter } from 'next/router';
 
-import * as ROUTES from '@constants/routes';
 import useErrorIndicator from '@hooks/useErrorIndicator';
 
-const CREATE_FREE_COURSE = gql`
+export const CREATE_FREE_COURSE = gql`
   mutation CreateFreeCourse($courseId: String!, $bundleId: String!) {
     createFreeCourse(courseId: $courseId, bundleId: $bundleId)
   }
@@ -35,15 +33,22 @@ const FreeCheckout = ({
   });
 
   const handlePay = async () => {
-    await createFreeCourse({
-      variables: { courseId, bundleId },
-    });
+    try {
+      await createFreeCourse({
+        variables: { courseId, bundleId },
+      });
 
-    onSuccess();
+      onSuccess();
+    } catch (error) {}
   };
 
   return (
-    <Button type="primary" loading={loading} onClick={handlePay}>
+    <Button
+      type="primary"
+      aria-label="free-checkout"
+      loading={loading}
+      onClick={handlePay}
+    >
       Unlock
     </Button>
   );

@@ -7,7 +7,7 @@ import { Button, message } from 'antd';
 
 import useErrorIndicator from '@hooks/useErrorIndicator';
 
-const STRIPE_CREATE_ORDER = gql`
+export const STRIPE_CREATE_ORDER = gql`
   mutation StripeCreateOrder(
     $imageUrl: String!
     $courseId: String!
@@ -30,7 +30,6 @@ export type StripeCheckoutProps = {
   courseId: string;
   bundleId: string;
   coupon: string;
-  onSuccess: () => void;
 };
 
 const StripeCheckout = ({
@@ -62,21 +61,27 @@ const StripeCheckout = ({
     } catch (error) {}
 
     if (result) {
-      const { error } = await (window as any)
+      const stripeResult = await (window as any)
         .Stripe(process.env.STRIPE_CLIENT_ID)
         .redirectToCheckout({
           sessionId: result.data.stripeCreateOrder.id,
         });
 
-      message.error({
-        content: error.message,
-        duration: 2,
-      });
+      stripeResult.error &&
+        message.error({
+          content: stripeResult.error.message,
+          duration: 2,
+        });
     }
   };
 
   return (
-    <Button type="primary" loading={loading} onClick={handlePay}>
+    <Button
+      type="primary"
+      aria-label="stripe-checkout"
+      loading={loading}
+      onClick={handlePay}
+    >
       Credit Card
     </Button>
   );

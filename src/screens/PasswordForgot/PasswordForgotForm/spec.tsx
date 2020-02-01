@@ -43,14 +43,31 @@ describe('PasswordForgotForm', () => {
       }
     );
 
+    expect(
+      component
+        .getByLabelText('password-forgot-submit')
+        .classList.contains('ant-btn-loading')
+    ).toBe(false);
+
     fireEvent.click(
       component.getByLabelText('password-forgot-submit')
     );
 
+    expect(
+      component
+        .getByLabelText('password-forgot-submit')
+        .classList.contains('ant-btn-loading')
+    ).toBe(true);
+
     await wait(() => {
       expect(mutationCalled).toBe(true);
-
       expect(message.error).toHaveBeenCalledTimes(0);
+
+      expect(
+        component
+          .getByLabelText('password-forgot-submit')
+          .classList.contains('ant-btn-loading')
+      ).toBe(false);
     });
   });
 
@@ -87,7 +104,6 @@ describe('PasswordForgotForm', () => {
 
     await wait(() => {
       expect(mutationCalled).toBe(true);
-
       expect(message.error).toHaveBeenCalledTimes(1);
     });
   });
