@@ -2,8 +2,6 @@ import axios from 'axios';
 
 import { getAsDiscount } from './';
 
-jest.mock('axios');
-
 describe('getAsDiscount', () => {
   it('applies successfully the discount if coupon', async () => {
     const data = {

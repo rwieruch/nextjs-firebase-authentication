@@ -1,3 +1,5 @@
+import * as firebaseAdminVanilla from 'firebase-admin';
+
 import firebaseAdmin from '@services/firebase/admin';
 
 import { COURSE } from '../../../content/course-keys';
@@ -24,7 +26,8 @@ export const createCourse = async ({
       courseId: courseId,
       packageId: bundleId,
       invoice: {
-        createdAt: firebaseAdmin.database.ServerValue.TIMESTAMP,
+        createdAt:
+          firebaseAdminVanilla.database.ServerValue.TIMESTAMP,
         amount,
         licensesCount: 1,
         currency: 'USD',
