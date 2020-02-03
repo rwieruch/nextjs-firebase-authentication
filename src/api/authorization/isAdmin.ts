@@ -1,9 +1,8 @@
+import { rule } from 'graphql-shield';
 import { ForbiddenError } from 'apollo-server';
-import { skip } from 'graphql-resolvers';
 
-import { ResolverContext } from '@typeDefs/resolver';
-
-export const isAdmin = (_: any, __: any, { me }: ResolverContext) =>
-  me?.customClaims?.admin
-    ? skip
+export const isAdmin = rule()(async (parent, args, { me }) => {
+  return me?.customClaims?.admin
+    ? true
     : new ForbiddenError('No admin user.');
+});

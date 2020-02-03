@@ -1,8 +1,10 @@
+import { rule } from 'graphql-shield';
 import { ForbiddenError } from 'apollo-server';
-import { skip } from 'graphql-resolvers';
 
-export const isAuthenticated = (
-  parent: any,
-  args: any,
-  { me }: any
-) => (me ? skip : new ForbiddenError('Not authenticated as user.'));
+export const isAuthenticated = rule()(
+  async (parent, args, { me }) => {
+    return me
+      ? true
+      : new ForbiddenError('Not authenticated as user.');
+  }
+);
