@@ -5,6 +5,7 @@ generates:
     config:
       defaultMapper: any
       contextType: @typeDefs/resolver#ResolverContext
+      useIndexSignature: true
     plugins:
       - typescript
       - typescript-resolvers

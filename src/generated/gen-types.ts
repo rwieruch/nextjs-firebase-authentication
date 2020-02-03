@@ -152,7 +152,8 @@ export type User = {
   uid: Scalars['String'],
 };
 
-
+export type WithIndex<TObject> = TObject & Record<string, any>;
+export type ResolversObject<TObject> = WithIndex<TObject>;
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
 
@@ -224,7 +225,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 ) => TResult | Promise<TResult>;
 
 /** Mapping between all available schema types and the resolvers types */
-export type ResolversTypes = {
+export type ResolversTypes = ResolversObject<{
   Query: ResolverTypeWrapper<{}>,
   Boolean: ResolverTypeWrapper<any>,
   User: ResolverTypeWrapper<any>,
@@ -240,10 +241,10 @@ export type ResolversTypes = {
   OrderId: ResolverTypeWrapper<any>,
   StripeId: ResolverTypeWrapper<any>,
   Subscription: ResolverTypeWrapper<{}>,
-};
+}>;
 
 /** Mapping between all available schema types and the resolvers parents */
-export type ResolversParentTypes = {
+export type ResolversParentTypes = ResolversObject<{
   Query: {},
   Boolean: any,
   User: any,
@@ -259,23 +260,23 @@ export type ResolversParentTypes = {
   OrderId: any,
   StripeId: any,
   Subscription: {},
-};
+}>;
 
-export type BundleResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['Bundle'] = ResolversParentTypes['Bundle']> = {
+export type BundleResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['Bundle'] = ResolversParentTypes['Bundle']> = ResolversObject<{
   header?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   bundleId?: Resolver<ResolversTypes['BundleId'], ParentType, ContextType>,
   price?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
   __isTypeOf?: isTypeOfResolverFn,
-};
+}>;
 
-export type CourseResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['Course'] = ResolversParentTypes['Course']> = {
+export type CourseResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['Course'] = ResolversParentTypes['Course']> = ResolversObject<{
   header?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   courseId?: Resolver<ResolversTypes['CourseId'], ParentType, ContextType>,
   bundle?: Resolver<ResolversTypes['Bundle'], ParentType, ContextType>,
   __isTypeOf?: isTypeOfResolverFn,
-};
+}>;
 
-export type MutationResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+export type MutationResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
   _?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>,
   signIn?: Resolver<ResolversTypes['SessionToken'], ParentType, ContextType, RequireFields<MutationSignInArgs, 'email' | 'password'>>,
   signUp?: Resolver<ResolversTypes['SessionToken'], ParentType, ContextType, RequireFields<MutationSignUpArgs, 'username' | 'email' | 'password'>>,
@@ -286,45 +287,45 @@ export type MutationResolvers<ContextType = ResolverContext, ParentType extends 
   stripeCreateOrder?: Resolver<ResolversTypes['StripeId'], ParentType, ContextType, RequireFields<MutationStripeCreateOrderArgs, 'imageUrl' | 'courseId' | 'bundleId'>>,
   createFreeCourse?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationCreateFreeCourseArgs, 'courseId' | 'bundleId'>>,
   createAdminCourse?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationCreateAdminCourseArgs, 'uid' | 'courseId' | 'bundleId'>>,
-};
+}>;
 
-export type OrderIdResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['OrderId'] = ResolversParentTypes['OrderId']> = {
+export type OrderIdResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['OrderId'] = ResolversParentTypes['OrderId']> = ResolversObject<{
   orderId?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   __isTypeOf?: isTypeOfResolverFn,
-};
+}>;
 
-export type QueryResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+export type QueryResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   _?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>,
   me?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>,
   storefront?: Resolver<Maybe<ResolversTypes['Storefront']>, ParentType, ContextType, QueryStorefrontArgs>,
-};
+}>;
 
-export type SessionTokenResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['SessionToken'] = ResolversParentTypes['SessionToken']> = {
+export type SessionTokenResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['SessionToken'] = ResolversParentTypes['SessionToken']> = ResolversObject<{
   sessionToken?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   __isTypeOf?: isTypeOfResolverFn,
-};
+}>;
 
-export type StorefrontResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['Storefront'] = ResolversParentTypes['Storefront']> = {
+export type StorefrontResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['Storefront'] = ResolversParentTypes['Storefront']> = ResolversObject<{
   course?: Resolver<ResolversTypes['Course'], ParentType, ContextType>,
   __isTypeOf?: isTypeOfResolverFn,
-};
+}>;
 
-export type StripeIdResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['StripeId'] = ResolversParentTypes['StripeId']> = {
+export type StripeIdResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['StripeId'] = ResolversParentTypes['StripeId']> = ResolversObject<{
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   __isTypeOf?: isTypeOfResolverFn,
-};
+}>;
 
-export type SubscriptionResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = {
+export type SubscriptionResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = ResolversObject<{
   _?: SubscriptionResolver<Maybe<ResolversTypes['Boolean']>, "_", ParentType, ContextType>,
-};
+}>;
 
-export type UserResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
+export type UserResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = ResolversObject<{
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   uid?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   __isTypeOf?: isTypeOfResolverFn,
-};
+}>;
 
-export type Resolvers<ContextType = ResolverContext> = {
+export type Resolvers<ContextType = ResolverContext> = ResolversObject<{
   Bundle?: BundleResolvers<ContextType>,
   Course?: CourseResolvers<ContextType>,
   Mutation?: MutationResolvers<ContextType>,
@@ -335,7 +336,7 @@ export type Resolvers<ContextType = ResolverContext> = {
   StripeId?: StripeIdResolvers<ContextType>,
   Subscription?: SubscriptionResolvers<ContextType>,
   User?: UserResolvers<ContextType>,
-};
+}>;
 
 
 /**
