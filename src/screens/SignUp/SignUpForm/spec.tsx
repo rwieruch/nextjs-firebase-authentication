@@ -3,7 +3,8 @@ import { MockedProvider } from '@apollo/react-testing';
 import { GraphQLError } from 'graphql';
 import { message } from 'antd';
 
-import SignUpForm, { SIGN_UP } from '.';
+import { SIGN_UP } from '@queries/session';
+import SignUpForm from '.';
 
 describe('SignUpForm', () => {
   const username = 'myusername';

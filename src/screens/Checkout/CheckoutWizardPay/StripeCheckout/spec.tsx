@@ -3,7 +3,10 @@ import { MockedProvider } from '@apollo/react-testing';
 import { GraphQLError } from 'graphql';
 import { message } from 'antd';
 
-import StripeCheckoutButton, { STRIPE_CREATE_ORDER } from '.';
+import { CourseId, BundleId } from '@generated/client';
+import { STRIPE_CREATE_ORDER } from '@queries/stripe';
+
+import StripeCheckoutButton from '.';
 
 describe('StripeCheckoutButton', () => {
   message.error = jest.fn();
@@ -29,8 +32,8 @@ describe('StripeCheckoutButton', () => {
           query: STRIPE_CREATE_ORDER,
           variables: {
             imageUrl: 'url',
-            courseId: 'courseid',
-            bundleId: 'bundleid',
+            courseId: CourseId.TheRoadToGraphql,
+            bundleId: BundleId.Student,
             coupon: 'coupon',
           },
         },
@@ -47,8 +50,15 @@ describe('StripeCheckoutButton', () => {
       <MockedProvider mocks={mocks} addTypename={false}>
         <StripeCheckoutButton
           imageUrl={'url'}
-          courseId={'courseid'}
-          bundleId={'bundleid'}
+          course={{
+            header: 'The Road to GraphQL',
+            courseId: CourseId.TheRoadToGraphql,
+            bundle: {
+              header: 'Student',
+              bundleId: BundleId.Student,
+              price: 1,
+            },
+          }}
           coupon={'coupon'}
         />
       </MockedProvider>
@@ -99,8 +109,8 @@ describe('StripeCheckoutButton', () => {
           query: STRIPE_CREATE_ORDER,
           variables: {
             imageUrl: 'url',
-            courseId: 'courseid',
-            bundleId: 'bundleid',
+            courseId: CourseId.TheRoadToGraphql,
+            bundleId: BundleId.Student,
             coupon: 'coupon',
           },
         },
@@ -115,8 +125,15 @@ describe('StripeCheckoutButton', () => {
       <MockedProvider mocks={mocks} addTypename={false}>
         <StripeCheckoutButton
           imageUrl={'url'}
-          courseId={'courseid'}
-          bundleId={'bundleid'}
+          course={{
+            header: 'The Road to GraphQL',
+            courseId: CourseId.TheRoadToGraphql,
+            bundle: {
+              header: 'Student',
+              bundleId: BundleId.Student,
+              price: 1,
+            },
+          }}
           coupon={'coupon'}
         />
       </MockedProvider>
@@ -148,8 +165,8 @@ describe('StripeCheckoutButton', () => {
           query: STRIPE_CREATE_ORDER,
           variables: {
             imageUrl: 'url',
-            courseId: 'courseid',
-            bundleId: 'bundleid',
+            courseId: CourseId.TheRoadToGraphql,
+            bundleId: BundleId.Student,
             coupon: 'coupon',
           },
         },
@@ -166,8 +183,15 @@ describe('StripeCheckoutButton', () => {
       <MockedProvider mocks={mocks} addTypename={false}>
         <StripeCheckoutButton
           imageUrl={'url'}
-          courseId={'courseid'}
-          bundleId={'bundleid'}
+          course={{
+            header: 'The Road to GraphQL',
+            courseId: CourseId.TheRoadToGraphql,
+            bundle: {
+              header: 'Student',
+              bundleId: BundleId.Student,
+              price: 1,
+            },
+          }}
           coupon={'coupon'}
         />
       </MockedProvider>

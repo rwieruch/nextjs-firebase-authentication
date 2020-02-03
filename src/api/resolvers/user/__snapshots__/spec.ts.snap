@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`me returns nothing if no user is signed in 1`] = `
+Object {
+  "me": null,
+}
+`;
+
+exports[`me returns nothing if no user is signed in 2`] = `
+Array [
+  [GraphQLError: Not authenticated as user.],
+]
+`;
+
+exports[`me returns the signed in user 1`] = `
+Object {
+  "me": Object {
+    "email": "example@example.com",
+  },
+}
+`;

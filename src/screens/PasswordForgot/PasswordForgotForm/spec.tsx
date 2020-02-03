@@ -3,7 +3,8 @@ import { MockedProvider } from '@apollo/react-testing';
 import { GraphQLError } from 'graphql';
 import { message } from 'antd';
 
-import PasswordForgotForm, { PASSWORD_FORGOT } from '.';
+import { PASSWORD_FORGOT } from '@queries/session';
+import PasswordForgotForm from '.';
 
 describe('PasswordForgotForm', () => {
   const email = 'example@example.com';

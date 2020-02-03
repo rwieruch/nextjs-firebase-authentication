@@ -1,6 +1,7 @@
 import { render, fireEvent } from '@testing-library/react';
 import { MockedProvider } from '@apollo/react-testing';
 
+import { CourseId, BundleId } from '@generated/client';
 import PaypalCheckout from '.';
 
 describe('PaypalCheckout', () => {
@@ -17,8 +18,15 @@ describe('PaypalCheckout', () => {
     const component = render(
       <MockedProvider mocks={[]} addTypename={false}>
         <PaypalCheckout
-          courseId={'courseid'}
-          bundleId={'bundleid'}
+          course={{
+            header: 'The Road to GraphQL',
+            courseId: CourseId.TheRoadToGraphql,
+            bundle: {
+              header: 'Student',
+              bundleId: BundleId.Student,
+              price: 1,
+            },
+          }}
           coupon={'coupon'}
           onSuccess={onSuccess}
           onBack={onBack}

@@ -122,8 +122,8 @@ export type Query = {
 
 
 export type QueryStorefrontArgs = {
-  courseId?: Maybe<CourseId>,
-  bundleId?: Maybe<BundleId>
+  courseId: CourseId,
+  bundleId: BundleId
 };
 
 export type SessionToken = {
@@ -297,7 +297,7 @@ export type OrderIdResolvers<ContextType = ResolverContext, ParentType extends R
 export type QueryResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   _?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>,
   me?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>,
-  storefront?: Resolver<Maybe<ResolversTypes['Storefront']>, ParentType, ContextType, QueryStorefrontArgs>,
+  storefront?: Resolver<Maybe<ResolversTypes['Storefront']>, ParentType, ContextType, RequireFields<QueryStorefrontArgs, 'courseId' | 'bundleId'>>,
 }>;
 
 export type SessionTokenResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['SessionToken'] = ResolversParentTypes['SessionToken']> = ResolversObject<{

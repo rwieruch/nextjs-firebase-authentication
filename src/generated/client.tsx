@@ -124,8 +124,8 @@ export type Query = {
 
 
 export type QueryStorefrontArgs = {
-  courseId?: Maybe<CourseId>,
-  bundleId?: Maybe<BundleId>
+  courseId: CourseId,
+  bundleId: BundleId
 };
 
 export type SessionToken = {
@@ -252,8 +252,8 @@ export type PasswordForgotMutation = (
 );
 
 export type GetStorefrontQueryVariables = {
-  courseId?: Maybe<CourseId>,
-  bundleId?: Maybe<BundleId>
+  courseId: CourseId,
+  bundleId: BundleId
 };
 
 
@@ -555,7 +555,7 @@ export type PasswordForgotMutationHookResult = ReturnType<typeof usePasswordForg
 export type PasswordForgotMutationResult = ApolloReactCommon.MutationResult<PasswordForgotMutation>;
 export type PasswordForgotMutationOptions = ApolloReactCommon.BaseMutationOptions<PasswordForgotMutation, PasswordForgotMutationVariables>;
 export const GetStorefrontDocument = gql`
-    query GetStorefront($courseId: CourseId, $bundleId: BundleId) {
+    query GetStorefront($courseId: CourseId!, $bundleId: BundleId!) {
   storefront(courseId: $courseId, bundleId: $bundleId) {
     course {
       header

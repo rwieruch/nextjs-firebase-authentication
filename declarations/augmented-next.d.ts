@@ -6,7 +6,3 @@ declare module 'next' {
     apolloClient: ApolloClient<any>;
   }
 }
-
-// type NextAuthPage = NextPage<DashboardPageProps> & {
-//   isAuthorized: Function;
-// };

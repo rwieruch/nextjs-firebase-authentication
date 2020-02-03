@@ -3,7 +3,8 @@ import { MockedProvider } from '@apollo/react-testing';
 import { GraphQLError } from 'graphql';
 import { message } from 'antd';
 
-import SignInForm, { SIGN_IN } from '.';
+import { SIGN_IN } from '@queries/session';
+import SignInForm from '.';
 
 describe('SignInForm', () => {
   const email = 'example@example.com';

@@ -3,7 +3,8 @@ import { MockedProvider } from '@apollo/react-testing';
 import { GraphQLError } from 'graphql';
 import { message } from 'antd';
 
-import PasswordChangeForm, { PASSWORD_CHANGE } from '.';
+import { PASSWORD_CHANGE } from '@queries/session';
+import PasswordChangeForm from '.';
 
 describe('PasswordChangeForm', () => {
   const oldPassword = 'myoldpassword';
