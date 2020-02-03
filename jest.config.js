@@ -12,6 +12,7 @@ module.exports = {
     '^@services(.*)$': '<rootDir>/src/services$1',
     '^@constants(.*)$': '<rootDir>/src/constants$1',
     '^@context(.*)$': '<rootDir>/src/context$1',
+    '^@queries(.*)$': '<rootDir>/src/queries$1',
     '^@typeDefs(.*)$': '<rootDir>/src/types$1',
     '^@generated(.*)$': '<rootDir>/src/generated$1',
   },

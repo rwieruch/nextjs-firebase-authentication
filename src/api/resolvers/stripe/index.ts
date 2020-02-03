@@ -2,7 +2,7 @@ import { MutationResolvers } from '@generated/gen-types';
 import { getAsDiscount } from '@services/coupon';
 import stripe from '@services/stripe';
 
-import storefront from '../../../content/course-storefront';
+import storefront from '../../../../content/course-storefront';
 
 interface Resolvers {
   Mutation: MutationResolvers;

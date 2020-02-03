@@ -3,7 +3,8 @@ import { MockedProvider } from '@apollo/react-testing';
 import { GraphQLError } from 'graphql';
 import { message } from 'antd';
 
-import FreeCheckoutButton, { CREATE_FREE_COURSE } from '.';
+import FreeCheckoutButton from '.';
+import { CREATE_FREE_COURSE } from '@queries/course';
 
 describe('FreeCheckoutButton', () => {
   message.error = jest.fn();
@@ -22,8 +23,8 @@ describe('FreeCheckoutButton', () => {
         request: {
           query: CREATE_FREE_COURSE,
           variables: {
-            courseId: 'courseid',
-            bundleId: 'bundleid',
+            courseId: 'THE_ROAD_TO_GRAPHQL',
+            bundleId: 'STUDENT',
             onSuccess,
           },
         },
@@ -39,8 +40,8 @@ describe('FreeCheckoutButton', () => {
     const component = render(
       <MockedProvider mocks={mocks} addTypename={false}>
         <FreeCheckoutButton
-          courseId={'courseid'}
-          bundleId={'bundleid'}
+          courseId={'THE_ROAD_TO_GRAPHQL'}
+          bundleId={'STUDENT'}
           onSuccess={onSuccess}
         />
       </MockedProvider>
@@ -79,8 +80,8 @@ describe('FreeCheckoutButton', () => {
         request: {
           query: CREATE_FREE_COURSE,
           variables: {
-            courseId: 'courseid',
-            bundleId: 'bundleid',
+            courseId: 'THE_ROAD_TO_GRAPHQL',
+            bundleId: 'STUDENT',
             onSuccess,
           },
         },
@@ -94,8 +95,8 @@ describe('FreeCheckoutButton', () => {
     const component = render(
       <MockedProvider mocks={mocks} addTypename={false}>
         <FreeCheckoutButton
-          courseId={'courseid'}
-          bundleId={'bundleid'}
+          courseId={'THE_ROAD_TO_GRAPHQL'}
+          bundleId={'STUDENT'}
           onSuccess={onSuccess}
         />
       </MockedProvider>

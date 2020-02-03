@@ -16,6 +16,7 @@
           "@services": "./src/services",
           "@constants": "./src/constants",
           "@context": "./src/context",
+          "@queries": "./src/queries",
           "@typeDefs": "./src/types",
           "@generated": "./src/generated"
         }

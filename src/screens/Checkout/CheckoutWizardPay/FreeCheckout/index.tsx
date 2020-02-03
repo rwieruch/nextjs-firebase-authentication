@@ -2,19 +2,10 @@
 
 import React from 'react';
 import { useMutation } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
 import { Button } from 'antd';
 
 import useErrorIndicator from '@hooks/useErrorIndicator';
-
-export const CREATE_FREE_COURSE = gql`
-  mutation CreateFreeCourse(
-    $courseId: CourseId!
-    $bundleId: BundleId!
-  ) {
-    createFreeCourse(courseId: $courseId, bundleId: $bundleId)
-  }
-`;
+import { CREATE_FREE_COURSE } from '@queries/course';
 
 export type FreeCheckoutProps = {
   courseId: string;
