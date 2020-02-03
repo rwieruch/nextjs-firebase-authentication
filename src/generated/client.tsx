@@ -177,6 +177,80 @@ export type CreateAdminCourseMutation = (
   & Pick<Mutation, 'createAdminCourse'>
 );
 
+export type PaypalCreateOrderMutationVariables = {
+  courseId: CourseId,
+  bundleId: BundleId,
+  coupon?: Maybe<Scalars['String']>
+};
+
+
+export type PaypalCreateOrderMutation = (
+  { __typename?: 'Mutation' }
+  & { paypalCreateOrder: (
+    { __typename?: 'OrderId' }
+    & Pick<OrderId, 'orderId'>
+  ) }
+);
+
+export type PaypalApproveOrderMutationVariables = {
+  orderId: Scalars['String']
+};
+
+
+export type PaypalApproveOrderMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'paypalApproveOrder'>
+);
+
+export type SignUpMutationVariables = {
+  username: Scalars['String'],
+  email: Scalars['String'],
+  password: Scalars['String']
+};
+
+
+export type SignUpMutation = (
+  { __typename?: 'Mutation' }
+  & { signUp: (
+    { __typename?: 'SessionToken' }
+    & Pick<SessionToken, 'sessionToken'>
+  ) }
+);
+
+export type SignInMutationVariables = {
+  email: Scalars['String'],
+  password: Scalars['String']
+};
+
+
+export type SignInMutation = (
+  { __typename?: 'Mutation' }
+  & { signIn: (
+    { __typename?: 'SessionToken' }
+    & Pick<SessionToken, 'sessionToken'>
+  ) }
+);
+
+export type PasswordChangeMutationVariables = {
+  password: Scalars['String']
+};
+
+
+export type PasswordChangeMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'passwordChange'>
+);
+
+export type PasswordForgotMutationVariables = {
+  email: Scalars['String']
+};
+
+
+export type PasswordForgotMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'passwordForgot'>
+);
+
 export type GetStorefrontQueryVariables = {
   courseId?: Maybe<CourseId>,
   bundleId?: Maybe<BundleId>
@@ -196,6 +270,22 @@ export type GetStorefrontQuery = (
       ) }
     ) }
   )> }
+);
+
+export type StripeCreateOrderMutationVariables = {
+  imageUrl: Scalars['String'],
+  courseId: CourseId,
+  bundleId: BundleId,
+  coupon?: Maybe<Scalars['String']>
+};
+
+
+export type StripeCreateOrderMutation = (
+  { __typename?: 'Mutation' }
+  & { stripeCreateOrder: (
+    { __typename?: 'StripeId' }
+    & Pick<StripeId, 'id'>
+  ) }
 );
 
 export type GetMeQueryVariables = {};
@@ -273,6 +363,197 @@ export function useCreateAdminCourseMutation(baseOptions?: ApolloReactHooks.Muta
 export type CreateAdminCourseMutationHookResult = ReturnType<typeof useCreateAdminCourseMutation>;
 export type CreateAdminCourseMutationResult = ApolloReactCommon.MutationResult<CreateAdminCourseMutation>;
 export type CreateAdminCourseMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateAdminCourseMutation, CreateAdminCourseMutationVariables>;
+export const PaypalCreateOrderDocument = gql`
+    mutation PaypalCreateOrder($courseId: CourseId!, $bundleId: BundleId!, $coupon: String) {
+  paypalCreateOrder(courseId: $courseId, bundleId: $bundleId, coupon: $coupon) {
+    orderId
+  }
+}
+    `;
+export type PaypalCreateOrderMutationFn = ApolloReactCommon.MutationFunction<PaypalCreateOrderMutation, PaypalCreateOrderMutationVariables>;
+
+/**
+ * __usePaypalCreateOrderMutation__
+ *
+ * To run a mutation, you first call `usePaypalCreateOrderMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `usePaypalCreateOrderMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [paypalCreateOrderMutation, { data, loading, error }] = usePaypalCreateOrderMutation({
+ *   variables: {
+ *      courseId: // value for 'courseId'
+ *      bundleId: // value for 'bundleId'
+ *      coupon: // value for 'coupon'
+ *   },
+ * });
+ */
+export function usePaypalCreateOrderMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<PaypalCreateOrderMutation, PaypalCreateOrderMutationVariables>) {
+        return ApolloReactHooks.useMutation<PaypalCreateOrderMutation, PaypalCreateOrderMutationVariables>(PaypalCreateOrderDocument, baseOptions);
+      }
+export type PaypalCreateOrderMutationHookResult = ReturnType<typeof usePaypalCreateOrderMutation>;
+export type PaypalCreateOrderMutationResult = ApolloReactCommon.MutationResult<PaypalCreateOrderMutation>;
+export type PaypalCreateOrderMutationOptions = ApolloReactCommon.BaseMutationOptions<PaypalCreateOrderMutation, PaypalCreateOrderMutationVariables>;
+export const PaypalApproveOrderDocument = gql`
+    mutation PaypalApproveOrder($orderId: String!) {
+  paypalApproveOrder(orderId: $orderId)
+}
+    `;
+export type PaypalApproveOrderMutationFn = ApolloReactCommon.MutationFunction<PaypalApproveOrderMutation, PaypalApproveOrderMutationVariables>;
+
+/**
+ * __usePaypalApproveOrderMutation__
+ *
+ * To run a mutation, you first call `usePaypalApproveOrderMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `usePaypalApproveOrderMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [paypalApproveOrderMutation, { data, loading, error }] = usePaypalApproveOrderMutation({
+ *   variables: {
+ *      orderId: // value for 'orderId'
+ *   },
+ * });
+ */
+export function usePaypalApproveOrderMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<PaypalApproveOrderMutation, PaypalApproveOrderMutationVariables>) {
+        return ApolloReactHooks.useMutation<PaypalApproveOrderMutation, PaypalApproveOrderMutationVariables>(PaypalApproveOrderDocument, baseOptions);
+      }
+export type PaypalApproveOrderMutationHookResult = ReturnType<typeof usePaypalApproveOrderMutation>;
+export type PaypalApproveOrderMutationResult = ApolloReactCommon.MutationResult<PaypalApproveOrderMutation>;
+export type PaypalApproveOrderMutationOptions = ApolloReactCommon.BaseMutationOptions<PaypalApproveOrderMutation, PaypalApproveOrderMutationVariables>;
+export const SignUpDocument = gql`
+    mutation SignUp($username: String!, $email: String!, $password: String!) {
+  signUp(username: $username, email: $email, password: $password) {
+    sessionToken
+  }
+}
+    `;
+export type SignUpMutationFn = ApolloReactCommon.MutationFunction<SignUpMutation, SignUpMutationVariables>;
+
+/**
+ * __useSignUpMutation__
+ *
+ * To run a mutation, you first call `useSignUpMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSignUpMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [signUpMutation, { data, loading, error }] = useSignUpMutation({
+ *   variables: {
+ *      username: // value for 'username'
+ *      email: // value for 'email'
+ *      password: // value for 'password'
+ *   },
+ * });
+ */
+export function useSignUpMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<SignUpMutation, SignUpMutationVariables>) {
+        return ApolloReactHooks.useMutation<SignUpMutation, SignUpMutationVariables>(SignUpDocument, baseOptions);
+      }
+export type SignUpMutationHookResult = ReturnType<typeof useSignUpMutation>;
+export type SignUpMutationResult = ApolloReactCommon.MutationResult<SignUpMutation>;
+export type SignUpMutationOptions = ApolloReactCommon.BaseMutationOptions<SignUpMutation, SignUpMutationVariables>;
+export const SignInDocument = gql`
+    mutation SignIn($email: String!, $password: String!) {
+  signIn(email: $email, password: $password) {
+    sessionToken
+  }
+}
+    `;
+export type SignInMutationFn = ApolloReactCommon.MutationFunction<SignInMutation, SignInMutationVariables>;
+
+/**
+ * __useSignInMutation__
+ *
+ * To run a mutation, you first call `useSignInMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSignInMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [signInMutation, { data, loading, error }] = useSignInMutation({
+ *   variables: {
+ *      email: // value for 'email'
+ *      password: // value for 'password'
+ *   },
+ * });
+ */
+export function useSignInMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<SignInMutation, SignInMutationVariables>) {
+        return ApolloReactHooks.useMutation<SignInMutation, SignInMutationVariables>(SignInDocument, baseOptions);
+      }
+export type SignInMutationHookResult = ReturnType<typeof useSignInMutation>;
+export type SignInMutationResult = ApolloReactCommon.MutationResult<SignInMutation>;
+export type SignInMutationOptions = ApolloReactCommon.BaseMutationOptions<SignInMutation, SignInMutationVariables>;
+export const PasswordChangeDocument = gql`
+    mutation PasswordChange($password: String!) {
+  passwordChange(password: $password)
+}
+    `;
+export type PasswordChangeMutationFn = ApolloReactCommon.MutationFunction<PasswordChangeMutation, PasswordChangeMutationVariables>;
+
+/**
+ * __usePasswordChangeMutation__
+ *
+ * To run a mutation, you first call `usePasswordChangeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `usePasswordChangeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [passwordChangeMutation, { data, loading, error }] = usePasswordChangeMutation({
+ *   variables: {
+ *      password: // value for 'password'
+ *   },
+ * });
+ */
+export function usePasswordChangeMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<PasswordChangeMutation, PasswordChangeMutationVariables>) {
+        return ApolloReactHooks.useMutation<PasswordChangeMutation, PasswordChangeMutationVariables>(PasswordChangeDocument, baseOptions);
+      }
+export type PasswordChangeMutationHookResult = ReturnType<typeof usePasswordChangeMutation>;
+export type PasswordChangeMutationResult = ApolloReactCommon.MutationResult<PasswordChangeMutation>;
+export type PasswordChangeMutationOptions = ApolloReactCommon.BaseMutationOptions<PasswordChangeMutation, PasswordChangeMutationVariables>;
+export const PasswordForgotDocument = gql`
+    mutation PasswordForgot($email: String!) {
+  passwordForgot(email: $email)
+}
+    `;
+export type PasswordForgotMutationFn = ApolloReactCommon.MutationFunction<PasswordForgotMutation, PasswordForgotMutationVariables>;
+
+/**
+ * __usePasswordForgotMutation__
+ *
+ * To run a mutation, you first call `usePasswordForgotMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `usePasswordForgotMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [passwordForgotMutation, { data, loading, error }] = usePasswordForgotMutation({
+ *   variables: {
+ *      email: // value for 'email'
+ *   },
+ * });
+ */
+export function usePasswordForgotMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<PasswordForgotMutation, PasswordForgotMutationVariables>) {
+        return ApolloReactHooks.useMutation<PasswordForgotMutation, PasswordForgotMutationVariables>(PasswordForgotDocument, baseOptions);
+      }
+export type PasswordForgotMutationHookResult = ReturnType<typeof usePasswordForgotMutation>;
+export type PasswordForgotMutationResult = ApolloReactCommon.MutationResult<PasswordForgotMutation>;
+export type PasswordForgotMutationOptions = ApolloReactCommon.BaseMutationOptions<PasswordForgotMutation, PasswordForgotMutationVariables>;
 export const GetStorefrontDocument = gql`
     query GetStorefront($courseId: CourseId, $bundleId: BundleId) {
   storefront(courseId: $courseId, bundleId: $bundleId) {
@@ -315,6 +596,41 @@ export function useGetStorefrontLazyQuery(baseOptions?: ApolloReactHooks.LazyQue
 export type GetStorefrontQueryHookResult = ReturnType<typeof useGetStorefrontQuery>;
 export type GetStorefrontLazyQueryHookResult = ReturnType<typeof useGetStorefrontLazyQuery>;
 export type GetStorefrontQueryResult = ApolloReactCommon.QueryResult<GetStorefrontQuery, GetStorefrontQueryVariables>;
+export const StripeCreateOrderDocument = gql`
+    mutation StripeCreateOrder($imageUrl: String!, $courseId: CourseId!, $bundleId: BundleId!, $coupon: String) {
+  stripeCreateOrder(imageUrl: $imageUrl, courseId: $courseId, bundleId: $bundleId, coupon: $coupon) {
+    id
+  }
+}
+    `;
+export type StripeCreateOrderMutationFn = ApolloReactCommon.MutationFunction<StripeCreateOrderMutation, StripeCreateOrderMutationVariables>;
+
+/**
+ * __useStripeCreateOrderMutation__
+ *
+ * To run a mutation, you first call `useStripeCreateOrderMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useStripeCreateOrderMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [stripeCreateOrderMutation, { data, loading, error }] = useStripeCreateOrderMutation({
+ *   variables: {
+ *      imageUrl: // value for 'imageUrl'
+ *      courseId: // value for 'courseId'
+ *      bundleId: // value for 'bundleId'
+ *      coupon: // value for 'coupon'
+ *   },
+ * });
+ */
+export function useStripeCreateOrderMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<StripeCreateOrderMutation, StripeCreateOrderMutationVariables>) {
+        return ApolloReactHooks.useMutation<StripeCreateOrderMutation, StripeCreateOrderMutationVariables>(StripeCreateOrderDocument, baseOptions);
+      }
+export type StripeCreateOrderMutationHookResult = ReturnType<typeof useStripeCreateOrderMutation>;
+export type StripeCreateOrderMutationResult = ApolloReactCommon.MutationResult<StripeCreateOrderMutation>;
+export type StripeCreateOrderMutationOptions = ApolloReactCommon.BaseMutationOptions<StripeCreateOrderMutation, StripeCreateOrderMutationVariables>;
 export const GetMeDocument = gql`
     query GetMe {
   me {

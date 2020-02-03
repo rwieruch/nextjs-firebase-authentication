@@ -3,27 +3,15 @@ import { useRouter } from 'next/router';
 import { Form, Input } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import { useMutation } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
 import cookie from 'js-cookie';
 
+import { SIGN_UP } from '@queries/session';
 import { EXPIRES_IN } from '@constants/cookie';
 import * as ROUTES from '@constants/routes';
 import FormItem from '@components/Form/Item';
 import FormStretchedButton from '@components/Form/StretchedButton';
 import FormAtomButton from '@components/Form/AtomButton';
 import useErrorIndicator from '@hooks/useErrorIndicator';
-
-export const SIGN_UP = gql`
-  mutation SignUp(
-    $username: String!
-    $email: String!
-    $password: String!
-  ) {
-    signUp(username: $username, email: $email, password: $password) {
-      sessionToken
-    }
-  }
-`;
 
 interface SignUpFormProps extends FormComponentProps {
   onSuccess: () => void;

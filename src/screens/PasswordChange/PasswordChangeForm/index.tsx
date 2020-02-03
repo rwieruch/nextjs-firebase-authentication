@@ -2,17 +2,11 @@ import React from 'react';
 import { Form, Input } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import { useMutation } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
 
+import { PASSWORD_CHANGE } from '@queries/session';
 import FormItem from '@components/Form/Item';
 import FormStretchedButton from '@components/Form/StretchedButton';
 import useErrorIndicator from '@hooks/useErrorIndicator';
-
-export const PASSWORD_CHANGE = gql`
-  mutation PasswordChange($password: String!) {
-    passwordChange(password: $password)
-  }
-`;
 
 interface PasswordChangeFormProps extends FormComponentProps {}
 

@@ -2,29 +2,12 @@
 
 import React from 'react';
 import { useMutation } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
 import { Button, message } from 'antd';
 
 import { Course } from '@generated/client';
 import useErrorIndicator from '@hooks/useErrorIndicator';
 
-export const STRIPE_CREATE_ORDER = gql`
-  mutation StripeCreateOrder(
-    $imageUrl: String!
-    $courseId: CourseId!
-    $bundleId: BundleId!
-    $coupon: String
-  ) {
-    stripeCreateOrder(
-      imageUrl: $imageUrl
-      courseId: $courseId
-      bundleId: $bundleId
-      coupon: $coupon
-    ) {
-      id
-    }
-  }
-`;
+import { STRIPE_CREATE_ORDER } from '@queries/stripe';
 
 export type StripeCheckoutProps = {
   imageUrl: string;

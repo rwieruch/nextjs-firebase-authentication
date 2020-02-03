@@ -2,33 +2,14 @@
 
 import React from 'react';
 import { useMutation } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
 
 import { Course } from '@generated/client';
+import {
+  PAYPAL_CREATE_ORDER,
+  PAYPAL_APPROVE_ORDER,
+} from '@queries/paypal';
 import useIndicators from '@hooks/useIndicators';
 import FormAtomButton from '@components/Form/AtomButton';
-
-export const PAYPAL_CREATE_ORDER = gql`
-  mutation PaypalCreateOrder(
-    $courseId: CourseId!
-    $bundleId: BundleId!
-    $coupon: String
-  ) {
-    paypalCreateOrder(
-      courseId: $courseId
-      bundleId: $bundleId
-      coupon: $coupon
-    ) {
-      orderId
-    }
-  }
-`;
-
-export const PAYPAL_APPROVE_ORDER = gql`
-  mutation PaypalApproveOrder($orderId: String!) {
-    paypalApproveOrder(orderId: $orderId)
-  }
-`;
 
 export type PaypalCheckoutProps = {
   course: Course;

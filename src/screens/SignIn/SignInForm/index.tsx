@@ -4,9 +4,9 @@ import styled from 'styled-components';
 import { Form, Input } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import { useMutation } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
 import cookie from 'js-cookie';
 
+import { SIGN_IN } from '@queries/session';
 import * as ROUTES from '@constants/routes';
 import { EXPIRES_IN } from '@constants/cookie';
 import FormIcon from '@components/Form/Icon';
@@ -18,14 +18,6 @@ import useErrorIndicator from '@hooks/useErrorIndicator';
 const StyledFormFooter = styled.div`
   display: flex;
   justify-content: space-between;
-`;
-
-export const SIGN_IN = gql`
-  mutation SignIn($email: String!, $password: String!) {
-    signIn(email: $email, password: $password) {
-      sessionToken
-    }
-  }
 `;
 
 interface SignInFormProps extends FormComponentProps {
