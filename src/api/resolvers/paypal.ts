@@ -1,27 +1,23 @@
 // TODO https://github.com/paypal/Checkout-NodeJS-SDK/issues/25
 import paypal from '@paypal/checkout-server-sdk';
 
-import { ResolverContext } from '@typeDefs/resolver';
-
+import { MutationResolvers } from '@generated/gen-types';
 import { getAsDiscount } from '@services/coupon';
 import paypalClient from '@services/paypal';
 import { createCourse } from '@services/firebase/course';
 
-import { COURSE } from '../../../content/course-keys';
-import { BUNDLE } from '../../../content/course-keys';
 import storefront from '../../../content/course-storefront';
 
-export default {
+interface Resolvers {
+  Mutation: MutationResolvers;
+}
+
+export const resolvers: Resolvers = {
   Mutation: {
     // https://developer.paypal.com/docs/checkout/reference/server-integration/set-up-transaction/
     paypalCreateOrder: async (
-      parent: any,
-      {
-        courseId,
-        bundleId,
-        coupon,
-      }: { courseId: COURSE; bundleId: BUNDLE; coupon?: string },
-      { me }: ResolverContext
+      parent,
+      { courseId, bundleId, coupon }
     ) => {
       const course = storefront[courseId];
       const bundle = course.bundles[bundleId];
@@ -56,11 +52,7 @@ export default {
       return { orderId: order.result.id };
     },
     // https://developer.paypal.com/docs/checkout/reference/server-integration/capture-transaction/
-    paypalApproveOrder: async (
-      parent: any,
-      { orderId }: { orderId: string },
-      { me }: ResolverContext
-    ) => {
+    paypalApproveOrder: async (parent, { orderId }, { me }) => {
       const request = new paypal.orders.OrdersCaptureRequest(orderId);
       request.requestBody({});
 
@@ -75,7 +67,7 @@ export default {
         const { courseId, bundleId } = JSON.parse(custom_id);
 
         await createCourse({
-          uid: me.uid,
+          uid: me?.uid,
           courseId,
           bundleId,
           amount: amount.value,

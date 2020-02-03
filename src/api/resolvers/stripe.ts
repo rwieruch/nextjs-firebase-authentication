@@ -1,29 +1,20 @@
-import { ResolverContext } from '@typeDefs/resolver';
-
+import { MutationResolvers } from '@generated/gen-types';
 import { getAsDiscount } from '@services/coupon';
 import stripe from '@services/stripe';
 
-import { COURSE } from '../../../content/course-keys';
-import { BUNDLE } from '../../../content/course-keys';
 import storefront from '../../../content/course-storefront';
 
-export default {
+interface Resolvers {
+  Mutation: MutationResolvers;
+}
+
+export const resolvers: Resolvers = {
   Mutation: {
     // https://stripe.com/docs/payments/checkout/one-time#create-one-time-payments
     stripeCreateOrder: async (
-      parent: any,
-      {
-        imageUrl,
-        courseId,
-        bundleId,
-        coupon,
-      }: {
-        imageUrl: string;
-        courseId: COURSE;
-        bundleId: BUNDLE;
-        coupon?: string;
-      },
-      { me }: ResolverContext
+      parent,
+      { imageUrl, courseId, bundleId, coupon },
+      { me }
     ) => {
       const course = storefront[courseId];
       const bundle = course.bundles[bundleId];
@@ -34,8 +25,8 @@ export default {
 
       try {
         session = await stripe.checkout.sessions.create({
-          customer_email: me.email,
-          client_reference_id: me.uid,
+          customer_email: me?.email,
+          client_reference_id: me?.uid,
           payment_method_types: ['card'],
           line_items: [
             {

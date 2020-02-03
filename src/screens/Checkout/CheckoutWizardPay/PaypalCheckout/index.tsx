@@ -9,8 +9,8 @@ import FormAtomButton from '@components/Form/AtomButton';
 
 export const PAYPAL_CREATE_ORDER = gql`
   mutation PaypalCreateOrder(
-    $courseId: String!
-    $bundleId: String!
+    $courseId: CourseId!
+    $bundleId: BundleId!
     $coupon: String
   ) {
     paypalCreateOrder(

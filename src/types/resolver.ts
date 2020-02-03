@@ -1,10 +1,8 @@
-import * as firebase from 'firebase/app';
-import * as firebaseAdmin from 'firebase-admin';
-
+import { ServerResponse, ServerRequest } from '@typeDefs/server';
 import { Me } from '@typeDefs/me';
 
 export type ResolverContext = {
-  me: Me;
-  firebaseAdmin: firebaseAdmin.app.App;
-  firebase: firebase.app.App;
+  res: ServerResponse;
+  req: ServerRequest;
+  me?: Me;
 };

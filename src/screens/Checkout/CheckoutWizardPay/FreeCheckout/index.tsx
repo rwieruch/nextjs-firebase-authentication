@@ -8,7 +8,10 @@ import { Button } from 'antd';
 import useErrorIndicator from '@hooks/useErrorIndicator';
 
 export const CREATE_FREE_COURSE = gql`
-  mutation CreateFreeCourse($courseId: String!, $bundleId: String!) {
+  mutation CreateFreeCourse(
+    $courseId: CourseId!
+    $bundleId: BundleId!
+  ) {
     createFreeCourse(courseId: $courseId, bundleId: $bundleId)
   }
 `;

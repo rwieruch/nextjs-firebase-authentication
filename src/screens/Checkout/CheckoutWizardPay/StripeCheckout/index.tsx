@@ -10,8 +10,8 @@ import useErrorIndicator from '@hooks/useErrorIndicator';
 export const STRIPE_CREATE_ORDER = gql`
   mutation StripeCreateOrder(
     $imageUrl: String!
-    $courseId: String!
-    $bundleId: String!
+    $courseId: CourseId!
+    $bundleId: BundleId!
     $coupon: String
   ) {
     stripeCreateOrder(

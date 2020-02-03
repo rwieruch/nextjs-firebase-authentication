@@ -1,34 +1,42 @@
 import { combineResolvers } from 'graphql-resolvers';
 
-import { ResolverContext } from '@typeDefs/resolver';
-
+import { MutationResolvers } from '@generated/gen-types';
 import { isAuthenticated } from '@api/authorization/isAuthenticated';
 import { isFreeCourse } from '@api/authorization/isFreeCourse';
-
+import { isAdmin } from '@api/authorization/isAdmin';
 import { createCourse } from '@services/firebase/course';
 
-import { COURSE } from '../../../content/course-keys';
-import { BUNDLE } from '../../../content/course-keys';
+interface Resolvers {
+  Mutation: MutationResolvers;
+}
 
-export default {
+export const resolvers: Resolvers = {
   Mutation: {
     createFreeCourse: combineResolvers(
       isAuthenticated,
       isFreeCourse,
-      async (
-        parent: any,
-        {
-          courseId,
-          bundleId,
-        }: { courseId: COURSE; bundleId: BUNDLE },
-        { me }: ResolverContext
-      ) => {
+      async (parent, { courseId, bundleId }, { me }) => {
         await createCourse({
-          uid: me.uid,
+          uid: me?.uid,
           courseId,
           bundleId,
           amount: 0,
           paymentType: 'FREE',
+        });
+
+        return true;
+      }
+    ),
+    createAdminCourse: combineResolvers(
+      isAuthenticated,
+      isAdmin,
+      async (parent, { uid, courseId, bundleId }) => {
+        await createCourse({
+          uid,
+          courseId,
+          bundleId,
+          amount: 0,
+          paymentType: 'MANUAL',
         });
 
         return true;

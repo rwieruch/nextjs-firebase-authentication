@@ -2,7 +2,7 @@ import { gql } from 'apollo-server-micro';
 
 export default gql`
   extend type Query {
-    storefront(courseId: String, bundleId: String): Storefront
+    storefront(courseId: CourseId, bundleId: BundleId): Storefront
   }
 
   type Storefront {
@@ -11,13 +11,13 @@ export default gql`
 
   type Course {
     header: String!
-    courseId: String!
+    courseId: CourseId!
     bundle: Bundle!
   }
 
   type Bundle {
     header: String!
-    bundleId: String!
+    bundleId: BundleId!
     price: Int!
   }
 `;

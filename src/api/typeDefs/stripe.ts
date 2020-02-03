@@ -4,8 +4,8 @@ export default gql`
   extend type Mutation {
     stripeCreateOrder(
       imageUrl: String!
-      courseId: String!
-      bundleId: String!
+      courseId: CourseId!
+      bundleId: BundleId!
       coupon: String
     ): StripeId!
   }

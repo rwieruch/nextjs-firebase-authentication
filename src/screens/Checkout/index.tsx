@@ -59,7 +59,7 @@ CheckoutPage.getInitialProps = async ctx => {
 
   const { data } = await ctx.apolloClient.query({
     query: gql`
-      query GetStorefront($courseId: String, $bundleId: String) {
+      query GetStorefront($courseId: CourseId, $bundleId: BundleId) {
         storefront(courseId: $courseId, bundleId: $bundleId) {
           course {
             header

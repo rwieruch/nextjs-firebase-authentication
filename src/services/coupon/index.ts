@@ -13,7 +13,7 @@ const getPppAmount = (amount: number, ppp: Ppp) => {
 
 export const getAsDiscount = async (
   amount: number,
-  coupon?: string
+  coupon: string | undefined | null
 ) => {
   if (!coupon) {
     return amount;

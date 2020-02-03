@@ -3,8 +3,8 @@ import { gql } from 'apollo-server-micro';
 export default gql`
   extend type Mutation {
     paypalCreateOrder(
-      courseId: String!
-      bundleId: String!
+      courseId: CourseId!
+      bundleId: BundleId!
       coupon: String
     ): OrderId!
 

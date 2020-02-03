@@ -1,7 +1,11 @@
-import { Claims } from './claims';
+import * as firebaseAdminVanilla from 'firebase-admin';
 
-export type Me = {
-  uid: string;
-  email: string;
-  claims: Claims;
+type Claims = {
+  admin?: boolean;
 };
+
+type AdminUser = {
+  customClaims: Claims;
+};
+
+export type Me = firebaseAdminVanilla.auth.UserRecord & AdminUser;

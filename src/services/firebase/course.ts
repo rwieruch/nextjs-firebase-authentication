@@ -12,9 +12,9 @@ export const createCourse = async ({
   amount,
   paymentType,
 }: {
-  uid: string;
-  courseId: COURSE;
-  bundleId: BUNDLE;
+  uid?: string;
+  courseId: string;
+  bundleId: string;
   amount: number;
   paymentType: string;
 }) =>

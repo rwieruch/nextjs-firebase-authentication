@@ -1,0 +1,10 @@
+schema: http://localhost:3000/api/graphql
+
+generates:
+  src/generated/gen-types.ts:
+    config:
+      defaultMapper: any
+      contextType: @typeDefs/resolver#ResolverContext
+    plugins:
+      - typescript
+      - typescript-resolvers

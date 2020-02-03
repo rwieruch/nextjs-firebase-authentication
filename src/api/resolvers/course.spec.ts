@@ -1,34 +1,12 @@
 import { ForbiddenError } from 'apollo-server';
 
-import resolvers from './course';
-import firebaseAdmin from '../../services/firebase/admin';
+import firebaseAdmin from '@services/firebase/admin';
+import { resolvers } from './course';
 
-jest.mock('firebase-admin', () => {
-  return {
-    database: {
-      ServerValue: {
-        TIMESTAMP: 'TIMESTAMP',
-      },
-    },
-  };
-});
-
-jest.mock('@services/firebase/admin', () => {
-  const set = jest.fn();
-
-  return {
-    database: jest.fn(() => ({
-      ref: jest.fn(() => ({
-        push: jest.fn(() => ({
-          set,
-        })),
-      })),
-    })),
-  };
-});
+const { createFreeCourse, createAdminCourse } = resolvers.Mutation;
 
 describe('createFreeCourse', () => {
-  let set;
+  let set: any;
 
   beforeEach(() => {
     set = firebaseAdmin
@@ -38,14 +16,19 @@ describe('createFreeCourse', () => {
   });
 
   it('creates a course', async () => {
-    const result = resolvers.Mutation.createFreeCourse(
+    const result = (createFreeCourse as any)(
       null,
       {
         courseId: 'THE_ROAD_TO_GRAPHQL',
         bundleId: 'STUDENT',
       },
-      { me: { uid: '1', email: 'example@example.com' } },
-      null
+      {
+        me: {
+          uid: '1',
+          email: 'example@example.com',
+          customClaims: { admin: false },
+        },
+      }
     );
 
     await expect(result).resolves.toEqual(true);
@@ -66,7 +49,7 @@ describe('createFreeCourse', () => {
   });
 
   it('does not create a course if not authenticated', async () => {
-    const result = resolvers.Mutation.createFreeCourse(
+    const result = (createFreeCourse as any)(
       null,
       {
         courseId: 'THE_ROAD_TO_GRAPHQL',
@@ -84,7 +67,7 @@ describe('createFreeCourse', () => {
   });
 
   it('does not create a course if not free', async () => {
-    const result = resolvers.Mutation.createFreeCourse(
+    const result = (createFreeCourse as any)(
       null,
       {
         courseId: 'THE_ROAD_TO_GRAPHQL',
@@ -96,6 +79,101 @@ describe('createFreeCourse', () => {
 
     await expect(result).resolves.toEqual(
       new Error('This course is not for free.')
+    );
+
+    expect(set).toHaveBeenCalledTimes(0);
+  });
+});
+
+describe('createAdminCourse', () => {
+  let set: any;
+  let ref: any;
+
+  beforeEach(() => {
+    ref = firebaseAdmin.database().ref;
+
+    set = firebaseAdmin
+      .database()
+      .ref()
+      .push().set;
+  });
+
+  it('creates a course', async () => {
+    const result = (createAdminCourse as any)(
+      null,
+      {
+        uid: '2',
+        courseId: 'THE_ROAD_TO_GRAPHQL',
+        bundleId: 'PROFESSIONAL',
+      },
+      {
+        me: {
+          uid: '1',
+          email: 'example@example.com',
+          customClaims: { admin: true },
+        },
+      },
+      null
+    );
+
+    await expect(result).resolves.toEqual(true);
+
+    expect(set).toHaveBeenCalledTimes(1);
+
+    expect(ref).toHaveBeenCalledWith('users/2/courses');
+
+    expect(set).toHaveBeenCalledWith({
+      courseId: 'THE_ROAD_TO_GRAPHQL',
+      packageId: 'PROFESSIONAL',
+      invoice: {
+        createdAt: 'TIMESTAMP',
+        amount: 0,
+        licensesCount: 1,
+        currency: 'USD',
+        paymentType: 'MANUAL',
+      },
+    });
+  });
+
+  it('does not create a course if not authenticated', async () => {
+    const result = (createAdminCourse as any)(
+      null,
+      {
+        uid: '2',
+        courseId: 'THE_ROAD_TO_GRAPHQL',
+        bundleId: 'PROFESSIONAL',
+      },
+      { me: null },
+      null
+    );
+
+    await expect(result).resolves.toEqual(
+      new ForbiddenError('Not authenticated as user.')
+    );
+
+    expect(set).toHaveBeenCalledTimes(0);
+  });
+
+  it('does not create a course if not admin', async () => {
+    const result = (createAdminCourse as any)(
+      null,
+      {
+        uid: '2',
+        courseId: 'THE_ROAD_TO_GRAPHQL',
+        bundleId: 'PROFESSIONAL',
+      },
+      {
+        me: {
+          uid: '1',
+          email: 'example@example.com',
+          customClaims: { admin: false },
+        },
+      },
+      null
+    );
+
+    await expect(result).resolves.toEqual(
+      new ForbiddenError('No admin user.')
     );
 
     expect(set).toHaveBeenCalledTimes(0);

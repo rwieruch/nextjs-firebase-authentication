@@ -1,13 +1,13 @@
-import { COURSE } from '../../../content/course-keys';
-import { BUNDLE } from '../../../content/course-keys';
+import { QueryResolvers } from '@generated/gen-types';
 import storefront from '../../../content/course-storefront';
 
-export default {
+interface Resolvers {
+  Query: QueryResolvers;
+}
+
+export const resolvers: Resolvers = {
   Query: {
-    storefront: (
-      parent: any,
-      { courseId, bundleId }: { courseId: COURSE; bundleId: BUNDLE }
-    ) => {
+    storefront: (parent, { courseId, bundleId }) => {
       if (!courseId || !bundleId) {
         return null;
       }

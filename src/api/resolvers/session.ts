@@ -1,13 +1,15 @@
-import { ResolverContext } from '@typeDefs/resolver';
+import { MutationResolvers } from '@generated/gen-types';
 import { EXPIRES_IN } from '@constants/cookie';
+import firebase from '@services/firebase/client';
+import firebaseAdmin from '@services/firebase/admin';
 
-export default {
+interface Resolvers {
+  Mutation: MutationResolvers;
+}
+
+export const resolvers: Resolvers = {
   Mutation: {
-    signIn: async (
-      parent: any,
-      { email, password }: { email: string; password: string },
-      { firebaseAdmin, firebase }: ResolverContext
-    ) => {
+    signIn: async (parent, { email, password }) => {
       const {
         user,
       } = await firebase
@@ -26,15 +28,7 @@ export default {
 
       return { sessionToken };
     },
-    signUp: async (
-      parent: any,
-      {
-        username,
-        email,
-        password,
-      }: { username: string; email: string; password: string },
-      { firebaseAdmin, firebase }: ResolverContext
-    ) => {
+    signUp: async (parent, { username, email, password }) => {
       await firebaseAdmin.auth().createUser({
         email,
         password,
@@ -59,21 +53,13 @@ export default {
 
       return { sessionToken };
     },
-    passwordForgot: async (
-      parent: any,
-      { email }: { email: string },
-      { firebase }: ResolverContext
-    ) => {
+    passwordForgot: async (parent, { email }) => {
       await firebase.auth().sendPasswordResetEmail(email);
 
       return true;
     },
-    passwordChange: async (
-      parent: any,
-      { password }: { password: string },
-      { me, firebaseAdmin }: ResolverContext
-    ) => {
-      await firebaseAdmin.auth().updateUser(me.uid, {
+    passwordChange: async (parent, { password }, { me }) => {
+      await firebaseAdmin.auth().updateUser(me?.uid || '', {
         password,
       });
 

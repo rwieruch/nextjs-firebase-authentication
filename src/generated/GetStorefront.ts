@@ -2,6 +2,8 @@
 /* eslint-disable */
 // This file was automatically generated and should not be edited.
 
+import { CourseId, BundleId } from "./globalTypes";
+
 // ====================================================
 // GraphQL query operation: GetStorefront
 // ====================================================
@@ -9,14 +11,14 @@
 export interface GetStorefront_storefront_course_bundle {
   __typename: "Bundle";
   header: string;
-  bundleId: string;
+  bundleId: BundleId;
   price: number;
 }
 
 export interface GetStorefront_storefront_course {
   __typename: "Course";
   header: string;
-  courseId: string;
+  courseId: CourseId;
   bundle: GetStorefront_storefront_course_bundle;
 }
 
@@ -30,6 +32,6 @@ export interface GetStorefront {
 }
 
 export interface GetStorefrontVariables {
-  courseId?: string | null;
-  bundleId?: string | null;
+  courseId?: CourseId | null;
+  bundleId?: BundleId | null;
 }

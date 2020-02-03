@@ -1,5 +1,14 @@
 require('@testing-library/jest-dom');
 
+jest.mock('next/router', () => ({
+  useRouter: () => ({
+    push: jest.fn(),
+    prefetch: jest.fn(),
+  }),
+}));
+
+// Firebase Client
+
 jest.mock('firebase/app', () => ({
   __esModule: true,
   default: {
@@ -19,9 +28,30 @@ jest.mock('firebase/app', () => ({
 
 jest.mock('firebase/auth');
 
-jest.mock('next/router', () => ({
-  useRouter: () => ({
-    push: jest.fn(),
-    prefetch: jest.fn(),
-  }),
-}));
+// Firebase Admin
+
+jest.mock('firebase-admin', () => {
+  return {
+    database: {
+      ServerValue: {
+        TIMESTAMP: 'TIMESTAMP',
+      },
+    },
+  };
+});
+
+jest.mock('@services/firebase/admin', () => {
+  const set = jest.fn();
+  const push = jest.fn(() => ({
+    set,
+  }));
+  const ref = jest.fn(() => ({
+    push,
+  }));
+
+  return {
+    database: jest.fn(() => ({
+      ref,
+    })),
+  };
+});
