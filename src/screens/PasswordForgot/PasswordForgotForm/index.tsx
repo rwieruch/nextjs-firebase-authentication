@@ -1,8 +1,8 @@
 import React from 'react';
 import { Form, Input } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
-import { useMutation } from '@apollo/react-hooks';
 
+import { usePasswordForgotMutation } from '@generated/client';
 import { PASSWORD_FORGOT } from '@queries/session';
 import FormItem from '@components/Form/Item';
 import FormStretchedButton from '@components/Form/StretchedButton';
@@ -11,9 +11,10 @@ import useErrorIndicator from '@hooks/useErrorIndicator';
 interface PasswordForgotFormProps extends FormComponentProps {}
 
 const PasswordForgotForm = ({ form }: PasswordForgotFormProps) => {
-  const [passwordForgot, { loading, error }] = useMutation(
-    PASSWORD_FORGOT
-  );
+  const [
+    passwordForgot,
+    { loading, error },
+  ] = usePasswordForgotMutation(PASSWORD_FORGOT);
 
   useErrorIndicator({ error });
 

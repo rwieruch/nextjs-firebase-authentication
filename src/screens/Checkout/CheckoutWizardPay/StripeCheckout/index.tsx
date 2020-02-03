@@ -1,10 +1,12 @@
 // https://stripe.com/docs/payments/checkout/one-time#create-one-time-payments
 
 import React from 'react';
-import { useMutation } from '@apollo/react-hooks';
 import { Button, message } from 'antd';
 
-import { Course } from '@generated/client';
+import {
+  Course,
+  useStripeCreateOrderMutation,
+} from '@generated/client';
 import useErrorIndicator from '@hooks/useErrorIndicator';
 
 import { STRIPE_CREATE_ORDER } from '@queries/stripe';
@@ -23,9 +25,10 @@ const StripeCheckout = ({
   const { courseId } = course;
   const { bundleId } = course.bundle;
 
-  const [stripeCreateOrder, { loading, error }] = useMutation(
-    STRIPE_CREATE_ORDER
-  );
+  const [
+    stripeCreateOrder,
+    { loading, error },
+  ] = useStripeCreateOrderMutation(STRIPE_CREATE_ORDER);
 
   useErrorIndicator({
     error,
@@ -49,7 +52,7 @@ const StripeCheckout = ({
       const stripeResult = await (window as any)
         .Stripe(process.env.STRIPE_CLIENT_ID)
         .redirectToCheckout({
-          sessionId: result.data.stripeCreateOrder.id,
+          sessionId: result?.data?.stripeCreateOrder.id,
         });
 
       stripeResult.error &&

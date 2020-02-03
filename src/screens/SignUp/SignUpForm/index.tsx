@@ -5,6 +5,7 @@ import { FormComponentProps } from 'antd/lib/form';
 import { useMutation } from '@apollo/react-hooks';
 import cookie from 'js-cookie';
 
+import { useSignUpMutation } from '@generated/client';
 import { SIGN_UP } from '@queries/session';
 import { EXPIRES_IN } from '@constants/cookie';
 import * as ROUTES from '@constants/routes';
@@ -25,7 +26,7 @@ const SignUpForm = ({
 }: SignUpFormProps) => {
   const router = useRouter();
 
-  const [signUp, { loading, error }] = useMutation(SIGN_UP);
+  const [signUp, { loading, error }] = useSignUpMutation(SIGN_UP);
 
   useErrorIndicator({ error });
 
@@ -82,7 +83,7 @@ const SignUpForm = ({
           },
         });
 
-        cookie.set('session', data.signUp.sessionToken, {
+        cookie.set('session', data?.signUp.sessionToken || '', {
           expires: EXPIRES_IN,
           // TODO: 1) Get it work with httpOnly 2) Get it work on the server. See SignUpForm.tsx
           // httpOnly: true,

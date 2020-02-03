@@ -1,9 +1,12 @@
 // https://developer.paypal.com/docs/checkout/integrate/
 
 import React from 'react';
-import { useMutation } from '@apollo/react-hooks';
 
-import { Course } from '@generated/client';
+import {
+  Course,
+  usePaypalCreateOrderMutation,
+  usePaypalApproveOrderMutation,
+} from '@generated/client';
 import {
   PAYPAL_CREATE_ORDER,
   PAYPAL_APPROVE_ORDER,
@@ -30,12 +33,12 @@ const PaypalCheckout = ({
   const [
     paypalCreateOrder,
     { loading: createOrderLoading, error: createOrderError },
-  ] = useMutation(PAYPAL_CREATE_ORDER);
+  ] = usePaypalCreateOrderMutation(PAYPAL_CREATE_ORDER);
 
   const [
     paypalApproveOrder,
     { loading: approveOrderLoading, error: approveOrderError },
-  ] = useMutation(PAYPAL_APPROVE_ORDER);
+  ] = usePaypalApproveOrderMutation(PAYPAL_APPROVE_ORDER);
 
   const { successMessage, destroyMessage } = useIndicators({
     key: 'paypal',
@@ -54,7 +57,7 @@ const PaypalCheckout = ({
           },
         });
 
-        return data.paypalCreateOrder.orderId;
+        return data?.paypalCreateOrder.orderId;
       } catch (error) {}
     };
 

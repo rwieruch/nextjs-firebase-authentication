@@ -3,9 +3,9 @@ import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { Form, Input } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
-import { useMutation } from '@apollo/react-hooks';
 import cookie from 'js-cookie';
 
+import { useSignInMutation } from '@generated/client';
 import { SIGN_IN } from '@queries/session';
 import * as ROUTES from '@constants/routes';
 import { EXPIRES_IN } from '@constants/cookie';
@@ -34,7 +34,7 @@ const SignInForm = ({
 }: SignInFormProps) => {
   const router = useRouter();
 
-  const [signIn, { loading, error }] = useMutation(SIGN_IN);
+  const [signIn, { loading, error }] = useSignInMutation(SIGN_IN);
 
   useErrorIndicator({ error });
 
@@ -58,7 +58,7 @@ const SignInForm = ({
           },
         });
 
-        cookie.set('session', data.signIn.sessionToken, {
+        cookie.set('session', data?.signIn.sessionToken || '', {
           expires: EXPIRES_IN,
           // TODO: 1) Get it work with httpOnly 2) Get it work on the server. See SignUpForm.tsx
           // httpOnly: true,
