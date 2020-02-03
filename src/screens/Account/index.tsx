@@ -9,9 +9,9 @@ import {
   Typography,
   Layout as AntdLayout,
 } from 'antd';
-import gql from 'graphql-tag';
 
-import { GetMeAccount } from 'src/generated/GetMeAccount';
+import { User } from '@generated/client';
+import { GET_ME } from '@queries/user';
 import { Session } from '@typeDefs/session';
 import * as ROUTES from '@constants/routes';
 import Layout from '@components/Layout';
@@ -21,7 +21,9 @@ const StyledContent = styled(AntdLayout.Content)`
 `;
 
 interface AccountPageProps {
-  data: GetMeAccount;
+  data: {
+    me: User;
+  };
 }
 
 type NextAuthPage = NextPage<AccountPageProps> & {
@@ -104,14 +106,7 @@ AccountPage.getInitialProps = async ctx => {
     : null;
 
   const { data } = await ctx.apolloClient.query({
-    query: gql`
-      query GetMeAccount {
-        me {
-          email
-          uid
-        }
-      }
-    `,
+    query: GET_ME,
     ...(isServer && context),
   });
 

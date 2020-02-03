@@ -5,6 +5,7 @@ import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import { Button, message } from 'antd';
 
+import { Course } from '@generated/client';
 import useErrorIndicator from '@hooks/useErrorIndicator';
 
 export const STRIPE_CREATE_ORDER = gql`
@@ -27,17 +28,18 @@ export const STRIPE_CREATE_ORDER = gql`
 
 export type StripeCheckoutProps = {
   imageUrl: string;
-  courseId: string;
-  bundleId: string;
+  course: Course;
   coupon: string;
 };
 
 const StripeCheckout = ({
   imageUrl,
-  courseId,
-  bundleId,
+  course,
   coupon,
 }: StripeCheckoutProps) => {
+  const { courseId } = course;
+  const { bundleId } = course.bundle;
+
   const [stripeCreateOrder, { loading, error }] = useMutation(
     STRIPE_CREATE_ORDER
   );

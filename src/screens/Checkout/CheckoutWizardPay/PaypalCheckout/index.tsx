@@ -4,6 +4,7 @@ import React from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 
+import { Course } from '@generated/client';
 import useIndicators from '@hooks/useIndicators';
 import FormAtomButton from '@components/Form/AtomButton';
 
@@ -30,20 +31,21 @@ export const PAYPAL_APPROVE_ORDER = gql`
 `;
 
 export type PaypalCheckoutProps = {
-  courseId: string;
-  bundleId: string;
+  course: Course;
   coupon: string;
   onSuccess: () => void;
   onBack: () => void;
 };
 
 const PaypalCheckout = ({
-  courseId,
-  bundleId,
+  course,
   coupon,
   onSuccess,
   onBack,
 }: PaypalCheckoutProps) => {
+  const { courseId } = course;
+  const { bundleId } = course.bundle;
+
   const [
     paypalCreateOrder,
     { loading: createOrderLoading, error: createOrderError },

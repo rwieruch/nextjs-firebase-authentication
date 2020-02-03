@@ -1,7 +1,7 @@
 // TODO https://github.com/paypal/Checkout-NodeJS-SDK/issues/25
 import paypal from '@paypal/checkout-server-sdk';
 
-import { MutationResolvers } from '@generated/gen-types';
+import { MutationResolvers } from '@generated/server';
 import { getAsDiscount } from '@services/coupon';
 import paypalClient from '@services/paypal';
 import { createCourse } from '@services/firebase/course';

@@ -2,13 +2,13 @@ import React from 'react';
 import { NextPage } from 'next';
 import styled from 'styled-components';
 import { Typography, Layout as AntdLayout, Menu, Icon } from 'antd';
-import gql from 'graphql-tag';
 
-const { Content, Sider } = AntdLayout;
-
-import { GetMe } from '@generated/GetMe';
+import { User } from '@generated/client';
+import { GET_ME } from '@queries/user';
 import { Session } from '@typeDefs/session';
 import Layout, { Footer } from '@components/Layout';
+
+const { Content, Sider } = AntdLayout;
 
 const StyledContent = styled(Content)`
   margin: 32px;
@@ -29,7 +29,9 @@ const StyledInnerLayout = styled(AntdLayout)`
 `;
 
 interface DashboardPageProps {
-  data: GetMe;
+  data: {
+    me: User;
+  };
 }
 
 type NextAuthPage = NextPage<DashboardPageProps> & {
@@ -166,13 +168,7 @@ DashboardPage.getInitialProps = async ctx => {
     : null;
 
   const { data } = await ctx.apolloClient.query({
-    query: gql`
-      query GetMe {
-        me {
-          email
-        }
-      }
-    `,
+    query: GET_ME,
     ...(isServer && context),
   });
 

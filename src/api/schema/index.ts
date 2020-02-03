@@ -1,7 +1,7 @@
 import { mergeSchemas } from 'graphql-tools';
 import { applyMiddleware } from 'graphql-middleware';
 
-import { Resolvers } from '@generated/gen-types';
+import { Resolvers } from '@generated/server';
 
 import authorization from '@api/authorization';
 import typeDefs from '@api/typeDefs';

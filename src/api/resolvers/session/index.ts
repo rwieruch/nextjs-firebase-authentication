@@ -1,4 +1,4 @@
-import { MutationResolvers } from '@generated/gen-types';
+import { MutationResolvers } from '@generated/server';
 import { EXPIRES_IN } from '@constants/cookie';
 import firebase from '@services/firebase/client';
 import firebaseAdmin from '@services/firebase/admin';

@@ -1,4 +1,4 @@
-import { MutationResolvers } from '@generated/gen-types';
+import { MutationResolvers } from '@generated/server';
 import { getAsDiscount } from '@services/coupon';
 import stripe from '@services/stripe';
 

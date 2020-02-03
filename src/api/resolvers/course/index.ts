@@ -1,4 +1,4 @@
-import { MutationResolvers } from '@generated/gen-types';
+import { MutationResolvers } from '@generated/server';
 import { createCourse } from '@services/firebase/course';
 
 interface Resolvers {

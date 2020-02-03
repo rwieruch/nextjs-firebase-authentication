@@ -1,7 +1,7 @@
 schema: http://localhost:3000/api/graphql
 
 generates:
-  src/generated/gen-types.ts:
+  src/generated/server.ts:
     config:
       defaultMapper: any
       contextType: @typeDefs/resolver#ResolverContext
@@ -9,3 +9,14 @@ generates:
     plugins:
       - typescript
       - typescript-resolvers
+  src/generated/client.tsx:
+    documents: ./src/queries/*.ts
+    config:
+      withHOC: false
+      withComponent: false
+      withHooks: true
+    plugins:
+      - add: /* eslint-disable */
+      - typescript
+      - typescript-operations
+      - typescript-react-apollo

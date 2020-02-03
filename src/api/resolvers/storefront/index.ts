@@ -1,4 +1,4 @@
-import { QueryResolvers } from '@generated/gen-types';
+import { QueryResolvers } from '@generated/server';
 import storefront from '../../../../content/course-storefront';
 
 interface Resolvers {

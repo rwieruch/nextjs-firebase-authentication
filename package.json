@@ -9,8 +9,7 @@
     "build": "next build",
     "test:ci": "jest",
     "test": "jest --watch",
-    "server:generate": "graphql-codegen",
-    "client:generate": "apollo codegen:generate --excludes=node_modules/* --includes=**/*.tsx --endpoint http://localhost:3000/api/graphql --target typescript --tagName gql --outputFlat src/generated"
+    "codegen": "graphql-codegen"
   },
   "author": "Robin Wieruch <opensource@rwieruch.com> (https://www.robinwieruch.de)",
   "license": "MIT",
@@ -61,8 +60,11 @@
   },
   "devDependencies": {
     "@apollo/react-testing": "^3.1.3",
+    "@graphql-codegen/add": "^1.12.1",
     "@graphql-codegen/cli": "^1.12.1",
     "@graphql-codegen/typescript": "^1.12.1",
+    "@graphql-codegen/typescript-operations": "^1.12.1",
+    "@graphql-codegen/typescript-react-apollo": "^1.12.1",
     "@graphql-codegen/typescript-resolvers": "^1.12.1",
     "@next/bundle-analyzer": "^9.2.0",
     "@testing-library/jest-dom": "^5.1.0",

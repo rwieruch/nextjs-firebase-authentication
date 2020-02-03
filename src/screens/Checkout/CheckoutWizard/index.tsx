@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { Card, Steps } from 'antd';
 
-import { GetStorefront } from '@generated/GetStorefront';
+import { Storefront } from '@generated/client';
 import SessionContext from '@context/session';
 import * as ROUTES from '@constants/routes';
 
@@ -20,11 +20,14 @@ const StyledSteps = styled(Steps)`
 `;
 
 type CheckoutWizardProps = {
-  data: GetStorefront;
+  storefront: Storefront;
   imageUrl: string;
 };
 
-const CheckoutWizard = ({ data, imageUrl }: CheckoutWizardProps) => {
+const CheckoutWizard = ({
+  storefront,
+  imageUrl,
+}: CheckoutWizardProps) => {
   const router = useRouter();
 
   const session = React.useContext(SessionContext);
@@ -65,15 +68,15 @@ const CheckoutWizard = ({ data, imageUrl }: CheckoutWizardProps) => {
             <CheckoutWizardAccount onSuccess={handleNext} />
           )}
 
-          {currentStep === 1 && !!data.storefront && (
+          {currentStep === 1 && !!storefront && (
             <CheckoutWizardPay
               imageUrl={imageUrl}
-              course={data.storefront.course}
+              course={storefront.course}
               onSuccess={handleSuccess}
             />
           )}
 
-          {currentStep === 1 && !data.storefront && (
+          {currentStep === 1 && !storefront && (
             <>
               You haven't selected a course yet. Choose a course
               first. You can find all the courses in the navigation.
