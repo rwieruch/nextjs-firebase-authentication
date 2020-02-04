@@ -56,7 +56,7 @@
     "react-css-transition-replace": "^4.0.2",
     "react-dom": "^16.12.0",
     "stripe": "^8.7.0",
-    "styled-components": "^5.0.0"
+    "styled-components": "^5.0.1"
   },
   "devDependencies": {
     "@apollo/react-testing": "^3.1.3",
