@@ -33,7 +33,7 @@
     "babel-plugin-import": "^1.13.0",
     "babel-plugin-inline-import": "^3.0.0",
     "dotenv": "^8.2.0",
-    "firebase": "^7.7.0",
+    "firebase": "^7.8.1",
     "firebase-admin": "^8.9.1",
     "graphql": "^14.5.8",
     "graphql-middleware": "^4.0.2",
