@@ -2,6 +2,9 @@ import { MutationResolvers } from '@generated/server';
 import { EXPIRES_IN } from '@constants/cookie';
 import firebase from '@services/firebase/client';
 import firebaseAdmin from '@services/firebase/admin';
+import { inviteToSlack } from '@services/slack';
+import { inviteToRevue } from '@services/revue';
+import { inviteToConvertkit } from '@services/convertkit';
 
 interface Resolvers {
   Mutation: MutationResolvers;
@@ -50,6 +53,10 @@ export const resolvers: Resolvers = {
 
       // We manage the session ourselves.
       await firebase.auth().signOut();
+
+      await inviteToSlack(email);
+      await inviteToConvertkit(email);
+      await inviteToRevue(email, username);
 
       return { sessionToken };
     },
