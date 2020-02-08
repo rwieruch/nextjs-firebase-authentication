@@ -20,7 +20,7 @@ describe('inviteToConvertkit', () => {
     post.mockImplementationOnce(() => Promise.resolve(true));
 
     await expect(
-      inviteToConvertkit('example@example.com')
+      inviteToConvertkit('example@example.com', 'Example')
     ).resolves.toEqual(true);
 
     expect(axios.post).toHaveBeenCalledWith(
@@ -28,6 +28,7 @@ describe('inviteToConvertkit', () => {
       {
         api_key: 'apikey',
         email: 'example@example.com',
+        first_name: 'Example',
       }
     );
   });
@@ -38,7 +39,7 @@ describe('inviteToConvertkit', () => {
     const post = jest.spyOn(axios, 'post');
     post.mockImplementationOnce(() => Promise.resolve(true));
 
-    await inviteToConvertkit('example@example.com');
+    await inviteToConvertkit('example@example.com', 'Example');
 
     expect(axios.post).toHaveBeenCalledTimes(0);
   });
@@ -49,7 +50,7 @@ describe('inviteToConvertkit', () => {
     const post = jest.spyOn(axios, 'post');
     post.mockImplementationOnce(() => Promise.resolve(true));
 
-    await inviteToConvertkit('example@example.com');
+    await inviteToConvertkit('example@example.com', 'Example');
 
     expect(axios.post).toHaveBeenCalledTimes(0);
   });

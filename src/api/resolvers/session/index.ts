@@ -54,9 +54,23 @@ export const resolvers: Resolvers = {
       // We manage the session ourselves.
       await firebase.auth().signOut();
 
-      await inviteToSlack(email);
-      await inviteToConvertkit(email);
-      await inviteToRevue(email, username);
+      try {
+        inviteToSlack(email);
+      } catch (error) {
+        console.log(error);
+      }
+
+      try {
+        inviteToConvertkit(email, username);
+      } catch (error) {
+        console.log(error);
+      }
+
+      try {
+        inviteToRevue(email, username);
+      } catch (error) {
+        console.log(error);
+      }
 
       return { sessionToken };
     },

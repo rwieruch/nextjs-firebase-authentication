@@ -1,9 +1,12 @@
 import axios from 'axios';
 
 const CONVERTKIT_BASE_URL = 'https://api.convertkit.com/v3';
-const FORMS_PATH = '/forms/#';
+const FORMS_PATH = '/forms/';
 
-export const inviteToConvertkit = async (email: string) => {
+export const inviteToConvertkit = async (
+  email: string,
+  username: string
+) => {
   if (
     !process.env.CONVERTKIT_API_KEY ||
     !process.env.CONVERTKIT_FORM_ID
@@ -15,6 +18,7 @@ export const inviteToConvertkit = async (email: string) => {
     {
       api_key: process.env.CONVERTKIT_API_KEY,
       email,
+      first_name: username,
     }
   );
 };
