@@ -116,12 +116,18 @@ export type Query = {
   storefrontCourse?: Maybe<StorefrontCourse>,
   storefrontCourses: Array<StorefrontCourse>,
   unlockedCourses: Array<UnlockedCourse>,
+  unlockedCourse?: Maybe<UnlockedCourse>,
 };
 
 
 export type QueryStorefrontCourseArgs = {
   courseId: CourseId,
   bundleId: BundleId
+};
+
+
+export type QueryUnlockedCourseArgs = {
+  courseId: CourseId
 };
 
 export type SessionToken = {
@@ -175,12 +181,25 @@ export type User = {
   uid: Scalars['String'],
 };
 
-export type GetCourseQueryVariables = {};
+export type GetCoursesQueryVariables = {};
+
+
+export type GetCoursesQuery = (
+  { __typename?: 'Query' }
+  & { unlockedCourses: Array<(
+    { __typename?: 'UnlockedCourse' }
+    & Pick<UnlockedCourse, 'courseId'>
+  )> }
+);
+
+export type GetCourseQueryVariables = {
+  courseId: CourseId
+};
 
 
 export type GetCourseQuery = (
   { __typename?: 'Query' }
-  & { unlockedCourses: Array<(
+  & { unlockedCourse: Maybe<(
     { __typename?: 'UnlockedCourse' }
     & Pick<UnlockedCourse, 'courseId'>
     & { sections: Array<(
@@ -348,9 +367,41 @@ export type GetMeQuery = (
 );
 
 
-export const GetCourseDocument = gql`
-    query GetCourse {
+export const GetCoursesDocument = gql`
+    query GetCourses {
   unlockedCourses {
+    courseId
+  }
+}
+    `;
+
+/**
+ * __useGetCoursesQuery__
+ *
+ * To run a query within a React component, call `useGetCoursesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCoursesQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCoursesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetCoursesQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetCoursesQuery, GetCoursesQueryVariables>) {
+        return ApolloReactHooks.useQuery<GetCoursesQuery, GetCoursesQueryVariables>(GetCoursesDocument, baseOptions);
+      }
+export function useGetCoursesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetCoursesQuery, GetCoursesQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<GetCoursesQuery, GetCoursesQueryVariables>(GetCoursesDocument, baseOptions);
+        }
+export type GetCoursesQueryHookResult = ReturnType<typeof useGetCoursesQuery>;
+export type GetCoursesLazyQueryHookResult = ReturnType<typeof useGetCoursesLazyQuery>;
+export type GetCoursesQueryResult = ApolloReactCommon.QueryResult<GetCoursesQuery, GetCoursesQueryVariables>;
+export const GetCourseDocument = gql`
+    query GetCourse($courseId: CourseId!) {
+  unlockedCourse(courseId: $courseId) {
     courseId
     sections {
       label
@@ -378,6 +429,7 @@ export const GetCourseDocument = gql`
  * @example
  * const { data, loading, error } = useGetCourseQuery({
  *   variables: {
+ *      courseId: // value for 'courseId'
  *   },
  * });
  */

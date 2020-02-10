@@ -8,6 +8,51 @@ import {
 
 import courseContent from '../../../../content/courses';
 
+const mergeCourses = (courses: FirebaseCourse) =>
+  Object.values(courses).reduce((result: any[], course) => {
+    const isRole = (section: any) =>
+      section.roles.includes(course.packageId);
+
+    const sections = courseContent[course.courseId].sections.filter(
+      isRole
+    );
+
+    const unlockedCourse = {
+      courseId: course.courseId,
+      sections,
+    };
+
+    const index = result.findIndex(
+      prevCourse => prevCourse.courseId === course.courseId
+    );
+
+    const mergeIfSame = (prevCourse: any, i: number) => {
+      if (i === index) {
+        const duplicatedSections = prevCourse.sections.concat(
+          unlockedCourse.sections
+        );
+
+        const sections = duplicatedSections.filter(
+          (item: any, index: number) =>
+            duplicatedSections.indexOf(item) === index
+        );
+
+        return {
+          courseId: prevCourse.courseId,
+          sections,
+        };
+      } else {
+        return prevCourse;
+      }
+    };
+
+    if (index > -1) {
+      return result.map(mergeIfSame);
+    } else {
+      return result.concat(unlockedCourse);
+    }
+  }, []);
+
 interface Resolvers {
   Query: QueryResolvers;
   Mutation: MutationResolvers;
@@ -16,51 +61,40 @@ interface Resolvers {
 export const resolvers: Resolvers = {
   Query: {
     unlockedCourses: async (parent, args, { me }) => {
+      if (!me) {
+        return [];
+      }
+
       const courses = await getCoursesById(me?.uid);
 
       if (!courses) {
         return [];
       }
 
-      const unlockedCourses = Object.values(courses).reduce(
-        (result: any[], course) => {
-          const isRole = (section: any) =>
-            section.roles.includes(course.packageId);
+      const unlockedCourses = mergeCourses(courses);
 
-          const sections = courseContent[
-            course.courseId
-          ].sections.filter(isRole);
+      return Object.values(unlockedCourses).map(course => ({
+        courseId: course.courseId,
+      }));
+    },
+    unlockedCourse: async (parent, { courseId }, { me }) => {
+      if (!me) {
+        return null;
+      }
 
-          const unlockedCourse = {
-            courseId: course.courseId,
-            header: courseContent[course.courseId].header,
-            sections,
-          };
+      const courses = await getCoursesById(me?.uid);
 
-          const index = result.findIndex(
-            prevCourse => prevCourse.courseId === course.courseId
-          );
+      if (!courses) {
+        return null;
+      }
 
-          const mergeIfSame = (prevCourse: any, i: number) => {
-            if (i === index) {
-              return { ...prevCourse, ...unlockedCourse };
-            } else {
-              return prevCourse;
-            }
-          };
+      const unlockedCourses = mergeCourses(courses);
 
-          if (index > -1) {
-            return result.map(mergeIfSame);
-          } else {
-            return result.concat(unlockedCourse);
-          }
-        },
-        []
+      const unlockedCourse = unlockedCourses.find(
+        unlockedCourse => unlockedCourse.courseId === courseId
       );
 
-      console.log(unlockedCourses);
-
-      return unlockedCourses;
+      return unlockedCourse;
     },
   },
   Mutation: {

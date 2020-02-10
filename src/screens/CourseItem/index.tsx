@@ -1,14 +1,11 @@
 import React from 'react';
 import { NextPage } from 'next';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { Typography, Layout as AntdLayout, Menu, Icon } from 'antd';
 
-import * as ROUTES from '@constants/routes';
 import { UnlockedCourse } from '@generated/client';
 import { Session } from '@typeDefs/session';
-import { GET_UNLOCKED_COURSES } from '@queries/course';
+import { GET_UNLOCKED_COURSE } from '@queries/course';
 import Layout, { Footer } from '@components/Layout';
 import { kebabCaseToUpperSnakeCase } from '@services/string';
 
@@ -38,7 +35,7 @@ const StyledInnerLayout = styled(AntdLayout)`
 
 interface CourseItemPageProps {
   data: {
-    unlockedCourses: UnlockedCourse[];
+    unlockedCourse: UnlockedCourse;
   };
 }
 
@@ -47,28 +44,22 @@ type NextAuthPage = NextPage<CourseItemPageProps> & {
 };
 
 const CourseItemPage: NextAuthPage = ({ data }) => {
-  const router = useRouter();
-
-  const course = data.unlockedCourses.find(
-    course =>
-      course.courseId ===
-      kebabCaseToUpperSnakeCase(
-        router.query['unlocked-course-id']?.toString() || ''
-      )
-  );
-
-  if (!course) {
+  if (!data.unlockedCourse) {
     return null;
   }
+
+  console.log(data.unlockedCourse);
 
   return (
     <Layout noFooter>
       <StyledSider>
         <Menu
           mode="inline"
-          defaultSelectedKeys={[course?.sections[0].label || '0']}
+          defaultSelectedKeys={[
+            data.unlockedCourse?.sections[0].label || '0',
+          ]}
         >
-          {course?.sections.map(section => (
+          {data.unlockedCourse?.sections.map(section => (
             <Menu.Item key={section.label}>
               <span>{section.label}</span>
             </Menu.Item>
@@ -103,9 +94,16 @@ CourseItemPage.getInitialProps = async ctx => {
       }
     : null;
 
+  const courseId = kebabCaseToUpperSnakeCase(
+    ctx.query['unlocked-course-id'].toString()
+  );
+
   const { data } = await ctx.apolloClient.query({
     fetchPolicy: 'network-only',
-    query: GET_UNLOCKED_COURSES,
+    query: GET_UNLOCKED_COURSE,
+    variables: {
+      courseId,
+    },
     ...(isServer && context),
   });
 

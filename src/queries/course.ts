@@ -1,8 +1,16 @@
 import gql from 'graphql-tag';
 
 export const GET_UNLOCKED_COURSES = gql`
-  query GetCourse {
+  query GetCourses {
     unlockedCourses {
+      courseId
+    }
+  }
+`;
+
+export const GET_UNLOCKED_COURSE = gql`
+  query GetCourse($courseId: CourseId!) {
+    unlockedCourse(courseId: $courseId) {
       courseId
       sections {
         label

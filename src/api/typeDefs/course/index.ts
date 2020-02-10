@@ -3,6 +3,8 @@ import { gql } from 'apollo-server-micro';
 export default gql`
   extend type Query {
     unlockedCourses: [UnlockedCourse!]!
+
+    unlockedCourse(courseId: CourseId!): UnlockedCourse
   }
 
   extend type Mutation {

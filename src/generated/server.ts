@@ -114,12 +114,18 @@ export type Query = {
   storefrontCourse?: Maybe<StorefrontCourse>,
   storefrontCourses: Array<StorefrontCourse>,
   unlockedCourses: Array<UnlockedCourse>,
+  unlockedCourse?: Maybe<UnlockedCourse>,
 };
 
 
 export type QueryStorefrontCourseArgs = {
   courseId: CourseId,
   bundleId: BundleId
+};
+
+
+export type QueryUnlockedCourseArgs = {
+  courseId: CourseId
 };
 
 export type SessionToken = {
@@ -319,6 +325,7 @@ export type QueryResolvers<ContextType = ResolverContext, ParentType extends Res
   storefrontCourse?: Resolver<Maybe<ResolversTypes['StorefrontCourse']>, ParentType, ContextType, RequireFields<QueryStorefrontCourseArgs, 'courseId' | 'bundleId'>>,
   storefrontCourses?: Resolver<Array<ResolversTypes['StorefrontCourse']>, ParentType, ContextType>,
   unlockedCourses?: Resolver<Array<ResolversTypes['UnlockedCourse']>, ParentType, ContextType>,
+  unlockedCourse?: Resolver<Maybe<ResolversTypes['UnlockedCourse']>, ParentType, ContextType, RequireFields<QueryUnlockedCourseArgs, 'courseId'>>,
 }>;
 
 export type SessionTokenResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['SessionToken'] = ResolversParentTypes['SessionToken']> = ResolversObject<{
