@@ -1,11 +1,65 @@
-import { MutationResolvers } from '@generated/server';
-import { createCourse } from '@services/firebase/course';
+import { QueryResolvers, MutationResolvers } from '@generated/server';
+import {
+  createCourse,
+  getCoursesById,
+  FirebaseCourseContent,
+  FirebaseCourse,
+} from '@services/firebase/course';
+
+import courseContent from '../../../../content/courses';
 
 interface Resolvers {
+  Query: QueryResolvers;
   Mutation: MutationResolvers;
 }
 
 export const resolvers: Resolvers = {
+  Query: {
+    courses: async (parent, args, { me }) => {
+      const courses = await getCoursesById(me?.uid);
+
+      if (!courses) {
+        return [];
+      }
+
+      const unlockedCourses = Object.values(courses).reduce(
+        (result: any[], course) => {
+          const isRole = (section: any) =>
+            section.roles.includes(course.packageId);
+
+          const sections = courseContent[
+            course.courseId
+          ].sections.filter(isRole);
+
+          const unlockedCourse = {
+            courseId: course.courseId,
+            sections,
+          };
+
+          const index = result.findIndex(
+            prevCourse => prevCourse.courseId === course.courseId
+          );
+
+          const mergeIfSame = (prevCourse: any, i: number) => {
+            if (i === index) {
+              return { ...prevCourse, ...unlockedCourse };
+            } else {
+              return prevCourse;
+            }
+          };
+
+          if (index > -1) {
+            return result.map(mergeIfSame);
+          } else {
+            return result.concat(unlockedCourse);
+          }
+        },
+        []
+      );
+
+      return unlockedCourses;
+    },
+  },
   Mutation: {
     createFreeCourse: async (
       parent,

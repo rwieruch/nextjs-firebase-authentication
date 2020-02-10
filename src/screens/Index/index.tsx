@@ -3,8 +3,8 @@ import { NextPage } from 'next';
 import styled from 'styled-components';
 import { Typography, Layout as AntdLayout, Menu, Icon } from 'antd';
 
-import { User } from '@generated/client';
-import { GET_ME } from '@queries/user';
+import { UnlockedCourse } from '@generated/client';
+import { GET_COURSES } from '@queries/course';
 import { Session } from '@typeDefs/session';
 import Layout, { Footer } from '@components/Layout';
 
@@ -30,7 +30,7 @@ const StyledInnerLayout = styled(AntdLayout)`
 
 interface DashboardPageProps {
   data: {
-    me: User;
+    courses: UnlockedCourse[];
   };
 }
 
@@ -39,113 +39,61 @@ type NextAuthPage = NextPage<DashboardPageProps> & {
 };
 
 const DashboardPage: NextAuthPage = ({ data }) => {
+  console.log(data);
+
+  const isNoCourses = data.courses.length;
+
+  console.log(data.courses[0].courseId);
+
   return (
     <Layout noFooter>
-      <StyledSider>
-        <Menu
-          mode="inline"
-          defaultSelectedKeys={['1']}
-          defaultOpenKeys={['sub1']}
-          style={{ height: '100%', borderRight: 0 }}
-        >
-          <Menu.SubMenu
-            key="sub1"
-            title={
-              <span>
-                <Icon type="user" />
-                subnav 1
-              </span>
-            }
+      {isNoCourses && (
+        <StyledSider>
+          <Menu
+            mode="inline"
+            defaultSelectedKeys={[data.courses[0].sections[0].label]}
           >
-            <Menu.Item key="1">option1</Menu.Item>
-            <Menu.Item key="2">option2</Menu.Item>
-            <Menu.Item key="3">option3</Menu.Item>
-            <Menu.Item key="4">option4</Menu.Item>
-          </Menu.SubMenu>
-          <Menu.SubMenu
-            key="sub2"
-            title={
-              <span>
-                <Icon type="laptop" />
-                subnav 2
-              </span>
-            }
-          >
-            <Menu.Item key="5">option5</Menu.Item>
-            <Menu.Item key="6">option6</Menu.Item>
-            <Menu.Item key="7">option7</Menu.Item>
-            <Menu.Item key="8">option8</Menu.Item>
-          </Menu.SubMenu>
-          <Menu.SubMenu
-            key="sub3"
-            title={
-              <span>
-                <Icon type="notification" />
-                subnav 3
-              </span>
-            }
-          >
-            <Menu.Item key="9">option9</Menu.Item>
-            <Menu.Item key="10">option10</Menu.Item>
-            <Menu.Item key="11">option11</Menu.Item>
-            <Menu.Item key="12">option12</Menu.Item>
-          </Menu.SubMenu>
-          <Menu.SubMenu
-            key="sub2"
-            title={
-              <span>
-                <Icon type="laptop" />
-                subnav 2
-              </span>
-            }
-          >
-            <Menu.Item key="5">option5</Menu.Item>
-            <Menu.Item key="6">option6</Menu.Item>
-            <Menu.Item key="7">option7</Menu.Item>
-            <Menu.Item key="8">option8</Menu.Item>
-          </Menu.SubMenu>
-          <Menu.SubMenu
-            key="sub2"
-            title={
-              <span>
-                <Icon type="laptop" />
-                subnav 2
-              </span>
-            }
-          >
-            <Menu.Item key="5">option5</Menu.Item>
-            <Menu.Item key="6">option6</Menu.Item>
-            <Menu.Item key="7">option7</Menu.Item>
-            <Menu.Item key="8">option8</Menu.Item>
-          </Menu.SubMenu>
-        </Menu>
-      </StyledSider>
+            {data.courses[0].sections.map(section => (
+              <Menu.Item key={section.label}>
+                <span>{section.label}</span>
+              </Menu.Item>
+            ))}
+          </Menu>
+        </StyledSider>
+      )}
 
       <StyledInnerLayout>
         <StyledContent>
-          <Typography.Title>Course Dashboard</Typography.Title>
-          <Typography.Title>Course Dashboard</Typography.Title>
+          {isNoCourses ? (
+            <>
+              <Typography.Title>Course Dashboard</Typography.Title>
+              <Typography.Title>Course Dashboard</Typography.Title>
 
-          <Typography.Title>Course Dashboard</Typography.Title>
-          <Typography.Title>Course Dashboard</Typography.Title>
-          <Typography.Title>Course Dashboard</Typography.Title>
-          <Typography.Title>Course Dashboard</Typography.Title>
-          <Typography.Title>Course Dashboard</Typography.Title>
-          <Typography.Title>Course Dashboard</Typography.Title>
+              <Typography.Title>Course Dashboard</Typography.Title>
+              <Typography.Title>Course Dashboard</Typography.Title>
+              <Typography.Title>Course Dashboard</Typography.Title>
+              <Typography.Title>Course Dashboard</Typography.Title>
+              <Typography.Title>Course Dashboard</Typography.Title>
+              <Typography.Title>Course Dashboard</Typography.Title>
 
-          <Typography.Title>Course Dashboard</Typography.Title>
-          <Typography.Title>Course Dashboard</Typography.Title>
-          <Typography.Title>Course Dashboard</Typography.Title>
-          <Typography.Title>Course Dashboard</Typography.Title>
-          <Typography.Title>Course Dashboard</Typography.Title>
-          <Typography.Title>Course Dashboard</Typography.Title>
+              <Typography.Title>Course Dashboard</Typography.Title>
+              <Typography.Title>Course Dashboard</Typography.Title>
+              <Typography.Title>Course Dashboard</Typography.Title>
+              <Typography.Title>Course Dashboard</Typography.Title>
+              <Typography.Title>Course Dashboard</Typography.Title>
+              <Typography.Title>Course Dashboard</Typography.Title>
 
-          <Typography.Title>Course Dashboard</Typography.Title>
-          <Typography.Title>Course Dashboard</Typography.Title>
-          <Typography.Title>Course Dashboard</Typography.Title>
-          <Typography.Title>Course Dashboard</Typography.Title>
+              <Typography.Title>Course Dashboard</Typography.Title>
+              <Typography.Title>Course Dashboard</Typography.Title>
+              <Typography.Title>Course Dashboard</Typography.Title>
+              <Typography.Title>Course Dashboard</Typography.Title>
+            </>
+          ) : (
+            <p>
+              You have to buy a course first before seeing it here.
+            </p>
+          )}
         </StyledContent>
-
         <Footer />
       </StyledInnerLayout>
     </Layout>
@@ -168,7 +116,7 @@ DashboardPage.getInitialProps = async ctx => {
     : null;
 
   const { data } = await ctx.apolloClient.query({
-    query: GET_ME,
+    query: GET_COURSES,
     ...(isServer && context),
   });
 

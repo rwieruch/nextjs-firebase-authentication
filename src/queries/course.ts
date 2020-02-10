@@ -1,5 +1,23 @@
 import gql from 'graphql-tag';
 
+export const GET_COURSES = gql`
+  query GetCourse {
+    courses {
+      courseId
+      sections {
+        label
+        items {
+          kind
+          label
+          url
+          fileName
+          secondaryUrl
+        }
+      }
+    }
+  }
+`;
+
 export const CREATE_FREE_COURSE = gql`
   mutation CreateFreeCourse(
     $courseId: CourseId!

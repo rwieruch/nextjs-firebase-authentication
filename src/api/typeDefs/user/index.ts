@@ -1,13 +1,7 @@
-import {
-  makeExecutableSchema,
-  addMockFunctionsToSchema,
-  mergeSchemas,
-} from 'graphql-tools';
 import { gql } from 'apollo-server-micro';
 
-export default makeExecutableSchema({
-  typeDefs: `
-  type Query {
+export default gql`
+  extend type Query {
     me: User
   }
 
@@ -15,5 +9,4 @@ export default makeExecutableSchema({
     email: String!
     uid: String!
   }
-`,
-});
+`;

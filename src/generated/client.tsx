@@ -40,6 +40,21 @@ export enum CourseId {
   TheRoadToReactWithFirebase = 'THE_ROAD_TO_REACT_WITH_FIREBASE'
 }
 
+export type CourseItem = {
+   __typename?: 'CourseItem',
+  kind: Scalars['String'],
+  label: Scalars['String'],
+  url: Scalars['String'],
+  fileName?: Maybe<Scalars['String']>,
+  secondaryUrl?: Maybe<Scalars['String']>,
+};
+
+export type CourseSection = {
+   __typename?: 'CourseSection',
+  label: Scalars['String'],
+  items: Array<CourseItem>,
+};
+
 export type Mutation = {
    __typename?: 'Mutation',
   _?: Maybe<Scalars['Boolean']>,
@@ -120,6 +135,7 @@ export type Query = {
   _?: Maybe<Scalars['Boolean']>,
   me?: Maybe<User>,
   storefront?: Maybe<Storefront>,
+  courses: Array<UnlockedCourse>,
 };
 
 
@@ -148,11 +164,36 @@ export type Subscription = {
   _?: Maybe<Scalars['Boolean']>,
 };
 
+export type UnlockedCourse = {
+   __typename?: 'UnlockedCourse',
+  courseId: CourseId,
+  sections: Array<CourseSection>,
+};
+
 export type User = {
    __typename?: 'User',
   email: Scalars['String'],
   uid: Scalars['String'],
 };
+
+export type GetCourseQueryVariables = {};
+
+
+export type GetCourseQuery = (
+  { __typename?: 'Query' }
+  & { courses: Array<(
+    { __typename?: 'UnlockedCourse' }
+    & Pick<UnlockedCourse, 'courseId'>
+    & { sections: Array<(
+      { __typename?: 'CourseSection' }
+      & Pick<CourseSection, 'label'>
+      & { items: Array<(
+        { __typename?: 'CourseItem' }
+        & Pick<CourseItem, 'kind' | 'label' | 'url' | 'fileName' | 'secondaryUrl'>
+      )> }
+    )> }
+  )> }
+);
 
 export type CreateFreeCourseMutationVariables = {
   courseId: CourseId,
@@ -295,11 +336,53 @@ export type GetMeQuery = (
   { __typename?: 'Query' }
   & { me: Maybe<(
     { __typename?: 'User' }
-    & Pick<User, 'email'>
+    & Pick<User, 'uid' | 'email'>
   )> }
 );
 
 
+export const GetCourseDocument = gql`
+    query GetCourse {
+  courses {
+    courseId
+    sections {
+      label
+      items {
+        kind
+        label
+        url
+        fileName
+        secondaryUrl
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetCourseQuery__
+ *
+ * To run a query within a React component, call `useGetCourseQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCourseQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCourseQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetCourseQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetCourseQuery, GetCourseQueryVariables>) {
+        return ApolloReactHooks.useQuery<GetCourseQuery, GetCourseQueryVariables>(GetCourseDocument, baseOptions);
+      }
+export function useGetCourseLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetCourseQuery, GetCourseQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<GetCourseQuery, GetCourseQueryVariables>(GetCourseDocument, baseOptions);
+        }
+export type GetCourseQueryHookResult = ReturnType<typeof useGetCourseQuery>;
+export type GetCourseLazyQueryHookResult = ReturnType<typeof useGetCourseLazyQuery>;
+export type GetCourseQueryResult = ApolloReactCommon.QueryResult<GetCourseQuery, GetCourseQueryVariables>;
 export const CreateFreeCourseDocument = gql`
     mutation CreateFreeCourse($courseId: CourseId!, $bundleId: BundleId!) {
   createFreeCourse(courseId: $courseId, bundleId: $bundleId)
@@ -634,6 +717,7 @@ export type StripeCreateOrderMutationOptions = ApolloReactCommon.BaseMutationOpt
 export const GetMeDocument = gql`
     query GetMe {
   me {
+    uid
     email
   }
 }
