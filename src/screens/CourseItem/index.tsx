@@ -57,22 +57,8 @@ const CourseItemPage: NextAuthPage = ({ data }) => {
       )
   );
 
-  const isNoCourses = !course;
-
-  if (isNoCourses) {
-    return (
-      <Layout>
-        <StyledContent>
-          <p>
-            Couldn't find any purchased course under this url. Head{' '}
-            <Link href={ROUTES.INDEX}>
-              <a>back</a>
-            </Link>{' '}
-            to see all your courses.
-          </p>
-        </StyledContent>
-      </Layout>
-    );
+  if (!course) {
+    return null;
   }
 
   return (
@@ -93,15 +79,7 @@ const CourseItemPage: NextAuthPage = ({ data }) => {
       <StyledInnerLayout>
         <>
           <StyledInnerContent>
-            {!isNoCourses ? (
-              <>
-                <Typography.Title>Course Dashboard</Typography.Title>
-              </>
-            ) : (
-              <p>
-                You have to buy a course first before seeing it here.
-              </p>
-            )}
+            <Typography.Title>Course Dashboard</Typography.Title>
           </StyledInnerContent>
           <Footer />
         </>

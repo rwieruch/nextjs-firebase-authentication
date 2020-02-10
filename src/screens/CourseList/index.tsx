@@ -127,9 +127,7 @@ const CourseListPage: NextAuthPage = ({
               />
             );
           })}
-        </StyledCards>
 
-        <StyledCards>
           {storefrontCoursesData.storefrontCourses
             .filter(isUnlocked)
             .map(storefrontCourse => {
