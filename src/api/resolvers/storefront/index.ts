@@ -16,5 +16,8 @@ export const resolvers: Resolvers = {
         bundle,
       };
     },
+    storefrontCourses: () => {
+      return Object.values(storefront);
+    },
   },
 };

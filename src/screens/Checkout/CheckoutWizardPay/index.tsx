@@ -103,12 +103,11 @@ const IdleForm = ({
 };
 
 type PayProps = {
-  imageUrl: string;
   storefrontCourse: StorefrontCourse;
   onSuccess: () => void;
 };
 
-const Pay = ({ imageUrl, storefrontCourse, onSuccess }: PayProps) => {
+const Pay = ({ storefrontCourse, onSuccess }: PayProps) => {
   const [coupon, setCoupon] = React.useState('');
   const [currentSelection, setCurrentSelection] = React.useState(
     SELECTIONS.IDLE
@@ -153,7 +152,6 @@ const Pay = ({ imageUrl, storefrontCourse, onSuccess }: PayProps) => {
           stripeButton={
             <StripeCheckoutButton
               storefrontCourse={storefrontCourse}
-              imageUrl={imageUrl}
               coupon={coupon}
             />
           }

@@ -12,18 +12,16 @@ import useErrorIndicator from '@hooks/useErrorIndicator';
 import { STRIPE_CREATE_ORDER } from '@queries/stripe';
 
 export type StripeCheckoutProps = {
-  imageUrl: string;
   storefrontCourse: StorefrontCourse;
   coupon: string;
 };
 
 const StripeCheckout = ({
-  imageUrl,
   storefrontCourse,
   coupon,
 }: StripeCheckoutProps) => {
   const { courseId } = storefrontCourse;
-  const { bundleId } = storefrontCourse.bundle;
+  const { bundleId, imageUrl } = storefrontCourse.bundle;
 
   const [
     stripeCreateOrder,

@@ -16,6 +16,7 @@ export type Bundle = {
   header: Scalars['String'],
   bundleId: BundleId,
   price: Scalars['Int'],
+  imageUrl: Scalars['String'],
 };
 
 export enum BundleId {
@@ -111,6 +112,7 @@ export type Query = {
   _?: Maybe<Scalars['Boolean']>,
   me?: Maybe<User>,
   storefrontCourse?: Maybe<StorefrontCourse>,
+  storefrontCourses: Array<StorefrontCourse>,
   unlockedCourses: Array<UnlockedCourse>,
 };
 
@@ -129,6 +131,8 @@ export type StorefrontCourse = {
    __typename?: 'StorefrontCourse',
   header: Scalars['String'],
   courseId: CourseId,
+  url: Scalars['String'],
+  imageUrl: Scalars['String'],
   bundle: Bundle,
 };
 
@@ -287,6 +291,7 @@ export type BundleResolvers<ContextType = ResolverContext, ParentType extends Re
   header?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   bundleId?: Resolver<ResolversTypes['BundleId'], ParentType, ContextType>,
   price?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
+  imageUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   __isTypeOf?: isTypeOfResolverFn,
 }>;
 
@@ -312,6 +317,7 @@ export type QueryResolvers<ContextType = ResolverContext, ParentType extends Res
   _?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>,
   me?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>,
   storefrontCourse?: Resolver<Maybe<ResolversTypes['StorefrontCourse']>, ParentType, ContextType, RequireFields<QueryStorefrontCourseArgs, 'courseId' | 'bundleId'>>,
+  storefrontCourses?: Resolver<Array<ResolversTypes['StorefrontCourse']>, ParentType, ContextType>,
   unlockedCourses?: Resolver<Array<ResolversTypes['UnlockedCourse']>, ParentType, ContextType>,
 }>;
 
@@ -323,6 +329,8 @@ export type SessionTokenResolvers<ContextType = ResolverContext, ParentType exte
 export type StorefrontCourseResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['StorefrontCourse'] = ResolversParentTypes['StorefrontCourse']> = ResolversObject<{
   header?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   courseId?: Resolver<ResolversTypes['CourseId'], ParentType, ContextType>,
+  url?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  imageUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   bundle?: Resolver<ResolversTypes['Bundle'], ParentType, ContextType>,
   __isTypeOf?: isTypeOfResolverFn,
 }>;

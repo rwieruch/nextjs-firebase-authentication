@@ -33,6 +33,7 @@ export const resolvers: Resolvers = {
 
           const unlockedCourse = {
             courseId: course.courseId,
+            header: courseContent[course.courseId].header,
             sections,
           };
 

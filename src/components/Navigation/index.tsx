@@ -6,8 +6,6 @@ import { Menu, Icon } from 'antd';
 import * as ROUTES from '@constants/routes';
 import SessionContext from '@context/session';
 
-import { ExternalLink } from './types';
-import { MORE_COURSES } from './constants';
 import signOut from './signOut';
 
 const Container = styled.nav`
@@ -18,12 +16,6 @@ const Container = styled.nav`
     padding-right: 32px;
   }
 `;
-
-const ExternalCourseLink = ({ title, url }: ExternalLink) => (
-  <a href={url} target="_blank" rel="noopener noreferrer">
-    {title}
-  </a>
-);
 
 const Navigation = () => {
   const session = React.useContext(SessionContext);
@@ -69,35 +61,11 @@ const Navigation = () => {
           </Menu.SubMenu>
         )}
 
-        {!session && (
-          <Menu.SubMenu style={{ float: 'right' }} title="Courses">
-            {MORE_COURSES.map(link => (
-              <Menu.Item key={link.title}>
-                <ExternalCourseLink {...link} />
-              </Menu.Item>
-            ))}
-          </Menu.SubMenu>
-        )}
-
-        {session && (
-          <Menu.SubMenu style={{ float: 'right' }} title="Courses">
-            <Menu.ItemGroup key="0" title="My Courses">
-              <Menu.Item>
-                <Link href={ROUTES.INDEX}>
-                  <a>Get Started</a>
-                </Link>
-              </Menu.Item>
-            </Menu.ItemGroup>
-
-            <Menu.ItemGroup key="1" title="More Courses">
-              {MORE_COURSES.map(link => (
-                <Menu.Item key={link.title}>
-                  <ExternalCourseLink {...link} />
-                </Menu.Item>
-              ))}
-            </Menu.ItemGroup>
-          </Menu.SubMenu>
-        )}
+        <Menu.Item style={{ float: 'right' }}>
+          <Link href={ROUTES.INDEX}>
+            <a>Courses</a>
+          </Link>
+        </Menu.Item>
       </Menu>
     </Container>
   );

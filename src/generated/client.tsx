@@ -18,6 +18,7 @@ export type Bundle = {
   header: Scalars['String'],
   bundleId: BundleId,
   price: Scalars['Int'],
+  imageUrl: Scalars['String'],
 };
 
 export enum BundleId {
@@ -113,6 +114,7 @@ export type Query = {
   _?: Maybe<Scalars['Boolean']>,
   me?: Maybe<User>,
   storefrontCourse?: Maybe<StorefrontCourse>,
+  storefrontCourses: Array<StorefrontCourse>,
   unlockedCourses: Array<UnlockedCourse>,
 };
 
@@ -131,6 +133,8 @@ export type StorefrontCourse = {
    __typename?: 'StorefrontCourse',
   header: Scalars['String'],
   courseId: CourseId,
+  url: Scalars['String'],
+  imageUrl: Scalars['String'],
   bundle: Bundle,
 };
 
@@ -300,8 +304,19 @@ export type GetStorefrontCourseQuery = (
     & Pick<StorefrontCourse, 'header' | 'courseId'>
     & { bundle: (
       { __typename?: 'Bundle' }
-      & Pick<Bundle, 'header' | 'bundleId' | 'price'>
+      & Pick<Bundle, 'header' | 'bundleId' | 'price' | 'imageUrl'>
     ) }
+  )> }
+);
+
+export type GetStorefrontCoursesQueryVariables = {};
+
+
+export type GetStorefrontCoursesQuery = (
+  { __typename?: 'Query' }
+  & { storefrontCourses: Array<(
+    { __typename?: 'StorefrontCourse' }
+    & Pick<StorefrontCourse, 'header' | 'courseId' | 'url' | 'imageUrl'>
   )> }
 );
 
@@ -638,6 +653,7 @@ export const GetStorefrontCourseDocument = gql`
       header
       bundleId
       price
+      imageUrl
     }
   }
 }
@@ -669,6 +685,41 @@ export function useGetStorefrontCourseLazyQuery(baseOptions?: ApolloReactHooks.L
 export type GetStorefrontCourseQueryHookResult = ReturnType<typeof useGetStorefrontCourseQuery>;
 export type GetStorefrontCourseLazyQueryHookResult = ReturnType<typeof useGetStorefrontCourseLazyQuery>;
 export type GetStorefrontCourseQueryResult = ApolloReactCommon.QueryResult<GetStorefrontCourseQuery, GetStorefrontCourseQueryVariables>;
+export const GetStorefrontCoursesDocument = gql`
+    query GetStorefrontCourses {
+  storefrontCourses {
+    header
+    courseId
+    url
+    imageUrl
+  }
+}
+    `;
+
+/**
+ * __useGetStorefrontCoursesQuery__
+ *
+ * To run a query within a React component, call `useGetStorefrontCoursesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetStorefrontCoursesQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetStorefrontCoursesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetStorefrontCoursesQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetStorefrontCoursesQuery, GetStorefrontCoursesQueryVariables>) {
+        return ApolloReactHooks.useQuery<GetStorefrontCoursesQuery, GetStorefrontCoursesQueryVariables>(GetStorefrontCoursesDocument, baseOptions);
+      }
+export function useGetStorefrontCoursesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetStorefrontCoursesQuery, GetStorefrontCoursesQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<GetStorefrontCoursesQuery, GetStorefrontCoursesQueryVariables>(GetStorefrontCoursesDocument, baseOptions);
+        }
+export type GetStorefrontCoursesQueryHookResult = ReturnType<typeof useGetStorefrontCoursesQuery>;
+export type GetStorefrontCoursesLazyQueryHookResult = ReturnType<typeof useGetStorefrontCoursesLazyQuery>;
+export type GetStorefrontCoursesQueryResult = ApolloReactCommon.QueryResult<GetStorefrontCoursesQuery, GetStorefrontCoursesQueryVariables>;
 export const StripeCreateOrderDocument = gql`
     mutation StripeCreateOrder($imageUrl: String!, $courseId: CourseId!, $bundleId: BundleId!, $coupon: String) {
   stripeCreateOrder(imageUrl: $imageUrl, courseId: $courseId, bundleId: $bundleId, coupon: $coupon) {

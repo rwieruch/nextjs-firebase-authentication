@@ -21,12 +21,10 @@ const StyledSteps = styled(Steps)`
 
 type CheckoutWizardProps = {
   storefrontCourse: StorefrontCourse;
-  imageUrl: string;
 };
 
 const CheckoutWizard = ({
   storefrontCourse,
-  imageUrl,
 }: CheckoutWizardProps) => {
   const router = useRouter();
 
@@ -53,12 +51,11 @@ const CheckoutWizard = ({
 
       <Card
         cover={
-          currentStep === 1 &&
-          imageUrl && (
+          currentStep === 1 && (
             <img
               style={{ padding: '16px 64px 0' }}
               alt="cover"
-              src={imageUrl}
+              src={storefrontCourse.bundle.imageUrl}
             />
           )
         }
@@ -70,7 +67,6 @@ const CheckoutWizard = ({
 
           {currentStep === 1 && !!storefrontCourse && (
             <CheckoutWizardPay
-              imageUrl={imageUrl}
               storefrontCourse={storefrontCourse}
               onSuccess={handleSuccess}
             />

@@ -37,18 +37,10 @@ const CheckoutPage: NextAuthPage = ({ data }) => {
     router.prefetch(ROUTES.INDEX);
   });
 
-  const { imageUrl } = router.query;
-
   return (
     <Layout>
       <StyledContent>
-        <CheckoutWizard
-          storefrontCourse={data.storefrontCourse}
-          imageUrl={
-            // TODO weird
-            imageUrl instanceof Array ? imageUrl.join('') : imageUrl
-          }
-        />
+        <CheckoutWizard storefrontCourse={data.storefrontCourse} />
       </StyledContent>
     </Layout>
   );

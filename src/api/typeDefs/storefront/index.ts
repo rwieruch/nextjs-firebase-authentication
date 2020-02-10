@@ -6,11 +6,15 @@ export default gql`
       courseId: CourseId!
       bundleId: BundleId!
     ): StorefrontCourse
+
+    storefrontCourses: [StorefrontCourse!]!
   }
 
   type StorefrontCourse {
     header: String!
     courseId: CourseId!
+    url: String!
+    imageUrl: String!
     bundle: Bundle!
   }
 
@@ -18,5 +22,6 @@ export default gql`
     header: String!
     bundleId: BundleId!
     price: Int!
+    imageUrl: String!
   }
 `;
