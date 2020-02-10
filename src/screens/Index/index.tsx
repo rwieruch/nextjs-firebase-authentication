@@ -38,9 +38,11 @@ interface DashboardPageProps {
   };
 }
 
-type ExtendedNextPage = NextPage<DashboardPageProps>;
+type NextAuthPage = NextPage<DashboardPageProps> & {
+  isAuthorized: (session: Session) => boolean;
+};
 
-const DashboardPage: ExtendedNextPage = ({ data }) => {
+const DashboardPage: NextAuthPage = ({ data }) => {
   console.log(data);
 
   const isNoCourses = data.unlockedCourses.length;
@@ -62,6 +64,8 @@ const DashboardPage: ExtendedNextPage = ({ data }) => {
     </Layout>
   );
 };
+
+DashboardPage.isAuthorized = (session: Session) => true;
 
 DashboardPage.getInitialProps = async ctx => {
   const isServer = ctx.req || ctx.res;

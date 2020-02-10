@@ -24,7 +24,7 @@ describe('inviteToConvertkit', () => {
     ).resolves.toEqual(true);
 
     expect(axios.post).toHaveBeenCalledWith(
-      'https://api.convertkit.com/v3/forms/#myformid/subscribe',
+      'https://api.convertkit.com/v3/forms/myformid/subscribe',
       {
         api_key: 'apikey',
         email: 'example@example.com',

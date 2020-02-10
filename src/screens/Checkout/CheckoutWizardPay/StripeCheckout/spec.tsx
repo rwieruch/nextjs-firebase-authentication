@@ -50,7 +50,7 @@ describe('StripeCheckoutButton', () => {
       <MockedProvider mocks={mocks} addTypename={false}>
         <StripeCheckoutButton
           imageUrl={'url'}
-          course={{
+          storefrontCourse={{
             header: 'The Road to GraphQL',
             courseId: CourseId.TheRoadToGraphql,
             bundle: {
@@ -125,7 +125,7 @@ describe('StripeCheckoutButton', () => {
       <MockedProvider mocks={mocks} addTypename={false}>
         <StripeCheckoutButton
           imageUrl={'url'}
-          course={{
+          storefrontCourse={{
             header: 'The Road to GraphQL',
             courseId: CourseId.TheRoadToGraphql,
             bundle: {
@@ -183,7 +183,7 @@ describe('StripeCheckoutButton', () => {
       <MockedProvider mocks={mocks} addTypename={false}>
         <StripeCheckoutButton
           imageUrl={'url'}
-          course={{
+          storefrontCourse={{
             header: 'The Road to GraphQL',
             courseId: CourseId.TheRoadToGraphql,
             bundle: {

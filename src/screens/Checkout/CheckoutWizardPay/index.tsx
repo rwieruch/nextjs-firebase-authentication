@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form, Input, Button, Row, Col } from 'antd';
 
-import { Course } from '@generated/client';
+import { StorefrontCourse } from '@generated/client';
 import FormIcon from '@components/Form/Icon';
 
 import FreeCheckoutButton from './FreeCheckout';
@@ -15,7 +15,7 @@ const SELECTIONS = {
 
 type IdleFormProps = {
   coupon: string;
-  course: Course;
+  storefrontCourse: StorefrontCourse;
   onCouponChange: (
     event: React.ChangeEvent<HTMLInputElement>
   ) => void;
@@ -25,15 +25,19 @@ type IdleFormProps = {
 };
 
 const IdleForm = ({
-  course,
+  storefrontCourse,
   coupon,
   onCouponChange,
   freeButton,
   stripeButton,
   paypalButton,
 }: IdleFormProps) => {
-  const { courseId, header: courseHeader } = course;
-  const { bundleId, header: bundleHeader, price } = course.bundle;
+  const { courseId, header: courseHeader } = storefrontCourse;
+  const {
+    bundleId,
+    header: bundleHeader,
+    price,
+  } = storefrontCourse.bundle;
 
   const formItemLayout = {
     labelCol: {
@@ -100,11 +104,11 @@ const IdleForm = ({
 
 type PayProps = {
   imageUrl: string;
-  course: Course;
+  storefrontCourse: StorefrontCourse;
   onSuccess: () => void;
 };
 
-const Pay = ({ imageUrl, course, onSuccess }: PayProps) => {
+const Pay = ({ imageUrl, storefrontCourse, onSuccess }: PayProps) => {
   const [coupon, setCoupon] = React.useState('');
   const [currentSelection, setCurrentSelection] = React.useState(
     SELECTIONS.IDLE
@@ -128,7 +132,7 @@ const Pay = ({ imageUrl, course, onSuccess }: PayProps) => {
     <>
       <PaypalCheckout
         isShow={currentSelection === SELECTIONS.PAYPAL}
-        course={course}
+        storefrontCourse={storefrontCourse}
         coupon={coupon}
         onSuccess={onSuccess}
         onBack={handleSelectIdle}
@@ -136,19 +140,19 @@ const Pay = ({ imageUrl, course, onSuccess }: PayProps) => {
 
       {currentSelection === SELECTIONS.IDLE && (
         <IdleForm
-          course={course}
+          storefrontCourse={storefrontCourse}
           coupon={coupon}
           onCouponChange={handleCouponChange}
           freeButton={
             <FreeCheckoutButton
-              courseId={course.courseId}
-              bundleId={course.bundle.bundleId}
+              courseId={storefrontCourse.courseId}
+              bundleId={storefrontCourse.bundle.bundleId}
               onSuccess={onSuccess}
             />
           }
           stripeButton={
             <StripeCheckoutButton
-              course={course}
+              storefrontCourse={storefrontCourse}
               imageUrl={imageUrl}
               coupon={coupon}
             />

@@ -18,7 +18,7 @@ describe('PaypalCheckout', () => {
     const component = render(
       <MockedProvider mocks={[]} addTypename={false}>
         <PaypalCheckout
-          course={{
+          storefrontCourse={{
             header: 'The Road to GraphQL',
             courseId: CourseId.TheRoadToGraphql,
             bundle: {

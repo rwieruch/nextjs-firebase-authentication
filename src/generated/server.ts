@@ -24,13 +24,6 @@ export enum BundleId {
   Professional = 'PROFESSIONAL'
 }
 
-export type Course = {
-   __typename?: 'Course',
-  header: Scalars['String'],
-  courseId: CourseId,
-  bundle: Bundle,
-};
-
 export enum CourseId {
   TheRoadToLearnReact = 'THE_ROAD_TO_LEARN_REACT',
   TamingTheState = 'TAMING_THE_STATE',
@@ -117,12 +110,12 @@ export type Query = {
    __typename?: 'Query',
   _?: Maybe<Scalars['Boolean']>,
   me?: Maybe<User>,
-  storefront?: Maybe<Storefront>,
+  storefrontCourse?: Maybe<StorefrontCourse>,
   unlockedCourses: Array<UnlockedCourse>,
 };
 
 
-export type QueryStorefrontArgs = {
+export type QueryStorefrontCourseArgs = {
   courseId: CourseId,
   bundleId: BundleId
 };
@@ -132,9 +125,11 @@ export type SessionToken = {
   sessionToken: Scalars['String'],
 };
 
-export type Storefront = {
-   __typename?: 'Storefront',
-  course: Course,
+export type StorefrontCourse = {
+   __typename?: 'StorefrontCourse',
+  header: Scalars['String'],
+  courseId: CourseId,
+  bundle: Bundle,
 };
 
 export type StripeId = {
@@ -254,8 +249,7 @@ export type ResolversTypes = ResolversObject<{
   String: ResolverTypeWrapper<any>,
   CourseId: ResolverTypeWrapper<any>,
   BundleId: ResolverTypeWrapper<any>,
-  Storefront: ResolverTypeWrapper<any>,
-  Course: ResolverTypeWrapper<any>,
+  StorefrontCourse: ResolverTypeWrapper<any>,
   Bundle: ResolverTypeWrapper<any>,
   Int: ResolverTypeWrapper<any>,
   UnlockedCourse: ResolverTypeWrapper<any>,
@@ -276,8 +270,7 @@ export type ResolversParentTypes = ResolversObject<{
   String: any,
   CourseId: any,
   BundleId: any,
-  Storefront: any,
-  Course: any,
+  StorefrontCourse: any,
   Bundle: any,
   Int: any,
   UnlockedCourse: any,
@@ -294,13 +287,6 @@ export type BundleResolvers<ContextType = ResolverContext, ParentType extends Re
   header?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   bundleId?: Resolver<ResolversTypes['BundleId'], ParentType, ContextType>,
   price?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
-  __isTypeOf?: isTypeOfResolverFn,
-}>;
-
-export type CourseResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['Course'] = ResolversParentTypes['Course']> = ResolversObject<{
-  header?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-  courseId?: Resolver<ResolversTypes['CourseId'], ParentType, ContextType>,
-  bundle?: Resolver<ResolversTypes['Bundle'], ParentType, ContextType>,
   __isTypeOf?: isTypeOfResolverFn,
 }>;
 
@@ -325,7 +311,7 @@ export type OrderIdResolvers<ContextType = ResolverContext, ParentType extends R
 export type QueryResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   _?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>,
   me?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>,
-  storefront?: Resolver<Maybe<ResolversTypes['Storefront']>, ParentType, ContextType, RequireFields<QueryStorefrontArgs, 'courseId' | 'bundleId'>>,
+  storefrontCourse?: Resolver<Maybe<ResolversTypes['StorefrontCourse']>, ParentType, ContextType, RequireFields<QueryStorefrontCourseArgs, 'courseId' | 'bundleId'>>,
   unlockedCourses?: Resolver<Array<ResolversTypes['UnlockedCourse']>, ParentType, ContextType>,
 }>;
 
@@ -334,8 +320,10 @@ export type SessionTokenResolvers<ContextType = ResolverContext, ParentType exte
   __isTypeOf?: isTypeOfResolverFn,
 }>;
 
-export type StorefrontResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['Storefront'] = ResolversParentTypes['Storefront']> = ResolversObject<{
-  course?: Resolver<ResolversTypes['Course'], ParentType, ContextType>,
+export type StorefrontCourseResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['StorefrontCourse'] = ResolversParentTypes['StorefrontCourse']> = ResolversObject<{
+  header?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  courseId?: Resolver<ResolversTypes['CourseId'], ParentType, ContextType>,
+  bundle?: Resolver<ResolversTypes['Bundle'], ParentType, ContextType>,
   __isTypeOf?: isTypeOfResolverFn,
 }>;
 
@@ -377,12 +365,11 @@ export type UserResolvers<ContextType = ResolverContext, ParentType extends Reso
 
 export type Resolvers<ContextType = ResolverContext> = ResolversObject<{
   Bundle?: BundleResolvers<ContextType>,
-  Course?: CourseResolvers<ContextType>,
   Mutation?: MutationResolvers<ContextType>,
   OrderId?: OrderIdResolvers<ContextType>,
   Query?: QueryResolvers<ContextType>,
   SessionToken?: SessionTokenResolvers<ContextType>,
-  Storefront?: StorefrontResolvers<ContextType>,
+  StorefrontCourse?: StorefrontCourseResolvers<ContextType>,
   StripeId?: StripeIdResolvers<ContextType>,
   Subscription?: SubscriptionResolvers<ContextType>,
   UnlockedCourse?: UnlockedCourseResolvers<ContextType>,

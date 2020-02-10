@@ -16,6 +16,7 @@ exports[`storefront returns the signed in user 1`] = `
 Object {
   "me": Object {
     "email": "example@example.com",
+    "uid": "1",
   },
 }
 `;

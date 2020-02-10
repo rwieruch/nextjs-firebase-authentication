@@ -26,13 +26,6 @@ export enum BundleId {
   Professional = 'PROFESSIONAL'
 }
 
-export type Course = {
-   __typename?: 'Course',
-  header: Scalars['String'],
-  courseId: CourseId,
-  bundle: Bundle,
-};
-
 export enum CourseId {
   TheRoadToLearnReact = 'THE_ROAD_TO_LEARN_REACT',
   TamingTheState = 'TAMING_THE_STATE',
@@ -119,12 +112,12 @@ export type Query = {
    __typename?: 'Query',
   _?: Maybe<Scalars['Boolean']>,
   me?: Maybe<User>,
-  storefront?: Maybe<Storefront>,
+  storefrontCourse?: Maybe<StorefrontCourse>,
   unlockedCourses: Array<UnlockedCourse>,
 };
 
 
-export type QueryStorefrontArgs = {
+export type QueryStorefrontCourseArgs = {
   courseId: CourseId,
   bundleId: BundleId
 };
@@ -134,9 +127,11 @@ export type SessionToken = {
   sessionToken: Scalars['String'],
 };
 
-export type Storefront = {
-   __typename?: 'Storefront',
-  course: Course,
+export type StorefrontCourse = {
+   __typename?: 'StorefrontCourse',
+  header: Scalars['String'],
+  courseId: CourseId,
+  bundle: Bundle,
 };
 
 export type StripeId = {
@@ -292,23 +287,20 @@ export type PasswordForgotMutation = (
   & Pick<Mutation, 'passwordForgot'>
 );
 
-export type GetStorefrontQueryVariables = {
+export type GetStorefrontCourseQueryVariables = {
   courseId: CourseId,
   bundleId: BundleId
 };
 
 
-export type GetStorefrontQuery = (
+export type GetStorefrontCourseQuery = (
   { __typename?: 'Query' }
-  & { storefront: Maybe<(
-    { __typename?: 'Storefront' }
-    & { course: (
-      { __typename?: 'Course' }
-      & Pick<Course, 'header' | 'courseId'>
-      & { bundle: (
-        { __typename?: 'Bundle' }
-        & Pick<Bundle, 'header' | 'bundleId' | 'price'>
-      ) }
+  & { storefrontCourse: Maybe<(
+    { __typename?: 'StorefrontCourse' }
+    & Pick<StorefrontCourse, 'header' | 'courseId'>
+    & { bundle: (
+      { __typename?: 'Bundle' }
+      & Pick<Bundle, 'header' | 'bundleId' | 'price'>
     ) }
   )> }
 );
@@ -637,48 +629,46 @@ export function usePasswordForgotMutation(baseOptions?: ApolloReactHooks.Mutatio
 export type PasswordForgotMutationHookResult = ReturnType<typeof usePasswordForgotMutation>;
 export type PasswordForgotMutationResult = ApolloReactCommon.MutationResult<PasswordForgotMutation>;
 export type PasswordForgotMutationOptions = ApolloReactCommon.BaseMutationOptions<PasswordForgotMutation, PasswordForgotMutationVariables>;
-export const GetStorefrontDocument = gql`
-    query GetStorefront($courseId: CourseId!, $bundleId: BundleId!) {
-  storefront(courseId: $courseId, bundleId: $bundleId) {
-    course {
+export const GetStorefrontCourseDocument = gql`
+    query GetStorefrontCourse($courseId: CourseId!, $bundleId: BundleId!) {
+  storefrontCourse(courseId: $courseId, bundleId: $bundleId) {
+    header
+    courseId
+    bundle {
       header
-      courseId
-      bundle {
-        header
-        bundleId
-        price
-      }
+      bundleId
+      price
     }
   }
 }
     `;
 
 /**
- * __useGetStorefrontQuery__
+ * __useGetStorefrontCourseQuery__
  *
- * To run a query within a React component, call `useGetStorefrontQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetStorefrontQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * To run a query within a React component, call `useGetStorefrontCourseQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetStorefrontCourseQuery` returns an object from Apollo Client that contains loading, error, and data properties 
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetStorefrontQuery({
+ * const { data, loading, error } = useGetStorefrontCourseQuery({
  *   variables: {
  *      courseId: // value for 'courseId'
  *      bundleId: // value for 'bundleId'
  *   },
  * });
  */
-export function useGetStorefrontQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetStorefrontQuery, GetStorefrontQueryVariables>) {
-        return ApolloReactHooks.useQuery<GetStorefrontQuery, GetStorefrontQueryVariables>(GetStorefrontDocument, baseOptions);
+export function useGetStorefrontCourseQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetStorefrontCourseQuery, GetStorefrontCourseQueryVariables>) {
+        return ApolloReactHooks.useQuery<GetStorefrontCourseQuery, GetStorefrontCourseQueryVariables>(GetStorefrontCourseDocument, baseOptions);
       }
-export function useGetStorefrontLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetStorefrontQuery, GetStorefrontQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<GetStorefrontQuery, GetStorefrontQueryVariables>(GetStorefrontDocument, baseOptions);
+export function useGetStorefrontCourseLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetStorefrontCourseQuery, GetStorefrontCourseQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<GetStorefrontCourseQuery, GetStorefrontCourseQueryVariables>(GetStorefrontCourseDocument, baseOptions);
         }
-export type GetStorefrontQueryHookResult = ReturnType<typeof useGetStorefrontQuery>;
-export type GetStorefrontLazyQueryHookResult = ReturnType<typeof useGetStorefrontLazyQuery>;
-export type GetStorefrontQueryResult = ApolloReactCommon.QueryResult<GetStorefrontQuery, GetStorefrontQueryVariables>;
+export type GetStorefrontCourseQueryHookResult = ReturnType<typeof useGetStorefrontCourseQuery>;
+export type GetStorefrontCourseLazyQueryHookResult = ReturnType<typeof useGetStorefrontCourseLazyQuery>;
+export type GetStorefrontCourseQueryResult = ApolloReactCommon.QueryResult<GetStorefrontCourseQuery, GetStorefrontCourseQueryVariables>;
 export const StripeCreateOrderDocument = gql`
     mutation StripeCreateOrder($imageUrl: String!, $courseId: CourseId!, $bundleId: BundleId!, $coupon: String) {
   stripeCreateOrder(imageUrl: $imageUrl, courseId: $courseId, bundleId: $bundleId, coupon: $coupon) {

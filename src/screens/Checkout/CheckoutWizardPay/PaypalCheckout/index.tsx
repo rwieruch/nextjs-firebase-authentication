@@ -3,7 +3,7 @@
 import React from 'react';
 
 import {
-  Course,
+  StorefrontCourse,
   usePaypalCreateOrderMutation,
   usePaypalApproveOrderMutation,
 } from '@generated/client';
@@ -15,20 +15,20 @@ import useIndicators from '@hooks/useIndicators';
 import FormAtomButton from '@components/Form/AtomButton';
 
 export type PaypalCheckoutProps = {
-  course: Course;
+  storefrontCourse: StorefrontCourse;
   coupon: string;
   onSuccess: () => void;
   onBack: () => void;
 };
 
 const PaypalCheckout = ({
-  course,
+  storefrontCourse,
   coupon,
   onSuccess,
   onBack,
 }: PaypalCheckoutProps) => {
-  const { courseId } = course;
-  const { bundleId } = course.bundle;
+  const { courseId } = storefrontCourse;
+  const { bundleId } = storefrontCourse.bundle;
 
   const [
     paypalCreateOrder,

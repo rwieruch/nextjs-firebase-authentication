@@ -1,16 +1,17 @@
 import gql from 'graphql-tag';
 
-export const GET_STOREFRONT = gql`
-  query GetStorefront($courseId: CourseId!, $bundleId: BundleId!) {
-    storefront(courseId: $courseId, bundleId: $bundleId) {
-      course {
+export const GET_STOREFRONT_COURSE = gql`
+  query GetStorefrontCourse(
+    $courseId: CourseId!
+    $bundleId: BundleId!
+  ) {
+    storefrontCourse(courseId: $courseId, bundleId: $bundleId) {
+      header
+      courseId
+      bundle {
         header
-        courseId
-        bundle {
-          header
-          bundleId
-          price
-        }
+        bundleId
+        price
       }
     }
   }

@@ -4,7 +4,7 @@ import React from 'react';
 import { Button, message } from 'antd';
 
 import {
-  Course,
+  StorefrontCourse,
   useStripeCreateOrderMutation,
 } from '@generated/client';
 import useErrorIndicator from '@hooks/useErrorIndicator';
@@ -13,17 +13,17 @@ import { STRIPE_CREATE_ORDER } from '@queries/stripe';
 
 export type StripeCheckoutProps = {
   imageUrl: string;
-  course: Course;
+  storefrontCourse: StorefrontCourse;
   coupon: string;
 };
 
 const StripeCheckout = ({
   imageUrl,
-  course,
+  storefrontCourse,
   coupon,
 }: StripeCheckoutProps) => {
-  const { courseId } = course;
-  const { bundleId } = course.bundle;
+  const { courseId } = storefrontCourse;
+  const { bundleId } = storefrontCourse.bundle;
 
   const [
     stripeCreateOrder,

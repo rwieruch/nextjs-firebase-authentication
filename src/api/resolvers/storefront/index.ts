@@ -7,15 +7,13 @@ interface Resolvers {
 
 export const resolvers: Resolvers = {
   Query: {
-    storefront: (parent, { courseId, bundleId }) => {
+    storefrontCourse: (parent, { courseId, bundleId }) => {
       const course = storefront[courseId];
       const bundle = course.bundles[bundleId];
 
       return {
-        course: {
-          ...course,
-          bundle,
-        },
+        ...course,
+        bundle,
       };
     },
   },

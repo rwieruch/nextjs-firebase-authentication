@@ -4,7 +4,7 @@ describe('IndexPage', () => {
   const noSession = null;
   const session = 'session';
 
-  it('does not render when not authorized', () => {
+  it('renders when not authorized', () => {
     expect(IndexPage.isAuthorized(noSession)).toEqual(true);
   });
 

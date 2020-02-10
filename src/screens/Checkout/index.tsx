@@ -4,8 +4,8 @@ import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import { Layout as AntdLayout } from 'antd';
 
-import { Storefront } from '@generated/client';
-import { GET_STOREFRONT } from '@queries/storefront';
+import { StorefrontCourse } from '@generated/client';
+import { GET_STOREFRONT_COURSE } from '@queries/storefront';
 import { Session } from '@typeDefs/session';
 import * as ROUTES from '@constants/routes';
 import Layout from '@components/Layout';
@@ -22,7 +22,7 @@ const StyledContent = styled(AntdLayout.Content)`
 
 interface CheckoutPageProps {
   data: {
-    storefront: Storefront;
+    storefrontCourse: StorefrontCourse;
   };
 }
 
@@ -43,7 +43,7 @@ const CheckoutPage: NextAuthPage = ({ data }) => {
     <Layout>
       <StyledContent>
         <CheckoutWizard
-          storefront={data.storefront}
+          storefrontCourse={data.storefrontCourse}
           imageUrl={
             // TODO weird
             imageUrl instanceof Array ? imageUrl.join('') : imageUrl
@@ -60,7 +60,7 @@ CheckoutPage.getInitialProps = async ctx => {
   const { courseId, bundleId } = ctx.query;
 
   const { data } = await ctx.apolloClient.query({
-    query: GET_STOREFRONT,
+    query: GET_STOREFRONT_COURSE,
     variables: {
       courseId,
       bundleId,
