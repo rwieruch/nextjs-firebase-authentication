@@ -1,31 +1,35 @@
 import React from 'react';
 import { NextPage } from 'next';
+import Link from 'next/link';
 import styled from 'styled-components';
-import { Typography, Layout as AntdLayout, Menu, Icon } from 'antd';
+import {
+  Typography,
+  Layout as AntdLayout,
+  Menu,
+  Icon,
+  Card,
+} from 'antd';
 
+import * as ROUTES from '@constants/routes';
+import { upperSnakeCaseToKebabCase } from '@services/string';
 import { UnlockedCourse } from '@generated/client';
 import { GET_COURSES } from '@queries/course';
 import { Session } from '@typeDefs/session';
-import Layout, { Footer } from '@components/Layout';
+import Layout from '@components/Layout';
 
 const { Content, Sider } = AntdLayout;
 
 const StyledContent = styled(Content)`
-  margin: 32px;
-`;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-const StyledSider = styled(Sider)`
-  overflow: auto;
-  height: 100vh;
-  width: 200px;
-  background: #fff;
-  position: fixed;
-  top: 56px;
-`;
-
-const StyledInnerLayout = styled(AntdLayout)`
-  margin-left: 200px;
   margin-top: 56px;
+`;
+
+const StyledCard = styled(Card)`
+  min-width: 200px;
+  max-width: 400px;
 `;
 
 interface DashboardPageProps {
@@ -46,56 +50,19 @@ const DashboardPage: NextAuthPage = ({ data }) => {
   console.log(data.courses[0].courseId);
 
   return (
-    <Layout noFooter>
-      {isNoCourses && (
-        <StyledSider>
-          <Menu
-            mode="inline"
-            defaultSelectedKeys={[data.courses[0].sections[0].label]}
-          >
-            {data.courses[0].sections.map(section => (
-              <Menu.Item key={section.label}>
-                <span>{section.label}</span>
-              </Menu.Item>
-            ))}
-          </Menu>
-        </StyledSider>
-      )}
-
-      <StyledInnerLayout>
-        <StyledContent>
-          {isNoCourses ? (
-            <>
-              <Typography.Title>Course Dashboard</Typography.Title>
-              <Typography.Title>Course Dashboard</Typography.Title>
-
-              <Typography.Title>Course Dashboard</Typography.Title>
-              <Typography.Title>Course Dashboard</Typography.Title>
-              <Typography.Title>Course Dashboard</Typography.Title>
-              <Typography.Title>Course Dashboard</Typography.Title>
-              <Typography.Title>Course Dashboard</Typography.Title>
-              <Typography.Title>Course Dashboard</Typography.Title>
-
-              <Typography.Title>Course Dashboard</Typography.Title>
-              <Typography.Title>Course Dashboard</Typography.Title>
-              <Typography.Title>Course Dashboard</Typography.Title>
-              <Typography.Title>Course Dashboard</Typography.Title>
-              <Typography.Title>Course Dashboard</Typography.Title>
-              <Typography.Title>Course Dashboard</Typography.Title>
-
-              <Typography.Title>Course Dashboard</Typography.Title>
-              <Typography.Title>Course Dashboard</Typography.Title>
-              <Typography.Title>Course Dashboard</Typography.Title>
-              <Typography.Title>Course Dashboard</Typography.Title>
-            </>
-          ) : (
-            <p>
-              You have to buy a course first before seeing it here.
-            </p>
-          )}
-        </StyledContent>
-        <Footer />
-      </StyledInnerLayout>
+    <Layout>
+      <StyledContent>
+        {data.courses.map(course => (
+          <StyledCard key={course.courseId}>
+            <Link
+              href="/p/[course-id]"
+              as={`/p/${upperSnakeCaseToKebabCase(course.courseId)}`}
+            >
+              <a>{course.courseId}</a>
+            </Link>
+          </StyledCard>
+        ))}
+      </StyledContent>
     </Layout>
   );
 };
