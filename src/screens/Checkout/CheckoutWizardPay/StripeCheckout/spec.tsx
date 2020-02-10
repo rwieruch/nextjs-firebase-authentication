@@ -49,14 +49,15 @@ describe('StripeCheckoutButton', () => {
     const component = render(
       <MockedProvider mocks={mocks} addTypename={false}>
         <StripeCheckoutButton
-          imageUrl={'url'}
           storefrontCourse={{
             header: 'The Road to GraphQL',
             courseId: CourseId.TheRoadToGraphql,
+            url: 'url',
             bundle: {
               header: 'Student',
               bundleId: BundleId.Student,
               price: 1,
+              imageUrl: 'url',
             },
           }}
           coupon={'coupon'}
@@ -124,14 +125,15 @@ describe('StripeCheckoutButton', () => {
     const component = render(
       <MockedProvider mocks={mocks} addTypename={false}>
         <StripeCheckoutButton
-          imageUrl={'url'}
           storefrontCourse={{
             header: 'The Road to GraphQL',
             courseId: CourseId.TheRoadToGraphql,
+            url: 'url',
             bundle: {
               header: 'Student',
               bundleId: BundleId.Student,
               price: 1,
+              imageUrl: 'url',
             },
           }}
           coupon={'coupon'}
@@ -182,14 +184,15 @@ describe('StripeCheckoutButton', () => {
     const component = render(
       <MockedProvider mocks={mocks} addTypename={false}>
         <StripeCheckoutButton
-          imageUrl={'url'}
           storefrontCourse={{
             header: 'The Road to GraphQL',
             courseId: CourseId.TheRoadToGraphql,
+            url: 'url',
             bundle: {
               header: 'Student',
               bundleId: BundleId.Student,
               price: 1,
+              imageUrl: 'url',
             },
           }}
           coupon={'coupon'}

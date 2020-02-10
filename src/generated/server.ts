@@ -132,7 +132,7 @@ export type StorefrontCourse = {
   header: Scalars['String'],
   courseId: CourseId,
   url: Scalars['String'],
-  imageUrl: Scalars['String'],
+  imageUrl?: Maybe<Scalars['String']>,
   bundle: Bundle,
 };
 
@@ -330,7 +330,7 @@ export type StorefrontCourseResolvers<ContextType = ResolverContext, ParentType 
   header?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   courseId?: Resolver<ResolversTypes['CourseId'], ParentType, ContextType>,
   url?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-  imageUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  imageUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   bundle?: Resolver<ResolversTypes['Bundle'], ParentType, ContextType>,
   __isTypeOf?: isTypeOfResolverFn,
 }>;

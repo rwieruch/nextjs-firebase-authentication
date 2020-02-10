@@ -1,3 +1,3 @@
-import Index from '@screens/Index';
+import CourseList from '@screens/CourseList';
 
-export default Index;
+export default CourseList;

@@ -57,18 +57,18 @@ const ExternalCourseLink = ({
 );
 
 type CoverProps = {
-  imageUrl?: string;
+  imageUrl: string | null | undefined;
 };
 
 const Cover = ({ imageUrl }: CoverProps) => (
   <img
     style={{ padding: '16px 64px 0' }}
     alt="cover"
-    src={imageUrl}
+    src={imageUrl || ''}
   />
 );
 
-interface DashboardPageProps {
+interface CourseListPageProps {
   unlockedCoursesData: {
     unlockedCourses: UnlockedCourse[];
   };
@@ -77,11 +77,11 @@ interface DashboardPageProps {
   };
 }
 
-type NextAuthPage = NextPage<DashboardPageProps> & {
+type NextAuthPage = NextPage<CourseListPageProps> & {
   isAuthorized: (session: Session) => boolean;
 };
 
-const DashboardPage: NextAuthPage = ({
+const CourseListPage: NextAuthPage = ({
   unlockedCoursesData,
   storefrontCoursesData,
 }) => {
@@ -156,9 +156,9 @@ const DashboardPage: NextAuthPage = ({
   );
 };
 
-DashboardPage.isAuthorized = (session: Session) => true;
+CourseListPage.isAuthorized = (session: Session) => true;
 
-DashboardPage.getInitialProps = async ctx => {
+CourseListPage.getInitialProps = async ctx => {
   const isServer = ctx.req || ctx.res;
 
   const context = isServer
@@ -186,4 +186,4 @@ DashboardPage.getInitialProps = async ctx => {
   return { unlockedCoursesData, storefrontCoursesData };
 };
 
-export default DashboardPage;
+export default CourseListPage;

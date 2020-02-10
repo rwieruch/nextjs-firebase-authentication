@@ -14,7 +14,7 @@ export default gql`
     header: String!
     courseId: CourseId!
     url: String!
-    imageUrl: String!
+    imageUrl: String
     bundle: Bundle!
   }
 

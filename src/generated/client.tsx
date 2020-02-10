@@ -134,7 +134,7 @@ export type StorefrontCourse = {
   header: Scalars['String'],
   courseId: CourseId,
   url: Scalars['String'],
-  imageUrl: Scalars['String'],
+  imageUrl?: Maybe<Scalars['String']>,
   bundle: Bundle,
 };
 
