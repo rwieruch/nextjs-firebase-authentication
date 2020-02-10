@@ -8,7 +8,7 @@ import { Typography, Layout as AntdLayout, Menu, Icon } from 'antd';
 import * as ROUTES from '@constants/routes';
 import { UnlockedCourse } from '@generated/client';
 import { Session } from '@typeDefs/session';
-import { GET_COURSES } from '@queries/course';
+import { GET_UNLOCKED_COURSES } from '@queries/course';
 import Layout, { Footer } from '@components/Layout';
 import { kebabCaseToUpperSnakeCase } from '@services/string';
 
@@ -38,7 +38,7 @@ const StyledInnerLayout = styled(AntdLayout)`
 
 interface CourseDetailsPageProps {
   data: {
-    courses: UnlockedCourse[];
+    unlockedCourses: UnlockedCourse[];
   };
 }
 
@@ -49,11 +49,11 @@ type NextAuthPage = NextPage<CourseDetailsPageProps> & {
 const CourseDetailsPage: NextAuthPage = ({ data }) => {
   const router = useRouter();
 
-  const course = data.courses.find(
+  const course = data.unlockedCourses.find(
     course =>
       course.courseId ===
       kebabCaseToUpperSnakeCase(
-        router.query['course-id']?.toString() || ''
+        router.query['unlocked-course-id']?.toString() || ''
       )
   );
 
@@ -146,7 +146,8 @@ CourseDetailsPage.getInitialProps = async ctx => {
     : null;
 
   const { data } = await ctx.apolloClient.query({
-    query: GET_COURSES,
+    fetchPolicy: 'network-only',
+    query: GET_UNLOCKED_COURSES,
     ...(isServer && context),
   });
 

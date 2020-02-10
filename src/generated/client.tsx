@@ -40,21 +40,6 @@ export enum CourseId {
   TheRoadToReactWithFirebase = 'THE_ROAD_TO_REACT_WITH_FIREBASE'
 }
 
-export type CourseItem = {
-   __typename?: 'CourseItem',
-  kind: Scalars['String'],
-  label: Scalars['String'],
-  url: Scalars['String'],
-  fileName?: Maybe<Scalars['String']>,
-  secondaryUrl?: Maybe<Scalars['String']>,
-};
-
-export type CourseSection = {
-   __typename?: 'CourseSection',
-  label: Scalars['String'],
-  items: Array<CourseItem>,
-};
-
 export type Mutation = {
    __typename?: 'Mutation',
   _?: Maybe<Scalars['Boolean']>,
@@ -135,7 +120,7 @@ export type Query = {
   _?: Maybe<Scalars['Boolean']>,
   me?: Maybe<User>,
   storefront?: Maybe<Storefront>,
-  courses: Array<UnlockedCourse>,
+  unlockedCourses: Array<UnlockedCourse>,
 };
 
 
@@ -167,7 +152,22 @@ export type Subscription = {
 export type UnlockedCourse = {
    __typename?: 'UnlockedCourse',
   courseId: CourseId,
-  sections: Array<CourseSection>,
+  sections: Array<UnlockedCourseSection>,
+};
+
+export type UnlockedCourseItem = {
+   __typename?: 'UnlockedCourseItem',
+  kind: Scalars['String'],
+  label: Scalars['String'],
+  url: Scalars['String'],
+  fileName?: Maybe<Scalars['String']>,
+  secondaryUrl?: Maybe<Scalars['String']>,
+};
+
+export type UnlockedCourseSection = {
+   __typename?: 'UnlockedCourseSection',
+  label: Scalars['String'],
+  items: Array<UnlockedCourseItem>,
 };
 
 export type User = {
@@ -181,15 +181,15 @@ export type GetCourseQueryVariables = {};
 
 export type GetCourseQuery = (
   { __typename?: 'Query' }
-  & { courses: Array<(
+  & { unlockedCourses: Array<(
     { __typename?: 'UnlockedCourse' }
     & Pick<UnlockedCourse, 'courseId'>
     & { sections: Array<(
-      { __typename?: 'CourseSection' }
-      & Pick<CourseSection, 'label'>
+      { __typename?: 'UnlockedCourseSection' }
+      & Pick<UnlockedCourseSection, 'label'>
       & { items: Array<(
-        { __typename?: 'CourseItem' }
-        & Pick<CourseItem, 'kind' | 'label' | 'url' | 'fileName' | 'secondaryUrl'>
+        { __typename?: 'UnlockedCourseItem' }
+        & Pick<UnlockedCourseItem, 'kind' | 'label' | 'url' | 'fileName' | 'secondaryUrl'>
       )> }
     )> }
   )> }
@@ -343,7 +343,7 @@ export type GetMeQuery = (
 
 export const GetCourseDocument = gql`
     query GetCourse {
-  courses {
+  unlockedCourses {
     courseId
     sections {
       label

@@ -13,7 +13,7 @@ import {
 import * as ROUTES from '@constants/routes';
 import { upperSnakeCaseToKebabCase } from '@services/string';
 import { UnlockedCourse } from '@generated/client';
-import { GET_COURSES } from '@queries/course';
+import { GET_UNLOCKED_COURSES } from '@queries/course';
 import { Session } from '@typeDefs/session';
 import Layout from '@components/Layout';
 
@@ -34,28 +34,24 @@ const StyledCard = styled(Card)`
 
 interface DashboardPageProps {
   data: {
-    courses: UnlockedCourse[];
+    unlockedCourses: UnlockedCourse[];
   };
 }
 
-type NextAuthPage = NextPage<DashboardPageProps> & {
-  isAuthorized: (session: Session) => boolean;
-};
+type ExtendedNextPage = NextPage<DashboardPageProps>;
 
-const DashboardPage: NextAuthPage = ({ data }) => {
+const DashboardPage: ExtendedNextPage = ({ data }) => {
   console.log(data);
 
-  const isNoCourses = data.courses.length;
-
-  console.log(data.courses[0].courseId);
+  const isNoCourses = data.unlockedCourses.length;
 
   return (
     <Layout>
       <StyledContent>
-        {data.courses.map(course => (
+        {data.unlockedCourses.map(course => (
           <StyledCard key={course.courseId}>
             <Link
-              href="/p/[course-id]"
+              href={ROUTES.UNLOCKED_COURSE_DETAILS}
               as={`/p/${upperSnakeCaseToKebabCase(course.courseId)}`}
             >
               <a>{course.courseId}</a>
@@ -66,8 +62,6 @@ const DashboardPage: NextAuthPage = ({ data }) => {
     </Layout>
   );
 };
-
-DashboardPage.isAuthorized = (session: Session) => !!session;
 
 DashboardPage.getInitialProps = async ctx => {
   const isServer = ctx.req || ctx.res;
@@ -83,7 +77,8 @@ DashboardPage.getInitialProps = async ctx => {
     : null;
 
   const { data } = await ctx.apolloClient.query({
-    query: GET_COURSES,
+    fetchPolicy: 'network-only',
+    query: GET_UNLOCKED_COURSES,
     ...(isServer && context),
   });
 

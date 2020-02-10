@@ -2,7 +2,7 @@ import { gql } from 'apollo-server-micro';
 
 export default gql`
   extend type Query {
-    courses: [UnlockedCourse!]!
+    unlockedCourses: [UnlockedCourse!]!
   }
 
   extend type Mutation {
@@ -20,15 +20,15 @@ export default gql`
 
   type UnlockedCourse {
     courseId: CourseId!
-    sections: [CourseSection!]!
+    sections: [UnlockedCourseSection!]!
   }
 
-  type CourseSection {
+  type UnlockedCourseSection {
     label: String!
-    items: [CourseItem!]!
+    items: [UnlockedCourseItem!]!
   }
 
-  type CourseItem {
+  type UnlockedCourseItem {
     kind: String!
     label: String!
     url: String!

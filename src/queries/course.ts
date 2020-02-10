@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
-export const GET_COURSES = gql`
+export const GET_UNLOCKED_COURSES = gql`
   query GetCourse {
-    courses {
+    unlockedCourses {
       courseId
       sections {
         label

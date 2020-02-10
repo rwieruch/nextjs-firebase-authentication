@@ -15,7 +15,7 @@ interface Resolvers {
 
 export const resolvers: Resolvers = {
   Query: {
-    courses: async (parent, args, { me }) => {
+    unlockedCourses: async (parent, args, { me }) => {
       const courses = await getCoursesById(me?.uid);
 
       if (!courses) {
@@ -56,6 +56,8 @@ export const resolvers: Resolvers = {
         },
         []
       );
+
+      console.log(unlockedCourses);
 
       return unlockedCourses;
     },
