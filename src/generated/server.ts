@@ -155,6 +155,9 @@ export type Subscription = {
 export type UnlockedCourse = {
    __typename?: 'UnlockedCourse',
   courseId: CourseId,
+  bundleId: BundleId,
+  header: Scalars['String'],
+  url: Scalars['String'],
   imageUrl: Scalars['String'],
   sections: Array<UnlockedCourseSection>,
 };
@@ -354,6 +357,9 @@ export type SubscriptionResolvers<ContextType = ResolverContext, ParentType exte
 
 export type UnlockedCourseResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['UnlockedCourse'] = ResolversParentTypes['UnlockedCourse']> = ResolversObject<{
   courseId?: Resolver<ResolversTypes['CourseId'], ParentType, ContextType>,
+  bundleId?: Resolver<ResolversTypes['BundleId'], ParentType, ContextType>,
+  header?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  url?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   imageUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   sections?: Resolver<Array<ResolversTypes['UnlockedCourseSection']>, ParentType, ContextType>,
   __isTypeOf?: isTypeOfResolverFn,

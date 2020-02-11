@@ -4,6 +4,8 @@ export const GET_UNLOCKED_COURSES = gql`
   query GetCourses {
     unlockedCourses {
       courseId
+      header
+      url
       imageUrl
     }
   }
@@ -13,6 +15,7 @@ export const GET_UNLOCKED_COURSE = gql`
   query GetCourse($courseId: CourseId!) {
     unlockedCourse(courseId: $courseId) {
       courseId
+      header
       sections {
         label
         items {

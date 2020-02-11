@@ -157,6 +157,9 @@ export type Subscription = {
 export type UnlockedCourse = {
    __typename?: 'UnlockedCourse',
   courseId: CourseId,
+  bundleId: BundleId,
+  header: Scalars['String'],
+  url: Scalars['String'],
   imageUrl: Scalars['String'],
   sections: Array<UnlockedCourseSection>,
 };
@@ -189,7 +192,7 @@ export type GetCoursesQuery = (
   { __typename?: 'Query' }
   & { unlockedCourses: Array<(
     { __typename?: 'UnlockedCourse' }
-    & Pick<UnlockedCourse, 'courseId' | 'imageUrl'>
+    & Pick<UnlockedCourse, 'courseId' | 'header' | 'url' | 'imageUrl'>
   )> }
 );
 
@@ -202,7 +205,7 @@ export type GetCourseQuery = (
   { __typename?: 'Query' }
   & { unlockedCourse: Maybe<(
     { __typename?: 'UnlockedCourse' }
-    & Pick<UnlockedCourse, 'courseId'>
+    & Pick<UnlockedCourse, 'courseId' | 'header'>
     & { sections: Array<(
       { __typename?: 'UnlockedCourseSection' }
       & Pick<UnlockedCourseSection, 'label'>
@@ -372,6 +375,8 @@ export const GetCoursesDocument = gql`
     query GetCourses {
   unlockedCourses {
     courseId
+    header
+    url
     imageUrl
   }
 }
@@ -405,6 +410,7 @@ export const GetCourseDocument = gql`
     query GetCourse($courseId: CourseId!) {
   unlockedCourse(courseId: $courseId) {
     courseId
+    header
     sections {
       label
       items {

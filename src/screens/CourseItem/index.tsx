@@ -51,7 +51,9 @@ const CourseItemPage: NextAuthPage = ({ data }) => {
               <a>Courses</a>
             </Link>
           </Breadcrumb.Item>
-          <Breadcrumb.Item>Road to React</Breadcrumb.Item>
+          <Breadcrumb.Item>
+            {data.unlockedCourse.header}
+          </Breadcrumb.Item>
         </Breadcrumb>
         <AntdLayout
           style={{
@@ -75,7 +77,8 @@ const CourseItemPage: NextAuthPage = ({ data }) => {
               ))}
             </Menu>
           </Sider>
-          <Content style={{ padding: '0 24px', minHeight: 280 }}>
+
+          <Content style={{ padding: '0 24px' }}>
             <Typography.Title>Course Dashboard</Typography.Title>
           </Content>
         </AntdLayout>

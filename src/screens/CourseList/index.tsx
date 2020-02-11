@@ -95,11 +95,6 @@ const CourseListPage: NextAuthPage = ({
       <StyledContent>
         <StyledCards>
           {unlockedCoursesData.unlockedCourses.map(course => {
-            const storefrontCourse = storefrontCoursesData.storefrontCourses.find(
-              storefrontCourse =>
-                storefrontCourse.courseId === course.courseId
-            );
-
             const actions = [
               <Link
                 href={ROUTES.UNLOCKED_COURSE_DETAILS}
@@ -111,7 +106,7 @@ const CourseListPage: NextAuthPage = ({
                   <Icon type="book" key="book" /> Get Started
                 </a>
               </Link>,
-              <ExternalCourseLink url={storefrontCourse?.url}>
+              <ExternalCourseLink url={course.url}>
                 <Icon type="unlock" key="unlock" /> Upgrade
               </ExternalCourseLink>,
             ];
@@ -120,7 +115,7 @@ const CourseListPage: NextAuthPage = ({
               <StyledCard
                 key={course.courseId}
                 cover={<Cover imageUrl={course.imageUrl} />}
-                title={storefrontCourse?.header}
+                title={course.header}
                 actions={actions}
               />
             );

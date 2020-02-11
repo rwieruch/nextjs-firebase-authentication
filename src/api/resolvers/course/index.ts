@@ -6,33 +6,29 @@ import {
   FirebaseCourse,
 } from '@services/firebase/course';
 
-import { COURSE } from '@data/course-keys';
-import { BUNDLE } from '@data/bundle-keys';
 import courseContent from '@data/courses';
-import bundleMeta from '@data/bundle-meta';
 import storefront from '@data/course-storefront';
 
 const mergeCourses = (courses: FirebaseCourse) =>
   Object.values(courses).reduce(
     (result: any[], course: FirebaseCourseContent) => {
-      const isRole = (section: any) =>
-        section.roles.includes(course.packageId);
+      const storefrontCourse = storefront[course.courseId];
+      const bundle = storefrontCourse.bundles[course.packageId];
 
-      const sections = courseContent[course.courseId].sections.filter(
-        isRole
+      const allowedSections = courseContent[
+        course.courseId
+      ].sections.filter(section =>
+        section.roles.includes(course.packageId)
       );
 
       const unlockedCourse = {
         courseId: course.courseId,
-        imageUrl:
-          storefront[course.courseId as COURSE].bundles[
-            course.packageId as BUNDLE
-          ].imageUrl,
-        weight:
-          bundleMeta[course.courseId as COURSE][
-            course.packageId as BUNDLE
-          ].weight,
-        sections,
+        bundleId: course.packageId,
+        header: storefrontCourse.header,
+        url: storefrontCourse.url,
+        imageUrl: bundle.imageUrl,
+        weight: bundle.weight,
+        sections: allowedSections,
       };
 
       const index = result.findIndex(
@@ -41,6 +37,19 @@ const mergeCourses = (courses: FirebaseCourse) =>
 
       const mergeIfSame = (prevCourse: any, i: number) => {
         if (i === index) {
+          const { courseId, header, url } = prevCourse;
+
+          const moreWeight =
+            prevCourse.weight >= unlockedCourse.weight;
+
+          const imageUrl = moreWeight
+            ? prevCourse.imageUrl
+            : unlockedCourse.imageUrl;
+
+          const bundleId = moreWeight
+            ? prevCourse.bundleId
+            : unlockedCourse.bundleId;
+
           const duplicatedSections = prevCourse.sections.concat(
             unlockedCourse.sections
           );
@@ -50,14 +59,16 @@ const mergeCourses = (courses: FirebaseCourse) =>
               duplicatedSections.indexOf(item) === index
           );
 
-          return {
-            courseId: prevCourse.courseId,
-            imageUrl:
-              prevCourse.weight >= unlockedCourse.weight
-                ? prevCourse.imageUrl
-                : unlockedCourse.imageUrl,
+          const mergedCourse = {
+            courseId,
+            bundleId,
+            header,
+            url,
+            imageUrl,
             sections,
           };
+
+          return mergedCourse;
         } else {
           return prevCourse;
         }
@@ -92,9 +103,11 @@ export const resolvers: Resolvers = {
 
       const unlockedCourses = mergeCourses(courses);
 
-      return Object.values(unlockedCourses).map(course => ({
-        courseId: course.courseId,
-        imageUrl: course.imageUrl,
+      return Object.values(unlockedCourses).map(unlockedCourse => ({
+        courseId: unlockedCourse.courseId,
+        header: unlockedCourse.header,
+        url: unlockedCourse.url,
+        imageUrl: unlockedCourse.imageUrl,
       }));
     },
     unlockedCourse: async (parent, { courseId }, { me }) => {
