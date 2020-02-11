@@ -34,6 +34,15 @@ export enum CourseId {
   TheRoadToReactWithFirebase = 'THE_ROAD_TO_REACT_WITH_FIREBASE'
 }
 
+export enum Kind {
+  Introduction = 'INTRODUCTION',
+  Onboarding = 'ONBOARDING',
+  BookDownload = 'BOOK_DOWNLOAD',
+  BookOnline = 'BOOK_ONLINE',
+  Article = 'ARTICLE',
+  Video = 'VIDEO'
+}
+
 export type Mutation = {
    __typename?: 'Mutation',
   _?: Maybe<Scalars['Boolean']>,
@@ -166,8 +175,9 @@ export type UnlockedCourse = {
 
 export type UnlockedCourseItem = {
    __typename?: 'UnlockedCourseItem',
-  kind: Scalars['String'],
+  kind: Kind,
   label: Scalars['String'],
+  description: Scalars['String'],
   url: Scalars['String'],
   fileName?: Maybe<Scalars['String']>,
   secondaryUrl?: Maybe<Scalars['String']>,
@@ -211,7 +221,7 @@ export type GetCourseQuery = (
       & Pick<UnlockedCourseSection, 'label'>
       & { items: Array<(
         { __typename?: 'UnlockedCourseItem' }
-        & Pick<UnlockedCourseItem, 'kind' | 'label' | 'url' | 'fileName' | 'secondaryUrl'>
+        & Pick<UnlockedCourseItem, 'kind' | 'label' | 'description' | 'url' | 'fileName' | 'secondaryUrl'>
       )> }
     )> }
   )> }
@@ -416,6 +426,7 @@ export const GetCourseDocument = gql`
       items {
         kind
         label
+        description
         url
         fileName
         secondaryUrl

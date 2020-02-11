@@ -35,10 +35,20 @@ export default gql`
   }
 
   type UnlockedCourseItem {
-    kind: String!
+    kind: Kind!
     label: String!
+    description: String!
     url: String!
     fileName: String
     secondaryUrl: String
+  }
+
+  enum Kind {
+    INTRODUCTION
+    ONBOARDING
+    BOOK_DOWNLOAD
+    BOOK_ONLINE
+    ARTICLE
+    VIDEO
   }
 `;

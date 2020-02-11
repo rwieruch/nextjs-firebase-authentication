@@ -11,8 +11,9 @@ export default {
       label: 'Introduction',
       items: [
         {
-          kind: 'introduction',
+          kind: 'INTRODUCTION',
           label: 'Introduction',
+          description: 'Lorem ipsum ...',
           url: 'https://vimeo.com/232967406',
         },
       ],
@@ -26,8 +27,9 @@ export default {
       label: 'Onboarding',
       items: [
         {
-          kind: 'onboarding',
+          kind: 'ONBOARDING',
           label: 'Onboarding',
+          description: 'Lorem ipsum ...',
           url: 'https://vimeo.com/232967406',
         },
       ],
@@ -41,20 +43,23 @@ export default {
       label: 'Book Download',
       items: [
         {
-          kind: 'book-download',
+          kind: 'BOOK_DOWNLOAD',
           label: 'The Road to React (PDF)',
+          description: 'Lorem ipsum ...',
           url: 'road-to-react/book.pdf',
           fileName: 'the-road-to-react.pdf',
         },
         {
-          kind: 'book-download',
+          kind: 'BOOK_DOWNLOAD',
           label: 'The Road to React (EPUB)',
+          description: 'Lorem ipsum ...',
           url: 'road-to-react/book.epub',
           fileName: 'the-road-to-react.epub',
         },
         {
-          kind: 'book-download',
+          kind: 'BOOK_DOWNLOAD',
           label: 'The Road to React (MOBI)',
+          description: 'Lorem ipsum ...',
           url: 'road-to-react/book.mobi',
           fileName: 'the-road-to-react.mobi',
         },
@@ -69,8 +74,9 @@ export default {
       label: 'Book Online',
       items: [
         {
-          kind: 'book-online',
+          kind: 'BOOK_ONLINE',
           label: 'The Road to React (Online)',
+          description: 'Lorem ipsum ...',
           url: 'some-url',
         },
       ],
@@ -83,8 +89,9 @@ export default {
       label: 'React Props',
       items: [
         {
-          kind: 'article',
+          kind: 'ARTICLE',
           label: 'React Props',
+          description: 'Lorem ipsum ...',
           url:
             'https://www.robinwieruch.de/react-pass-props-to-component',
         },
@@ -95,13 +102,15 @@ export default {
       label: 'React State',
       items: [
         {
-          kind: 'article',
+          kind: 'ARTICLE',
           label: 'React State',
+          description: 'Lorem ipsum ...',
           url: 'https://www.robinwieruch.de/react-state',
         },
         {
-          kind: 'article',
+          kind: 'ARTICLE',
           label: 'React Lift State',
+          description: 'Lorem ipsum ...',
           url: 'https://www.robinwieruch.de/react-lift-state',
           secondaryUrl:
             'https://github.com/the-road-to-learn-react/react-lift-state',
@@ -113,40 +122,47 @@ export default {
       label: 'React Snake',
       items: [
         {
-          kind: 'article',
+          kind: 'ARTICLE',
           label: 'React Lift State',
+          description: 'Lorem ipsum ...',
           url: 'https://www.robinwieruch.de/react-lift-state',
           secondaryUrl:
             'https://github.com/the-road-to-learn-react/react-lift-state',
         },
         {
-          kind: 'video',
+          kind: 'VIDEO',
           label: 'React Snake: Part 0',
+          description: 'Lorem ipsum ...',
           url: 'https://vimeo.com/232967309',
         },
         {
-          kind: 'video',
+          kind: 'VIDEO',
           label: 'React Snake: Part 1',
+          description: 'Lorem ipsum ...',
           url: 'https://vimeo.com/232967406',
         },
         {
-          kind: 'video',
+          kind: 'VIDEO',
           label: 'React Snake: Part 2',
+          description: 'Lorem ipsum ...',
           url: 'https://vimeo.com/232967819',
         },
         {
-          kind: 'video',
+          kind: 'VIDEO',
           label: 'React Snake: Part 3',
+          description: 'Lorem ipsum ...',
           url: 'https://vimeo.com/232968000',
         },
         {
-          kind: 'video',
+          kind: 'VIDEO',
           label: 'React Snake: Part 4',
+          description: 'Lorem ipsum ...',
           url: 'https://vimeo.com/232968363',
         },
         {
-          kind: 'video',
+          kind: 'VIDEO',
           label: 'React Snake: Part 5',
+          description: 'Lorem ipsum ...',
           url: 'https://vimeo.com/232968722',
         },
       ],

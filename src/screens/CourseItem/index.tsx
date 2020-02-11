@@ -2,12 +2,7 @@ import React from 'react';
 import { NextPage } from 'next';
 import Link from 'next/link';
 import styled from 'styled-components';
-import {
-  Typography,
-  Layout as AntdLayout,
-  Breadcrumb,
-  Menu,
-} from 'antd';
+import { Layout as AntdLayout, Breadcrumb, Menu } from 'antd';
 
 import { UnlockedCourse } from '@generated/client';
 import { Session } from '@typeDefs/session';
@@ -15,6 +10,8 @@ import * as ROUTES from '@constants/routes';
 import { GET_UNLOCKED_COURSE } from '@queries/course';
 import Layout from '@components/Layout';
 import { kebabCaseToUpperSnakeCase } from '@services/string';
+
+import CourseSection from './CourseSection';
 
 const { Content, Sider } = AntdLayout;
 
@@ -36,9 +33,15 @@ type NextAuthPage = NextPage<CourseItemPageProps> & {
 };
 
 const CourseItemPage: NextAuthPage = ({ data }) => {
+  const [selectedSection, setSelectedSection] = React.useState(0);
+
   if (!data.unlockedCourse) {
     return null;
   }
+
+  const handleSelectSection = (index: number) => {
+    setSelectedSection(index);
+  };
 
   console.log(data.unlockedCourse);
 
@@ -65,13 +68,14 @@ const CourseItemPage: NextAuthPage = ({ data }) => {
           <Sider width={200} style={{ background: '#fff' }}>
             <Menu
               mode="inline"
-              defaultSelectedKeys={[
-                data.unlockedCourse?.sections[0].label || '0',
-              ]}
+              defaultSelectedKeys={[selectedSection.toString()]}
               style={{ height: '100%' }}
             >
-              {data.unlockedCourse?.sections.map(section => (
-                <Menu.Item key={section.label}>
+              {data.unlockedCourse?.sections.map((section, index) => (
+                <Menu.Item
+                  key={index}
+                  onClick={() => handleSelectSection(index)}
+                >
                   <span>{section.label}</span>
                 </Menu.Item>
               ))}
@@ -79,7 +83,9 @@ const CourseItemPage: NextAuthPage = ({ data }) => {
           </Sider>
 
           <Content style={{ padding: '0 24px' }}>
-            <Typography.Title>Course Dashboard</Typography.Title>
+            <CourseSection
+              section={data.unlockedCourse?.sections[selectedSection]}
+            />
           </Content>
         </AntdLayout>
       </StyledContent>

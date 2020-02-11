@@ -21,6 +21,7 @@ export const GET_UNLOCKED_COURSE = gql`
         items {
           kind
           label
+          description
           url
           fileName
           secondaryUrl

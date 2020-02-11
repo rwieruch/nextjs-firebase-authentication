@@ -32,6 +32,15 @@ export enum CourseId {
   TheRoadToReactWithFirebase = 'THE_ROAD_TO_REACT_WITH_FIREBASE'
 }
 
+export enum Kind {
+  Introduction = 'INTRODUCTION',
+  Onboarding = 'ONBOARDING',
+  BookDownload = 'BOOK_DOWNLOAD',
+  BookOnline = 'BOOK_ONLINE',
+  Article = 'ARTICLE',
+  Video = 'VIDEO'
+}
+
 export type Mutation = {
    __typename?: 'Mutation',
   _?: Maybe<Scalars['Boolean']>,
@@ -164,8 +173,9 @@ export type UnlockedCourse = {
 
 export type UnlockedCourseItem = {
    __typename?: 'UnlockedCourseItem',
-  kind: Scalars['String'],
+  kind: Kind,
   label: Scalars['String'],
+  description: Scalars['String'],
   url: Scalars['String'],
   fileName?: Maybe<Scalars['String']>,
   secondaryUrl?: Maybe<Scalars['String']>,
@@ -269,6 +279,7 @@ export type ResolversTypes = ResolversObject<{
   UnlockedCourse: ResolverTypeWrapper<any>,
   UnlockedCourseSection: ResolverTypeWrapper<any>,
   UnlockedCourseItem: ResolverTypeWrapper<any>,
+  Kind: ResolverTypeWrapper<any>,
   Mutation: ResolverTypeWrapper<{}>,
   SessionToken: ResolverTypeWrapper<any>,
   OrderId: ResolverTypeWrapper<any>,
@@ -290,6 +301,7 @@ export type ResolversParentTypes = ResolversObject<{
   UnlockedCourse: any,
   UnlockedCourseSection: any,
   UnlockedCourseItem: any,
+  Kind: any,
   Mutation: {},
   SessionToken: any,
   OrderId: any,
@@ -366,8 +378,9 @@ export type UnlockedCourseResolvers<ContextType = ResolverContext, ParentType ex
 }>;
 
 export type UnlockedCourseItemResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['UnlockedCourseItem'] = ResolversParentTypes['UnlockedCourseItem']> = ResolversObject<{
-  kind?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  kind?: Resolver<ResolversTypes['Kind'], ParentType, ContextType>,
   label?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  description?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   url?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   fileName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   secondaryUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,

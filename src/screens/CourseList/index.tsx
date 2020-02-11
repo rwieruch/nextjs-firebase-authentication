@@ -2,13 +2,7 @@ import React from 'react';
 import { NextPage } from 'next';
 import Link from 'next/link';
 import styled from 'styled-components';
-import {
-  Typography,
-  Layout as AntdLayout,
-  Menu,
-  Icon,
-  Card,
-} from 'antd';
+import { Layout as AntdLayout, Card, Icon } from 'antd';
 
 import * as ROUTES from '@constants/routes';
 import { upperSnakeCaseToKebabCase } from '@services/string';
@@ -17,6 +11,7 @@ import { GET_UNLOCKED_COURSES } from '@queries/course';
 import { GET_STOREFRONT_COURSES } from '@queries/storefront';
 import { Session } from '@typeDefs/session';
 import Layout from '@components/Layout';
+import ExternalLink from '@components/ExternalLink';
 
 const { Content } = AntdLayout;
 
@@ -41,20 +36,6 @@ const StyledCards = styled.div`
   grid-template-columns: repeat(auto-fit, minmax(200px, 300px));
   grid-gap: 16px;
 `;
-
-type ExternalCourseLinkProps = {
-  url?: string;
-  children: React.ReactNode;
-};
-
-const ExternalCourseLink = ({
-  url,
-  children,
-}: ExternalCourseLinkProps) => (
-  <a href={url} target="_blank" rel="noopener noreferrer">
-    {children}
-  </a>
-);
 
 type CoverProps = {
   imageUrl: string | null | undefined;
@@ -106,9 +87,9 @@ const CourseListPage: NextAuthPage = ({
                   <Icon type="book" key="book" /> Get Started
                 </a>
               </Link>,
-              <ExternalCourseLink url={course.url}>
+              <ExternalLink url={course.url}>
                 <Icon type="unlock" key="unlock" /> Upgrade
-              </ExternalCourseLink>,
+              </ExternalLink>,
             ];
 
             return (
@@ -125,9 +106,9 @@ const CourseListPage: NextAuthPage = ({
             .filter(isUnlocked)
             .map(storefrontCourse => {
               const actions = [
-                <ExternalCourseLink url={storefrontCourse.url}>
+                <ExternalLink url={storefrontCourse.url}>
                   <Icon type="unlock" key="unlock" /> Unlock Course
-                </ExternalCourseLink>,
+                </ExternalLink>,
               ];
 
               return (
