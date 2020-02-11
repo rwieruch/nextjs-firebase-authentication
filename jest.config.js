@@ -13,6 +13,7 @@ module.exports = {
     '^@constants(.*)$': '<rootDir>/src/constants$1',
     '^@context(.*)$': '<rootDir>/src/context$1',
     '^@queries(.*)$': '<rootDir>/src/queries$1',
+    '^@data(.*)$': '<rootDir>/src/data$1',
     '^@typeDefs(.*)$': '<rootDir>/src/types$1',
     '^@generated(.*)$': '<rootDir>/src/generated$1',
   },

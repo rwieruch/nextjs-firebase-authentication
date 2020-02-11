@@ -6,12 +6,11 @@ import {
   FirebaseCourse,
 } from '@services/firebase/course';
 
-import { COURSE } from '../../../../content/course-keys';
-import { BUNDLE } from '../../../../content/bundle-keys';
-
-import courseContent from '../../../../content/courses';
-import bundleMeta from '../../../../content/bundle-meta';
-import storefront from '../../../../content/course-storefront';
+import { COURSE } from '@data/course-keys';
+import { BUNDLE } from '@data/bundle-keys';
+import courseContent from '@data/courses';
+import bundleMeta from '@data/bundle-meta';
+import storefront from '@data/course-storefront';
 
 const mergeCourses = (courses: FirebaseCourse) =>
   Object.values(courses).reduce(

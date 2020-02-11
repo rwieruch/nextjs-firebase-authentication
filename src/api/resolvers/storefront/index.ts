@@ -1,5 +1,6 @@
 import { QueryResolvers } from '@generated/server';
-import storefront from '../../../../content/course-storefront';
+
+import storefront from '@data/course-storefront';
 
 interface Resolvers {
   Query: QueryResolvers;

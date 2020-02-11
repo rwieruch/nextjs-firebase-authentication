@@ -6,7 +6,7 @@ import { getAsDiscount } from '@services/coupon';
 import paypalClient from '@services/paypal';
 import { createCourse } from '@services/firebase/course';
 
-import storefront from '../../../../content/course-storefront';
+import storefront from '@data/course-storefront';
 
 interface Resolvers {
   Mutation: MutationResolvers;

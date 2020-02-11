@@ -12,3 +12,4 @@ yarn-error.log*
 
 firebaseServiceAccountKey.json
 content/
+src/data/course

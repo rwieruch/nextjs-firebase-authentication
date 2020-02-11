@@ -1,8 +1,8 @@
 import { rule } from 'graphql-shield';
 
-import storefront from '../../../content/course-storefront';
-import { COURSE } from '../../../content/course-keys';
-import { BUNDLE } from '../../../content/course-keys';
+import storefront from '@data/course-storefront';
+import { COURSE } from '@data/course-keys';
+import { BUNDLE } from '@data/bundle-keys';
 
 export const isFreeCourse = rule()(
   async (

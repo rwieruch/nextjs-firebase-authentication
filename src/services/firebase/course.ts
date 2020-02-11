@@ -2,8 +2,8 @@ import * as firebaseAdminVanilla from 'firebase-admin';
 
 import firebaseAdmin from '@services/firebase/admin';
 
-import { COURSE } from '../../../content/course-keys';
-import { BUNDLE } from '../../../content/course-keys';
+import { COURSE } from '@data/course-keys';
+import { BUNDLE } from '@data/bundle-keys';
 
 export const createCourse = async ({
   uid,

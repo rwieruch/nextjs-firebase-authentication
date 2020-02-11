@@ -23,6 +23,7 @@
       "@constants/*": ["./src/constants/*"],
       "@context/*": ["./src/context/*"],
       "@queries/*": ["./src/queries/*"],
+      "@data/*": ["./src/data/*"],
       "@typeDefs/*": ["./src/types/*"],
       "@generated/*": ["./src/generated/*"]
     }
