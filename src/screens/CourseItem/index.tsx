@@ -1,36 +1,28 @@
 import React from 'react';
 import { NextPage } from 'next';
+import Link from 'next/link';
 import styled from 'styled-components';
-import { Typography, Layout as AntdLayout, Menu, Icon } from 'antd';
+import {
+  Typography,
+  Layout as AntdLayout,
+  Breadcrumb,
+  Menu,
+} from 'antd';
 
 import { UnlockedCourse } from '@generated/client';
 import { Session } from '@typeDefs/session';
+import * as ROUTES from '@constants/routes';
 import { GET_UNLOCKED_COURSE } from '@queries/course';
-import Layout, { Footer } from '@components/Layout';
+import Layout from '@components/Layout';
 import { kebabCaseToUpperSnakeCase } from '@services/string';
 
 const { Content, Sider } = AntdLayout;
 
 const StyledContent = styled(Content)`
-  margin: calc(56px + 32px) 32px 32px;
-`;
+  margin: calc(56px) 32px 0px;
 
-const StyledInnerContent = styled(Content)`
-  margin: 32px;
-`;
-
-const StyledSider = styled(Sider)`
-  overflow: auto;
-  height: 100vh;
-  width: 200px;
-  background: #fff;
-  position: fixed;
-  top: 56px;
-`;
-
-const StyledInnerLayout = styled(AntdLayout)`
-  margin-left: 200px;
-  margin-top: 56px;
+  display: flex;
+  flex-direction: column;
 `;
 
 interface CourseItemPageProps {
@@ -51,30 +43,43 @@ const CourseItemPage: NextAuthPage = ({ data }) => {
   console.log(data.unlockedCourse);
 
   return (
-    <Layout noFooter>
-      <StyledSider>
-        <Menu
-          mode="inline"
-          defaultSelectedKeys={[
-            data.unlockedCourse?.sections[0].label || '0',
-          ]}
+    <Layout>
+      <StyledContent>
+        <Breadcrumb style={{ flex: '0', margin: '16px 0' }}>
+          <Breadcrumb.Item>
+            <Link href={ROUTES.INDEX}>
+              <a>Courses</a>
+            </Link>
+          </Breadcrumb.Item>
+          <Breadcrumb.Item>Road to React</Breadcrumb.Item>
+        </Breadcrumb>
+        <AntdLayout
+          style={{
+            flex: '1',
+            padding: '24px 0',
+            background: '#fff',
+          }}
         >
-          {data.unlockedCourse?.sections.map(section => (
-            <Menu.Item key={section.label}>
-              <span>{section.label}</span>
-            </Menu.Item>
-          ))}
-        </Menu>
-      </StyledSider>
-
-      <StyledInnerLayout>
-        <>
-          <StyledInnerContent>
+          <Sider width={200} style={{ background: '#fff' }}>
+            <Menu
+              mode="inline"
+              defaultSelectedKeys={[
+                data.unlockedCourse?.sections[0].label || '0',
+              ]}
+              style={{ height: '100%' }}
+            >
+              {data.unlockedCourse?.sections.map(section => (
+                <Menu.Item key={section.label}>
+                  <span>{section.label}</span>
+                </Menu.Item>
+              ))}
+            </Menu>
+          </Sider>
+          <Content style={{ padding: '0 24px', minHeight: 280 }}>
             <Typography.Title>Course Dashboard</Typography.Title>
-          </StyledInnerContent>
-          <Footer />
-        </>
-      </StyledInnerLayout>
+          </Content>
+        </AntdLayout>
+      </StyledContent>
     </Layout>
   );
 };
