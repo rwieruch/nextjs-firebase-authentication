@@ -157,6 +157,7 @@ export type Subscription = {
 export type UnlockedCourse = {
    __typename?: 'UnlockedCourse',
   courseId: CourseId,
+  imageUrl: Scalars['String'],
   sections: Array<UnlockedCourseSection>,
 };
 
@@ -188,7 +189,7 @@ export type GetCoursesQuery = (
   { __typename?: 'Query' }
   & { unlockedCourses: Array<(
     { __typename?: 'UnlockedCourse' }
-    & Pick<UnlockedCourse, 'courseId'>
+    & Pick<UnlockedCourse, 'courseId' | 'imageUrl'>
   )> }
 );
 
@@ -371,6 +372,7 @@ export const GetCoursesDocument = gql`
     query GetCourses {
   unlockedCourses {
     courseId
+    imageUrl
   }
 }
     `;

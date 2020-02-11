@@ -6,52 +6,72 @@ import {
   FirebaseCourse,
 } from '@services/firebase/course';
 
+import { COURSE } from '../../../../content/course-keys';
+import { BUNDLE } from '../../../../content/bundle-keys';
+
 import courseContent from '../../../../content/courses';
+import bundleMeta from '../../../../content/bundle-meta';
+import storefront from '../../../../content/course-storefront';
 
 const mergeCourses = (courses: FirebaseCourse) =>
-  Object.values(courses).reduce((result: any[], course) => {
-    const isRole = (section: any) =>
-      section.roles.includes(course.packageId);
+  Object.values(courses).reduce(
+    (result: any[], course: FirebaseCourseContent) => {
+      const isRole = (section: any) =>
+        section.roles.includes(course.packageId);
 
-    const sections = courseContent[course.courseId].sections.filter(
-      isRole
-    );
+      const sections = courseContent[course.courseId].sections.filter(
+        isRole
+      );
 
-    const unlockedCourse = {
-      courseId: course.courseId,
-      sections,
-    };
+      const unlockedCourse = {
+        courseId: course.courseId,
+        imageUrl:
+          storefront[course.courseId as COURSE].bundles[
+            course.packageId as BUNDLE
+          ].imageUrl,
+        weight:
+          bundleMeta[course.courseId as COURSE][
+            course.packageId as BUNDLE
+          ].weight,
+        sections,
+      };
 
-    const index = result.findIndex(
-      prevCourse => prevCourse.courseId === course.courseId
-    );
+      const index = result.findIndex(
+        prevCourse => prevCourse.courseId === course.courseId
+      );
 
-    const mergeIfSame = (prevCourse: any, i: number) => {
-      if (i === index) {
-        const duplicatedSections = prevCourse.sections.concat(
-          unlockedCourse.sections
-        );
+      const mergeIfSame = (prevCourse: any, i: number) => {
+        if (i === index) {
+          const duplicatedSections = prevCourse.sections.concat(
+            unlockedCourse.sections
+          );
 
-        const sections = duplicatedSections.filter(
-          (item: any, index: number) =>
-            duplicatedSections.indexOf(item) === index
-        );
+          const sections = duplicatedSections.filter(
+            (item: any, index: number) =>
+              duplicatedSections.indexOf(item) === index
+          );
 
-        return {
-          courseId: prevCourse.courseId,
-          sections,
-        };
+          return {
+            courseId: prevCourse.courseId,
+            imageUrl:
+              prevCourse.weight >= unlockedCourse.weight
+                ? prevCourse.imageUrl
+                : unlockedCourse.imageUrl,
+            sections,
+          };
+        } else {
+          return prevCourse;
+        }
+      };
+
+      if (index > -1) {
+        return result.map(mergeIfSame);
       } else {
-        return prevCourse;
+        return result.concat(unlockedCourse);
       }
-    };
-
-    if (index > -1) {
-      return result.map(mergeIfSame);
-    } else {
-      return result.concat(unlockedCourse);
-    }
-  }, []);
+    },
+    []
+  );
 
 interface Resolvers {
   Query: QueryResolvers;
@@ -75,6 +95,7 @@ export const resolvers: Resolvers = {
 
       return Object.values(unlockedCourses).map(course => ({
         courseId: course.courseId,
+        imageUrl: course.imageUrl,
       }));
     },
     unlockedCourse: async (parent, { courseId }, { me }) => {

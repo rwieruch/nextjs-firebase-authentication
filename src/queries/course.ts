@@ -4,6 +4,7 @@ export const GET_UNLOCKED_COURSES = gql`
   query GetCourses {
     unlockedCourses {
       courseId
+      imageUrl
     }
   }
 `;

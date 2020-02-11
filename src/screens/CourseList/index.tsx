@@ -119,9 +119,7 @@ const CourseListPage: NextAuthPage = ({
             return (
               <StyledCard
                 key={course.courseId}
-                cover={
-                  <Cover imageUrl={storefrontCourse?.imageUrl} />
-                }
+                cover={<Cover imageUrl={course.imageUrl} />}
                 title={storefrontCourse?.header}
                 actions={actions}
               />

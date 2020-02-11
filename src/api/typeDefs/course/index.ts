@@ -22,6 +22,7 @@ export default gql`
 
   type UnlockedCourse {
     courseId: CourseId!
+    imageUrl: String!
     sections: [UnlockedCourseSection!]!
   }
 
