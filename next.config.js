@@ -33,6 +33,10 @@ const nextConfig = {
     SLACK_TOKEN: process.env.SLACK_TOKEN,
     CONVERTKIT_API_KEY: process.env.CONVERTKIT_API_KEY,
     CONVERTKIT_FORM_ID: process.env.CONVERTKIT_FORM_ID,
+    S3_ENDPOINT: process.env.S3_ENDPOINT,
+    S3_ACCESS_KEY_ID: process.env.S3_ACCESS_KEY_ID,
+    S3_SECRET_ACCESS_KEY: process.env.S3_SECRET_ACCESS_KEY,
+    S3_BUCKET: process.env.S3_BUCKET,
   },
 };
 

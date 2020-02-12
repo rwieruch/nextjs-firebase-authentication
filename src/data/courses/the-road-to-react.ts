@@ -11,7 +11,7 @@ export default {
       label: 'Introduction',
       items: [
         {
-          kind: 'INTRODUCTION',
+          kind: 'Introduction',
           label: 'Introduction',
           description: 'Lorem ipsum ...',
           url: 'https://vimeo.com/232967406',
@@ -27,7 +27,7 @@ export default {
       label: 'Onboarding',
       items: [
         {
-          kind: 'ONBOARDING',
+          kind: 'Onboarding',
           label: 'Onboarding',
           description: 'Lorem ipsum ...',
           url: 'https://vimeo.com/232967406',
@@ -43,21 +43,21 @@ export default {
       label: 'Book Download',
       items: [
         {
-          kind: 'BOOK_DOWNLOAD',
+          kind: 'BookDownload',
           label: 'The Road to React (PDF)',
           description: 'Lorem ipsum ...',
           url: 'road-to-react/book.pdf',
           fileName: 'the-road-to-react.pdf',
         },
         {
-          kind: 'BOOK_DOWNLOAD',
+          kind: 'BookDownload',
           label: 'The Road to React (EPUB)',
           description: 'Lorem ipsum ...',
           url: 'road-to-react/book.epub',
           fileName: 'the-road-to-react.epub',
         },
         {
-          kind: 'BOOK_DOWNLOAD',
+          kind: 'BookDownload',
           label: 'The Road to React (MOBI)',
           description: 'Lorem ipsum ...',
           url: 'road-to-react/book.mobi',
@@ -74,7 +74,7 @@ export default {
       label: 'Book Online',
       items: [
         {
-          kind: 'BOOK_ONLINE',
+          kind: 'BookOnline',
           label: 'The Road to React (Online)',
           description: 'Lorem ipsum ...',
           url: 'some-url',
@@ -89,7 +89,7 @@ export default {
       label: 'React Props',
       items: [
         {
-          kind: 'ARTICLE',
+          kind: 'Article',
           label: 'React Props',
           description: 'Lorem ipsum ...',
           url:
@@ -102,13 +102,13 @@ export default {
       label: 'React State',
       items: [
         {
-          kind: 'ARTICLE',
+          kind: 'Article',
           label: 'React State',
           description: 'Lorem ipsum ...',
           url: 'https://www.robinwieruch.de/react-state',
         },
         {
-          kind: 'ARTICLE',
+          kind: 'Article',
           label: 'React Lift State',
           description: 'Lorem ipsum ...',
           url: 'https://www.robinwieruch.de/react-lift-state',
@@ -122,7 +122,7 @@ export default {
       label: 'React Snake',
       items: [
         {
-          kind: 'ARTICLE',
+          kind: 'Article',
           label: 'React Lift State',
           description: 'Lorem ipsum ...',
           url: 'https://www.robinwieruch.de/react-lift-state',
@@ -130,37 +130,37 @@ export default {
             'https://github.com/the-road-to-learn-react/react-lift-state',
         },
         {
-          kind: 'VIDEO',
+          kind: 'Video',
           label: 'React Snake: Part 0',
           description: 'Lorem ipsum ...',
           url: 'https://vimeo.com/232967309',
         },
         {
-          kind: 'VIDEO',
+          kind: 'Video',
           label: 'React Snake: Part 1',
           description: 'Lorem ipsum ...',
           url: 'https://vimeo.com/232967406',
         },
         {
-          kind: 'VIDEO',
+          kind: 'Video',
           label: 'React Snake: Part 2',
           description: 'Lorem ipsum ...',
           url: 'https://vimeo.com/232967819',
         },
         {
-          kind: 'VIDEO',
+          kind: 'Video',
           label: 'React Snake: Part 3',
           description: 'Lorem ipsum ...',
           url: 'https://vimeo.com/232968000',
         },
         {
-          kind: 'VIDEO',
+          kind: 'Video',
           label: 'React Snake: Part 4',
           description: 'Lorem ipsum ...',
           url: 'https://vimeo.com/232968363',
         },
         {
-          kind: 'VIDEO',
+          kind: 'Video',
           label: 'React Snake: Part 5',
           description: 'Lorem ipsum ...',
           url: 'https://vimeo.com/232968722',

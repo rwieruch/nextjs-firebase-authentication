@@ -32,13 +32,20 @@ export enum CourseId {
   TheRoadToReactWithFirebase = 'THE_ROAD_TO_REACT_WITH_FIREBASE'
 }
 
+export type File = {
+   __typename?: 'File',
+  fileName: Scalars['String'],
+  contentType: Scalars['String'],
+  body: Scalars['String'],
+};
+
 export enum Kind {
-  Introduction = 'INTRODUCTION',
-  Onboarding = 'ONBOARDING',
-  BookDownload = 'BOOK_DOWNLOAD',
-  BookOnline = 'BOOK_ONLINE',
-  Article = 'ARTICLE',
-  Video = 'VIDEO'
+  Introduction = 'Introduction',
+  Onboarding = 'Onboarding',
+  BookDownload = 'BookDownload',
+  BookOnline = 'BookOnline',
+  Article = 'Article',
+  Video = 'Video'
 }
 
 export type Mutation = {
@@ -124,6 +131,7 @@ export type Query = {
   storefrontCourses: Array<StorefrontCourse>,
   unlockedCourses: Array<UnlockedCourse>,
   unlockedCourse?: Maybe<UnlockedCourse>,
+  book: File,
 };
 
 
@@ -135,6 +143,12 @@ export type QueryStorefrontCourseArgs = {
 
 export type QueryUnlockedCourseArgs = {
   courseId: CourseId
+};
+
+
+export type QueryBookArgs = {
+  path: Scalars['String'],
+  fileName: Scalars['String']
 };
 
 export type SessionToken = {
@@ -280,6 +294,7 @@ export type ResolversTypes = ResolversObject<{
   UnlockedCourseSection: ResolverTypeWrapper<any>,
   UnlockedCourseItem: ResolverTypeWrapper<any>,
   Kind: ResolverTypeWrapper<any>,
+  File: ResolverTypeWrapper<any>,
   Mutation: ResolverTypeWrapper<{}>,
   SessionToken: ResolverTypeWrapper<any>,
   OrderId: ResolverTypeWrapper<any>,
@@ -302,6 +317,7 @@ export type ResolversParentTypes = ResolversObject<{
   UnlockedCourseSection: any,
   UnlockedCourseItem: any,
   Kind: any,
+  File: any,
   Mutation: {},
   SessionToken: any,
   OrderId: any,
@@ -314,6 +330,13 @@ export type BundleResolvers<ContextType = ResolverContext, ParentType extends Re
   bundleId?: Resolver<ResolversTypes['BundleId'], ParentType, ContextType>,
   price?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
   imageUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  __isTypeOf?: isTypeOfResolverFn,
+}>;
+
+export type FileResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['File'] = ResolversParentTypes['File']> = ResolversObject<{
+  fileName?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  contentType?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  body?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   __isTypeOf?: isTypeOfResolverFn,
 }>;
 
@@ -342,6 +365,7 @@ export type QueryResolvers<ContextType = ResolverContext, ParentType extends Res
   storefrontCourses?: Resolver<Array<ResolversTypes['StorefrontCourse']>, ParentType, ContextType>,
   unlockedCourses?: Resolver<Array<ResolversTypes['UnlockedCourse']>, ParentType, ContextType>,
   unlockedCourse?: Resolver<Maybe<ResolversTypes['UnlockedCourse']>, ParentType, ContextType, RequireFields<QueryUnlockedCourseArgs, 'courseId'>>,
+  book?: Resolver<ResolversTypes['File'], ParentType, ContextType, RequireFields<QueryBookArgs, 'path' | 'fileName'>>,
 }>;
 
 export type SessionTokenResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['SessionToken'] = ResolversParentTypes['SessionToken']> = ResolversObject<{
@@ -401,6 +425,7 @@ export type UserResolvers<ContextType = ResolverContext, ParentType extends Reso
 
 export type Resolvers<ContextType = ResolverContext> = ResolversObject<{
   Bundle?: BundleResolvers<ContextType>,
+  File?: FileResolvers<ContextType>,
   Mutation?: MutationResolvers<ContextType>,
   OrderId?: OrderIdResolvers<ContextType>,
   Query?: QueryResolvers<ContextType>,

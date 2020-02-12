@@ -1,51 +1,98 @@
 import React from 'react';
-import styled from 'styled-components';
-import { Icon, Card } from 'antd';
+import { useApolloClient } from '@apollo/react-hooks';
+import { Icon, Button } from 'antd';
+import FileSaver from 'file-saver';
+import b64toBlob from 'b64-to-blob';
 
-import { UnlockedCourseSection } from '@generated/client';
+import {
+  UnlockedCourseSection,
+  UnlockedCourseItem,
+} from '@generated/client';
+import { GET_BOOK } from '@queries/book';
 import ExternalLink from '@components/ExternalLink';
 
-const StyledCard = styled(Card)`
-  min-width: 200px;
-  max-width: 300px;
+import { StyledCard, StyledCards } from './styles';
 
-  height: 100%;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-
-  .ant-card-body {
-    flex: 1;
-  }
-`;
-
-const StyledCards = styled.div`
-  margin: 16px;
-
-  display: grid;
-  align-items: center;
-  grid-auto-rows: 1fr;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 300px));
-  grid-gap: 16px;
-`;
-
-const ICONS = {
-  INTRODUCTION: <Icon type="star" />,
-  ONBOARDING: <Icon type="compass" />,
-  BOOK_DOWNLOAD: <Icon type="book" />,
-  BOOK_ONLINE: <Icon type="cloud" />,
-  ARTICLE: <Icon type="read" />,
-  VIDEO: <Icon type="video-camera" />,
+const ITEM_ICONS = {
+  Introduction: <Icon type="star" />,
+  Onboarding: <Icon type="compass" />,
+  BookDownload: <Icon type="book" />,
+  BookOnline: <Icon type="cloud" />,
+  Article: <Icon type="read" />,
+  Video: <Icon type="video-camera" />,
 };
 
-const ACTIONS = {
-  INTRODUCTION: 'Bar',
-  ONBOARDING: 'Foo',
-  BOOK_DOWNLOAD: 'Download',
-  BOOK_ONLINE: 'Read',
-  ARTICLE: 'Read',
-  VIDEO: 'Watch',
+const ACTIONS_LABEL = {
+  Introduction: 'Bar',
+  Onboarding: 'Foo',
+  BookDownload: 'Download',
+  BookOnline: 'Read',
+  Article: 'Read',
+  Video: 'Watch',
+};
+
+const getCommonActions = (item: UnlockedCourseItem) => {
+  let actions = [
+    <ExternalLink url={item.url}>
+      {ACTIONS_LABEL[item.kind]}
+    </ExternalLink>,
+  ];
+
+  if (item.secondaryUrl) {
+    actions = actions.concat(
+      <ExternalLink url={item.secondaryUrl}>More</ExternalLink>
+    );
+  }
+
+  return actions;
+};
+
+const getBookDownloadActions = (item: UnlockedCourseItem) => {
+  const apolloClient = useApolloClient();
+
+  const [isLoading, setIsLoading] = React.useState(false);
+
+  const onDownload = async () => {
+    setIsLoading(true);
+
+    const { data } = await apolloClient.query({
+      query: GET_BOOK,
+      variables: {
+        path: item.url,
+        fileName: item.fileName || '',
+      },
+    });
+
+    setIsLoading(false);
+
+    const { fileName, body, contentType } = data.book;
+
+    const blob = b64toBlob(body, contentType);
+    FileSaver.saveAs(blob, fileName);
+  };
+
+  let actions = [
+    <Button loading={isLoading} type="link" onClick={onDownload}>
+      {ACTIONS_LABEL[item.kind]}
+    </Button>,
+  ];
+
+  return actions;
+};
+
+const getActions = (item: UnlockedCourseItem) => {
+  switch (item.kind) {
+    case 'Introduction':
+    case 'Onboarding':
+    case 'BookOnline':
+    case 'Article':
+    case 'Video':
+      return getCommonActions(item);
+    case 'BookDownload':
+      return getBookDownloadActions(item);
+    default:
+      return [];
+  }
 };
 
 type CourseSectionProps = {
@@ -56,23 +103,13 @@ const CourseSection = ({ section }: CourseSectionProps) => {
   return (
     <StyledCards>
       {section.items.map(item => {
-        let actions = [
-          <ExternalLink url={item.url}>
-            {ACTIONS[item.kind]}
-          </ExternalLink>,
-        ];
-
-        if (item.secondaryUrl) {
-          actions = actions.concat(
-            <ExternalLink url={item.secondaryUrl}>More</ExternalLink>
-          );
-        }
+        const actions = getActions(item);
 
         return (
           <StyledCard
             title={
               <>
-                {ICONS[item.kind]} {item.label}
+                {ITEM_ICONS[item.kind]} {item.label}
               </>
             }
             actions={actions}

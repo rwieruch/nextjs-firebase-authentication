@@ -34,13 +34,20 @@ export enum CourseId {
   TheRoadToReactWithFirebase = 'THE_ROAD_TO_REACT_WITH_FIREBASE'
 }
 
+export type File = {
+   __typename?: 'File',
+  fileName: Scalars['String'],
+  contentType: Scalars['String'],
+  body: Scalars['String'],
+};
+
 export enum Kind {
-  Introduction = 'INTRODUCTION',
-  Onboarding = 'ONBOARDING',
-  BookDownload = 'BOOK_DOWNLOAD',
-  BookOnline = 'BOOK_ONLINE',
-  Article = 'ARTICLE',
-  Video = 'VIDEO'
+  Introduction = 'Introduction',
+  Onboarding = 'Onboarding',
+  BookDownload = 'BookDownload',
+  BookOnline = 'BookOnline',
+  Article = 'Article',
+  Video = 'Video'
 }
 
 export type Mutation = {
@@ -126,6 +133,7 @@ export type Query = {
   storefrontCourses: Array<StorefrontCourse>,
   unlockedCourses: Array<UnlockedCourse>,
   unlockedCourse?: Maybe<UnlockedCourse>,
+  book: File,
 };
 
 
@@ -137,6 +145,12 @@ export type QueryStorefrontCourseArgs = {
 
 export type QueryUnlockedCourseArgs = {
   courseId: CourseId
+};
+
+
+export type QueryBookArgs = {
+  path: Scalars['String'],
+  fileName: Scalars['String']
 };
 
 export type SessionToken = {
@@ -194,6 +208,20 @@ export type User = {
   email: Scalars['String'],
   uid: Scalars['String'],
 };
+
+export type GetBookQueryVariables = {
+  path: Scalars['String'],
+  fileName: Scalars['String']
+};
+
+
+export type GetBookQuery = (
+  { __typename?: 'Query' }
+  & { book: (
+    { __typename?: 'File' }
+    & Pick<File, 'body' | 'contentType' | 'fileName'>
+  ) }
+);
 
 export type GetCoursesQueryVariables = {};
 
@@ -381,6 +409,42 @@ export type GetMeQuery = (
 );
 
 
+export const GetBookDocument = gql`
+    query GetBook($path: String!, $fileName: String!) {
+  book(path: $path, fileName: $fileName) {
+    body
+    contentType
+    fileName
+  }
+}
+    `;
+
+/**
+ * __useGetBookQuery__
+ *
+ * To run a query within a React component, call `useGetBookQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetBookQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetBookQuery({
+ *   variables: {
+ *      path: // value for 'path'
+ *      fileName: // value for 'fileName'
+ *   },
+ * });
+ */
+export function useGetBookQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetBookQuery, GetBookQueryVariables>) {
+        return ApolloReactHooks.useQuery<GetBookQuery, GetBookQueryVariables>(GetBookDocument, baseOptions);
+      }
+export function useGetBookLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetBookQuery, GetBookQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<GetBookQuery, GetBookQueryVariables>(GetBookDocument, baseOptions);
+        }
+export type GetBookQueryHookResult = ReturnType<typeof useGetBookQuery>;
+export type GetBookLazyQueryHookResult = ReturnType<typeof useGetBookLazyQuery>;
+export type GetBookQueryResult = ApolloReactCommon.QueryResult<GetBookQuery, GetBookQueryVariables>;
 export const GetCoursesDocument = gql`
     query GetCourses {
   unlockedCourses {

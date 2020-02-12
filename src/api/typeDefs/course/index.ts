@@ -44,11 +44,11 @@ export default gql`
   }
 
   enum Kind {
-    INTRODUCTION
-    ONBOARDING
-    BOOK_DOWNLOAD
-    BOOK_ONLINE
-    ARTICLE
-    VIDEO
+    Introduction
+    Onboarding
+    BookDownload
+    BookOnline
+    Article
+    Video
   }
 `;
