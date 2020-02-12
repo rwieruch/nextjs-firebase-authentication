@@ -33,7 +33,60 @@ const ACTIONS_LABEL = {
   Video: 'Watch',
 };
 
-const getCommonActions = (item: UnlockedCourseItem) => {
+const StyledModal = styled(Modal)`
+  min-width: 640px;
+  min-height: 360px;
+
+  .ant-modal-body {
+    width: 640px;
+    height: 360px;
+    padding: 0;
+    margin: 0;
+  }
+`;
+
+const VideoCard = ({ item }: { item: UnlockedCourseItem }) => {
+  const [isOpen, setIsOpen] = React.useState(false);
+
+  let actions = [
+    <>
+      <StyledModal
+        centered
+        footer={null}
+        closable={false}
+        visible={isOpen}
+        onCancel={() => setIsOpen(false)}
+      >
+        <ReactPlayer controls url={item.url} />
+      </StyledModal>
+
+      <a onClick={() => setIsOpen(true)}>
+        {ACTIONS_LABEL[item.kind]}
+      </a>
+    </>,
+  ];
+
+  if (item.secondaryUrl) {
+    actions = actions.concat(
+      <ExternalLink url={item.secondaryUrl}>More</ExternalLink>
+    );
+  }
+
+  return (
+    <StyledCard
+      title={
+        <>
+          {ITEM_ICONS[item.kind]} {item.label}
+        </>
+      }
+      actions={actions}
+    >
+      {item.description}
+    </StyledCard>
+  );
+};
+
+const CommonCard = ({ item }: { item: UnlockedCourseItem }) => {
   let actions = [
     <ExternalLink url={item.url}>
       {ACTIONS_LABEL[item.kind]}
@@ -46,10 +99,21 @@ const getCommonActions = (item: UnlockedCourseItem) => {
     );
   }
 
-  return actions;
+  return (
+    <StyledCard
+      title={
+        <>
+          {ITEM_ICONS[item.kind]} {item.label}
+        </>
+      }
+      actions={actions}
+    >
+      {item.description}
+    </StyledCard>
+  );
 };
 
-const getBookDownloadActions = (item: UnlockedCourseItem) => {
+const BookDownloadCard = ({ item }: { item: UnlockedCourseItem }) => {
   const apolloClient = useApolloClient();
 
   const [isLoading, setIsLoading] = React.useState(false);
@@ -79,67 +143,18 @@ const getBookDownloadActions = (item: UnlockedCourseItem) => {
     </a>,
   ];
 
-  return actions;
-};
-
-const StyledModal = styled(Modal)`
-  min-width: 640px;
-  min-height: 360px;
-
-  .ant-modal-body {
-    width: 640px;
-    height: 360px;
-    padding: 0;
-    margin: 0;
-  }
-`;
-
-const getVideoActions = (item: UnlockedCourseItem) => {
-  const [isOpen, setIsOpen] = React.useState(false);
-
-  let actions = [
-    <>
-      <StyledModal
-        centered
-        footer={null}
-        closable={false}
-        visible={isOpen}
-        onCancel={() => setIsOpen(false)}
-      >
-        <ReactPlayer controls url={item.url} />
-      </StyledModal>
-
-      <a onClick={() => setIsOpen(true)}>
-        {ACTIONS_LABEL[item.kind]}
-      </a>
-    </>,
-  ];
-
-  //  640 x 360
-
-  if (item.secondaryUrl) {
-    actions = actions.concat(
-      <ExternalLink url={item.secondaryUrl}>More</ExternalLink>
-    );
-  }
-
-  return actions;
-};
-
-const getActions = (item: UnlockedCourseItem) => {
-  switch (item.kind) {
-    case 'Introduction':
-    case 'Onboarding':
-    case 'BookOnline':
-    case 'Article':
-      return getCommonActions(item);
-    case 'Video':
-      return getVideoActions(item);
-    case 'BookDownload':
-      return getBookDownloadActions(item);
-    default:
-      return [];
-  }
+  return (
+    <StyledCard
+      title={
+        <>
+          {ITEM_ICONS[item.kind]} {item.label}
+        </>
+      }
+      actions={actions}
+    >
+      {item.description}
+    </StyledCard>
+  );
 };
 
 type CourseSectionProps = {
@@ -150,20 +165,19 @@ const CourseSection = ({ section }: CourseSectionProps) => {
   return (
     <StyledCards>
       {section.items.map(item => {
-        const actions = getActions(item);
-
-        return (
-          <StyledCard
-            title={
-              <>
-                {ITEM_ICONS[item.kind]} {item.label}
-              </>
-            }
-            actions={actions}
-          >
-            {item.description}
-          </StyledCard>
-        );
+        switch (item.kind) {
+          case 'Introduction':
+          case 'Onboarding':
+          case 'BookOnline':
+          case 'Article':
+            return <CommonCard item={item} />;
+          case 'Video':
+            return <VideoCard item={item} />;
+          case 'BookDownload':
+            return <BookDownloadCard item={item} />;
+          default:
+            return null;
+        }
       })}
     </StyledCards>
   );
