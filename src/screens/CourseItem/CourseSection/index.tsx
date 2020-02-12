@@ -1,8 +1,10 @@
 import React from 'react';
+import styled from 'styled-components';
 import { useApolloClient } from '@apollo/react-hooks';
-import { Icon, Button } from 'antd';
+import { Modal, Icon } from 'antd';
 import FileSaver from 'file-saver';
 import b64toBlob from 'b64-to-blob';
+import ReactPlayer from 'react-player';
 
 import {
   UnlockedCourseSection,
@@ -72,10 +74,54 @@ const getBookDownloadActions = (item: UnlockedCourseItem) => {
   };
 
   let actions = [
-    <Button loading={isLoading} type="link" onClick={onDownload}>
-      {ACTIONS_LABEL[item.kind]}
-    </Button>,
+    <a onClick={onDownload}>
+      {isLoading ? <Icon type="loading" /> : ACTIONS_LABEL[item.kind]}
+    </a>,
   ];
+
+  return actions;
+};
+
+const StyledModal = styled(Modal)`
+  min-width: 640px;
+  min-height: 360px;
+
+  .ant-modal-body {
+    width: 640px;
+    height: 360px;
+    padding: 0;
+    margin: 0;
+  }
+`;
+
+const getVideoActions = (item: UnlockedCourseItem) => {
+  const [isOpen, setIsOpen] = React.useState(false);
+
+  let actions = [
+    <>
+      <StyledModal
+        centered
+        footer={null}
+        closable={false}
+        visible={isOpen}
+        onCancel={() => setIsOpen(false)}
+      >
+        <ReactPlayer controls url={item.url} />
+      </StyledModal>
+
+      <a onClick={() => setIsOpen(true)}>
+        {ACTIONS_LABEL[item.kind]}
+      </a>
+    </>,
+  ];
+
+  //  640 x 360
+
+  if (item.secondaryUrl) {
+    actions = actions.concat(
+      <ExternalLink url={item.secondaryUrl}>More</ExternalLink>
+    );
+  }
 
   return actions;
 };
@@ -86,8 +132,9 @@ const getActions = (item: UnlockedCourseItem) => {
     case 'Onboarding':
     case 'BookOnline':
     case 'Article':
-    case 'Video':
       return getCommonActions(item);
+    case 'Video':
+      return getVideoActions(item);
     case 'BookDownload':
       return getBookDownloadActions(item);
     default:
