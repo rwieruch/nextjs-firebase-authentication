@@ -15,6 +15,10 @@ import ExternalLink from '@components/ExternalLink';
 
 import { StyledCard, StyledCards } from './styles';
 
+import MDX from '@mdx-js/runtime';
+
+import Hello from './hello';
+
 const ITEM_ICONS = {
   Introduction: <Icon type="star" />,
   Onboarding: <Icon type="compass" />,
@@ -113,6 +117,37 @@ const CommonCard = ({ item }: { item: UnlockedCourseItem }) => {
   );
 };
 
+const BookOnlineCard = ({ item }: { item: UnlockedCourseItem }) => {
+  let actions = [
+    <ExternalLink url={item.url}>
+      {ACTIONS_LABEL[item.kind]}
+    </ExternalLink>,
+  ];
+
+  if (item.secondaryUrl) {
+    actions = actions.concat(
+      <ExternalLink url={item.secondaryUrl}>More</ExternalLink>
+    );
+  }
+
+  return (
+    <StyledCard
+      title={
+        <>
+          {ITEM_ICONS[item.kind]} {item.label}
+        </>
+      }
+      actions={actions}
+    >
+      {item.description}
+
+      <MDX components={{}} scope={{}}>
+        {Hello}
+      </MDX>
+    </StyledCard>
+  );
+};
+
 const BookDownloadCard = ({ item }: { item: UnlockedCourseItem }) => {
   const apolloClient = useApolloClient();
 
@@ -168,13 +203,14 @@ const CourseSection = ({ section }: CourseSectionProps) => {
         switch (item.kind) {
           case 'Introduction':
           case 'Onboarding':
-          case 'BookOnline':
           case 'Article':
             return <CommonCard item={item} />;
           case 'Video':
             return <VideoCard item={item} />;
           case 'BookDownload':
             return <BookDownloadCard item={item} />;
+          case 'BookOnline':
+            return <BookOnlineCard item={item} />;
           default:
             return null;
         }

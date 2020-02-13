@@ -5,6 +5,10 @@ require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
 
+const withMDX = require('@next/mdx')({
+  extension: /\.mdx?$/,
+});
+
 const withPlugins = require('next-compose-plugins');
 const withLess = require('@zeit/next-less');
 const lessToJS = require('less-vars-to-js');
@@ -74,6 +78,12 @@ const lessWithAntdConfig = {
       });
     }
 
+    if (!isServer) {
+      config.node = {
+        fs: 'empty',
+      };
+    }
+
     return config;
   },
 };
@@ -83,6 +93,6 @@ const withBundleAnalyzer = bundleAnalyzer({
 });
 
 module.exports = withPlugins(
-  [[withLess, lessWithAntdConfig], [withBundleAnalyzer]],
+  [[withLess, lessWithAntdConfig], [withMDX], [withBundleAnalyzer]],
   nextConfig
 );
