@@ -13,6 +13,50 @@ export type Scalars = {
   Float: number,
 };
 
+export type BookChapter = {
+   __typename?: 'BookChapter',
+  label: Scalars['String'],
+  url?: Maybe<Scalars['String']>,
+  sections?: Maybe<Array<BookSection>>,
+};
+
+export type BookDownload = {
+   __typename?: 'BookDownload',
+  label: Scalars['String'],
+  data?: Maybe<BookDownloadData>,
+};
+
+export type BookDownloadData = {
+   __typename?: 'BookDownloadData',
+  label: Scalars['String'],
+  items: Array<BookDownloadItem>,
+};
+
+export type BookDownloadItem = {
+   __typename?: 'BookDownloadItem',
+  label: Scalars['String'],
+  description: Scalars['String'],
+  url: Scalars['String'],
+  fileName: Scalars['String'],
+};
+
+export type BookOnline = {
+   __typename?: 'BookOnline',
+  label: Scalars['String'],
+  data?: Maybe<BookOnlineData>,
+};
+
+export type BookOnlineData = {
+   __typename?: 'BookOnlineData',
+  chapters: Array<BookChapter>,
+};
+
+export type BookSection = {
+   __typename?: 'BookSection',
+  label: Scalars['String'],
+  url: Scalars['String'],
+};
+
 export type Bundle = {
    __typename?: 'Bundle',
   header: Scalars['String'],
@@ -34,6 +78,32 @@ export enum CourseId {
   TheRoadToReactWithFirebase = 'THE_ROAD_TO_REACT_WITH_FIREBASE'
 }
 
+export type Curriculum = {
+   __typename?: 'Curriculum',
+  label: Scalars['String'],
+  data?: Maybe<CurriculumData>,
+};
+
+export type CurriculumData = {
+   __typename?: 'CurriculumData',
+  sections: Array<CurriculumSection>,
+};
+
+export type CurriculumItem = {
+   __typename?: 'CurriculumItem',
+  label: Scalars['String'],
+  url: Scalars['String'],
+  description: Scalars['String'],
+  kind: Kind,
+  secondaryUrl?: Maybe<Scalars['String']>,
+};
+
+export type CurriculumSection = {
+   __typename?: 'CurriculumSection',
+  label: Scalars['String'],
+  items: Array<CurriculumItem>,
+};
+
 export type File = {
    __typename?: 'File',
   fileName: Scalars['String'],
@@ -41,11 +111,20 @@ export type File = {
   body: Scalars['String'],
 };
 
+export type Introduction = {
+   __typename?: 'Introduction',
+  label: Scalars['String'],
+  data?: Maybe<IntroductionData>,
+};
+
+export type IntroductionData = {
+   __typename?: 'IntroductionData',
+  label: Scalars['String'],
+  url: Scalars['String'],
+  description: Scalars['String'],
+};
+
 export enum Kind {
-  Introduction = 'Introduction',
-  Onboarding = 'Onboarding',
-  BookDownload = 'BookDownload',
-  BookOnline = 'BookOnline',
   Article = 'Article',
   Video = 'Video'
 }
@@ -125,6 +204,19 @@ export type MutationCreateAdminCourseArgs = {
   bundleId: BundleId
 };
 
+export type Onboarding = {
+   __typename?: 'Onboarding',
+  label: Scalars['String'],
+  data?: Maybe<OnboardingData>,
+};
+
+export type OnboardingData = {
+   __typename?: 'OnboardingData',
+  label: Scalars['String'],
+  url: Scalars['String'],
+  description: Scalars['String'],
+};
+
 export type OrderId = {
    __typename?: 'OrderId',
   orderId: Scalars['String'],
@@ -195,21 +287,11 @@ export type UnlockedCourse = {
   header: Scalars['String'],
   url: Scalars['String'],
   imageUrl: Scalars['String'],
-  introduction?: Maybe<UnlockedCourseSection>,
-  onboarding?: Maybe<UnlockedCourseSection>,
-  bookDownload?: Maybe<UnlockedCourseSection>,
-  bookOnline?: Maybe<UnlockedCourseSection>,
-  courseSections?: Maybe<Array<UnlockedCourseSection>>,
-};
-
-export type UnlockedCourseItem = {
-   __typename?: 'UnlockedCourseItem',
-  kind: Kind,
-  label: Scalars['String'],
-  description?: Maybe<Scalars['String']>,
-  url: Scalars['String'],
-  fileName?: Maybe<Scalars['String']>,
-  secondaryUrl?: Maybe<Scalars['String']>,
+  introduction?: Maybe<Introduction>,
+  onboarding?: Maybe<Onboarding>,
+  bookDownload?: Maybe<BookDownload>,
+  bookOnline?: Maybe<BookOnline>,
+  curriculum?: Maybe<Curriculum>,
 };
 
 export type UnlockedCourseMeta = {
@@ -218,12 +300,6 @@ export type UnlockedCourseMeta = {
   header: Scalars['String'],
   url: Scalars['String'],
   imageUrl: Scalars['String'],
-};
-
-export type UnlockedCourseSection = {
-   __typename?: 'UnlockedCourseSection',
-  label: Scalars['String'],
-  items: Array<UnlockedCourseItem>,
 };
 
 export type User = {
@@ -270,15 +346,6 @@ export type GetCoursesQuery = (
   )> }
 );
 
-export type ContentFragment = (
-  { __typename?: 'UnlockedCourseSection' }
-  & Pick<UnlockedCourseSection, 'label'>
-  & { items: Array<(
-    { __typename?: 'UnlockedCourseItem' }
-    & Pick<UnlockedCourseItem, 'kind' | 'label' | 'description' | 'url' | 'fileName' | 'secondaryUrl'>
-  )> }
-);
-
 export type GetCourseQueryVariables = {
   courseId: CourseId
 };
@@ -290,21 +357,58 @@ export type GetCourseQuery = (
     { __typename?: 'UnlockedCourse' }
     & Pick<UnlockedCourse, 'courseId' | 'header'>
     & { introduction: Maybe<(
-      { __typename?: 'UnlockedCourseSection' }
-      & ContentFragment
+      { __typename?: 'Introduction' }
+      & Pick<Introduction, 'label'>
+      & { data: Maybe<(
+        { __typename?: 'IntroductionData' }
+        & Pick<IntroductionData, 'label' | 'description' | 'url'>
+      )> }
     )>, onboarding: Maybe<(
-      { __typename?: 'UnlockedCourseSection' }
-      & ContentFragment
+      { __typename?: 'Onboarding' }
+      & Pick<Onboarding, 'label'>
+      & { data: Maybe<(
+        { __typename?: 'OnboardingData' }
+        & Pick<OnboardingData, 'label' | 'description' | 'url'>
+      )> }
     )>, bookDownload: Maybe<(
-      { __typename?: 'UnlockedCourseSection' }
-      & ContentFragment
+      { __typename?: 'BookDownload' }
+      & Pick<BookDownload, 'label'>
+      & { data: Maybe<(
+        { __typename?: 'BookDownloadData' }
+        & { items: Array<(
+          { __typename?: 'BookDownloadItem' }
+          & Pick<BookDownloadItem, 'label' | 'description' | 'url' | 'fileName'>
+        )> }
+      )> }
     )>, bookOnline: Maybe<(
-      { __typename?: 'UnlockedCourseSection' }
-      & ContentFragment
-    )>, courseSections: Maybe<Array<(
-      { __typename?: 'UnlockedCourseSection' }
-      & ContentFragment
-    )>> }
+      { __typename?: 'BookOnline' }
+      & Pick<BookOnline, 'label'>
+      & { data: Maybe<(
+        { __typename?: 'BookOnlineData' }
+        & { chapters: Array<(
+          { __typename?: 'BookChapter' }
+          & Pick<BookChapter, 'label' | 'url'>
+          & { sections: Maybe<Array<(
+            { __typename?: 'BookSection' }
+            & Pick<BookSection, 'label' | 'url'>
+          )>> }
+        )> }
+      )> }
+    )>, curriculum: Maybe<(
+      { __typename?: 'Curriculum' }
+      & Pick<Curriculum, 'label'>
+      & { data: Maybe<(
+        { __typename?: 'CurriculumData' }
+        & { sections: Array<(
+          { __typename?: 'CurriculumSection' }
+          & Pick<CurriculumSection, 'label'>
+          & { items: Array<(
+            { __typename?: 'CurriculumItem' }
+            & Pick<CurriculumItem, 'kind' | 'label' | 'description' | 'url' | 'secondaryUrl'>
+          )> }
+        )> }
+      )> }
+    )> }
   )> }
 );
 
@@ -461,19 +565,7 @@ export type GetMeQuery = (
   )> }
 );
 
-export const ContentFragmentDoc = gql`
-    fragment Content on UnlockedCourseSection {
-  label
-  items {
-    kind
-    label
-    description
-    url
-    fileName
-    secondaryUrl
-  }
-}
-    `;
+
 export const GetBookDocument = gql`
     query GetBook($path: String!, $fileName: String!) {
   book(path: $path, fileName: $fileName) {
@@ -584,23 +676,63 @@ export const GetCourseDocument = gql`
     courseId
     header
     introduction {
-      ...Content
+      label
+      data {
+        label
+        description
+        url
+      }
     }
     onboarding {
-      ...Content
+      label
+      data {
+        label
+        description
+        url
+      }
     }
     bookDownload {
-      ...Content
+      label
+      data {
+        items {
+          label
+          description
+          url
+          fileName
+        }
+      }
     }
     bookOnline {
-      ...Content
+      label
+      data {
+        chapters {
+          label
+          url
+          sections {
+            label
+            url
+          }
+        }
+      }
     }
-    courseSections {
-      ...Content
+    curriculum {
+      label
+      data {
+        sections {
+          label
+          items {
+            kind
+            label
+            description
+            url
+            secondaryUrl
+          }
+        }
+      }
     }
   }
 }
-    ${ContentFragmentDoc}`;
+    `;
 
 /**
  * __useGetCourseQuery__

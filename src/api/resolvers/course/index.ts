@@ -1,3 +1,5 @@
+import omit from 'lodash.omit';
+
 import { QueryResolvers, MutationResolvers } from '@generated/server';
 import {
   createCourse,
@@ -20,49 +22,59 @@ const mergeCourses = (courses: FirebaseCourse) =>
         onboarding,
         bookDownload,
         bookOnline,
-        course: sections,
+        curriculum,
       } = allCourseContent[course.courseId];
 
-      const hasIntroduction = introduction.roles.includes(
-        bundle.bundleId
-      );
+      const hasIntroduction = introduction.roles
+        ? introduction.roles.includes(bundle.bundleId)
+        : true;
       const allowedIntroduction = hasIntroduction
         ? introduction
-        : null;
+        : omit(introduction, 'data');
 
-      const hasOnboarding = onboarding.roles.includes(
-        bundle.bundleId
-      );
-      const allowedOnboarding = hasOnboarding ? onboarding : null;
+      const hasOnboarding = onboarding.roles
+        ? onboarding.roles.includes(bundle.bundleId)
+        : true;
+      const allowedOnboarding = hasOnboarding
+        ? onboarding
+        : omit(onboarding, 'data');
 
-      const hasBookDownload = bookDownload.roles.includes(
-        bundle.bundleId
-      );
+      const hasBookDownload = bookDownload.roles
+        ? bookDownload.roles.includes(bundle.bundleId)
+        : true;
       const allowedBookDownload = hasBookDownload
         ? bookDownload
-        : null;
+        : omit(bookDownload, 'data');
 
-      const hasBookOnline = bookOnline.roles.includes(
-        bundle.bundleId
-      );
-      const allowedBookOnline = hasBookOnline ? bookOnline : null;
+      const hasBookOnline = bookOnline.roles
+        ? bookOnline.roles.includes(bundle.bundleId)
+        : true;
+      const allowedBookOnline = hasBookOnline
+        ? bookOnline
+        : omit(bookOnline, 'data');
 
-      const allowedCourseSections = sections.filter(section =>
-        section.roles.includes(bundle.bundleId)
-      );
+      const hasCurriculum = curriculum.roles
+        ? curriculum.roles.includes(bundle.bundleId)
+        : true;
+      const allowedCurriculum = hasCurriculum
+        ? curriculum
+        : omit(curriculum, 'data');
 
       const unlockedCourse = {
         courseId: course.courseId,
         bundleId: course.packageId,
+
         header: storefrontCourse.header,
         url: storefrontCourse.url,
         imageUrl: bundle.imageUrl,
+
         weight: bundle.weight,
+
         introduction: allowedIntroduction,
         onboarding: allowedOnboarding,
         bookDownload: allowedBookDownload,
         bookOnline: allowedBookOnline,
-        courseSections: allowedCourseSections,
+        curriculum: allowedCurriculum,
       };
 
       const index = result.findIndex(
@@ -104,14 +116,10 @@ const mergeCourses = (courses: FirebaseCourse) =>
             ...unlockedCourse.bookOnline,
           };
 
-          const duplicatedSections = prevCourse.courseSections.concat(
-            unlockedCourse.courseSections
-          );
-
-          const courseSections = duplicatedSections.filter(
-            (item: any, index: number) =>
-              duplicatedSections.indexOf(item) === index
-          );
+          const curriculum = {
+            ...prevCourse.curriculum,
+            ...unlockedCourse.curriculum,
+          };
 
           const mergedCourse = {
             courseId,
@@ -123,7 +131,7 @@ const mergeCourses = (courses: FirebaseCourse) =>
             onboarding,
             bookDownload,
             bookOnline,
-            courseSections,
+            curriculum,
           };
 
           return mergedCourse;

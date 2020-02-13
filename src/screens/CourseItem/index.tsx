@@ -11,8 +11,11 @@ import { GET_UNLOCKED_COURSE } from '@queries/course';
 import Layout from '@components/Layout';
 import { kebabCaseToUpperSnakeCase } from '@services/string';
 
-import CourseSection from './CourseSection';
+import Introduction from './Introduction';
+import Onboarding from './Onboarding';
+import BookDownload from './BookDownload';
 import BookOnline from './BookOnline';
+import Curriculum from './Curriculum';
 
 const { Content, Sider } = AntdLayout;
 
@@ -34,16 +37,20 @@ type NextAuthPage = NextPage<CourseItemPageProps> & {
 };
 
 const CourseItemPage: NextAuthPage = ({ data }) => {
-  const [selectedSection, setSelectedSection] = React.useState(
-    'introduction'
-  );
+  const [s, setSelected] = React.useState({
+    k: 'introduction',
+    i: 0,
+    j: 0,
+  });
+
+  const sKey = `${s.k}:${s.i}:${s.j}`;
 
   if (!data.unlockedCourse) {
     return null;
   }
 
-  const handleSelectSection = (section: string) => {
-    setSelectedSection(section);
+  const handleSelectSection = (k: string, i: number, j: number) => {
+    setSelected({ k, i, j });
   };
 
   console.log(data.unlockedCourse);
@@ -54,8 +61,14 @@ const CourseItemPage: NextAuthPage = ({ data }) => {
     onboarding,
     bookDownload,
     bookOnline,
-    courseSections,
+    curriculum,
   } = data.unlockedCourse;
+
+  const introductionData = introduction?.data;
+  const onboardingData = onboarding?.data;
+  const bookDownloadData = bookDownload?.data;
+  const bookOnlineData = bookOnline?.data;
+  const curriculumData = curriculum?.data;
 
   return (
     <Layout>
@@ -88,13 +101,15 @@ const CourseItemPage: NextAuthPage = ({ data }) => {
           >
             <Menu
               mode="inline"
-              defaultSelectedKeys={[selectedSection]}
+              defaultSelectedKeys={[sKey]}
               style={{ height: '100%' }}
             >
               {introduction && (
                 <Menu.Item
-                  key="introduction"
-                  onClick={() => handleSelectSection('introduction')}
+                  key="introduction:0:0"
+                  onClick={() =>
+                    handleSelectSection('introduction', 0, 0)
+                  }
                 >
                   <span>{introduction.label}</span>
                 </Menu.Item>
@@ -102,8 +117,10 @@ const CourseItemPage: NextAuthPage = ({ data }) => {
 
               {onboarding && (
                 <Menu.Item
-                  key="onboarding"
-                  onClick={() => handleSelectSection('onboarding')}
+                  key="onboarding:0:0"
+                  onClick={() =>
+                    handleSelectSection('onboarding', 0, 0)
+                  }
                 >
                   <span>{onboarding.label}</span>
                 </Menu.Item>
@@ -111,8 +128,10 @@ const CourseItemPage: NextAuthPage = ({ data }) => {
 
               {bookDownload && (
                 <Menu.Item
-                  key="bookDownload"
-                  onClick={() => handleSelectSection('bookDownload')}
+                  key="bookDownload:0:0"
+                  onClick={() =>
+                    handleSelectSection('bookDownload', 0, 0)
+                  }
                 >
                   <span>{bookDownload.label}</span>
                 </Menu.Item>
@@ -120,29 +139,59 @@ const CourseItemPage: NextAuthPage = ({ data }) => {
 
               {bookOnline && (
                 <Menu.SubMenu title={bookOnline.label}>
-                  {bookOnline.items.map((item, index) => (
-                    <Menu.Item
-                      key={`bookOnline:${index}`}
-                      onClick={() =>
-                        handleSelectSection(`bookOnline:${index}`)
-                      }
-                    >
-                      {item.label}
-                    </Menu.Item>
-                  ))}
+                  {bookOnline.data?.chapters.map((chapter, i) => {
+                    if (chapter.sections) {
+                      return (
+                        <Menu.SubMenu
+                          key={`bookOnline:${i}`}
+                          title={chapter.label}
+                        >
+                          {chapter.sections.map((section, j) => (
+                            <Menu.Item
+                              key={`bookOnline:${i}:${j}`}
+                              onClick={() =>
+                                handleSelectSection(
+                                  'bookOnline:section',
+                                  i,
+                                  j
+                                )
+                              }
+                            >
+                              {section.label}
+                            </Menu.Item>
+                          ))}
+                        </Menu.SubMenu>
+                      );
+                    } else {
+                      return (
+                        <Menu.Item
+                          key={`bookOnline:${i}:${0}`}
+                          onClick={() =>
+                            handleSelectSection(
+                              'bookOnline:chapter',
+                              i,
+                              0
+                            )
+                          }
+                        >
+                          {chapter.label}
+                        </Menu.Item>
+                      );
+                    }
+                  })}
                 </Menu.SubMenu>
               )}
 
-              {courseSections && (
-                <Menu.SubMenu title="Curriculum">
-                  {courseSections.map((courseSection, index) => (
+              {curriculum && (
+                <Menu.SubMenu title={curriculum.label}>
+                  {curriculum.data?.sections.map((curricu, i) => (
                     <Menu.Item
-                      key={`courseSections:${index}`}
+                      key={`curriculum:${i}:0`}
                       onClick={() =>
-                        handleSelectSection(`courseSections:${index}`)
+                        handleSelectSection(`curriculum`, i, 0)
                       }
                     >
-                      {courseSection.label}
+                      {curricu.label}
                     </Menu.Item>
                   ))}
                 </Menu.SubMenu>
@@ -151,40 +200,35 @@ const CourseItemPage: NextAuthPage = ({ data }) => {
           </Sider>
 
           <Content style={{ padding: '0 24px' }}>
-            {selectedSection === 'introduction' && introduction && (
-              <CourseSection section={introduction} />
+            {s.k === 'introduction' && introductionData && (
+              <Introduction introductionData={introductionData} />
             )}
 
-            {selectedSection === 'onboarding' && onboarding && (
-              <CourseSection section={onboarding} />
+            {s.k === 'onboarding' && onboardingData && (
+              <Onboarding onboardingData={onboardingData} />
             )}
 
-            {selectedSection === 'bookDownload' && bookDownload && (
-              <CourseSection section={bookDownload} />
+            {s.k === 'bookDownload' && bookDownloadData && (
+              <BookDownload bookDownloadData={bookDownloadData} />
             )}
 
-            {selectedSection.includes('bookOnline') && bookOnline && (
+            {s.k === 'bookOnline:section' && bookOnlineData && (
               <BookOnline
                 path={
-                  bookOnline.items[
-                    Number(selectedSection.replace('bookOnline:', ''))
-                  ]?.url
+                  bookOnlineData.chapters[s.i].sections?.[s.j].url
                 }
               />
             )}
 
-            {selectedSection.includes('courseSections') &&
-              courseSections && (
-                <CourseSection
-                  section={
-                    courseSections[
-                      Number(
-                        selectedSection.replace('courseSections:', '')
-                      )
-                    ]
-                  }
-                />
-              )}
+            {s.k === 'bookOnline:chapter' && bookOnlineData && (
+              <BookOnline path={bookOnlineData.chapters[s.i].url} />
+            )}
+
+            {s.k === 'curriculum' && curriculumData && (
+              <Curriculum
+                curriculumSection={curriculumData.sections[s.i]}
+              />
+            )}
           </Content>
         </AntdLayout>
       </StyledContent>

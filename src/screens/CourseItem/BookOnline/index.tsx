@@ -3,17 +3,19 @@ import { useQuery } from '@apollo/react-hooks';
 import { Skeleton } from 'antd';
 
 import { GET_ONLINE_CHAPTER } from '@queries/book';
-import mdxComponents from '@components/mdx';
+import mdxComponents from '@components/Mdx';
 
 import useErrorIndicator from '@hooks/useErrorIndicator';
 
 import MDX from '@mdx-js/runtime';
 
 type BookOnlineProps = {
-  path: string;
+  path: string | null | undefined;
 };
 
 const BookOnline = ({ path }: BookOnlineProps) => {
+  if (!path) return null;
+
   const { loading, error, data } = useQuery(GET_ONLINE_CHAPTER, {
     variables: { path },
   });

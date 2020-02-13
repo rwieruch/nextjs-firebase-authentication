@@ -11,6 +11,50 @@ export type Scalars = {
   Float: number,
 };
 
+export type BookChapter = {
+   __typename?: 'BookChapter',
+  label: Scalars['String'],
+  url?: Maybe<Scalars['String']>,
+  sections?: Maybe<Array<BookSection>>,
+};
+
+export type BookDownload = {
+   __typename?: 'BookDownload',
+  label: Scalars['String'],
+  data?: Maybe<BookDownloadData>,
+};
+
+export type BookDownloadData = {
+   __typename?: 'BookDownloadData',
+  label: Scalars['String'],
+  items: Array<BookDownloadItem>,
+};
+
+export type BookDownloadItem = {
+   __typename?: 'BookDownloadItem',
+  label: Scalars['String'],
+  description: Scalars['String'],
+  url: Scalars['String'],
+  fileName: Scalars['String'],
+};
+
+export type BookOnline = {
+   __typename?: 'BookOnline',
+  label: Scalars['String'],
+  data?: Maybe<BookOnlineData>,
+};
+
+export type BookOnlineData = {
+   __typename?: 'BookOnlineData',
+  chapters: Array<BookChapter>,
+};
+
+export type BookSection = {
+   __typename?: 'BookSection',
+  label: Scalars['String'],
+  url: Scalars['String'],
+};
+
 export type Bundle = {
    __typename?: 'Bundle',
   header: Scalars['String'],
@@ -32,6 +76,32 @@ export enum CourseId {
   TheRoadToReactWithFirebase = 'THE_ROAD_TO_REACT_WITH_FIREBASE'
 }
 
+export type Curriculum = {
+   __typename?: 'Curriculum',
+  label: Scalars['String'],
+  data?: Maybe<CurriculumData>,
+};
+
+export type CurriculumData = {
+   __typename?: 'CurriculumData',
+  sections: Array<CurriculumSection>,
+};
+
+export type CurriculumItem = {
+   __typename?: 'CurriculumItem',
+  label: Scalars['String'],
+  url: Scalars['String'],
+  description: Scalars['String'],
+  kind: Kind,
+  secondaryUrl?: Maybe<Scalars['String']>,
+};
+
+export type CurriculumSection = {
+   __typename?: 'CurriculumSection',
+  label: Scalars['String'],
+  items: Array<CurriculumItem>,
+};
+
 export type File = {
    __typename?: 'File',
   fileName: Scalars['String'],
@@ -39,11 +109,20 @@ export type File = {
   body: Scalars['String'],
 };
 
+export type Introduction = {
+   __typename?: 'Introduction',
+  label: Scalars['String'],
+  data?: Maybe<IntroductionData>,
+};
+
+export type IntroductionData = {
+   __typename?: 'IntroductionData',
+  label: Scalars['String'],
+  url: Scalars['String'],
+  description: Scalars['String'],
+};
+
 export enum Kind {
-  Introduction = 'Introduction',
-  Onboarding = 'Onboarding',
-  BookDownload = 'BookDownload',
-  BookOnline = 'BookOnline',
   Article = 'Article',
   Video = 'Video'
 }
@@ -123,6 +202,19 @@ export type MutationCreateAdminCourseArgs = {
   bundleId: BundleId
 };
 
+export type Onboarding = {
+   __typename?: 'Onboarding',
+  label: Scalars['String'],
+  data?: Maybe<OnboardingData>,
+};
+
+export type OnboardingData = {
+   __typename?: 'OnboardingData',
+  label: Scalars['String'],
+  url: Scalars['String'],
+  description: Scalars['String'],
+};
+
 export type OrderId = {
    __typename?: 'OrderId',
   orderId: Scalars['String'],
@@ -193,21 +285,11 @@ export type UnlockedCourse = {
   header: Scalars['String'],
   url: Scalars['String'],
   imageUrl: Scalars['String'],
-  introduction?: Maybe<UnlockedCourseSection>,
-  onboarding?: Maybe<UnlockedCourseSection>,
-  bookDownload?: Maybe<UnlockedCourseSection>,
-  bookOnline?: Maybe<UnlockedCourseSection>,
-  courseSections?: Maybe<Array<UnlockedCourseSection>>,
-};
-
-export type UnlockedCourseItem = {
-   __typename?: 'UnlockedCourseItem',
-  kind: Kind,
-  label: Scalars['String'],
-  description?: Maybe<Scalars['String']>,
-  url: Scalars['String'],
-  fileName?: Maybe<Scalars['String']>,
-  secondaryUrl?: Maybe<Scalars['String']>,
+  introduction?: Maybe<Introduction>,
+  onboarding?: Maybe<Onboarding>,
+  bookDownload?: Maybe<BookDownload>,
+  bookOnline?: Maybe<BookOnline>,
+  curriculum?: Maybe<Curriculum>,
 };
 
 export type UnlockedCourseMeta = {
@@ -216,12 +298,6 @@ export type UnlockedCourseMeta = {
   header: Scalars['String'],
   url: Scalars['String'],
   imageUrl: Scalars['String'],
-};
-
-export type UnlockedCourseSection = {
-   __typename?: 'UnlockedCourseSection',
-  label: Scalars['String'],
-  items: Array<UnlockedCourseItem>,
 };
 
 export type User = {
@@ -315,8 +391,21 @@ export type ResolversTypes = ResolversObject<{
   Int: ResolverTypeWrapper<any>,
   UnlockedCourseMeta: ResolverTypeWrapper<any>,
   UnlockedCourse: ResolverTypeWrapper<any>,
-  UnlockedCourseSection: ResolverTypeWrapper<any>,
-  UnlockedCourseItem: ResolverTypeWrapper<any>,
+  Introduction: ResolverTypeWrapper<any>,
+  IntroductionData: ResolverTypeWrapper<any>,
+  Onboarding: ResolverTypeWrapper<any>,
+  OnboardingData: ResolverTypeWrapper<any>,
+  BookDownload: ResolverTypeWrapper<any>,
+  BookDownloadData: ResolverTypeWrapper<any>,
+  BookDownloadItem: ResolverTypeWrapper<any>,
+  BookOnline: ResolverTypeWrapper<any>,
+  BookOnlineData: ResolverTypeWrapper<any>,
+  BookChapter: ResolverTypeWrapper<any>,
+  BookSection: ResolverTypeWrapper<any>,
+  Curriculum: ResolverTypeWrapper<any>,
+  CurriculumData: ResolverTypeWrapper<any>,
+  CurriculumSection: ResolverTypeWrapper<any>,
+  CurriculumItem: ResolverTypeWrapper<any>,
   Kind: ResolverTypeWrapper<any>,
   File: ResolverTypeWrapper<any>,
   Markdown: ResolverTypeWrapper<any>,
@@ -340,8 +429,21 @@ export type ResolversParentTypes = ResolversObject<{
   Int: any,
   UnlockedCourseMeta: any,
   UnlockedCourse: any,
-  UnlockedCourseSection: any,
-  UnlockedCourseItem: any,
+  Introduction: any,
+  IntroductionData: any,
+  Onboarding: any,
+  OnboardingData: any,
+  BookDownload: any,
+  BookDownloadData: any,
+  BookDownloadItem: any,
+  BookOnline: any,
+  BookOnlineData: any,
+  BookChapter: any,
+  BookSection: any,
+  Curriculum: any,
+  CurriculumData: any,
+  CurriculumSection: any,
+  CurriculumItem: any,
   Kind: any,
   File: any,
   Markdown: any,
@@ -352,6 +454,50 @@ export type ResolversParentTypes = ResolversObject<{
   Subscription: {},
 }>;
 
+export type BookChapterResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['BookChapter'] = ResolversParentTypes['BookChapter']> = ResolversObject<{
+  label?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  url?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
+  sections?: Resolver<Maybe<Array<ResolversTypes['BookSection']>>, ParentType, ContextType>,
+  __isTypeOf?: isTypeOfResolverFn,
+}>;
+
+export type BookDownloadResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['BookDownload'] = ResolversParentTypes['BookDownload']> = ResolversObject<{
+  label?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  data?: Resolver<Maybe<ResolversTypes['BookDownloadData']>, ParentType, ContextType>,
+  __isTypeOf?: isTypeOfResolverFn,
+}>;
+
+export type BookDownloadDataResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['BookDownloadData'] = ResolversParentTypes['BookDownloadData']> = ResolversObject<{
+  label?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  items?: Resolver<Array<ResolversTypes['BookDownloadItem']>, ParentType, ContextType>,
+  __isTypeOf?: isTypeOfResolverFn,
+}>;
+
+export type BookDownloadItemResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['BookDownloadItem'] = ResolversParentTypes['BookDownloadItem']> = ResolversObject<{
+  label?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  description?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  url?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  fileName?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  __isTypeOf?: isTypeOfResolverFn,
+}>;
+
+export type BookOnlineResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['BookOnline'] = ResolversParentTypes['BookOnline']> = ResolversObject<{
+  label?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  data?: Resolver<Maybe<ResolversTypes['BookOnlineData']>, ParentType, ContextType>,
+  __isTypeOf?: isTypeOfResolverFn,
+}>;
+
+export type BookOnlineDataResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['BookOnlineData'] = ResolversParentTypes['BookOnlineData']> = ResolversObject<{
+  chapters?: Resolver<Array<ResolversTypes['BookChapter']>, ParentType, ContextType>,
+  __isTypeOf?: isTypeOfResolverFn,
+}>;
+
+export type BookSectionResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['BookSection'] = ResolversParentTypes['BookSection']> = ResolversObject<{
+  label?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  url?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  __isTypeOf?: isTypeOfResolverFn,
+}>;
+
 export type BundleResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['Bundle'] = ResolversParentTypes['Bundle']> = ResolversObject<{
   header?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   bundleId?: Resolver<ResolversTypes['BundleId'], ParentType, ContextType>,
@@ -360,10 +506,49 @@ export type BundleResolvers<ContextType = ResolverContext, ParentType extends Re
   __isTypeOf?: isTypeOfResolverFn,
 }>;
 
+export type CurriculumResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['Curriculum'] = ResolversParentTypes['Curriculum']> = ResolversObject<{
+  label?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  data?: Resolver<Maybe<ResolversTypes['CurriculumData']>, ParentType, ContextType>,
+  __isTypeOf?: isTypeOfResolverFn,
+}>;
+
+export type CurriculumDataResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['CurriculumData'] = ResolversParentTypes['CurriculumData']> = ResolversObject<{
+  sections?: Resolver<Array<ResolversTypes['CurriculumSection']>, ParentType, ContextType>,
+  __isTypeOf?: isTypeOfResolverFn,
+}>;
+
+export type CurriculumItemResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['CurriculumItem'] = ResolversParentTypes['CurriculumItem']> = ResolversObject<{
+  label?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  url?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  description?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  kind?: Resolver<ResolversTypes['Kind'], ParentType, ContextType>,
+  secondaryUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
+  __isTypeOf?: isTypeOfResolverFn,
+}>;
+
+export type CurriculumSectionResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['CurriculumSection'] = ResolversParentTypes['CurriculumSection']> = ResolversObject<{
+  label?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  items?: Resolver<Array<ResolversTypes['CurriculumItem']>, ParentType, ContextType>,
+  __isTypeOf?: isTypeOfResolverFn,
+}>;
+
 export type FileResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['File'] = ResolversParentTypes['File']> = ResolversObject<{
   fileName?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   contentType?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   body?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  __isTypeOf?: isTypeOfResolverFn,
+}>;
+
+export type IntroductionResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['Introduction'] = ResolversParentTypes['Introduction']> = ResolversObject<{
+  label?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  data?: Resolver<Maybe<ResolversTypes['IntroductionData']>, ParentType, ContextType>,
+  __isTypeOf?: isTypeOfResolverFn,
+}>;
+
+export type IntroductionDataResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['IntroductionData'] = ResolversParentTypes['IntroductionData']> = ResolversObject<{
+  label?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  url?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  description?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   __isTypeOf?: isTypeOfResolverFn,
 }>;
 
@@ -383,6 +568,19 @@ export type MutationResolvers<ContextType = ResolverContext, ParentType extends 
   stripeCreateOrder?: Resolver<ResolversTypes['StripeId'], ParentType, ContextType, RequireFields<MutationStripeCreateOrderArgs, 'imageUrl' | 'courseId' | 'bundleId'>>,
   createFreeCourse?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationCreateFreeCourseArgs, 'courseId' | 'bundleId'>>,
   createAdminCourse?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationCreateAdminCourseArgs, 'uid' | 'courseId' | 'bundleId'>>,
+}>;
+
+export type OnboardingResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['Onboarding'] = ResolversParentTypes['Onboarding']> = ResolversObject<{
+  label?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  data?: Resolver<Maybe<ResolversTypes['OnboardingData']>, ParentType, ContextType>,
+  __isTypeOf?: isTypeOfResolverFn,
+}>;
+
+export type OnboardingDataResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['OnboardingData'] = ResolversParentTypes['OnboardingData']> = ResolversObject<{
+  label?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  url?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  description?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  __isTypeOf?: isTypeOfResolverFn,
 }>;
 
 export type OrderIdResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['OrderId'] = ResolversParentTypes['OrderId']> = ResolversObject<{
@@ -430,21 +628,11 @@ export type UnlockedCourseResolvers<ContextType = ResolverContext, ParentType ex
   header?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   url?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   imageUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-  introduction?: Resolver<Maybe<ResolversTypes['UnlockedCourseSection']>, ParentType, ContextType>,
-  onboarding?: Resolver<Maybe<ResolversTypes['UnlockedCourseSection']>, ParentType, ContextType>,
-  bookDownload?: Resolver<Maybe<ResolversTypes['UnlockedCourseSection']>, ParentType, ContextType>,
-  bookOnline?: Resolver<Maybe<ResolversTypes['UnlockedCourseSection']>, ParentType, ContextType>,
-  courseSections?: Resolver<Maybe<Array<ResolversTypes['UnlockedCourseSection']>>, ParentType, ContextType>,
-  __isTypeOf?: isTypeOfResolverFn,
-}>;
-
-export type UnlockedCourseItemResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['UnlockedCourseItem'] = ResolversParentTypes['UnlockedCourseItem']> = ResolversObject<{
-  kind?: Resolver<ResolversTypes['Kind'], ParentType, ContextType>,
-  label?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-  description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-  url?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-  fileName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-  secondaryUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
+  introduction?: Resolver<Maybe<ResolversTypes['Introduction']>, ParentType, ContextType>,
+  onboarding?: Resolver<Maybe<ResolversTypes['Onboarding']>, ParentType, ContextType>,
+  bookDownload?: Resolver<Maybe<ResolversTypes['BookDownload']>, ParentType, ContextType>,
+  bookOnline?: Resolver<Maybe<ResolversTypes['BookOnline']>, ParentType, ContextType>,
+  curriculum?: Resolver<Maybe<ResolversTypes['Curriculum']>, ParentType, ContextType>,
   __isTypeOf?: isTypeOfResolverFn,
 }>;
 
@@ -456,12 +644,6 @@ export type UnlockedCourseMetaResolvers<ContextType = ResolverContext, ParentTyp
   __isTypeOf?: isTypeOfResolverFn,
 }>;
 
-export type UnlockedCourseSectionResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['UnlockedCourseSection'] = ResolversParentTypes['UnlockedCourseSection']> = ResolversObject<{
-  label?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-  items?: Resolver<Array<ResolversTypes['UnlockedCourseItem']>, ParentType, ContextType>,
-  __isTypeOf?: isTypeOfResolverFn,
-}>;
-
 export type UserResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = ResolversObject<{
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   uid?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
@@ -469,10 +651,25 @@ export type UserResolvers<ContextType = ResolverContext, ParentType extends Reso
 }>;
 
 export type Resolvers<ContextType = ResolverContext> = ResolversObject<{
+  BookChapter?: BookChapterResolvers<ContextType>,
+  BookDownload?: BookDownloadResolvers<ContextType>,
+  BookDownloadData?: BookDownloadDataResolvers<ContextType>,
+  BookDownloadItem?: BookDownloadItemResolvers<ContextType>,
+  BookOnline?: BookOnlineResolvers<ContextType>,
+  BookOnlineData?: BookOnlineDataResolvers<ContextType>,
+  BookSection?: BookSectionResolvers<ContextType>,
   Bundle?: BundleResolvers<ContextType>,
+  Curriculum?: CurriculumResolvers<ContextType>,
+  CurriculumData?: CurriculumDataResolvers<ContextType>,
+  CurriculumItem?: CurriculumItemResolvers<ContextType>,
+  CurriculumSection?: CurriculumSectionResolvers<ContextType>,
   File?: FileResolvers<ContextType>,
+  Introduction?: IntroductionResolvers<ContextType>,
+  IntroductionData?: IntroductionDataResolvers<ContextType>,
   Markdown?: MarkdownResolvers<ContextType>,
   Mutation?: MutationResolvers<ContextType>,
+  Onboarding?: OnboardingResolvers<ContextType>,
+  OnboardingData?: OnboardingDataResolvers<ContextType>,
   OrderId?: OrderIdResolvers<ContextType>,
   Query?: QueryResolvers<ContextType>,
   SessionToken?: SessionTokenResolvers<ContextType>,
@@ -480,9 +677,7 @@ export type Resolvers<ContextType = ResolverContext> = ResolversObject<{
   StripeId?: StripeIdResolvers<ContextType>,
   Subscription?: SubscriptionResolvers<ContextType>,
   UnlockedCourse?: UnlockedCourseResolvers<ContextType>,
-  UnlockedCourseItem?: UnlockedCourseItemResolvers<ContextType>,
   UnlockedCourseMeta?: UnlockedCourseMetaResolvers<ContextType>,
-  UnlockedCourseSection?: UnlockedCourseSectionResolvers<ContextType>,
   User?: UserResolvers<ContextType>,
 }>;
 
