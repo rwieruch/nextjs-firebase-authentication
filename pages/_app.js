@@ -66,6 +66,29 @@ const GlobalStyle = createGlobalStyle`
     opacity: 1;
     transition: opacity ${TIMEOUT}ms;
   }
+
+  pre:not(.prism-code) {
+    background-color: #2f1e2e !important;
+    border-radius: 4px;
+    border-left: 4px solid #823eb7;
+  }
+
+  code {
+    white-space: pre-wrap !important;
+  }
+
+  .token-line {
+    line-height: 1.15 !important;
+  }
+
+  .highlight-line {
+    background-color: #4f424c;
+    display: block;
+    margin-right: -20px;
+    margin-left: -20px;
+    padding-right: 20px;
+    padding-left: 20px;
+  }
 `;
 
 class MyApp extends NextApp {

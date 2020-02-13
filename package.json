@@ -58,6 +58,7 @@
     "next-page-transitions": "^1.0.0-beta.2",
     "next-with-apollo": "^4.3.0",
     "null-loader": "^3.0.0",
+    "prism-react-renderer": "^1.0.2",
     "raw-body": "^2.4.1",
     "react": "^16.12.0",
     "react-apollo-network-status": "^3.0.0",

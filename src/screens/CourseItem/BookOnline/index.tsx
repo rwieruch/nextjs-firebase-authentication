@@ -3,6 +3,7 @@ import { useQuery } from '@apollo/react-hooks';
 import { Skeleton } from 'antd';
 
 import { GET_ONLINE_CHAPTER } from '@queries/book';
+import mdxComponents from '@components/mdx';
 
 import useErrorIndicator from '@hooks/useErrorIndicator';
 
@@ -25,7 +26,7 @@ const BookOnline = ({ path }: BookOnlineProps) => {
   if (!data) return null;
 
   return (
-    <MDX components={{}} scope={{}}>
+    <MDX components={mdxComponents} scope={{}}>
       {atob(data.onlineChapter.body)}
     </MDX>
   );

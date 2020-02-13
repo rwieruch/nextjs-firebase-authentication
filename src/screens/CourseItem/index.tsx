@@ -75,7 +75,17 @@ const CourseItemPage: NextAuthPage = ({ data }) => {
             background: '#fff',
           }}
         >
-          <Sider width={200} style={{ background: '#fff' }}>
+          <Sider
+            width={200}
+            style={{
+              background: '#fff',
+              overflow: 'auto',
+              height: '100vh',
+              position: 'sticky',
+              top: '56px',
+              left: 0,
+            }}
+          >
             <Menu
               mode="inline"
               defaultSelectedKeys={[selectedSection]}
