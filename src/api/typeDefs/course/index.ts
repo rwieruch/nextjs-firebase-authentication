@@ -2,7 +2,7 @@ import { gql } from 'apollo-server-micro';
 
 export default gql`
   extend type Query {
-    unlockedCourses: [UnlockedCourse!]!
+    unlockedCourses: [UnlockedCourseMeta!]!
 
     unlockedCourse(courseId: CourseId!): UnlockedCourse
   }
@@ -20,13 +20,24 @@ export default gql`
     ): Boolean!
   }
 
+  type UnlockedCourseMeta {
+    courseId: CourseId!
+    header: String!
+    url: String!
+    imageUrl: String!
+  }
+
   type UnlockedCourse {
     courseId: CourseId!
     bundleId: BundleId!
     header: String!
     url: String!
     imageUrl: String!
-    sections: [UnlockedCourseSection!]!
+    introduction: UnlockedCourseSection
+    onboarding: UnlockedCourseSection
+    bookDownload: UnlockedCourseSection
+    bookOnline: UnlockedCourseSection
+    courseSections: [UnlockedCourseSection!]
   }
 
   type UnlockedCourseSection {
@@ -37,7 +48,7 @@ export default gql`
   type UnlockedCourseItem {
     kind: Kind!
     label: String!
-    description: String!
+    description: String
     url: String!
     fileName: String
     secondaryUrl: String

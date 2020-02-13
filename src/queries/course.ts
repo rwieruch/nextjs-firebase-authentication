@@ -12,20 +12,36 @@ export const GET_UNLOCKED_COURSES = gql`
 `;
 
 export const GET_UNLOCKED_COURSE = gql`
+  fragment Content on UnlockedCourseSection {
+    label
+    items {
+      kind
+      label
+      description
+      url
+      fileName
+      secondaryUrl
+    }
+  }
+
   query GetCourse($courseId: CourseId!) {
     unlockedCourse(courseId: $courseId) {
       courseId
       header
-      sections {
-        label
-        items {
-          kind
-          label
-          description
-          url
-          fileName
-          secondaryUrl
-        }
+      introduction {
+        ...Content
+      }
+      onboarding {
+        ...Content
+      }
+      bookDownload {
+        ...Content
+      }
+      bookOnline {
+        ...Content
+      }
+      courseSections {
+        ...Content
       }
     }
   }

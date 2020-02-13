@@ -50,6 +50,11 @@ export enum Kind {
   Video = 'Video'
 }
 
+export type Markdown = {
+   __typename?: 'Markdown',
+  body: Scalars['String'],
+};
+
 export type Mutation = {
    __typename?: 'Mutation',
   _?: Maybe<Scalars['Boolean']>,
@@ -131,9 +136,10 @@ export type Query = {
   me?: Maybe<User>,
   storefrontCourse?: Maybe<StorefrontCourse>,
   storefrontCourses: Array<StorefrontCourse>,
-  unlockedCourses: Array<UnlockedCourse>,
+  unlockedCourses: Array<UnlockedCourseMeta>,
   unlockedCourse?: Maybe<UnlockedCourse>,
   book: File,
+  onlineChapter: Markdown,
 };
 
 
@@ -151,6 +157,11 @@ export type QueryUnlockedCourseArgs = {
 export type QueryBookArgs = {
   path: Scalars['String'],
   fileName: Scalars['String']
+};
+
+
+export type QueryOnlineChapterArgs = {
+  path: Scalars['String']
 };
 
 export type SessionToken = {
@@ -184,17 +195,29 @@ export type UnlockedCourse = {
   header: Scalars['String'],
   url: Scalars['String'],
   imageUrl: Scalars['String'],
-  sections: Array<UnlockedCourseSection>,
+  introduction?: Maybe<UnlockedCourseSection>,
+  onboarding?: Maybe<UnlockedCourseSection>,
+  bookDownload?: Maybe<UnlockedCourseSection>,
+  bookOnline?: Maybe<UnlockedCourseSection>,
+  courseSections?: Maybe<Array<UnlockedCourseSection>>,
 };
 
 export type UnlockedCourseItem = {
    __typename?: 'UnlockedCourseItem',
   kind: Kind,
   label: Scalars['String'],
-  description: Scalars['String'],
+  description?: Maybe<Scalars['String']>,
   url: Scalars['String'],
   fileName?: Maybe<Scalars['String']>,
   secondaryUrl?: Maybe<Scalars['String']>,
+};
+
+export type UnlockedCourseMeta = {
+   __typename?: 'UnlockedCourseMeta',
+  courseId: CourseId,
+  header: Scalars['String'],
+  url: Scalars['String'],
+  imageUrl: Scalars['String'],
 };
 
 export type UnlockedCourseSection = {
@@ -223,14 +246,36 @@ export type GetBookQuery = (
   ) }
 );
 
+export type GetOnlineChapterQueryVariables = {
+  path: Scalars['String']
+};
+
+
+export type GetOnlineChapterQuery = (
+  { __typename?: 'Query' }
+  & { onlineChapter: (
+    { __typename?: 'Markdown' }
+    & Pick<Markdown, 'body'>
+  ) }
+);
+
 export type GetCoursesQueryVariables = {};
 
 
 export type GetCoursesQuery = (
   { __typename?: 'Query' }
   & { unlockedCourses: Array<(
-    { __typename?: 'UnlockedCourse' }
-    & Pick<UnlockedCourse, 'courseId' | 'header' | 'url' | 'imageUrl'>
+    { __typename?: 'UnlockedCourseMeta' }
+    & Pick<UnlockedCourseMeta, 'courseId' | 'header' | 'url' | 'imageUrl'>
+  )> }
+);
+
+export type ContentFragment = (
+  { __typename?: 'UnlockedCourseSection' }
+  & Pick<UnlockedCourseSection, 'label'>
+  & { items: Array<(
+    { __typename?: 'UnlockedCourseItem' }
+    & Pick<UnlockedCourseItem, 'kind' | 'label' | 'description' | 'url' | 'fileName' | 'secondaryUrl'>
   )> }
 );
 
@@ -244,14 +289,22 @@ export type GetCourseQuery = (
   & { unlockedCourse: Maybe<(
     { __typename?: 'UnlockedCourse' }
     & Pick<UnlockedCourse, 'courseId' | 'header'>
-    & { sections: Array<(
+    & { introduction: Maybe<(
       { __typename?: 'UnlockedCourseSection' }
-      & Pick<UnlockedCourseSection, 'label'>
-      & { items: Array<(
-        { __typename?: 'UnlockedCourseItem' }
-        & Pick<UnlockedCourseItem, 'kind' | 'label' | 'description' | 'url' | 'fileName' | 'secondaryUrl'>
-      )> }
-    )> }
+      & ContentFragment
+    )>, onboarding: Maybe<(
+      { __typename?: 'UnlockedCourseSection' }
+      & ContentFragment
+    )>, bookDownload: Maybe<(
+      { __typename?: 'UnlockedCourseSection' }
+      & ContentFragment
+    )>, bookOnline: Maybe<(
+      { __typename?: 'UnlockedCourseSection' }
+      & ContentFragment
+    )>, courseSections: Maybe<Array<(
+      { __typename?: 'UnlockedCourseSection' }
+      & ContentFragment
+    )>> }
   )> }
 );
 
@@ -408,7 +461,19 @@ export type GetMeQuery = (
   )> }
 );
 
-
+export const ContentFragmentDoc = gql`
+    fragment Content on UnlockedCourseSection {
+  label
+  items {
+    kind
+    label
+    description
+    url
+    fileName
+    secondaryUrl
+  }
+}
+    `;
 export const GetBookDocument = gql`
     query GetBook($path: String!, $fileName: String!) {
   book(path: $path, fileName: $fileName) {
@@ -445,6 +510,39 @@ export function useGetBookLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHook
 export type GetBookQueryHookResult = ReturnType<typeof useGetBookQuery>;
 export type GetBookLazyQueryHookResult = ReturnType<typeof useGetBookLazyQuery>;
 export type GetBookQueryResult = ApolloReactCommon.QueryResult<GetBookQuery, GetBookQueryVariables>;
+export const GetOnlineChapterDocument = gql`
+    query GetOnlineChapter($path: String!) {
+  onlineChapter(path: $path) {
+    body
+  }
+}
+    `;
+
+/**
+ * __useGetOnlineChapterQuery__
+ *
+ * To run a query within a React component, call `useGetOnlineChapterQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetOnlineChapterQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetOnlineChapterQuery({
+ *   variables: {
+ *      path: // value for 'path'
+ *   },
+ * });
+ */
+export function useGetOnlineChapterQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetOnlineChapterQuery, GetOnlineChapterQueryVariables>) {
+        return ApolloReactHooks.useQuery<GetOnlineChapterQuery, GetOnlineChapterQueryVariables>(GetOnlineChapterDocument, baseOptions);
+      }
+export function useGetOnlineChapterLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetOnlineChapterQuery, GetOnlineChapterQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<GetOnlineChapterQuery, GetOnlineChapterQueryVariables>(GetOnlineChapterDocument, baseOptions);
+        }
+export type GetOnlineChapterQueryHookResult = ReturnType<typeof useGetOnlineChapterQuery>;
+export type GetOnlineChapterLazyQueryHookResult = ReturnType<typeof useGetOnlineChapterLazyQuery>;
+export type GetOnlineChapterQueryResult = ApolloReactCommon.QueryResult<GetOnlineChapterQuery, GetOnlineChapterQueryVariables>;
 export const GetCoursesDocument = gql`
     query GetCourses {
   unlockedCourses {
@@ -485,20 +583,24 @@ export const GetCourseDocument = gql`
   unlockedCourse(courseId: $courseId) {
     courseId
     header
-    sections {
-      label
-      items {
-        kind
-        label
-        description
-        url
-        fileName
-        secondaryUrl
-      }
+    introduction {
+      ...Content
+    }
+    onboarding {
+      ...Content
+    }
+    bookDownload {
+      ...Content
+    }
+    bookOnline {
+      ...Content
+    }
+    courseSections {
+      ...Content
     }
   }
 }
-    `;
+    ${ContentFragmentDoc}`;
 
 /**
  * __useGetCourseQuery__

@@ -9,3 +9,11 @@ export const GET_BOOK = gql`
     }
   }
 `;
+
+export const GET_ONLINE_CHAPTER = gql`
+  query GetOnlineChapter($path: String!) {
+    onlineChapter(path: $path) {
+      body
+    }
+  }
+`;

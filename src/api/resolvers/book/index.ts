@@ -21,5 +21,17 @@ export const resolvers: Resolvers = {
         body: data?.Body?.toString('base64'),
       };
     },
+    onlineChapter: async (parent, { path }) => {
+      const data = await s3
+        .getObject({
+          Bucket: bucket,
+          Key: path,
+        })
+        .promise();
+
+      return {
+        body: data?.Body?.toString('base64'),
+      };
+    },
   },
 };

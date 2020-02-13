@@ -78,6 +78,7 @@ const lessWithAntdConfig = {
       });
     }
 
+    // MDX
     if (!isServer) {
       config.node = {
         fs: 'empty',

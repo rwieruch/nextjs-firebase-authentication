@@ -6,7 +6,7 @@ import {
   FirebaseCourse,
 } from '@services/firebase/course';
 
-import courseContent from '@data/courses';
+import allCourseContent from '@data/courses';
 import storefront from '@data/course-storefront';
 
 const mergeCourses = (courses: FirebaseCourse) =>
@@ -15,10 +15,40 @@ const mergeCourses = (courses: FirebaseCourse) =>
       const storefrontCourse = storefront[course.courseId];
       const bundle = storefrontCourse.bundles[course.packageId];
 
-      const allowedSections = courseContent[
-        course.courseId
-      ].sections.filter(section =>
-        section.roles.includes(course.packageId)
+      const {
+        introduction,
+        onboarding,
+        bookDownload,
+        bookOnline,
+        course: sections,
+      } = allCourseContent[course.courseId];
+
+      const hasIntroduction = introduction.roles.includes(
+        bundle.bundleId
+      );
+      const allowedIntroduction = hasIntroduction
+        ? introduction
+        : null;
+
+      const hasOnboarding = onboarding.roles.includes(
+        bundle.bundleId
+      );
+      const allowedOnboarding = hasOnboarding ? onboarding : null;
+
+      const hasBookDownload = bookDownload.roles.includes(
+        bundle.bundleId
+      );
+      const allowedBookDownload = hasBookDownload
+        ? bookDownload
+        : null;
+
+      const hasBookOnline = bookOnline.roles.includes(
+        bundle.bundleId
+      );
+      const allowedBookOnline = hasBookOnline ? bookOnline : null;
+
+      const allowedCourseSections = sections.filter(section =>
+        section.roles.includes(bundle.bundleId)
       );
 
       const unlockedCourse = {
@@ -28,7 +58,11 @@ const mergeCourses = (courses: FirebaseCourse) =>
         url: storefrontCourse.url,
         imageUrl: bundle.imageUrl,
         weight: bundle.weight,
-        sections: allowedSections,
+        introduction: allowedIntroduction,
+        onboarding: allowedOnboarding,
+        bookDownload: allowedBookDownload,
+        bookOnline: allowedBookOnline,
+        courseSections: allowedCourseSections,
       };
 
       const index = result.findIndex(
@@ -50,11 +84,31 @@ const mergeCourses = (courses: FirebaseCourse) =>
             ? prevCourse.bundleId
             : unlockedCourse.bundleId;
 
-          const duplicatedSections = prevCourse.sections.concat(
-            unlockedCourse.sections
+          const introduction = {
+            ...prevCourse.introduction,
+            ...unlockedCourse.introduction,
+          };
+
+          const onboarding = {
+            ...prevCourse.onboarding,
+            ...unlockedCourse.onboarding,
+          };
+
+          const bookDownload = {
+            ...prevCourse.bookDownload,
+            ...unlockedCourse.bookDownload,
+          };
+
+          const bookOnline = {
+            ...prevCourse.bookOnline,
+            ...unlockedCourse.bookOnline,
+          };
+
+          const duplicatedSections = prevCourse.courseSections.concat(
+            unlockedCourse.courseSections
           );
 
-          const sections = duplicatedSections.filter(
+          const courseSections = duplicatedSections.filter(
             (item: any, index: number) =>
               duplicatedSections.indexOf(item) === index
           );
@@ -65,7 +119,11 @@ const mergeCourses = (courses: FirebaseCourse) =>
             header,
             url,
             imageUrl,
-            sections,
+            introduction,
+            onboarding,
+            bookDownload,
+            bookOnline,
+            courseSections,
           };
 
           return mergedCourse;

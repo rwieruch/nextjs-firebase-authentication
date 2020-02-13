@@ -48,6 +48,11 @@ export enum Kind {
   Video = 'Video'
 }
 
+export type Markdown = {
+   __typename?: 'Markdown',
+  body: Scalars['String'],
+};
+
 export type Mutation = {
    __typename?: 'Mutation',
   _?: Maybe<Scalars['Boolean']>,
@@ -129,9 +134,10 @@ export type Query = {
   me?: Maybe<User>,
   storefrontCourse?: Maybe<StorefrontCourse>,
   storefrontCourses: Array<StorefrontCourse>,
-  unlockedCourses: Array<UnlockedCourse>,
+  unlockedCourses: Array<UnlockedCourseMeta>,
   unlockedCourse?: Maybe<UnlockedCourse>,
   book: File,
+  onlineChapter: Markdown,
 };
 
 
@@ -149,6 +155,11 @@ export type QueryUnlockedCourseArgs = {
 export type QueryBookArgs = {
   path: Scalars['String'],
   fileName: Scalars['String']
+};
+
+
+export type QueryOnlineChapterArgs = {
+  path: Scalars['String']
 };
 
 export type SessionToken = {
@@ -182,17 +193,29 @@ export type UnlockedCourse = {
   header: Scalars['String'],
   url: Scalars['String'],
   imageUrl: Scalars['String'],
-  sections: Array<UnlockedCourseSection>,
+  introduction?: Maybe<UnlockedCourseSection>,
+  onboarding?: Maybe<UnlockedCourseSection>,
+  bookDownload?: Maybe<UnlockedCourseSection>,
+  bookOnline?: Maybe<UnlockedCourseSection>,
+  courseSections?: Maybe<Array<UnlockedCourseSection>>,
 };
 
 export type UnlockedCourseItem = {
    __typename?: 'UnlockedCourseItem',
   kind: Kind,
   label: Scalars['String'],
-  description: Scalars['String'],
+  description?: Maybe<Scalars['String']>,
   url: Scalars['String'],
   fileName?: Maybe<Scalars['String']>,
   secondaryUrl?: Maybe<Scalars['String']>,
+};
+
+export type UnlockedCourseMeta = {
+   __typename?: 'UnlockedCourseMeta',
+  courseId: CourseId,
+  header: Scalars['String'],
+  url: Scalars['String'],
+  imageUrl: Scalars['String'],
 };
 
 export type UnlockedCourseSection = {
@@ -290,11 +313,13 @@ export type ResolversTypes = ResolversObject<{
   StorefrontCourse: ResolverTypeWrapper<any>,
   Bundle: ResolverTypeWrapper<any>,
   Int: ResolverTypeWrapper<any>,
+  UnlockedCourseMeta: ResolverTypeWrapper<any>,
   UnlockedCourse: ResolverTypeWrapper<any>,
   UnlockedCourseSection: ResolverTypeWrapper<any>,
   UnlockedCourseItem: ResolverTypeWrapper<any>,
   Kind: ResolverTypeWrapper<any>,
   File: ResolverTypeWrapper<any>,
+  Markdown: ResolverTypeWrapper<any>,
   Mutation: ResolverTypeWrapper<{}>,
   SessionToken: ResolverTypeWrapper<any>,
   OrderId: ResolverTypeWrapper<any>,
@@ -313,11 +338,13 @@ export type ResolversParentTypes = ResolversObject<{
   StorefrontCourse: any,
   Bundle: any,
   Int: any,
+  UnlockedCourseMeta: any,
   UnlockedCourse: any,
   UnlockedCourseSection: any,
   UnlockedCourseItem: any,
   Kind: any,
   File: any,
+  Markdown: any,
   Mutation: {},
   SessionToken: any,
   OrderId: any,
@@ -336,6 +363,11 @@ export type BundleResolvers<ContextType = ResolverContext, ParentType extends Re
 export type FileResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['File'] = ResolversParentTypes['File']> = ResolversObject<{
   fileName?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   contentType?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  body?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  __isTypeOf?: isTypeOfResolverFn,
+}>;
+
+export type MarkdownResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['Markdown'] = ResolversParentTypes['Markdown']> = ResolversObject<{
   body?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   __isTypeOf?: isTypeOfResolverFn,
 }>;
@@ -363,9 +395,10 @@ export type QueryResolvers<ContextType = ResolverContext, ParentType extends Res
   me?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>,
   storefrontCourse?: Resolver<Maybe<ResolversTypes['StorefrontCourse']>, ParentType, ContextType, RequireFields<QueryStorefrontCourseArgs, 'courseId' | 'bundleId'>>,
   storefrontCourses?: Resolver<Array<ResolversTypes['StorefrontCourse']>, ParentType, ContextType>,
-  unlockedCourses?: Resolver<Array<ResolversTypes['UnlockedCourse']>, ParentType, ContextType>,
+  unlockedCourses?: Resolver<Array<ResolversTypes['UnlockedCourseMeta']>, ParentType, ContextType>,
   unlockedCourse?: Resolver<Maybe<ResolversTypes['UnlockedCourse']>, ParentType, ContextType, RequireFields<QueryUnlockedCourseArgs, 'courseId'>>,
   book?: Resolver<ResolversTypes['File'], ParentType, ContextType, RequireFields<QueryBookArgs, 'path' | 'fileName'>>,
+  onlineChapter?: Resolver<ResolversTypes['Markdown'], ParentType, ContextType, RequireFields<QueryOnlineChapterArgs, 'path'>>,
 }>;
 
 export type SessionTokenResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['SessionToken'] = ResolversParentTypes['SessionToken']> = ResolversObject<{
@@ -397,17 +430,29 @@ export type UnlockedCourseResolvers<ContextType = ResolverContext, ParentType ex
   header?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   url?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   imageUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-  sections?: Resolver<Array<ResolversTypes['UnlockedCourseSection']>, ParentType, ContextType>,
+  introduction?: Resolver<Maybe<ResolversTypes['UnlockedCourseSection']>, ParentType, ContextType>,
+  onboarding?: Resolver<Maybe<ResolversTypes['UnlockedCourseSection']>, ParentType, ContextType>,
+  bookDownload?: Resolver<Maybe<ResolversTypes['UnlockedCourseSection']>, ParentType, ContextType>,
+  bookOnline?: Resolver<Maybe<ResolversTypes['UnlockedCourseSection']>, ParentType, ContextType>,
+  courseSections?: Resolver<Maybe<Array<ResolversTypes['UnlockedCourseSection']>>, ParentType, ContextType>,
   __isTypeOf?: isTypeOfResolverFn,
 }>;
 
 export type UnlockedCourseItemResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['UnlockedCourseItem'] = ResolversParentTypes['UnlockedCourseItem']> = ResolversObject<{
   kind?: Resolver<ResolversTypes['Kind'], ParentType, ContextType>,
   label?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-  description?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   url?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   fileName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   secondaryUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
+  __isTypeOf?: isTypeOfResolverFn,
+}>;
+
+export type UnlockedCourseMetaResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['UnlockedCourseMeta'] = ResolversParentTypes['UnlockedCourseMeta']> = ResolversObject<{
+  courseId?: Resolver<ResolversTypes['CourseId'], ParentType, ContextType>,
+  header?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  url?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  imageUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   __isTypeOf?: isTypeOfResolverFn,
 }>;
 
@@ -426,6 +471,7 @@ export type UserResolvers<ContextType = ResolverContext, ParentType extends Reso
 export type Resolvers<ContextType = ResolverContext> = ResolversObject<{
   Bundle?: BundleResolvers<ContextType>,
   File?: FileResolvers<ContextType>,
+  Markdown?: MarkdownResolvers<ContextType>,
   Mutation?: MutationResolvers<ContextType>,
   OrderId?: OrderIdResolvers<ContextType>,
   Query?: QueryResolvers<ContextType>,
@@ -435,6 +481,7 @@ export type Resolvers<ContextType = ResolverContext> = ResolversObject<{
   Subscription?: SubscriptionResolvers<ContextType>,
   UnlockedCourse?: UnlockedCourseResolvers<ContextType>,
   UnlockedCourseItem?: UnlockedCourseItemResolvers<ContextType>,
+  UnlockedCourseMeta?: UnlockedCourseMetaResolvers<ContextType>,
   UnlockedCourseSection?: UnlockedCourseSectionResolvers<ContextType>,
   User?: UserResolvers<ContextType>,
 }>;

@@ -12,6 +12,7 @@ import Layout from '@components/Layout';
 import { kebabCaseToUpperSnakeCase } from '@services/string';
 
 import CourseSection from './CourseSection';
+import BookOnline from './BookOnline';
 
 const { Content, Sider } = AntdLayout;
 
@@ -33,17 +34,28 @@ type NextAuthPage = NextPage<CourseItemPageProps> & {
 };
 
 const CourseItemPage: NextAuthPage = ({ data }) => {
-  const [selectedSection, setSelectedSection] = React.useState(0);
+  const [selectedSection, setSelectedSection] = React.useState(
+    'introduction'
+  );
 
   if (!data.unlockedCourse) {
     return null;
   }
 
-  const handleSelectSection = (index: number) => {
-    setSelectedSection(index);
+  const handleSelectSection = (section: string) => {
+    setSelectedSection(section);
   };
 
   console.log(data.unlockedCourse);
+
+  const {
+    header,
+    introduction,
+    onboarding,
+    bookDownload,
+    bookOnline,
+    courseSections,
+  } = data.unlockedCourse;
 
   return (
     <Layout>
@@ -54,9 +66,7 @@ const CourseItemPage: NextAuthPage = ({ data }) => {
               <a>Courses</a>
             </Link>
           </Breadcrumb.Item>
-          <Breadcrumb.Item>
-            {data.unlockedCourse.header}
-          </Breadcrumb.Item>
+          <Breadcrumb.Item>{header}</Breadcrumb.Item>
         </Breadcrumb>
         <AntdLayout
           style={{
@@ -68,24 +78,103 @@ const CourseItemPage: NextAuthPage = ({ data }) => {
           <Sider width={200} style={{ background: '#fff' }}>
             <Menu
               mode="inline"
-              defaultSelectedKeys={[selectedSection.toString()]}
+              defaultSelectedKeys={[selectedSection]}
               style={{ height: '100%' }}
             >
-              {data.unlockedCourse?.sections.map((section, index) => (
+              {introduction && (
                 <Menu.Item
-                  key={index}
-                  onClick={() => handleSelectSection(index)}
+                  key="introduction"
+                  onClick={() => handleSelectSection('introduction')}
                 >
-                  <span>{section.label}</span>
+                  <span>{introduction.label}</span>
                 </Menu.Item>
-              ))}
+              )}
+
+              {onboarding && (
+                <Menu.Item
+                  key="onboarding"
+                  onClick={() => handleSelectSection('onboarding')}
+                >
+                  <span>{onboarding.label}</span>
+                </Menu.Item>
+              )}
+
+              {bookDownload && (
+                <Menu.Item
+                  key="bookDownload"
+                  onClick={() => handleSelectSection('bookDownload')}
+                >
+                  <span>{bookDownload.label}</span>
+                </Menu.Item>
+              )}
+
+              {bookOnline && (
+                <Menu.SubMenu title={bookOnline.label}>
+                  {bookOnline.items.map((item, index) => (
+                    <Menu.Item
+                      key={`bookOnline:${index}`}
+                      onClick={() =>
+                        handleSelectSection(`bookOnline:${index}`)
+                      }
+                    >
+                      {item.label}
+                    </Menu.Item>
+                  ))}
+                </Menu.SubMenu>
+              )}
+
+              {courseSections && (
+                <Menu.SubMenu title="Curriculum">
+                  {courseSections.map((courseSection, index) => (
+                    <Menu.Item
+                      key={`courseSections:${index}`}
+                      onClick={() =>
+                        handleSelectSection(`courseSections:${index}`)
+                      }
+                    >
+                      {courseSection.label}
+                    </Menu.Item>
+                  ))}
+                </Menu.SubMenu>
+              )}
             </Menu>
           </Sider>
 
           <Content style={{ padding: '0 24px' }}>
-            <CourseSection
-              section={data.unlockedCourse?.sections[selectedSection]}
-            />
+            {selectedSection === 'introduction' && introduction && (
+              <CourseSection section={introduction} />
+            )}
+
+            {selectedSection === 'onboarding' && onboarding && (
+              <CourseSection section={onboarding} />
+            )}
+
+            {selectedSection === 'bookDownload' && bookDownload && (
+              <CourseSection section={bookDownload} />
+            )}
+
+            {selectedSection.includes('bookOnline') && bookOnline && (
+              <BookOnline
+                path={
+                  bookOnline.items[
+                    Number(selectedSection.replace('bookOnline:', ''))
+                  ]?.url
+                }
+              />
+            )}
+
+            {selectedSection.includes('courseSections') &&
+              courseSections && (
+                <CourseSection
+                  section={
+                    courseSections[
+                      Number(
+                        selectedSection.replace('courseSections:', '')
+                      )
+                    ]
+                  }
+                />
+              )}
           </Content>
         </AntdLayout>
       </StyledContent>
