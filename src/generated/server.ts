@@ -285,6 +285,7 @@ export type UnlockedCourse = {
   header: Scalars['String'],
   url: Scalars['String'],
   imageUrl: Scalars['String'],
+  canUpgrade: Scalars['Boolean'],
   introduction?: Maybe<Introduction>,
   onboarding?: Maybe<Onboarding>,
   bookDownload?: Maybe<BookDownload>,
@@ -298,6 +299,7 @@ export type UnlockedCourseMeta = {
   header: Scalars['String'],
   url: Scalars['String'],
   imageUrl: Scalars['String'],
+  canUpgrade: Scalars['Boolean'],
 };
 
 export type User = {
@@ -628,6 +630,7 @@ export type UnlockedCourseResolvers<ContextType = ResolverContext, ParentType ex
   header?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   url?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   imageUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  canUpgrade?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
   introduction?: Resolver<Maybe<ResolversTypes['Introduction']>, ParentType, ContextType>,
   onboarding?: Resolver<Maybe<ResolversTypes['Onboarding']>, ParentType, ContextType>,
   bookDownload?: Resolver<Maybe<ResolversTypes['BookDownload']>, ParentType, ContextType>,
@@ -641,6 +644,7 @@ export type UnlockedCourseMetaResolvers<ContextType = ResolverContext, ParentTyp
   header?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   url?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   imageUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  canUpgrade?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
   __isTypeOf?: isTypeOfResolverFn,
 }>;
 

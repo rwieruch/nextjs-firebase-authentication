@@ -1,17 +1,14 @@
 import React from 'react';
 
-type ExternalCourseLinkProps = {
+type ExternalLinkProps = {
   url?: string;
   children: React.ReactNode;
 };
 
-const ExternalCourseLink = ({
-  url,
-  children,
-}: ExternalCourseLinkProps) => (
+const ExternalLink = ({ url, children }: ExternalLinkProps) => (
   <a href={url} target="_blank" rel="noopener noreferrer">
     {children}
   </a>
 );
 
-export default ExternalCourseLink;
+export default ExternalLink;

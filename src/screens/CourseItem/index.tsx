@@ -2,13 +2,14 @@ import React from 'react';
 import { NextPage } from 'next';
 import Link from 'next/link';
 import styled from 'styled-components';
-import { Layout as AntdLayout, Breadcrumb, Menu } from 'antd';
+import { Layout as AntdLayout, Breadcrumb, Menu, Icon } from 'antd';
 
 import { UnlockedCourse } from '@generated/client';
 import { Session } from '@typeDefs/session';
 import * as ROUTES from '@constants/routes';
 import { GET_UNLOCKED_COURSE } from '@queries/course';
 import Layout from '@components/Layout';
+import ExternalLink from '@components/ExternalLink';
 import { kebabCaseToUpperSnakeCase } from '@services/string';
 
 import Introduction from './Introduction';
@@ -53,10 +54,10 @@ const CourseItemPage: NextAuthPage = ({ data }) => {
     setSelected({ k, i, j });
   };
 
-  console.log(data.unlockedCourse);
-
   const {
     header,
+    url,
+    canUpgrade,
     introduction,
     onboarding,
     bookDownload,
@@ -107,6 +108,7 @@ const CourseItemPage: NextAuthPage = ({ data }) => {
               {introduction && (
                 <Menu.Item
                   key="introduction:0:0"
+                  disabled={!introductionData}
                   onClick={() =>
                     handleSelectSection('introduction', 0, 0)
                   }
@@ -118,6 +120,7 @@ const CourseItemPage: NextAuthPage = ({ data }) => {
               {onboarding && (
                 <Menu.Item
                   key="onboarding:0:0"
+                  disabled={!onboardingData}
                   onClick={() =>
                     handleSelectSection('onboarding', 0, 0)
                   }
@@ -129,6 +132,7 @@ const CourseItemPage: NextAuthPage = ({ data }) => {
               {bookDownload && (
                 <Menu.Item
                   key="bookDownload:0:0"
+                  disabled={!bookDownloadData}
                   onClick={() =>
                     handleSelectSection('bookDownload', 0, 0)
                   }
@@ -138,7 +142,10 @@ const CourseItemPage: NextAuthPage = ({ data }) => {
               )}
 
               {bookOnline && (
-                <Menu.SubMenu title={bookOnline.label}>
+                <Menu.SubMenu
+                  title={bookOnline.label}
+                  disabled={!bookOnlineData}
+                >
                   {bookOnline.data?.chapters.map((chapter, i) => {
                     if (chapter.sections) {
                       return (
@@ -183,7 +190,10 @@ const CourseItemPage: NextAuthPage = ({ data }) => {
               )}
 
               {curriculum && (
-                <Menu.SubMenu title={curriculum.label}>
+                <Menu.SubMenu
+                  title={curriculum.label}
+                  disabled={!curriculumData}
+                >
                   {curriculum.data?.sections.map((curricu, i) => (
                     <Menu.Item
                       key={`curriculum:${i}:0`}
@@ -195,6 +205,14 @@ const CourseItemPage: NextAuthPage = ({ data }) => {
                     </Menu.Item>
                   ))}
                 </Menu.SubMenu>
+              )}
+
+              {canUpgrade && (
+                <Menu.Item key="upgrade">
+                  <ExternalLink url={url}>
+                    <Icon type="fire" /> Upgrade
+                  </ExternalLink>
+                </Menu.Item>
               )}
             </Menu>
           </Sider>

@@ -7,6 +7,7 @@ export const GET_UNLOCKED_COURSES = gql`
       header
       url
       imageUrl
+      canUpgrade
     }
   }
 `;
@@ -16,6 +17,8 @@ export const GET_UNLOCKED_COURSE = gql`
     unlockedCourse(courseId: $courseId) {
       courseId
       header
+      url
+      canUpgrade
       introduction {
         label
         data {

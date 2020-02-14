@@ -25,6 +25,7 @@ export default gql`
     header: String!
     url: String!
     imageUrl: String!
+    canUpgrade: Boolean!
   }
 
   type UnlockedCourse {
@@ -33,6 +34,7 @@ export default gql`
     header: String!
     url: String!
     imageUrl: String!
+    canUpgrade: Boolean!
     introduction: Introduction
     onboarding: Onboarding
     bookDownload: BookDownload

@@ -287,6 +287,7 @@ export type UnlockedCourse = {
   header: Scalars['String'],
   url: Scalars['String'],
   imageUrl: Scalars['String'],
+  canUpgrade: Scalars['Boolean'],
   introduction?: Maybe<Introduction>,
   onboarding?: Maybe<Onboarding>,
   bookDownload?: Maybe<BookDownload>,
@@ -300,6 +301,7 @@ export type UnlockedCourseMeta = {
   header: Scalars['String'],
   url: Scalars['String'],
   imageUrl: Scalars['String'],
+  canUpgrade: Scalars['Boolean'],
 };
 
 export type User = {
@@ -342,7 +344,7 @@ export type GetCoursesQuery = (
   { __typename?: 'Query' }
   & { unlockedCourses: Array<(
     { __typename?: 'UnlockedCourseMeta' }
-    & Pick<UnlockedCourseMeta, 'courseId' | 'header' | 'url' | 'imageUrl'>
+    & Pick<UnlockedCourseMeta, 'courseId' | 'header' | 'url' | 'imageUrl' | 'canUpgrade'>
   )> }
 );
 
@@ -355,7 +357,7 @@ export type GetCourseQuery = (
   { __typename?: 'Query' }
   & { unlockedCourse: Maybe<(
     { __typename?: 'UnlockedCourse' }
-    & Pick<UnlockedCourse, 'courseId' | 'header'>
+    & Pick<UnlockedCourse, 'courseId' | 'header' | 'url' | 'canUpgrade'>
     & { introduction: Maybe<(
       { __typename?: 'Introduction' }
       & Pick<Introduction, 'label'>
@@ -642,6 +644,7 @@ export const GetCoursesDocument = gql`
     header
     url
     imageUrl
+    canUpgrade
   }
 }
     `;
@@ -675,6 +678,8 @@ export const GetCourseDocument = gql`
   unlockedCourse(courseId: $courseId) {
     courseId
     header
+    url
+    canUpgrade
     introduction {
       label
       data {

@@ -76,7 +76,7 @@ const CourseListPage: NextAuthPage = ({
       <StyledContent>
         <StyledCards>
           {unlockedCoursesData.unlockedCourses.map(course => {
-            const actions = [
+            let actions = [
               <Link
                 href={ROUTES.UNLOCKED_COURSE_DETAILS}
                 as={`/p/${upperSnakeCaseToKebabCase(
@@ -87,10 +87,15 @@ const CourseListPage: NextAuthPage = ({
                   <Icon type="book" key="book" /> Get Started
                 </a>
               </Link>,
-              <ExternalLink url={course.url}>
-                <Icon type="unlock" key="unlock" /> Upgrade
-              </ExternalLink>,
             ];
+
+            if (course.canUpgrade) {
+              actions.push(
+                <ExternalLink url={course.url}>
+                  <Icon type="unlock" key="unlock" /> Upgrade
+                </ExternalLink>
+              );
+            }
 
             return (
               <StyledCard

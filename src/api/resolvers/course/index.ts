@@ -60,6 +60,13 @@ const mergeCourses = (courses: FirebaseCourse) =>
         ? curriculum
         : omit(curriculum, 'data');
 
+      const canUpgrade =
+        !hasIntroduction ||
+        !hasOnboarding ||
+        !hasBookDownload ||
+        !hasBookOnline ||
+        !hasCurriculum;
+
       const unlockedCourse = {
         courseId: course.courseId,
         bundleId: course.packageId,
@@ -69,6 +76,7 @@ const mergeCourses = (courses: FirebaseCourse) =>
         imageUrl: bundle.imageUrl,
 
         weight: bundle.weight,
+        canUpgrade,
 
         introduction: allowedIntroduction,
         onboarding: allowedOnboarding,
@@ -95,6 +103,9 @@ const mergeCourses = (courses: FirebaseCourse) =>
           const bundleId = moreWeight
             ? prevCourse.bundleId
             : unlockedCourse.bundleId;
+
+          const canUpgrade =
+            prevCourse.canUpgrade && unlockedCourse.canUpgrade;
 
           const introduction = {
             ...prevCourse.introduction,
@@ -127,6 +138,7 @@ const mergeCourses = (courses: FirebaseCourse) =>
             header,
             url,
             imageUrl,
+            canUpgrade,
             introduction,
             onboarding,
             bookDownload,
@@ -174,6 +186,7 @@ export const resolvers: Resolvers = {
         header: unlockedCourse.header,
         url: unlockedCourse.url,
         imageUrl: unlockedCourse.imageUrl,
+        canUpgrade: unlockedCourse.canUpgrade,
       }));
     },
     unlockedCourse: async (parent, { courseId }, { me }) => {
