@@ -33,6 +33,7 @@ const nextConfig = {
     COUPON_SALT: process.env.COUPON_SALT,
     COUPON_URL: process.env.COUPON_URL,
     FIREBASE_ADMIN_UID: process.env.FIREBASE_ADMIN_UID,
+    // same as in ...
     REVUE_TOKEN: process.env.REVUE_TOKEN,
     SLACK_TOKEN: process.env.SLACK_TOKEN,
     CONVERTKIT_API_KEY: process.env.CONVERTKIT_API_KEY,
@@ -42,19 +43,8 @@ const nextConfig = {
     S3_SECRET_ACCESS_KEY: process.env.S3_SECRET_ACCESS_KEY,
     S3_BUCKET: process.env.S3_BUCKET,
   },
-};
-
-const lessWithAntdConfig = {
-  lessLoaderOptions: {
-    javascriptEnabled: true,
-    modifyVars: lessToJS(
-      fs.readFileSync(
-        path.resolve(__dirname, './assets/antd-custom.less'),
-        'utf8'
-      )
-    ),
-  },
   webpack: (config, { isServer }) => {
+    // Less with Antd
     if (isServer) {
       const antStyles = /antd\/.*?\/style.*?/;
       const origExternals = [...config.externals];
@@ -86,6 +76,18 @@ const lessWithAntdConfig = {
     }
 
     return config;
+  },
+};
+
+const lessWithAntdConfig = {
+  lessLoaderOptions: {
+    javascriptEnabled: true,
+    modifyVars: lessToJS(
+      fs.readFileSync(
+        path.resolve(__dirname, './assets/antd-custom.less'),
+        'utf8'
+      )
+    ),
   },
 };
 
