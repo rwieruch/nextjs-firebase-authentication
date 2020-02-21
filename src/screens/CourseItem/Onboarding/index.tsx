@@ -15,14 +15,6 @@ const Onboarding = ({ onboardingData }: OnboardingProps) => {
     <ExternalLink url={onboardingData.url}>Foo</ExternalLink>,
   ];
 
-  if (onboardingData.secondaryUrl) {
-    actions = actions.concat(
-      <ExternalLink url={onboardingData.secondaryUrl}>
-        More
-      </ExternalLink>
-    );
-  }
-
   return (
     <StyledCards>
       <StyledCard

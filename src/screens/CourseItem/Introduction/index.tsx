@@ -15,14 +15,6 @@ const Introduction = ({ introductionData }: IntroductionProps) => {
     <ExternalLink url={introductionData.url}>Bar</ExternalLink>,
   ];
 
-  if (introductionData.secondaryUrl) {
-    actions = actions.concat(
-      <ExternalLink url={introductionData.secondaryUrl}>
-        More
-      </ExternalLink>
-    );
-  }
-
   return (
     <StyledCards>
       <StyledCard
