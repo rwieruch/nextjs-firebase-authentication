@@ -33,6 +33,7 @@ const nextConfig = {
     COUPON_SALT: process.env.COUPON_SALT,
     COUPON_URL: process.env.COUPON_URL,
     FIREBASE_ADMIN_UID: process.env.FIREBASE_ADMIN_UID,
+    SENTRY_DSN: process.env.SENTRY_DSN,
     // same as in ...
     REVUE_TOKEN: process.env.REVUE_TOKEN,
     SLACK_TOKEN: process.env.SLACK_TOKEN,
