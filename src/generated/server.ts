@@ -368,7 +368,7 @@ export type TypeResolveFn<TTypes, TParent = {}, TContext = {}> = (
   info: GraphQLResolveInfo
 ) => Maybe<TTypes>;
 
-export type isTypeOfResolverFn = (obj: any, info: GraphQLResolveInfo) => boolean;
+export type isTypeOfResolverFn<T = {}> = (obj: T, info: GraphQLResolveInfo) => boolean;
 
 export type NextResolverFn<T> = () => Promise<T>;
 
@@ -460,19 +460,19 @@ export type BookChapterResolvers<ContextType = ResolverContext, ParentType exten
   label?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   url?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   sections?: Resolver<Maybe<Array<ResolversTypes['BookSection']>>, ParentType, ContextType>,
-  __isTypeOf?: isTypeOfResolverFn,
+  __isTypeOf?: isTypeOfResolverFn<ParentType>,
 }>;
 
 export type BookDownloadResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['BookDownload'] = ResolversParentTypes['BookDownload']> = ResolversObject<{
   label?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   data?: Resolver<Maybe<ResolversTypes['BookDownloadData']>, ParentType, ContextType>,
-  __isTypeOf?: isTypeOfResolverFn,
+  __isTypeOf?: isTypeOfResolverFn<ParentType>,
 }>;
 
 export type BookDownloadDataResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['BookDownloadData'] = ResolversParentTypes['BookDownloadData']> = ResolversObject<{
   label?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   items?: Resolver<Array<ResolversTypes['BookDownloadItem']>, ParentType, ContextType>,
-  __isTypeOf?: isTypeOfResolverFn,
+  __isTypeOf?: isTypeOfResolverFn<ParentType>,
 }>;
 
 export type BookDownloadItemResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['BookDownloadItem'] = ResolversParentTypes['BookDownloadItem']> = ResolversObject<{
@@ -480,24 +480,24 @@ export type BookDownloadItemResolvers<ContextType = ResolverContext, ParentType 
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   url?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   fileName?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-  __isTypeOf?: isTypeOfResolverFn,
+  __isTypeOf?: isTypeOfResolverFn<ParentType>,
 }>;
 
 export type BookOnlineResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['BookOnline'] = ResolversParentTypes['BookOnline']> = ResolversObject<{
   label?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   data?: Resolver<Maybe<ResolversTypes['BookOnlineData']>, ParentType, ContextType>,
-  __isTypeOf?: isTypeOfResolverFn,
+  __isTypeOf?: isTypeOfResolverFn<ParentType>,
 }>;
 
 export type BookOnlineDataResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['BookOnlineData'] = ResolversParentTypes['BookOnlineData']> = ResolversObject<{
   chapters?: Resolver<Array<ResolversTypes['BookChapter']>, ParentType, ContextType>,
-  __isTypeOf?: isTypeOfResolverFn,
+  __isTypeOf?: isTypeOfResolverFn<ParentType>,
 }>;
 
 export type BookSectionResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['BookSection'] = ResolversParentTypes['BookSection']> = ResolversObject<{
   label?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   url?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-  __isTypeOf?: isTypeOfResolverFn,
+  __isTypeOf?: isTypeOfResolverFn<ParentType>,
 }>;
 
 export type BundleResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['Bundle'] = ResolversParentTypes['Bundle']> = ResolversObject<{
@@ -505,18 +505,18 @@ export type BundleResolvers<ContextType = ResolverContext, ParentType extends Re
   bundleId?: Resolver<ResolversTypes['BundleId'], ParentType, ContextType>,
   price?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
   imageUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-  __isTypeOf?: isTypeOfResolverFn,
+  __isTypeOf?: isTypeOfResolverFn<ParentType>,
 }>;
 
 export type CurriculumResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['Curriculum'] = ResolversParentTypes['Curriculum']> = ResolversObject<{
   label?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   data?: Resolver<Maybe<ResolversTypes['CurriculumData']>, ParentType, ContextType>,
-  __isTypeOf?: isTypeOfResolverFn,
+  __isTypeOf?: isTypeOfResolverFn<ParentType>,
 }>;
 
 export type CurriculumDataResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['CurriculumData'] = ResolversParentTypes['CurriculumData']> = ResolversObject<{
   sections?: Resolver<Array<ResolversTypes['CurriculumSection']>, ParentType, ContextType>,
-  __isTypeOf?: isTypeOfResolverFn,
+  __isTypeOf?: isTypeOfResolverFn<ParentType>,
 }>;
 
 export type CurriculumItemResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['CurriculumItem'] = ResolversParentTypes['CurriculumItem']> = ResolversObject<{
@@ -525,38 +525,38 @@ export type CurriculumItemResolvers<ContextType = ResolverContext, ParentType ex
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   kind?: Resolver<ResolversTypes['Kind'], ParentType, ContextType>,
   secondaryUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-  __isTypeOf?: isTypeOfResolverFn,
+  __isTypeOf?: isTypeOfResolverFn<ParentType>,
 }>;
 
 export type CurriculumSectionResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['CurriculumSection'] = ResolversParentTypes['CurriculumSection']> = ResolversObject<{
   label?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   items?: Resolver<Array<ResolversTypes['CurriculumItem']>, ParentType, ContextType>,
-  __isTypeOf?: isTypeOfResolverFn,
+  __isTypeOf?: isTypeOfResolverFn<ParentType>,
 }>;
 
 export type FileResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['File'] = ResolversParentTypes['File']> = ResolversObject<{
   fileName?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   contentType?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   body?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-  __isTypeOf?: isTypeOfResolverFn,
+  __isTypeOf?: isTypeOfResolverFn<ParentType>,
 }>;
 
 export type IntroductionResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['Introduction'] = ResolversParentTypes['Introduction']> = ResolversObject<{
   label?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   data?: Resolver<Maybe<ResolversTypes['IntroductionData']>, ParentType, ContextType>,
-  __isTypeOf?: isTypeOfResolverFn,
+  __isTypeOf?: isTypeOfResolverFn<ParentType>,
 }>;
 
 export type IntroductionDataResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['IntroductionData'] = ResolversParentTypes['IntroductionData']> = ResolversObject<{
   label?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   url?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-  __isTypeOf?: isTypeOfResolverFn,
+  __isTypeOf?: isTypeOfResolverFn<ParentType>,
 }>;
 
 export type MarkdownResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['Markdown'] = ResolversParentTypes['Markdown']> = ResolversObject<{
   body?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-  __isTypeOf?: isTypeOfResolverFn,
+  __isTypeOf?: isTypeOfResolverFn<ParentType>,
 }>;
 
 export type MutationResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
@@ -575,19 +575,19 @@ export type MutationResolvers<ContextType = ResolverContext, ParentType extends 
 export type OnboardingResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['Onboarding'] = ResolversParentTypes['Onboarding']> = ResolversObject<{
   label?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   data?: Resolver<Maybe<ResolversTypes['OnboardingData']>, ParentType, ContextType>,
-  __isTypeOf?: isTypeOfResolverFn,
+  __isTypeOf?: isTypeOfResolverFn<ParentType>,
 }>;
 
 export type OnboardingDataResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['OnboardingData'] = ResolversParentTypes['OnboardingData']> = ResolversObject<{
   label?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   url?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-  __isTypeOf?: isTypeOfResolverFn,
+  __isTypeOf?: isTypeOfResolverFn<ParentType>,
 }>;
 
 export type OrderIdResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['OrderId'] = ResolversParentTypes['OrderId']> = ResolversObject<{
   orderId?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-  __isTypeOf?: isTypeOfResolverFn,
+  __isTypeOf?: isTypeOfResolverFn<ParentType>,
 }>;
 
 export type QueryResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
@@ -603,7 +603,7 @@ export type QueryResolvers<ContextType = ResolverContext, ParentType extends Res
 
 export type SessionTokenResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['SessionToken'] = ResolversParentTypes['SessionToken']> = ResolversObject<{
   sessionToken?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-  __isTypeOf?: isTypeOfResolverFn,
+  __isTypeOf?: isTypeOfResolverFn<ParentType>,
 }>;
 
 export type StorefrontCourseResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['StorefrontCourse'] = ResolversParentTypes['StorefrontCourse']> = ResolversObject<{
@@ -612,12 +612,12 @@ export type StorefrontCourseResolvers<ContextType = ResolverContext, ParentType 
   url?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   imageUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   bundle?: Resolver<ResolversTypes['Bundle'], ParentType, ContextType>,
-  __isTypeOf?: isTypeOfResolverFn,
+  __isTypeOf?: isTypeOfResolverFn<ParentType>,
 }>;
 
 export type StripeIdResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['StripeId'] = ResolversParentTypes['StripeId']> = ResolversObject<{
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-  __isTypeOf?: isTypeOfResolverFn,
+  __isTypeOf?: isTypeOfResolverFn<ParentType>,
 }>;
 
 export type SubscriptionResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = ResolversObject<{
@@ -636,7 +636,7 @@ export type UnlockedCourseResolvers<ContextType = ResolverContext, ParentType ex
   bookDownload?: Resolver<Maybe<ResolversTypes['BookDownload']>, ParentType, ContextType>,
   bookOnline?: Resolver<Maybe<ResolversTypes['BookOnline']>, ParentType, ContextType>,
   curriculum?: Resolver<Maybe<ResolversTypes['Curriculum']>, ParentType, ContextType>,
-  __isTypeOf?: isTypeOfResolverFn,
+  __isTypeOf?: isTypeOfResolverFn<ParentType>,
 }>;
 
 export type UnlockedCourseMetaResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['UnlockedCourseMeta'] = ResolversParentTypes['UnlockedCourseMeta']> = ResolversObject<{
@@ -645,13 +645,13 @@ export type UnlockedCourseMetaResolvers<ContextType = ResolverContext, ParentTyp
   url?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   imageUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   canUpgrade?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
-  __isTypeOf?: isTypeOfResolverFn,
+  __isTypeOf?: isTypeOfResolverFn<ParentType>,
 }>;
 
 export type UserResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = ResolversObject<{
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   uid?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-  __isTypeOf?: isTypeOfResolverFn,
+  __isTypeOf?: isTypeOfResolverFn<ParentType>,
 }>;
 
 export type Resolvers<ContextType = ResolverContext> = ResolversObject<{

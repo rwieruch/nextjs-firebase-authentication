@@ -45,7 +45,7 @@ const VideoCard = ({ item }: VideoCardProps) => {
 
   if (item.secondaryUrl) {
     actions = actions.concat(
-      <ExternalLink url={item.secondaryUrl}>More</ExternalLink>
+      <ExternalLink href={item.secondaryUrl}>More</ExternalLink>
     );
   }
 
@@ -69,12 +69,12 @@ type ArticleCardProps = {
 
 const ArticleCard = ({ item }: ArticleCardProps) => {
   let actions = [
-    <ExternalLink url={item.url || ''}>Read</ExternalLink>,
+    <ExternalLink href={item.url || ''}>Read</ExternalLink>,
   ];
 
   if (item.secondaryUrl) {
     actions = actions.concat(
-      <ExternalLink url={item.secondaryUrl}>More</ExternalLink>
+      <ExternalLink href={item.secondaryUrl}>More</ExternalLink>
     );
   }
 

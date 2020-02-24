@@ -91,7 +91,7 @@ const CourseListPage: NextAuthPage = ({
 
             if (course.canUpgrade) {
               actions.push(
-                <ExternalLink url={course.url}>
+                <ExternalLink href={course.url}>
                   <Icon type="unlock" key="unlock" /> Upgrade
                 </ExternalLink>
               );
@@ -111,7 +111,7 @@ const CourseListPage: NextAuthPage = ({
             .filter(isUnlocked)
             .map(storefrontCourse => {
               const actions = [
-                <ExternalLink url={storefrontCourse.url}>
+                <ExternalLink href={storefrontCourse.url}>
                   <Icon type="unlock" key="unlock" /> Unlock Course
                 </ExternalLink>,
               ];

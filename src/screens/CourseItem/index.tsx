@@ -51,6 +51,8 @@ const CourseItemPage: NextAuthPage = ({ data }) => {
   }
 
   const handleSelectSection = (k: string, i: number, j: number) => {
+    window.scrollTo(0, 0);
+
     setSelected({ k, i, j });
   };
 
@@ -209,7 +211,7 @@ const CourseItemPage: NextAuthPage = ({ data }) => {
 
               {canUpgrade && (
                 <Menu.Item key="upgrade">
-                  <ExternalLink url={url}>
+                  <ExternalLink href={url}>
                     <Icon type="fire" /> Upgrade
                   </ExternalLink>
                 </Menu.Item>

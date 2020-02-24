@@ -12,7 +12,7 @@ type OnboardingProps = {
 
 const Onboarding = ({ onboardingData }: OnboardingProps) => {
   let actions = [
-    <ExternalLink url={onboardingData.url}>Foo</ExternalLink>,
+    <ExternalLink href={onboardingData.url}>Foo</ExternalLink>,
   ];
 
   return (

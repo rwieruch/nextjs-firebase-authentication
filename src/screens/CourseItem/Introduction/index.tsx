@@ -12,7 +12,7 @@ type IntroductionProps = {
 
 const Introduction = ({ introductionData }: IntroductionProps) => {
   let actions = [
-    <ExternalLink url={introductionData.url}>Bar</ExternalLink>,
+    <ExternalLink href={introductionData.url}>Bar</ExternalLink>,
   ];
 
   return (
