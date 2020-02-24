@@ -55,3 +55,20 @@ jest.mock('@services/firebase/admin', () => {
     })),
   };
 });
+
+// AWS
+
+jest.mock('@services/aws/s3', () => {
+  const promise = jest.fn(() =>
+    Promise.resolve({
+      ContentType: 'application/json',
+      Body: 'Body',
+    })
+  );
+
+  return {
+    getObject: jest.fn(() => ({
+      promise,
+    })),
+  };
+});
