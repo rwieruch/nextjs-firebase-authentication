@@ -4,6 +4,7 @@ import Router from 'next/router';
 import nextCookie from 'next-cookies';
 import { ThemeProvider, createGlobalStyle } from 'styled-components';
 import { ApolloProvider } from '@apollo/react-hooks';
+import * as Sentry from '@sentry/node';
 import { PageTransition } from 'next-page-transitions';
 
 import Head from '@components/Head';
@@ -91,6 +92,10 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
+Sentry.init({
+  dsn: process.env.SENTRY_DSN,
+});
+
 class MyApp extends NextApp {
   static async getInitialProps({ Component, ctx }) {
     const isServer = ctx.req || ctx.res;
@@ -122,7 +127,11 @@ class MyApp extends NextApp {
       session,
       apollo,
       router,
+      err,
     } = this.props;
+
+    // workaround https://github.com/zeit/next.js/blob/canary/examples/with-sentry-simple/pages/_app.js
+    const modifiedPageProps = { ...pageProps, err };
 
     return (
       <ThemeProvider theme={theme}>
@@ -141,7 +150,7 @@ class MyApp extends NextApp {
                 exit: 0,
               }}
             >
-              <Component {...pageProps} key={router.route} />
+              <Component {...modifiedPageProps} key={router.route} />
             </PageTransition>
           </ApolloProvider>
         </SessionContext.Provider>

@@ -5,6 +5,8 @@ require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
 
+const withSourceMaps = require('@zeit/next-source-maps')();
+
 const withMDX = require('@next/mdx')({
   extension: /\.mdx?$/,
 });
@@ -76,6 +78,11 @@ const nextConfig = {
       };
     }
 
+    // Sentry
+    if (!isServer) {
+      config.resolve.alias['@sentry/node'] = '@sentry/browser';
+    }
+
     return config;
   },
 };
@@ -97,6 +104,11 @@ const withBundleAnalyzer = bundleAnalyzer({
 });
 
 module.exports = withPlugins(
-  [[withLess, lessWithAntdConfig], [withMDX], [withBundleAnalyzer]],
+  [
+    [withLess, lessWithAntdConfig],
+    [withMDX],
+    [withSourceMaps],
+    [withBundleAnalyzer],
+  ],
   nextConfig
 );
