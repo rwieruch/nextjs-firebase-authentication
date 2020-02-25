@@ -98,7 +98,7 @@ Visit [here](https://firebase.google.com/docs/admin/setup/#initialize-sdk) for F
 
 ### Admin Account
 
-If you want to have an account with Firebase admin claims, create this Firebase account first via UI, then set the user account's `uid` in _.env_ with `FIREBASE_ADMIN_UID`, and restart your sercer.
+If you want to have an account with Firebase admin claims, create this Firebase account first via UI, then set the user account's `uid` in _.env_ with `FIREBASE_ADMIN_UID`, and restart your server.
 
 ### Stripe CLI for Webhook in Development Mode
 
