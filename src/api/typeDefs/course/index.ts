@@ -59,9 +59,14 @@ export default gql`
   }
 
   type OnboardingData {
+    items: [OnboardingItem!]!
+  }
+
+  type OnboardingItem {
     label: String!
     url: String!
     description: String!
+    secondaryUrl: String
   }
 
   type BookDownload {

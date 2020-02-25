@@ -11,6 +11,10 @@ export const StyledCard = styled(Card)`
   flex-direction: column;
   justify-content: space-between;
 
+  .ant-card-head {
+    flex: 0;
+  }
+
   .ant-card-body {
     flex: 1;
   }

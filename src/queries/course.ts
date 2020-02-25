@@ -30,9 +30,12 @@ export const GET_UNLOCKED_COURSE = gql`
       onboarding {
         label
         data {
-          label
-          description
-          url
+          items {
+            label
+            description
+            url
+            secondaryUrl
+          }
         }
       }
       bookDownload {

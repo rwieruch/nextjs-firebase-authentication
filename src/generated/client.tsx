@@ -212,9 +212,15 @@ export type Onboarding = {
 
 export type OnboardingData = {
    __typename?: 'OnboardingData',
+  items: Array<OnboardingItem>,
+};
+
+export type OnboardingItem = {
+   __typename?: 'OnboardingItem',
   label: Scalars['String'],
   url: Scalars['String'],
   description: Scalars['String'],
+  secondaryUrl?: Maybe<Scalars['String']>,
 };
 
 export type OrderId = {
@@ -370,7 +376,10 @@ export type GetCourseQuery = (
       & Pick<Onboarding, 'label'>
       & { data: Maybe<(
         { __typename?: 'OnboardingData' }
-        & Pick<OnboardingData, 'label' | 'description' | 'url'>
+        & { items: Array<(
+          { __typename?: 'OnboardingItem' }
+          & Pick<OnboardingItem, 'label' | 'description' | 'url' | 'secondaryUrl'>
+        )> }
       )> }
     )>, bookDownload: Maybe<(
       { __typename?: 'BookDownload' }
@@ -691,9 +700,12 @@ export const GetCourseDocument = gql`
     onboarding {
       label
       data {
-        label
-        description
-        url
+        items {
+          label
+          description
+          url
+          secondaryUrl
+        }
       }
     }
     bookDownload {

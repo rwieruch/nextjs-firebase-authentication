@@ -92,7 +92,7 @@ const CourseItemPage: NextAuthPage = ({ data }) => {
           }}
         >
           <Sider
-            width={200}
+            width={250}
             style={{
               background: '#fff',
               overflow: 'auto',

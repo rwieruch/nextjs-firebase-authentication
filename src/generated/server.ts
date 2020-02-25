@@ -210,9 +210,15 @@ export type Onboarding = {
 
 export type OnboardingData = {
    __typename?: 'OnboardingData',
+  items: Array<OnboardingItem>,
+};
+
+export type OnboardingItem = {
+   __typename?: 'OnboardingItem',
   label: Scalars['String'],
   url: Scalars['String'],
   description: Scalars['String'],
+  secondaryUrl?: Maybe<Scalars['String']>,
 };
 
 export type OrderId = {
@@ -397,6 +403,7 @@ export type ResolversTypes = ResolversObject<{
   IntroductionData: ResolverTypeWrapper<any>,
   Onboarding: ResolverTypeWrapper<any>,
   OnboardingData: ResolverTypeWrapper<any>,
+  OnboardingItem: ResolverTypeWrapper<any>,
   BookDownload: ResolverTypeWrapper<any>,
   BookDownloadData: ResolverTypeWrapper<any>,
   BookDownloadItem: ResolverTypeWrapper<any>,
@@ -435,6 +442,7 @@ export type ResolversParentTypes = ResolversObject<{
   IntroductionData: any,
   Onboarding: any,
   OnboardingData: any,
+  OnboardingItem: any,
   BookDownload: any,
   BookDownloadData: any,
   BookDownloadItem: any,
@@ -579,9 +587,15 @@ export type OnboardingResolvers<ContextType = ResolverContext, ParentType extend
 }>;
 
 export type OnboardingDataResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['OnboardingData'] = ResolversParentTypes['OnboardingData']> = ResolversObject<{
+  items?: Resolver<Array<ResolversTypes['OnboardingItem']>, ParentType, ContextType>,
+  __isTypeOf?: isTypeOfResolverFn<ParentType>,
+}>;
+
+export type OnboardingItemResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['OnboardingItem'] = ResolversParentTypes['OnboardingItem']> = ResolversObject<{
   label?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   url?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  secondaryUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   __isTypeOf?: isTypeOfResolverFn<ParentType>,
 }>;
 
@@ -674,6 +688,7 @@ export type Resolvers<ContextType = ResolverContext> = ResolversObject<{
   Mutation?: MutationResolvers<ContextType>,
   Onboarding?: OnboardingResolvers<ContextType>,
   OnboardingData?: OnboardingDataResolvers<ContextType>,
+  OnboardingItem?: OnboardingItemResolvers<ContextType>,
   OrderId?: OrderIdResolvers<ContextType>,
   Query?: QueryResolvers<ContextType>,
   SessionToken?: SessionTokenResolvers<ContextType>,

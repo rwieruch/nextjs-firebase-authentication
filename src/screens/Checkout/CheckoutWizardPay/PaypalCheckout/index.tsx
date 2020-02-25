@@ -33,7 +33,7 @@ const PaypalCheckout = ({
   const [
     paypalCreateOrder,
     { loading: createOrderLoading, error: createOrderError },
-  ] = usePaypalCreateOrderMutation(PAYPAL_CREATE_ORDER);
+  ] = usePaypalCreateOrderMutation();
 
   const [
     paypalApproveOrder,
