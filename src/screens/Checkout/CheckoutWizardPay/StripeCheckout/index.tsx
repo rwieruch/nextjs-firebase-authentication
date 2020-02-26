@@ -9,8 +9,6 @@ import {
 } from '@generated/client';
 import useErrorIndicator from '@hooks/useErrorIndicator';
 
-import { STRIPE_CREATE_ORDER } from '@queries/stripe';
-
 export type StripeCheckoutProps = {
   storefrontCourse: StorefrontCourse;
   coupon: string;
