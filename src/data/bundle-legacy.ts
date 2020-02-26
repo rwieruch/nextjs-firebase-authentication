@@ -7,6 +7,8 @@ import {
 
 export default {
   [THE_ROAD_TO_LEARN_REACT]: {
+    BOOK: 'STUDENT',
+    CODE: 'PROFESSIONAL',
     COMPLETE_COURSE: 'PROFESSIONAL',
   },
   [TAMING_THE_STATE]: {
