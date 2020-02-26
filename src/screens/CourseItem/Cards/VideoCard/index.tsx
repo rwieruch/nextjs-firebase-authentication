@@ -36,7 +36,7 @@ const VideoCard = ({ item }: VideoCardProps) => {
         visible={isOpen}
         onCancel={() => setIsOpen(false)}
       >
-        <ReactPlayer controls url={item.url || ''} />
+        <ReactPlayer playing={isOpen} controls url={item.url || ''} />
       </StyledModal>
 
       <a onClick={() => setIsOpen(true)}>Watch</a>

@@ -1,5 +1,3 @@
-// http://localhost:3000/admin?courseId=TAMING_THE_STATE&bundleId=PROFESSIONAL&uid=Tc44Pqqb82ctMAPXNQzoMQfT9ti1
-
 import React from 'react';
 import { useRouter } from 'next/router';
 import { useApolloClient } from '@apollo/react-hooks';
