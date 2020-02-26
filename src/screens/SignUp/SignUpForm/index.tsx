@@ -6,7 +6,6 @@ import { useMutation } from '@apollo/react-hooks';
 import cookie from 'js-cookie';
 
 import { useSignUpMutation } from '@generated/client';
-import { SIGN_UP } from '@queries/session';
 import { EXPIRES_IN } from '@constants/cookie';
 import * as ROUTES from '@constants/routes';
 import FormItem from '@components/Form/Item';
@@ -26,7 +25,7 @@ const SignUpForm = ({
 }: SignUpFormProps) => {
   const router = useRouter();
 
-  const [signUp, { loading, error }] = useSignUpMutation(SIGN_UP);
+  const [signUp, { loading, error }] = useSignUpMutation();
 
   useErrorIndicator({ error });
 

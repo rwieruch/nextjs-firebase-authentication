@@ -21,12 +21,7 @@ const StyledModal = styled(Modal)`
 `;
 
 type VideoCardProps = {
-  item: {
-    label: string;
-    description: string;
-    url: string;
-    secondaryUrl?: string | undefined | null;
-  };
+  item: CurriculumItem;
 };
 
 const VideoCard = ({ item }: VideoCardProps) => {

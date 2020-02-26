@@ -3,7 +3,6 @@ import { Form, Input } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 
 import { usePasswordChangeMutation } from '@generated/client';
-import { PASSWORD_CHANGE } from '@queries/session';
 import FormItem from '@components/Form/Item';
 import FormStretchedButton from '@components/Form/StretchedButton';
 import useErrorIndicator from '@hooks/useErrorIndicator';
@@ -14,7 +13,7 @@ const PasswordChangeForm = ({ form }: PasswordChangeFormProps) => {
   const [
     passwordChange,
     { loading, error },
-  ] = usePasswordChangeMutation(PASSWORD_CHANGE);
+  ] = usePasswordChangeMutation();
 
   useErrorIndicator({ error });
 

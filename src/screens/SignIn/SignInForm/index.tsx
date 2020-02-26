@@ -6,7 +6,6 @@ import { FormComponentProps } from 'antd/lib/form';
 import cookie from 'js-cookie';
 
 import { useSignInMutation } from '@generated/client';
-import { SIGN_IN } from '@queries/session';
 import * as ROUTES from '@constants/routes';
 import { EXPIRES_IN } from '@constants/cookie';
 import FormIcon from '@components/Form/Icon';
@@ -34,7 +33,7 @@ const SignInForm = ({
 }: SignInFormProps) => {
   const router = useRouter();
 
-  const [signIn, { loading, error }] = useSignInMutation(SIGN_IN);
+  const [signIn, { loading, error }] = useSignInMutation();
 
   useErrorIndicator({ error });
 

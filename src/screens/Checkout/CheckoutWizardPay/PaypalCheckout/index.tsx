@@ -38,7 +38,7 @@ const PaypalCheckout = ({
   const [
     paypalApproveOrder,
     { loading: approveOrderLoading, error: approveOrderError },
-  ] = usePaypalApproveOrderMutation(PAYPAL_APPROVE_ORDER);
+  ] = usePaypalApproveOrderMutation();
 
   const { successMessage, destroyMessage } = useIndicators({
     key: 'paypal',

@@ -9,6 +9,6 @@ export default {
   h2: (props: any) => <Typography.Title level={2} {...props} />,
   h3: (props: any) => <Typography.Title level={3} {...props} />,
   h4: (props: any) => <Typography.Title level={4} {...props} />,
-  code: (props: any) => <Code {...props} />,
+  code: (props: any) => <Code {...props} offset={354} />,
   a: (props: any) => <ExternalLink {...props} />,
 };

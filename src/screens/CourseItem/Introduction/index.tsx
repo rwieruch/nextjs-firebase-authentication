@@ -1,10 +1,41 @@
 import React from 'react';
 
-import { IntroductionData } from '@generated/client';
-import ExternalLink from '@components/ExternalLink';
+import styled from 'styled-components';
+import { Modal, Icon } from 'antd';
 
-import VideoCard from '../Cards/VideoCard';
-import { StyledCards } from '../styles';
+import { IntroductionData } from '@generated/client';
+
+import { StyledCards, StyledCard } from '../styles';
+
+const StyledModal = styled(Modal)`
+  min-width: 640px;
+  min-height: 360px;
+
+  .ant-modal-body {
+    width: 640px;
+    height: 360px;
+    padding: 0;
+    margin: 0;
+  }
+`;
+
+type IntroductionCardProps = {
+  item: IntroductionData;
+};
+
+const IntroductionCard = ({ item }: IntroductionCardProps) => {
+  return (
+    <StyledCard
+      title={
+        <>
+          <Icon type="rocket" /> {item.label}
+        </>
+      }
+    >
+      {item.description}
+    </StyledCard>
+  );
+};
 
 type IntroductionProps = {
   introductionData: IntroductionData;
@@ -13,7 +44,7 @@ type IntroductionProps = {
 const Introduction = ({ introductionData }: IntroductionProps) => {
   return (
     <StyledCards>
-      <VideoCard item={introductionData} />
+      <IntroductionCard item={introductionData} />
     </StyledCards>
   );
 };

@@ -21,10 +21,11 @@ const calculateLinesToHighlight = (meta: string) => {
 
 type CodeProps = {
   children: string;
+  offset: number;
   className: string;
 };
 
-const Code = ({ children, className }: CodeProps) => {
+const Code = ({ children, offset, className }: CodeProps) => {
   const highlight = className.match(RE);
 
   let isLineToHighlight = (index: number) => false;
@@ -63,7 +64,7 @@ const Code = ({ children, className }: CodeProps) => {
               marginBottom: '0',
               padding: '20px',
               overflow: 'auto',
-              maxWidth: 'calc(100vw - 80px)',
+              maxWidth: `calc(100vw - ${offset}px)`,
             }}
           >
             {tokensWithoutTrailingLine.map((line, i) => {

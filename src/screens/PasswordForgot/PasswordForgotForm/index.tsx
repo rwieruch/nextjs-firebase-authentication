@@ -3,7 +3,6 @@ import { Form, Input } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 
 import { usePasswordForgotMutation } from '@generated/client';
-import { PASSWORD_FORGOT } from '@queries/session';
 import FormItem from '@components/Form/Item';
 import FormStretchedButton from '@components/Form/StretchedButton';
 import useErrorIndicator from '@hooks/useErrorIndicator';
@@ -14,7 +13,7 @@ const PasswordForgotForm = ({ form }: PasswordForgotFormProps) => {
   const [
     passwordForgot,
     { loading, error },
-  ] = usePasswordForgotMutation(PASSWORD_FORGOT);
+  ] = usePasswordForgotMutation();
 
   useErrorIndicator({ error });
 

@@ -26,7 +26,7 @@ const StripeCheckout = ({
   const [
     stripeCreateOrder,
     { loading, error },
-  ] = useStripeCreateOrderMutation(STRIPE_CREATE_ORDER);
+  ] = useStripeCreateOrderMutation();
 
   useErrorIndicator({
     error,
