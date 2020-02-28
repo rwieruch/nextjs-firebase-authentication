@@ -22,7 +22,7 @@
     "@sentry/browser": "^5.12.4",
     "@sentry/node": "^5.12.4",
     "@types/file-saver": "^2.0.1",
-    "@types/js-cookie": "^2.2.4",
+    "@types/js-cookie": "^2.2.5",
     "@types/lodash.invert": "^4.3.6",
     "@types/lodash.omit": "^4.5.6",
     "@types/micro-cors": "^0.1.0",
