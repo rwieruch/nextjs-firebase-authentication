@@ -24,5 +24,6 @@ export default gql`
     price: Int!
     imageUrl: String!
     benefits: String!
+    weight: Int!
   }
 `;

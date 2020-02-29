@@ -62,6 +62,7 @@ export type Bundle = {
   price: Scalars['Int'],
   imageUrl: Scalars['String'],
   benefits: Scalars['String'],
+  weight: Scalars['Int'],
 };
 
 export enum BundleId {
@@ -515,6 +516,7 @@ export type BundleResolvers<ContextType = ResolverContext, ParentType extends Re
   price?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
   imageUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   benefits?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  weight?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
   __isTypeOf?: isTypeOfResolverFn<ParentType>,
 }>;
 
