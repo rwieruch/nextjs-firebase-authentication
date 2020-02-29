@@ -63,8 +63,7 @@ export type Bundle = {
   bundleId: BundleId,
   price: Scalars['Int'],
   imageUrl: Scalars['String'],
-  benefits: Scalars['String'],
-  weight: Scalars['Int'],
+  benefits: Array<Scalars['String']>,
 };
 
 export enum BundleId {

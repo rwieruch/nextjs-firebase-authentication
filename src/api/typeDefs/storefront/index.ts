@@ -25,7 +25,6 @@ export default gql`
     bundleId: BundleId!
     price: Int!
     imageUrl: String!
-    benefits: String!
-    weight: Int!
+    benefits: [String!]!
   }
 `;
