@@ -233,6 +233,7 @@ export type Query = {
   _?: Maybe<Scalars['Boolean']>,
   me?: Maybe<User>,
   storefrontCourse?: Maybe<StorefrontCourse>,
+  storefrontBundles: Array<Bundle>,
   storefrontCourses: Array<StorefrontCourse>,
   unlockedCourses: Array<UnlockedCourseMeta>,
   unlockedCourse?: Maybe<UnlockedCourse>,
@@ -244,6 +245,11 @@ export type Query = {
 export type QueryStorefrontCourseArgs = {
   courseId: CourseId,
   bundleId: BundleId
+};
+
+
+export type QueryStorefrontBundlesArgs = {
+  courseId: CourseId
 };
 
 
@@ -612,6 +618,7 @@ export type QueryResolvers<ContextType = ResolverContext, ParentType extends Res
   _?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>,
   me?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>,
   storefrontCourse?: Resolver<Maybe<ResolversTypes['StorefrontCourse']>, ParentType, ContextType, RequireFields<QueryStorefrontCourseArgs, 'courseId' | 'bundleId'>>,
+  storefrontBundles?: Resolver<Array<ResolversTypes['Bundle']>, ParentType, ContextType, RequireFields<QueryStorefrontBundlesArgs, 'courseId'>>,
   storefrontCourses?: Resolver<Array<ResolversTypes['StorefrontCourse']>, ParentType, ContextType>,
   unlockedCourses?: Resolver<Array<ResolversTypes['UnlockedCourseMeta']>, ParentType, ContextType>,
   unlockedCourse?: Resolver<Maybe<ResolversTypes['UnlockedCourse']>, ParentType, ContextType, RequireFields<QueryUnlockedCourseArgs, 'courseId'>>,

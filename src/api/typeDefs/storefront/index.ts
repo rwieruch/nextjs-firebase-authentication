@@ -7,6 +7,8 @@ export default gql`
       bundleId: BundleId!
     ): StorefrontCourse
 
+    storefrontBundles(courseId: CourseId!): [Bundle!]!
+
     storefrontCourses: [StorefrontCourse!]!
   }
 

@@ -235,6 +235,7 @@ export type Query = {
   _?: Maybe<Scalars['Boolean']>,
   me?: Maybe<User>,
   storefrontCourse?: Maybe<StorefrontCourse>,
+  storefrontBundles: Array<Bundle>,
   storefrontCourses: Array<StorefrontCourse>,
   unlockedCourses: Array<UnlockedCourseMeta>,
   unlockedCourse?: Maybe<UnlockedCourse>,
@@ -246,6 +247,11 @@ export type Query = {
 export type QueryStorefrontCourseArgs = {
   courseId: CourseId,
   bundleId: BundleId
+};
+
+
+export type QueryStorefrontBundlesArgs = {
+  courseId: CourseId
 };
 
 
