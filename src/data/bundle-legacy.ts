@@ -5,10 +5,10 @@ import {
   THE_ROAD_TO_REACT_WITH_FIREBASE,
 } from './course-keys';
 
+// FROM: TO
+
 export default {
   [THE_ROAD_TO_LEARN_REACT]: {
-    BOOK: 'STUDENT',
-    CODE: 'PROFESSIONAL',
     COMPLETE_COURSE: 'PROFESSIONAL',
   },
   [TAMING_THE_STATE]: {
