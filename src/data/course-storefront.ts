@@ -25,14 +25,14 @@ export default {
       [THE_ROAD_TO_LEARN_REACT_BUNDLE_KEYS.STUDENT]: {
         header: 'The Bare Essentials',
         bundleId: THE_ROAD_TO_LEARN_REACT_BUNDLE_KEYS.STUDENT,
-        price: 0,
+        price: 2900,
         weight: 1,
         imageUrl: `${ASSETS_URL}/road-to-react/3.png`,
       },
       [THE_ROAD_TO_LEARN_REACT_BUNDLE_KEYS.INTERMEDIATE]: {
         header: 'The Essentials',
         bundleId: THE_ROAD_TO_LEARN_REACT_BUNDLE_KEYS.INTERMEDIATE,
-        price: 2900,
+        price: 4900,
         weight: 2,
         imageUrl: `${ASSETS_URL}/road-to-react/2.png`,
       },
@@ -54,14 +54,14 @@ export default {
       [TAMING_THE_STATE_BUNDLE_KEYS.STUDENT]: {
         header: 'The Bare Essentials',
         bundleId: TAMING_THE_STATE_BUNDLE_KEYS.STUDENT,
-        price: 0,
+        price: 2900,
         weight: 1,
         imageUrl: `${ASSETS_URL}/road-to-redux/3.png`,
       },
       [TAMING_THE_STATE_BUNDLE_KEYS.INTERMEDIATE]: {
         header: 'The Essentials',
         bundleId: TAMING_THE_STATE_BUNDLE_KEYS.INTERMEDIATE,
-        price: 2900,
+        price: 4900,
         weight: 2,
         imageUrl: `${ASSETS_URL}/road-to-redux/2.png`,
       },
@@ -83,14 +83,14 @@ export default {
       [THE_ROAD_TO_GRAPHQL_BUNDLE_KEYS.STUDENT]: {
         header: 'The Bare Essentials',
         bundleId: THE_ROAD_TO_GRAPHQL_BUNDLE_KEYS.STUDENT,
-        price: 0,
+        price: 2900,
         weight: 1,
         imageUrl: `${ASSETS_URL}/road-to-graphql/3.png`,
       },
       [THE_ROAD_TO_GRAPHQL_BUNDLE_KEYS.INTERMEDIATE]: {
         header: 'The Essentials',
         bundleId: THE_ROAD_TO_GRAPHQL_BUNDLE_KEYS.INTERMEDIATE,
-        price: 2900,
+        price: 4900,
         weight: 2,
         imageUrl: `${ASSETS_URL}/road-to-graphql/2.png`,
       },
@@ -112,7 +112,7 @@ export default {
       [THE_ROAD_TO_REACT_WITH_FIREBASE_BUNDLE_KEYS.STUDENT]: {
         header: 'The Bare Essentials',
         bundleId: THE_ROAD_TO_REACT_WITH_FIREBASE_BUNDLE_KEYS.STUDENT,
-        price: 0,
+        price: 2900,
         weight: 1,
         imageUrl: `${ASSETS_URL}/road-to-firebase/3.png`,
       },
@@ -120,7 +120,7 @@ export default {
         header: 'The Essentials',
         bundleId:
           THE_ROAD_TO_REACT_WITH_FIREBASE_BUNDLE_KEYS.INTERMEDIATE,
-        price: 2900,
+        price: 4900,
         weight: 2,
         imageUrl: `${ASSETS_URL}/road-to-firebase/2.png`,
       },
