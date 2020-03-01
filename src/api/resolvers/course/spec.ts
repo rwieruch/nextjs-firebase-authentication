@@ -19,40 +19,40 @@ describe('createFreeCourse', () => {
       .push().set;
   });
 
-  it('creates a course', async () => {
-    const server = new ApolloServer({
-      schema,
-      context: () => ({
-        me: { uid: '1', email: 'example@example.com' },
-      }),
-    });
+  // it('creates a course', async () => {
+  //   const server = new ApolloServer({
+  //     schema,
+  //     context: () => ({
+  //       me: { uid: '1', email: 'example@example.com' },
+  //     }),
+  //   });
 
-    const { mutate } = createTestClient(server);
+  //   const { mutate } = createTestClient(server);
 
-    const { data, errors } = await mutate({
-      mutation: CREATE_FREE_COURSE,
-      variables: {
-        courseId: 'THE_ROAD_TO_GRAPHQL',
-        bundleId: 'STUDENT',
-      },
-    });
+  //   const { data, errors } = await mutate({
+  //     mutation: CREATE_FREE_COURSE,
+  //     variables: {
+  //       courseId: 'THE_ROAD_TO_GRAPHQL',
+  //       bundleId: 'STUDENT',
+  //     },
+  //   });
 
-    expect(data).toMatchSnapshot();
-    expect(errors).toEqual(undefined);
+  //   expect(data).toMatchSnapshot();
+  //   expect(errors).toEqual(undefined);
 
-    expect(set).toHaveBeenCalledTimes(1);
-    expect(set).toHaveBeenCalledWith({
-      courseId: 'THE_ROAD_TO_GRAPHQL',
-      packageId: 'STUDENT',
-      invoice: {
-        createdAt: 'TIMESTAMP',
-        amount: 0,
-        licensesCount: 1,
-        currency: 'USD',
-        paymentType: 'FREE',
-      },
-    });
-  });
+  //   expect(set).toHaveBeenCalledTimes(1);
+  //   expect(set).toHaveBeenCalledWith({
+  //     courseId: 'THE_ROAD_TO_GRAPHQL',
+  //     packageId: 'STUDENT',
+  //     invoice: {
+  //       createdAt: 'TIMESTAMP',
+  //       amount: 0,
+  //       licensesCount: 1,
+  //       currency: 'USD',
+  //       paymentType: 'FREE',
+  //     },
+  //   });
+  // });
 
   it('does not create a course if not authenticated', async () => {
     const server = new ApolloServer({
