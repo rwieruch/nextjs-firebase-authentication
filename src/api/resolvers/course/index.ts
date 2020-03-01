@@ -8,14 +8,28 @@ import {
   FirebaseCourse,
 } from '@services/firebase/course';
 
+import BUNDLE_LEGACY from '@data/bundle-legacy';
 import allCourseContent from '@data/courses';
 import storefront from '@data/course-storefront';
 
 const mergeCourses = (courses: FirebaseCourse) =>
   Object.values(courses).reduce(
     (result: any[], course: FirebaseCourseContent) => {
-      const storefrontCourse = storefront[course.courseId];
-      const bundle = storefrontCourse.bundles[course.packageId];
+      // MIGRATION START
+
+      // There is no courseId mirgation yet.
+      let courseId = course.courseId;
+
+      // @ts-ignore
+      let bundleId = BUNDLE_LEGACY[courseId][course.packageId];
+      if (!bundleId) {
+        bundleId = course.packageId;
+      }
+
+      // MIGRATION END
+
+      const storefrontCourse = storefront[courseId];
+      const storefrontBundle = storefrontCourse.bundles[bundleId];
 
       const {
         introduction,
@@ -23,38 +37,38 @@ const mergeCourses = (courses: FirebaseCourse) =>
         bookDownload,
         bookOnline,
         curriculum,
-      } = allCourseContent[course.courseId];
+      } = allCourseContent[courseId];
 
       const hasIntroduction = introduction.roles
-        ? introduction.roles.includes(bundle.bundleId)
+        ? introduction.roles.includes(bundleId)
         : true;
       const allowedIntroduction = hasIntroduction
         ? introduction
         : omit(introduction, 'data');
 
       const hasOnboarding = onboarding.roles
-        ? onboarding.roles.includes(bundle.bundleId)
+        ? onboarding.roles.includes(bundleId)
         : true;
       const allowedOnboarding = hasOnboarding
         ? onboarding
         : omit(onboarding, 'data');
 
       const hasBookDownload = bookDownload.roles
-        ? bookDownload.roles.includes(bundle.bundleId)
+        ? bookDownload.roles.includes(bundleId)
         : true;
       const allowedBookDownload = hasBookDownload
         ? bookDownload
         : omit(bookDownload, 'data');
 
       const hasBookOnline = bookOnline.roles
-        ? bookOnline.roles.includes(bundle.bundleId)
+        ? bookOnline.roles.includes(bundleId)
         : true;
       const allowedBookOnline = hasBookOnline
         ? bookOnline
         : omit(bookOnline, 'data');
 
       const hasCurriculum = curriculum.roles
-        ? curriculum.roles.includes(bundle.bundleId)
+        ? curriculum.roles.includes(bundleId)
         : true;
       const allowedCurriculum = hasCurriculum
         ? curriculum
@@ -68,14 +82,14 @@ const mergeCourses = (courses: FirebaseCourse) =>
         !hasCurriculum;
 
       const unlockedCourse = {
-        courseId: course.courseId,
-        bundleId: course.packageId,
+        courseId: courseId,
+        bundleId: bundleId,
 
         header: storefrontCourse.header,
         url: storefrontCourse.url,
-        imageUrl: bundle.imageUrl,
+        imageUrl: storefrontBundle.imageUrl,
 
-        weight: bundle.weight,
+        weight: storefrontBundle.weight,
         canUpgrade,
 
         introduction: allowedIntroduction,
@@ -86,7 +100,7 @@ const mergeCourses = (courses: FirebaseCourse) =>
       };
 
       const index = result.findIndex(
-        prevCourse => prevCourse.courseId === course.courseId
+        prevCourse => prevCourse.courseId === courseId
       );
 
       const mergeIfSame = (prevCourse: any, i: number) => {

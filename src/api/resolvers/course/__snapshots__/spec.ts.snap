@@ -24,12 +24,6 @@ Array [
 ]
 `;
 
-exports[`createFreeCourse creates a course 1`] = `
-Object {
-  "createFreeCourse": true,
-}
-`;
-
 exports[`createFreeCourse does not create a course if not authenticated 1`] = `
 Array [
   [GraphQLError: Not authenticated as user.],

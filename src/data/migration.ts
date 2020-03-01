@@ -8,6 +8,7 @@ const applyMigration = (
   allowedKeys: string[]
 ): string[] => {
   const bundleLegacy = BUNDLE_LEGACY[courseKey];
+
   const bundleLegacyInverse = invert(bundleLegacy);
 
   const migratedKeys = allowedKeys.reduce(
@@ -15,7 +16,7 @@ const applyMigration = (
       const legacyAllowed = bundleLegacyInverse[value];
 
       if (legacyAllowed) {
-        acc.concat(legacyAllowed);
+        acc = acc.concat(legacyAllowed);
       }
 
       return acc.concat(value);
