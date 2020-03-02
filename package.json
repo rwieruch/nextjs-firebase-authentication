@@ -25,6 +25,7 @@
     "@types/js-cookie": "^2.2.4",
     "@types/lodash.invert": "^4.3.6",
     "@types/lodash.omit": "^4.5.6",
+    "@types/lodash.sortby": "^4.7.6",
     "@types/micro-cors": "^0.1.0",
     "@types/microrouter": "^3.1.1",
     "@types/react-css-transition-replace": "^2.1.3",
