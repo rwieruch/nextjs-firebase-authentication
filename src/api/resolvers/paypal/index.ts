@@ -34,6 +34,7 @@ export const resolvers: Resolvers = {
           {
             reference_id: courseId,
             custom_id: JSON.stringify({ courseId, bundleId }),
+            description: `${courseId} ${bundleId}`,
             amount: {
               currency_code: 'USD',
               value: (price / 100).toFixed(2),
