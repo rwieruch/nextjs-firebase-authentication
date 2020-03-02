@@ -10,6 +10,7 @@ import { PageTransition } from 'next-page-transitions';
 import Head from '@components/Head';
 import Loader from '@components/Loader';
 import withApollo from '@services/apollo/withApollo';
+import { initGA, logPageView } from '@services/ga';
 import SessionContext from '@context/session';
 import * as ROUTES from '@constants/routes';
 
@@ -118,6 +119,12 @@ class MyApp extends NextApp {
       : {};
 
     return { pageProps, session };
+  }
+
+  componentDidMount() {
+    initGA();
+    logPageView();
+    Router.events.on('routeChangeComplete', logPageView);
   }
 
   render() {
