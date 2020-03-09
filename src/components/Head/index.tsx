@@ -7,16 +7,13 @@ export default () => (
     <meta name="description" content="Courses by Robin Wieruch" />
     <meta name="robots" content="all,follow" />
     <meta name="googlebot" content="index,follow,snippet,archive" />
-
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0"
     />
-
     <meta itemProp="name" content="RWieruch" />
     <meta itemProp="description" content="Courses by Robin Wieruch" />
     <meta itemProp="image" content="/facebook.png" />
-
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@rwieruch" />
     <meta name="twitter:title" content="RWieruch" />
@@ -24,18 +21,13 @@ export default () => (
       name="twitter:description"
       content="Courses by Robin Wieruch"
     />
-    <meta name="twitter:image:src" content="twitter.png" />
+    <meta name="twitter:image:src" content="/twitter.png" />
     <meta name="twitter:image:alt" content="RWieruch" />
-
     <meta name="og:site_name" content="RWieruch" />
     <meta name="og:type" content="website" />
     <meta name="og:title" content="RWieruch" />
     <meta name="og:description" content="Courses by Robin Wieruch" />
-    <meta
-      name="og:image"
-      content="/facebook.png"
-    />
-
+    <meta name="og:image" content="/facebook.png" />
     <link
       rel="apple-touch-icon"
       sizes="57x57"
