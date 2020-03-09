@@ -46,7 +46,7 @@ export const resolvers: Resolvers = {
             description: `${courseId} ${bundleId}`,
           },
           success_url: process.env.BASE_URL,
-          cancel_url: `${process.env.BASE_URL}/checkout?courseId=${courseId}&bundleId=${bundleId}&imageUrl=${imageUrl}`,
+          cancel_url: `${process.env.BASE_URL}/checkout?courseId=${courseId}&bundleId=${bundleId}`,
         });
       } catch (error) {
         throw new Error(error);
