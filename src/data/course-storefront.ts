@@ -50,7 +50,7 @@ export default {
         benefits: [
           '200-page Book in PDF, MOBI & EPUB',
           'Access the Book Online',
-          'Course Modules beyond the Book',
+          'Curriculum beyond the Book',
         ],
       },
     },
@@ -89,7 +89,7 @@ export default {
         benefits: [
           '250-page Book in PDF, MOBI & EPUB',
           'Access the Book Online',
-          'Course Modules beyond the Book',
+          'Curriculum beyond the Book',
         ],
       },
     },
@@ -128,7 +128,7 @@ export default {
         benefits: [
           '350-page Book in PDF, MOBI & EPUB',
           'Access the Book Online',
-          'Course Modules beyond the Book',
+          'Curriculum beyond the Book',
         ],
       },
     },
@@ -169,7 +169,7 @@ export default {
         benefits: [
           '200-page Book in PDF, MOBI & EPUB',
           'Access the Book Online',
-          'Course Modules beyond the Book',
+          'Curriculum beyond the Book',
         ],
       },
     },
