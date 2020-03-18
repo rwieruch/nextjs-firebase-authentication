@@ -96,9 +96,7 @@ const CourseItemPage: NextAuthPage = ({ data }) => {
             style={{
               background: '#fff',
               overflow: 'auto',
-              height: '100vh',
               position: 'sticky',
-              top: '56px',
               left: 0,
             }}
           >
