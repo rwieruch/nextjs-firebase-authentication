@@ -13,13 +13,17 @@ interface Resolvers {
 export const resolvers: Resolvers = {
   Mutation: {
     signIn: async (parent, { email, password }) => {
-      const {
-        user,
-      } = await firebase
-        .auth()
-        .signInWithEmailAndPassword(email, password);
+      let result;
 
-      const idToken = await user?.getIdToken();
+      try {
+        result = await firebase
+          .auth()
+          .signInWithEmailAndPassword(email, password);
+      } catch (error) {
+        return new Error(error);
+      }
+
+      const idToken = await result.user?.getIdToken();
       const sessionToken = await firebaseAdmin
         .auth()
         .createSessionCookie(idToken || '', {
@@ -32,11 +36,23 @@ export const resolvers: Resolvers = {
       return { sessionToken };
     },
     signUp: async (parent, { username, email, password }) => {
-      await firebaseAdmin.auth().createUser({
-        email,
-        password,
-        displayName: username,
-      });
+      try {
+        await firebaseAdmin.auth().createUser({
+          email,
+          password,
+          displayName: username,
+        });
+      } catch (error) {
+        if (
+          error.message.includes('email address is already in use')
+        ) {
+          const customError =
+            'You already registered with this email. Hint: Check your password manager for our old domain: roadtoreact.com';
+          return new Error(customError);
+        } else {
+          return new Error(error);
+        }
+      }
 
       const {
         user,
@@ -75,14 +91,22 @@ export const resolvers: Resolvers = {
       return { sessionToken };
     },
     passwordForgot: async (parent, { email }) => {
-      await firebase.auth().sendPasswordResetEmail(email);
+      try {
+        await firebase.auth().sendPasswordResetEmail(email);
+      } catch (error) {
+        return new Error(error);
+      }
 
       return true;
     },
     passwordChange: async (parent, { password }, { me }) => {
-      await firebaseAdmin.auth().updateUser(me?.uid || '', {
-        password,
-      });
+      try {
+        await firebaseAdmin.auth().updateUser(me?.uid || '', {
+          password,
+        });
+      } catch (error) {
+        return new Error(error);
+      }
 
       return true;
     },
