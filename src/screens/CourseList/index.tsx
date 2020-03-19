@@ -20,8 +20,8 @@ const StyledContent = styled(Content)`
 `;
 
 const StyledCard = styled(Card)`
-  min-width: 200px;
-  max-width: 300px;
+  min-width: 250px;
+  max-width: 350px;
 
   .ant-card-body {
     padding: 8px;
@@ -33,7 +33,7 @@ const StyledCards = styled.div`
 
   display: grid;
   align-items: center;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 300px));
+  grid-template-columns: repeat(auto-fit, minmax(250px, 350px));
   grid-gap: 16px;
 `;
 
@@ -98,7 +98,7 @@ const CourseListPage: NextAuthPage = ({
                   )}`}
                 >
                   <a>
-                    <Icon type="unlock" key="unlock" /> Upgrade
+                    <Icon type="fire" key="unlock" /> Upgrade
                   </a>
                 </Link>
               );
@@ -119,7 +119,7 @@ const CourseListPage: NextAuthPage = ({
             .map(storefrontCourse => {
               const actions = [
                 <ExternalLink href={storefrontCourse.url}>
-                  <Icon type="unlock" key="unlock" /> Unlock Course
+                  <Icon type="fire" key="unlock" /> Unlock Course
                 </ExternalLink>,
               ];
 

@@ -5,13 +5,12 @@ import styled from 'styled-components';
 import { Layout as AntdLayout, Card, Icon } from 'antd';
 
 import * as ROUTES from '@constants/routes';
-import { upperSnakeCaseToKebabCase } from '@services/string';
-import { UnlockedCourse, StorefrontCourse } from '@generated/client';
-import { GET_UNLOCKED_COURSES } from '@queries/course';
-import { GET_STOREFRONT_COURSES } from '@queries/storefront';
+import { kebabCaseToUpperSnakeCase } from '@services/string';
+import { StorefrontCourse } from '@generated/client';
+import { GET_UPGRADEABLE_COURSES } from '@queries/upgrade';
 import { Session } from '@typeDefs/session';
 import Layout from '@components/Layout';
-import ExternalLink from '@components/ExternalLink';
+import { formatPrice } from '@services/format';
 
 const { Content } = AntdLayout;
 
@@ -20,8 +19,8 @@ const StyledContent = styled(Content)`
 `;
 
 const StyledCard = styled(Card)`
-  min-width: 200px;
-  max-width: 300px;
+  min-width: 250px;
+  max-width: 350px;
 
   .ant-card-body {
     padding: 8px;
@@ -33,7 +32,7 @@ const StyledCards = styled.div`
 
   display: grid;
   align-items: center;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 300px));
+  grid-template-columns: repeat(auto-fit, minmax(250px, 350px));
   grid-gap: 16px;
 `;
 
@@ -50,8 +49,8 @@ const Cover = ({ imageUrl }: CoverProps) => (
 );
 
 interface UpgradePageProps {
-  storefrontCoursesData: {
-    storefrontCourses: StorefrontCourse[];
+  upgradeableCoursesData: {
+    upgradeableCourses: StorefrontCourse[];
   };
 }
 
@@ -59,26 +58,34 @@ type NextAuthPage = NextPage<UpgradePageProps> & {
   isAuthorized: (session: Session) => boolean;
 };
 
-const UpgradePage: NextAuthPage = ({ storefrontCoursesData }) => {
+const UpgradePage: NextAuthPage = ({ upgradeableCoursesData }) => {
   return (
     <Layout>
       <StyledContent>
         <StyledCards>
-          {storefrontCoursesData.storefrontCourses.map(
+          {upgradeableCoursesData.upgradeableCourses.map(
             storefrontCourse => {
               const actions = [
-                <ExternalLink href={storefrontCourse.url}>
-                  <Icon type="unlock" key="unlock" /> Unlock Course
-                </ExternalLink>,
+                <Link
+                  href={`${ROUTES.CHECKOUT}?courseId=${storefrontCourse.courseId}&bundleId=${storefrontCourse.bundle.bundleId}&coupon=${storefrontCourse.bundle.bundleId}_UPGRADE`}
+                >
+                  <a>
+                    <Icon type="fire" key="unlock" /> Upgrade
+                    for&nbsp;
+                    {formatPrice(storefrontCourse.bundle.price)}
+                  </a>
+                </Link>,
               ];
 
               return (
                 <StyledCard
                   key={storefrontCourse.courseId}
                   cover={
-                    <Cover imageUrl={storefrontCourse.imageUrl} />
+                    <Cover
+                      imageUrl={storefrontCourse.bundle.imageUrl}
+                    />
                   }
-                  title={storefrontCourse.header}
+                  title={`${storefrontCourse.header} - ${storefrontCourse.bundle.header}`}
                   actions={actions}
                 />
               );
@@ -105,14 +112,21 @@ UpgradePage.getInitialProps = async ctx => {
       }
     : null;
 
+  const courseId = kebabCaseToUpperSnakeCase(
+    ctx.query['upgradeable-course-id'].toString()
+  );
+
   const {
-    data: storefrontCoursesData,
+    data: upgradeableCoursesData,
   } = await ctx.apolloClient.query({
-    query: GET_STOREFRONT_COURSES,
+    query: GET_UPGRADEABLE_COURSES,
+    variables: {
+      courseId,
+    },
     ...(isServer && context),
   });
 
-  return { storefrontCoursesData };
+  return { upgradeableCoursesData };
 };
 
 export default UpgradePage;
