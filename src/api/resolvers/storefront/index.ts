@@ -1,3 +1,4 @@
+import sortBy from 'lodash.sortby';
 import { QueryResolvers } from '@generated/server';
 
 import storefront from '@data/course-storefront';
@@ -30,6 +31,14 @@ export const resolvers: Resolvers = {
         imageUrl: storefrontCourse.imageUrl,
         canUpgrade: false,
       }));
+    },
+    storefrontBundles: (parent, { courseId }) => {
+      const course = storefront[courseId];
+
+      return sortBy(
+        Object.values(course.bundles),
+        (bundle: any) => bundle.weight
+      );
     },
   },
 };

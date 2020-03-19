@@ -8,6 +8,8 @@ export default gql`
     ): StorefrontCourse
 
     storefrontCourses: [StorefrontCourse!]!
+
+    storefrontBundles(courseId: CourseId!): [StorefrontBundle!]!
   }
 
   type StorefrontCourse {
