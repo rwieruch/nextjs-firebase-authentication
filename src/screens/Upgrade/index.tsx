@@ -69,7 +69,7 @@ const UpgradePage: NextAuthPage = ({ upgradeableCoursesData }) => {
             storefrontCourse => {
               const actions = [
                 <Link
-                  href={`${ROUTES.CHECKOUT}?courseId=${storefrontCourse.courseId}&bundleId=${storefrontCourse.bundle.bundleId}&coupon=${storefrontCourse.bundle.bundleId}_DISCOUNT`}
+                  href={`${ROUTES.CHECKOUT}?courseId=${storefrontCourse.courseId}&bundleId=${storefrontCourse.bundle.bundleId}&coupon=${storefrontCourse.bundle.bundleId}`}
                 >
                   <a>
                     <Icon type="fire" key="unlock" /> Upgrade

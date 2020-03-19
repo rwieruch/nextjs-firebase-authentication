@@ -19,7 +19,13 @@ export const resolvers: Resolvers = {
       const course = storefront[courseId];
       const bundle = course.bundles[bundleId];
 
-      const price = await getAsDiscount(bundle.price, coupon);
+      const price = await getAsDiscount(
+        courseId,
+        bundleId,
+        bundle.price,
+        coupon,
+        me?.uid
+      );
 
       let session;
 
