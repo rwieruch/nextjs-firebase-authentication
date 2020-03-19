@@ -9,6 +9,7 @@ import { StorefrontCourse } from '@generated/client';
 import { GET_UPGRADEABLE_COURSES } from '@queries/upgrade';
 import { Session } from '@typeDefs/session';
 import Layout from '@components/Layout';
+import ExternalLink from '@components/ExternalLink';
 import {
   formatPrice,
   kebabCaseToUpperSnakeCase,
@@ -72,11 +73,13 @@ const UpgradePage: NextAuthPage = ({ upgradeableCoursesData }) => {
                   href={`${ROUTES.CHECKOUT}?courseId=${storefrontCourse.courseId}&bundleId=${storefrontCourse.bundle.bundleId}&coupon=${storefrontCourse.bundle.bundleId}`}
                 >
                   <a>
-                    <Icon type="fire" key="unlock" /> Upgrade
-                    for&nbsp;
+                    <Icon type="fire" key="unlock" /> Upgrade&nbsp;
                     {formatPrice(storefrontCourse.bundle.price)}
                   </a>
                 </Link>,
+                <ExternalLink href={storefrontCourse.url}>
+                  <Icon type="link" key="learn" /> About
+                </ExternalLink>,
               ];
 
               return (

@@ -119,7 +119,7 @@ const CourseListPage: NextAuthPage = ({
             .map(storefrontCourse => {
               const actions = [
                 <ExternalLink href={storefrontCourse.url}>
-                  <Icon type="fire" key="unlock" /> Unlock Course
+                  <Icon type="unlock" key="unlock" /> Unlock Course
                 </ExternalLink>,
               ];
 

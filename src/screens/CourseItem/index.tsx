@@ -9,8 +9,10 @@ import { Session } from '@typeDefs/session';
 import * as ROUTES from '@constants/routes';
 import { GET_UNLOCKED_COURSE } from '@queries/course';
 import Layout from '@components/Layout';
-import ExternalLink from '@components/ExternalLink';
-import { kebabCaseToUpperSnakeCase } from '@services/format';
+import {
+  kebabCaseToUpperSnakeCase,
+  upperSnakeCaseToKebabCase,
+} from '@services/format';
 
 import Introduction from './Introduction';
 import Onboarding from './Onboarding';
@@ -57,8 +59,8 @@ const CourseItemPage: NextAuthPage = ({ data }) => {
   };
 
   const {
+    courseId,
     header,
-    url,
     canUpgrade,
     introduction,
     onboarding,
@@ -209,9 +211,16 @@ const CourseItemPage: NextAuthPage = ({ data }) => {
 
               {canUpgrade && (
                 <Menu.Item key="upgrade">
-                  <ExternalLink href={url}>
-                    <Icon type="fire" /> Upgrade
-                  </ExternalLink>
+                  <Link
+                    href={ROUTES.COURSE_UPGRADE}
+                    as={`/upgrade/${upperSnakeCaseToKebabCase(
+                      courseId
+                    )}`}
+                  >
+                    <a>
+                      <Icon type="fire" /> Upgrade
+                    </a>
+                  </Link>
                 </Menu.Item>
               )}
             </Menu>

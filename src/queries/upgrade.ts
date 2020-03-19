@@ -5,6 +5,7 @@ export const GET_UPGRADEABLE_COURSES = gql`
     upgradeableCourses(courseId: $courseId) {
       header
       courseId
+      url
       bundle {
         header
         bundleId
