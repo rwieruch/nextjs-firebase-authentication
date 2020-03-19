@@ -15,9 +15,15 @@ describe('getAsDiscount', () => {
     const get = jest.spyOn(axios, 'get');
     get.mockImplementationOnce(() => Promise.resolve(data));
 
-    await expect(getAsDiscount(100, 'MY_COUPON')).resolves.toEqual(
-      10
-    );
+    await expect(
+      getAsDiscount(
+        'THE_ROAD_TO_LEARN_REACT',
+        'PROFESSIONAL',
+        100,
+        'MY_COUPON',
+        ''
+      )
+    ).resolves.toEqual(10);
   });
 
   it('applies no discount if no coupon', async () => {
@@ -32,7 +38,15 @@ describe('getAsDiscount', () => {
     const get = jest.spyOn(axios, 'get');
     get.mockImplementationOnce(() => Promise.resolve(data));
 
-    await expect(getAsDiscount(100, null)).resolves.toEqual(100);
+    await expect(
+      getAsDiscount(
+        'THE_ROAD_TO_LEARN_REACT',
+        'PROFESSIONAL',
+        100,
+        null,
+        ''
+      )
+    ).resolves.toEqual(100);
   });
 
   it('applies no discount if third-party API throws error', async () => {
@@ -41,6 +55,14 @@ describe('getAsDiscount', () => {
       Promise.reject(new Error('error'))
     );
 
-    await expect(getAsDiscount(100, null)).resolves.toEqual(100);
+    await expect(
+      getAsDiscount(
+        'THE_ROAD_TO_LEARN_REACT',
+        'PROFESSIONAL',
+        100,
+        'MY_COUPON',
+        ''
+      )
+    ).resolves.toEqual(100);
   });
 });

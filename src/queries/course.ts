@@ -17,7 +17,6 @@ export const GET_UNLOCKED_COURSE = gql`
     unlockedCourse(courseId: $courseId) {
       courseId
       header
-      url
       canUpgrade
       introduction {
         label

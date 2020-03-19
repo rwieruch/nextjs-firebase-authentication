@@ -57,15 +57,6 @@ export type BookSection = {
   url: Scalars['String'],
 };
 
-export type Bundle = {
-   __typename?: 'Bundle',
-  header: Scalars['String'],
-  bundleId: BundleId,
-  price: Scalars['Int'],
-  imageUrl: Scalars['String'],
-  benefits: Array<Scalars['String']>,
-};
-
 export enum BundleId {
   Student = 'STUDENT',
   Intermediate = 'INTERMEDIATE',
@@ -234,23 +225,18 @@ export type Query = {
   _?: Maybe<Scalars['Boolean']>,
   me?: Maybe<User>,
   storefrontCourse?: Maybe<StorefrontCourse>,
-  storefrontBundles: Array<Bundle>,
   storefrontCourses: Array<StorefrontCourse>,
-  unlockedCourses: Array<UnlockedCourseMeta>,
+  unlockedCourses: Array<StorefrontCourse>,
   unlockedCourse?: Maybe<UnlockedCourse>,
   book: File,
   onlineChapter: Markdown,
+  upgradeableCourses: Array<StorefrontCourse>,
 };
 
 
 export type QueryStorefrontCourseArgs = {
   courseId: CourseId,
   bundleId: BundleId
-};
-
-
-export type QueryStorefrontBundlesArgs = {
-  courseId: CourseId
 };
 
 
@@ -269,9 +255,23 @@ export type QueryOnlineChapterArgs = {
   path: Scalars['String']
 };
 
+
+export type QueryUpgradeableCoursesArgs = {
+  courseId: CourseId
+};
+
 export type SessionToken = {
    __typename?: 'SessionToken',
   sessionToken: Scalars['String'],
+};
+
+export type StorefrontBundle = {
+   __typename?: 'StorefrontBundle',
+  header: Scalars['String'],
+  bundleId: BundleId,
+  price: Scalars['Int'],
+  imageUrl: Scalars['String'],
+  benefits: Array<Scalars['String']>,
 };
 
 export type StorefrontCourse = {
@@ -279,8 +279,9 @@ export type StorefrontCourse = {
   header: Scalars['String'],
   courseId: CourseId,
   url: Scalars['String'],
-  imageUrl?: Maybe<Scalars['String']>,
-  bundle: Bundle,
+  imageUrl: Scalars['String'],
+  canUpgrade: Scalars['Boolean'],
+  bundle: StorefrontBundle,
 };
 
 export type StripeId = {
@@ -306,15 +307,6 @@ export type UnlockedCourse = {
   bookDownload?: Maybe<BookDownload>,
   bookOnline?: Maybe<BookOnline>,
   curriculum?: Maybe<Curriculum>,
-};
-
-export type UnlockedCourseMeta = {
-   __typename?: 'UnlockedCourseMeta',
-  courseId: CourseId,
-  header: Scalars['String'],
-  url: Scalars['String'],
-  imageUrl: Scalars['String'],
-  canUpgrade: Scalars['Boolean'],
 };
 
 export type User = {
@@ -356,8 +348,8 @@ export type GetCoursesQueryVariables = {};
 export type GetCoursesQuery = (
   { __typename?: 'Query' }
   & { unlockedCourses: Array<(
-    { __typename?: 'UnlockedCourseMeta' }
-    & Pick<UnlockedCourseMeta, 'courseId' | 'header' | 'url' | 'imageUrl' | 'canUpgrade'>
+    { __typename?: 'StorefrontCourse' }
+    & Pick<StorefrontCourse, 'courseId' | 'header' | 'url' | 'imageUrl' | 'canUpgrade'>
   )> }
 );
 
@@ -539,8 +531,8 @@ export type GetStorefrontCourseQuery = (
     { __typename?: 'StorefrontCourse' }
     & Pick<StorefrontCourse, 'header' | 'courseId'>
     & { bundle: (
-      { __typename?: 'Bundle' }
-      & Pick<Bundle, 'header' | 'bundleId' | 'price' | 'imageUrl'>
+      { __typename?: 'StorefrontBundle' }
+      & Pick<StorefrontBundle, 'header' | 'bundleId' | 'price' | 'imageUrl'>
     ) }
   )> }
 );
@@ -570,6 +562,23 @@ export type StripeCreateOrderMutation = (
     { __typename?: 'StripeId' }
     & Pick<StripeId, 'id'>
   ) }
+);
+
+export type GetUpgradeableCoursesQueryVariables = {
+  courseId: CourseId
+};
+
+
+export type GetUpgradeableCoursesQuery = (
+  { __typename?: 'Query' }
+  & { upgradeableCourses: Array<(
+    { __typename?: 'StorefrontCourse' }
+    & Pick<StorefrontCourse, 'header' | 'courseId'>
+    & { bundle: (
+      { __typename?: 'StorefrontBundle' }
+      & Pick<StorefrontBundle, 'header' | 'bundleId' | 'price' | 'imageUrl'>
+    ) }
+  )> }
 );
 
 export type GetMeQueryVariables = {};
@@ -1148,6 +1157,46 @@ export function useStripeCreateOrderMutation(baseOptions?: ApolloReactHooks.Muta
 export type StripeCreateOrderMutationHookResult = ReturnType<typeof useStripeCreateOrderMutation>;
 export type StripeCreateOrderMutationResult = ApolloReactCommon.MutationResult<StripeCreateOrderMutation>;
 export type StripeCreateOrderMutationOptions = ApolloReactCommon.BaseMutationOptions<StripeCreateOrderMutation, StripeCreateOrderMutationVariables>;
+export const GetUpgradeableCoursesDocument = gql`
+    query GetUpgradeableCourses($courseId: CourseId!) {
+  upgradeableCourses(courseId: $courseId) {
+    header
+    courseId
+    bundle {
+      header
+      bundleId
+      price
+      imageUrl
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetUpgradeableCoursesQuery__
+ *
+ * To run a query within a React component, call `useGetUpgradeableCoursesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUpgradeableCoursesQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUpgradeableCoursesQuery({
+ *   variables: {
+ *      courseId: // value for 'courseId'
+ *   },
+ * });
+ */
+export function useGetUpgradeableCoursesQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetUpgradeableCoursesQuery, GetUpgradeableCoursesQueryVariables>) {
+        return ApolloReactHooks.useQuery<GetUpgradeableCoursesQuery, GetUpgradeableCoursesQueryVariables>(GetUpgradeableCoursesDocument, baseOptions);
+      }
+export function useGetUpgradeableCoursesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetUpgradeableCoursesQuery, GetUpgradeableCoursesQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<GetUpgradeableCoursesQuery, GetUpgradeableCoursesQueryVariables>(GetUpgradeableCoursesDocument, baseOptions);
+        }
+export type GetUpgradeableCoursesQueryHookResult = ReturnType<typeof useGetUpgradeableCoursesQuery>;
+export type GetUpgradeableCoursesLazyQueryHookResult = ReturnType<typeof useGetUpgradeableCoursesLazyQuery>;
+export type GetUpgradeableCoursesQueryResult = ApolloReactCommon.QueryResult<GetUpgradeableCoursesQuery, GetUpgradeableCoursesQueryVariables>;
 export const GetMeDocument = gql`
     query GetMe {
   me {

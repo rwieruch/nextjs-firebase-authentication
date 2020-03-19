@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { Layout as AntdLayout, Card, Icon } from 'antd';
 
 import * as ROUTES from '@constants/routes';
-import { upperSnakeCaseToKebabCase } from '@services/string';
+import { upperSnakeCaseToKebabCase } from '@services/format';
 import { UnlockedCourse, StorefrontCourse } from '@generated/client';
 import { GET_UNLOCKED_COURSES } from '@queries/course';
 import { GET_STOREFRONT_COURSES } from '@queries/storefront';
@@ -20,8 +20,8 @@ const StyledContent = styled(Content)`
 `;
 
 const StyledCard = styled(Card)`
-  min-width: 200px;
-  max-width: 300px;
+  min-width: 250px;
+  max-width: 350px;
 
   .ant-card-body {
     padding: 8px;
@@ -33,7 +33,7 @@ const StyledCards = styled.div`
 
   display: grid;
   align-items: center;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 300px));
+  grid-template-columns: repeat(auto-fit, minmax(250px, 350px));
   grid-gap: 16px;
 `;
 
@@ -91,9 +91,16 @@ const CourseListPage: NextAuthPage = ({
 
             if (course.canUpgrade) {
               actions.push(
-                <ExternalLink href={course.url}>
-                  <Icon type="unlock" key="unlock" /> Upgrade
-                </ExternalLink>
+                <Link
+                  href={ROUTES.COURSE_UPGRADE}
+                  as={`/upgrade/${upperSnakeCaseToKebabCase(
+                    course.courseId
+                  )}`}
+                >
+                  <a>
+                    <Icon type="fire" key="unlock" /> Upgrade
+                  </a>
+                </Link>
               );
             }
 

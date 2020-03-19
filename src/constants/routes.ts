@@ -7,3 +7,7 @@ export const REFERRAL = '/referral';
 
 export const INDEX = '/';
 export const UNLOCKED_COURSE_DETAILS = '/p/[unlocked-course-id]';
+
+export const COURSE_UPGRADE = '/upgrade/[upgradeable-course-id]';
+
+export const CHECKOUT = '/checkout';

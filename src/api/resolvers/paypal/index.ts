@@ -17,12 +17,19 @@ export const resolvers: Resolvers = {
     // https://developer.paypal.com/docs/checkout/reference/server-integration/set-up-transaction/
     paypalCreateOrder: async (
       parent,
-      { courseId, bundleId, coupon }
+      { courseId, bundleId, coupon },
+      { me }
     ) => {
       const course = storefront[courseId];
       const bundle = course.bundles[bundleId];
 
-      const price = await getAsDiscount(bundle.price, coupon);
+      const price = await getAsDiscount(
+        courseId,
+        bundleId,
+        bundle.price,
+        coupon,
+        me?.uid
+      );
 
       const request = new paypal.orders.OrdersCreateRequest();
 
