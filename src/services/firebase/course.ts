@@ -11,12 +11,14 @@ export const createCourse = async ({
   bundleId,
   amount,
   paymentType,
+  coupon,
 }: {
   uid?: string;
   courseId: COURSE;
   bundleId: BUNDLE;
   amount: number;
   paymentType: string;
+  coupon: string;
 }) =>
   await firebaseAdmin
     .database()
@@ -32,6 +34,7 @@ export const createCourse = async ({
         licensesCount: 1,
         currency: 'USD',
         paymentType,
+        coupon,
       },
     });
 

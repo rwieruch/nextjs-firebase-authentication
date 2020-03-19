@@ -44,6 +44,7 @@ export default async (
       bundleId: metadata.bundleId,
       amount: Number((display_items[0].amount / 100).toFixed(2)),
       paymentType: 'STRIPE',
+      coupon: metadata.coupon,
     });
   }
 

@@ -40,7 +40,7 @@ export const resolvers: Resolvers = {
         purchase_units: [
           {
             reference_id: courseId,
-            custom_id: JSON.stringify({ courseId, bundleId }),
+            custom_id: JSON.stringify({ courseId, bundleId, coupon }),
             description: `${courseId} ${bundleId}`,
             amount: {
               currency_code: 'USD',
@@ -72,7 +72,7 @@ export const resolvers: Resolvers = {
           custom_id,
         } = capture.result.purchase_units[0].payments.captures[0];
 
-        const { courseId, bundleId } = JSON.parse(custom_id);
+        const { courseId, bundleId, coupon } = JSON.parse(custom_id);
 
         await createCourse({
           uid: me?.uid,
@@ -80,6 +80,7 @@ export const resolvers: Resolvers = {
           bundleId,
           amount: amount.value,
           paymentType: 'PAYPAL',
+          coupon,
         });
       } catch (error) {
         throw new Error(error.message);

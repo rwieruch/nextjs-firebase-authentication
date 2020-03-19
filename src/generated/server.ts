@@ -4,55 +4,55 @@ export type Maybe<T> = T | null;
 export type RequireFields<T, K extends keyof T> = { [X in Exclude<keyof T, K>]?: T[X] } & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: string,
-  String: string,
-  Boolean: boolean,
-  Int: number,
-  Float: number,
+  ID: string;
+  String: string;
+  Boolean: boolean;
+  Int: number;
+  Float: number;
 };
 
 export type BookChapter = {
-   __typename?: 'BookChapter',
-  label: Scalars['String'],
-  url?: Maybe<Scalars['String']>,
-  sections?: Maybe<Array<BookSection>>,
+   __typename?: 'BookChapter';
+  label: Scalars['String'];
+  url?: Maybe<Scalars['String']>;
+  sections?: Maybe<Array<BookSection>>;
 };
 
 export type BookDownload = {
-   __typename?: 'BookDownload',
-  label: Scalars['String'],
-  data?: Maybe<BookDownloadData>,
+   __typename?: 'BookDownload';
+  label: Scalars['String'];
+  data?: Maybe<BookDownloadData>;
 };
 
 export type BookDownloadData = {
-   __typename?: 'BookDownloadData',
-  label: Scalars['String'],
-  items: Array<BookDownloadItem>,
+   __typename?: 'BookDownloadData';
+  label: Scalars['String'];
+  items: Array<BookDownloadItem>;
 };
 
 export type BookDownloadItem = {
-   __typename?: 'BookDownloadItem',
-  label: Scalars['String'],
-  description: Scalars['String'],
-  url: Scalars['String'],
-  fileName: Scalars['String'],
+   __typename?: 'BookDownloadItem';
+  label: Scalars['String'];
+  description: Scalars['String'];
+  url: Scalars['String'];
+  fileName: Scalars['String'];
 };
 
 export type BookOnline = {
-   __typename?: 'BookOnline',
-  label: Scalars['String'],
-  data?: Maybe<BookOnlineData>,
+   __typename?: 'BookOnline';
+  label: Scalars['String'];
+  data?: Maybe<BookOnlineData>;
 };
 
 export type BookOnlineData = {
-   __typename?: 'BookOnlineData',
-  chapters: Array<BookChapter>,
+   __typename?: 'BookOnlineData';
+  chapters: Array<BookChapter>;
 };
 
 export type BookSection = {
-   __typename?: 'BookSection',
-  label: Scalars['String'],
-  url: Scalars['String'],
+   __typename?: 'BookSection';
+  label: Scalars['String'];
+  url: Scalars['String'];
 };
 
 export enum BundleId {
@@ -69,49 +69,49 @@ export enum CourseId {
 }
 
 export type Curriculum = {
-   __typename?: 'Curriculum',
-  label: Scalars['String'],
-  data?: Maybe<CurriculumData>,
+   __typename?: 'Curriculum';
+  label: Scalars['String'];
+  data?: Maybe<CurriculumData>;
 };
 
 export type CurriculumData = {
-   __typename?: 'CurriculumData',
-  sections: Array<CurriculumSection>,
+   __typename?: 'CurriculumData';
+  sections: Array<CurriculumSection>;
 };
 
 export type CurriculumItem = {
-   __typename?: 'CurriculumItem',
-  label: Scalars['String'],
-  url: Scalars['String'],
-  description: Scalars['String'],
-  kind: Kind,
-  secondaryUrl?: Maybe<Scalars['String']>,
+   __typename?: 'CurriculumItem';
+  label: Scalars['String'];
+  url: Scalars['String'];
+  description: Scalars['String'];
+  kind: Kind;
+  secondaryUrl?: Maybe<Scalars['String']>;
 };
 
 export type CurriculumSection = {
-   __typename?: 'CurriculumSection',
-  label: Scalars['String'],
-  items: Array<CurriculumItem>,
+   __typename?: 'CurriculumSection';
+  label: Scalars['String'];
+  items: Array<CurriculumItem>;
 };
 
 export type File = {
-   __typename?: 'File',
-  fileName: Scalars['String'],
-  contentType: Scalars['String'],
-  body: Scalars['String'],
+   __typename?: 'File';
+  fileName: Scalars['String'];
+  contentType: Scalars['String'];
+  body: Scalars['String'];
 };
 
 export type Introduction = {
-   __typename?: 'Introduction',
-  label: Scalars['String'],
-  data?: Maybe<IntroductionData>,
+   __typename?: 'Introduction';
+  label: Scalars['String'];
+  data?: Maybe<IntroductionData>;
 };
 
 export type IntroductionData = {
-   __typename?: 'IntroductionData',
-  label: Scalars['String'],
-  url: Scalars['String'],
-  description: Scalars['String'],
+   __typename?: 'IntroductionData';
+  label: Scalars['String'];
+  url: Scalars['String'];
+  description: Scalars['String'];
 };
 
 export enum Kind {
@@ -120,210 +120,203 @@ export enum Kind {
 }
 
 export type Markdown = {
-   __typename?: 'Markdown',
-  body: Scalars['String'],
+   __typename?: 'Markdown';
+  body: Scalars['String'];
 };
 
 export type Mutation = {
-   __typename?: 'Mutation',
-  _?: Maybe<Scalars['Boolean']>,
-  signIn: SessionToken,
-  signUp: SessionToken,
-  passwordForgot?: Maybe<Scalars['Boolean']>,
-  passwordChange?: Maybe<Scalars['Boolean']>,
-  paypalCreateOrder: OrderId,
-  paypalApproveOrder?: Maybe<Scalars['Boolean']>,
-  stripeCreateOrder: StripeId,
-  createFreeCourse: Scalars['Boolean'],
-  createAdminCourse: Scalars['Boolean'],
+   __typename?: 'Mutation';
+  _?: Maybe<Scalars['Boolean']>;
+  signIn: SessionToken;
+  signUp: SessionToken;
+  passwordForgot?: Maybe<Scalars['Boolean']>;
+  passwordChange?: Maybe<Scalars['Boolean']>;
+  paypalCreateOrder: OrderId;
+  paypalApproveOrder?: Maybe<Scalars['Boolean']>;
+  stripeCreateOrder: StripeId;
+  createFreeCourse: Scalars['Boolean'];
+  createAdminCourse: Scalars['Boolean'];
 };
 
 
 export type MutationSignInArgs = {
-  email: Scalars['String'],
-  password: Scalars['String']
+  email: Scalars['String'];
+  password: Scalars['String'];
 };
 
 
 export type MutationSignUpArgs = {
-  username: Scalars['String'],
-  email: Scalars['String'],
-  password: Scalars['String']
+  username: Scalars['String'];
+  email: Scalars['String'];
+  password: Scalars['String'];
 };
 
 
 export type MutationPasswordForgotArgs = {
-  email: Scalars['String']
+  email: Scalars['String'];
 };
 
 
 export type MutationPasswordChangeArgs = {
-  password: Scalars['String']
+  password: Scalars['String'];
 };
 
 
 export type MutationPaypalCreateOrderArgs = {
-  courseId: CourseId,
-  bundleId: BundleId,
-  coupon?: Maybe<Scalars['String']>
+  courseId: CourseId;
+  bundleId: BundleId;
+  coupon?: Maybe<Scalars['String']>;
 };
 
 
 export type MutationPaypalApproveOrderArgs = {
-  orderId: Scalars['String']
+  orderId: Scalars['String'];
 };
 
 
 export type MutationStripeCreateOrderArgs = {
-  imageUrl: Scalars['String'],
-  courseId: CourseId,
-  bundleId: BundleId,
-  coupon?: Maybe<Scalars['String']>
+  imageUrl: Scalars['String'];
+  courseId: CourseId;
+  bundleId: BundleId;
+  coupon?: Maybe<Scalars['String']>;
 };
 
 
 export type MutationCreateFreeCourseArgs = {
-  courseId: CourseId,
-  bundleId: BundleId
+  courseId: CourseId;
+  bundleId: BundleId;
 };
 
 
 export type MutationCreateAdminCourseArgs = {
-  uid: Scalars['String'],
-  courseId: CourseId,
-  bundleId: BundleId
+  uid: Scalars['String'];
+  courseId: CourseId;
+  bundleId: BundleId;
 };
 
 export type Onboarding = {
-   __typename?: 'Onboarding',
-  label: Scalars['String'],
-  data?: Maybe<OnboardingData>,
+   __typename?: 'Onboarding';
+  label: Scalars['String'];
+  data?: Maybe<OnboardingData>;
 };
 
 export type OnboardingData = {
-   __typename?: 'OnboardingData',
-  items: Array<OnboardingItem>,
+   __typename?: 'OnboardingData';
+  items: Array<OnboardingItem>;
 };
 
 export type OnboardingItem = {
-   __typename?: 'OnboardingItem',
-  label: Scalars['String'],
-  url: Scalars['String'],
-  description: Scalars['String'],
-  secondaryUrl?: Maybe<Scalars['String']>,
+   __typename?: 'OnboardingItem';
+  label: Scalars['String'];
+  url: Scalars['String'];
+  description: Scalars['String'];
+  secondaryUrl?: Maybe<Scalars['String']>;
 };
 
 export type OrderId = {
-   __typename?: 'OrderId',
-  orderId: Scalars['String'],
+   __typename?: 'OrderId';
+  orderId: Scalars['String'];
 };
 
 export type Query = {
-   __typename?: 'Query',
-  _?: Maybe<Scalars['Boolean']>,
-  me?: Maybe<User>,
-  storefrontCourse?: Maybe<StorefrontCourse>,
-  storefrontCourses: Array<StorefrontCourse>,
-  unlockedCourses: Array<StorefrontCourse>,
-  unlockedCourse?: Maybe<UnlockedCourse>,
-  book: File,
-  onlineChapter: Markdown,
-  upgradeableCourses: Array<StorefrontCourse>,
+   __typename?: 'Query';
+  _?: Maybe<Scalars['Boolean']>;
+  me?: Maybe<User>;
+  storefrontCourse?: Maybe<StorefrontCourse>;
+  storefrontCourses: Array<StorefrontCourse>;
+  unlockedCourses: Array<StorefrontCourse>;
+  unlockedCourse?: Maybe<UnlockedCourse>;
+  book: File;
+  onlineChapter: Markdown;
+  upgradeableCourses: Array<StorefrontCourse>;
 };
 
 
 export type QueryStorefrontCourseArgs = {
-  courseId: CourseId,
-  bundleId: BundleId
+  courseId: CourseId;
+  bundleId: BundleId;
 };
 
 
 export type QueryUnlockedCourseArgs = {
-  courseId: CourseId
+  courseId: CourseId;
 };
 
 
 export type QueryBookArgs = {
-  path: Scalars['String'],
-  fileName: Scalars['String']
+  path: Scalars['String'];
+  fileName: Scalars['String'];
 };
 
 
 export type QueryOnlineChapterArgs = {
-  path: Scalars['String']
+  path: Scalars['String'];
 };
 
 
 export type QueryUpgradeableCoursesArgs = {
-  courseId: CourseId
+  courseId: CourseId;
 };
 
 export type SessionToken = {
-   __typename?: 'SessionToken',
-  sessionToken: Scalars['String'],
+   __typename?: 'SessionToken';
+  sessionToken: Scalars['String'];
 };
 
 export type StorefrontBundle = {
-   __typename?: 'StorefrontBundle',
-  header: Scalars['String'],
-  bundleId: BundleId,
-  price: Scalars['Int'],
-  imageUrl: Scalars['String'],
-  benefits: Array<Scalars['String']>,
+   __typename?: 'StorefrontBundle';
+  header: Scalars['String'];
+  bundleId: BundleId;
+  price: Scalars['Int'];
+  imageUrl: Scalars['String'];
+  benefits: Array<Scalars['String']>;
 };
 
 export type StorefrontCourse = {
-   __typename?: 'StorefrontCourse',
-  header: Scalars['String'],
-  courseId: CourseId,
-  url: Scalars['String'],
-  imageUrl: Scalars['String'],
-  canUpgrade: Scalars['Boolean'],
-  bundle: StorefrontBundle,
+   __typename?: 'StorefrontCourse';
+  header: Scalars['String'];
+  courseId: CourseId;
+  url: Scalars['String'];
+  imageUrl: Scalars['String'];
+  canUpgrade: Scalars['Boolean'];
+  bundle: StorefrontBundle;
 };
 
 export type StripeId = {
-   __typename?: 'StripeId',
-  id: Scalars['String'],
+   __typename?: 'StripeId';
+  id: Scalars['String'];
 };
 
 export type Subscription = {
-   __typename?: 'Subscription',
-  _?: Maybe<Scalars['Boolean']>,
+   __typename?: 'Subscription';
+  _?: Maybe<Scalars['Boolean']>;
 };
 
 export type UnlockedCourse = {
-   __typename?: 'UnlockedCourse',
-  courseId: CourseId,
-  bundleId: BundleId,
-  header: Scalars['String'],
-  url: Scalars['String'],
-  imageUrl: Scalars['String'],
-  canUpgrade: Scalars['Boolean'],
-  introduction?: Maybe<Introduction>,
-  onboarding?: Maybe<Onboarding>,
-  bookDownload?: Maybe<BookDownload>,
-  bookOnline?: Maybe<BookOnline>,
-  curriculum?: Maybe<Curriculum>,
+   __typename?: 'UnlockedCourse';
+  courseId: CourseId;
+  bundleId: BundleId;
+  header: Scalars['String'];
+  url: Scalars['String'];
+  imageUrl: Scalars['String'];
+  canUpgrade: Scalars['Boolean'];
+  introduction?: Maybe<Introduction>;
+  onboarding?: Maybe<Onboarding>;
+  bookDownload?: Maybe<BookDownload>;
+  bookOnline?: Maybe<BookOnline>;
+  curriculum?: Maybe<Curriculum>;
 };
 
 export type User = {
-   __typename?: 'User',
-  email: Scalars['String'],
-  uid: Scalars['String'],
+   __typename?: 'User';
+  email: Scalars['String'];
+  uid: Scalars['String'];
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
 export type ResolversObject<TObject> = WithIndex<TObject>;
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
-
-export type ResolverFn<TResult, TParent, TContext, TArgs> = (
-  parent: TParent,
-  args: TArgs,
-  context: TContext,
-  info: GraphQLResolveInfo
-) => Promise<TResult> | TResult;
 
 
 export type StitchingResolver<TResult, TParent, TContext, TArgs> = {
@@ -334,6 +327,13 @@ export type StitchingResolver<TResult, TParent, TContext, TArgs> = {
 export type Resolver<TResult, TParent = {}, TContext = {}, TArgs = {}> =
   | ResolverFn<TResult, TParent, TContext, TArgs>
   | StitchingResolver<TResult, TParent, TContext, TArgs>;
+
+export type ResolverFn<TResult, TParent, TContext, TArgs> = (
+  parent: TParent,
+  args: TArgs,
+  context: TContext,
+  info: GraphQLResolveInfo
+) => Promise<TResult> | TResult;
 
 export type SubscriptionSubscribeFn<TResult, TParent, TContext, TArgs> = (
   parent: TParent,
@@ -371,9 +371,9 @@ export type TypeResolveFn<TTypes, TParent = {}, TContext = {}> = (
   parent: TParent,
   context: TContext,
   info: GraphQLResolveInfo
-) => Maybe<TTypes>;
+) => Maybe<TTypes> | Promise<Maybe<TTypes>>;
 
-export type isTypeOfResolverFn<T = {}> = (obj: T, info: GraphQLResolveInfo) => boolean;
+export type isTypeOfResolverFn<T = {}> = (obj: T, info: GraphQLResolveInfo) => boolean | Promise<boolean>;
 
 export type NextResolverFn<T> = () => Promise<T>;
 

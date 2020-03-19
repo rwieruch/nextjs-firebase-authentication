@@ -47,6 +47,7 @@ export const resolvers: Resolvers = {
           metadata: {
             courseId,
             bundleId,
+            coupon,
           },
           payment_intent_data: {
             description: `${courseId} ${bundleId}`,

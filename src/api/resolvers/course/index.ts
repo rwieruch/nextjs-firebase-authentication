@@ -65,6 +65,7 @@ export const resolvers: Resolvers = {
         bundleId,
         amount: 0,
         paymentType: 'FREE',
+        coupon: '',
       });
 
       return true;
@@ -79,6 +80,7 @@ export const resolvers: Resolvers = {
         bundleId,
         amount: 0,
         paymentType: 'MANUAL',
+        coupon: '',
       });
 
       return true;
