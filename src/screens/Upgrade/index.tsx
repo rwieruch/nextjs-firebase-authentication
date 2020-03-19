@@ -49,74 +49,23 @@ const Cover = ({ imageUrl }: CoverProps) => (
   />
 );
 
-interface CourseListPageProps {
-  unlockedCoursesData: {
-    unlockedCourses: UnlockedCourse[];
-  };
+interface UpgradePageProps {
   storefrontCoursesData: {
     storefrontCourses: StorefrontCourse[];
   };
 }
 
-type NextAuthPage = NextPage<CourseListPageProps> & {
+type NextAuthPage = NextPage<UpgradePageProps> & {
   isAuthorized: (session: Session) => boolean;
 };
 
-const CourseListPage: NextAuthPage = ({
-  unlockedCoursesData,
-  storefrontCoursesData,
-}) => {
-  const isUnlocked = (storefrontCourse: StorefrontCourse) =>
-    !unlockedCoursesData.unlockedCourses
-      .map(unlockedCourse => unlockedCourse.courseId)
-      .includes(storefrontCourse.courseId);
-
+const UpgradePage: NextAuthPage = ({ storefrontCoursesData }) => {
   return (
     <Layout>
       <StyledContent>
         <StyledCards>
-          {unlockedCoursesData.unlockedCourses.map(course => {
-            let actions = [
-              <Link
-                href={ROUTES.UNLOCKED_COURSE_DETAILS}
-                as={`/p/${upperSnakeCaseToKebabCase(
-                  course.courseId
-                )}`}
-              >
-                <a>
-                  <Icon type="book" key="book" /> Get Started
-                </a>
-              </Link>,
-            ];
-
-            if (course.canUpgrade) {
-              actions.push(
-                <Link
-                  href={ROUTES.COURSE_UPGRADE}
-                  as={`/upgrade/${upperSnakeCaseToKebabCase(
-                    course.courseId
-                  )}`}
-                >
-                  <a>
-                    <Icon type="unlock" key="unlock" /> Upgrade
-                  </a>
-                </Link>
-              );
-            }
-
-            return (
-              <StyledCard
-                key={course.courseId}
-                cover={<Cover imageUrl={course.imageUrl} />}
-                title={course.header}
-                actions={actions}
-              />
-            );
-          })}
-
-          {storefrontCoursesData.storefrontCourses
-            .filter(isUnlocked)
-            .map(storefrontCourse => {
+          {storefrontCoursesData.storefrontCourses.map(
+            storefrontCourse => {
               const actions = [
                 <ExternalLink href={storefrontCourse.url}>
                   <Icon type="unlock" key="unlock" /> Unlock Course
@@ -133,16 +82,17 @@ const CourseListPage: NextAuthPage = ({
                   actions={actions}
                 />
               );
-            })}
+            }
+          )}
         </StyledCards>
       </StyledContent>
     </Layout>
   );
 };
 
-CourseListPage.isAuthorized = (session: Session) => true;
+UpgradePage.isAuthorized = (session: Session) => !!session;
 
-CourseListPage.getInitialProps = async ctx => {
+UpgradePage.getInitialProps = async ctx => {
   const isServer = ctx.req || ctx.res;
 
   const context = isServer
@@ -155,19 +105,14 @@ CourseListPage.getInitialProps = async ctx => {
       }
     : null;
 
-  const { data: unlockedCoursesData } = await ctx.apolloClient.query({
-    fetchPolicy: 'network-only',
-    query: GET_UNLOCKED_COURSES,
-    ...(isServer && context),
-  });
-
   const {
     data: storefrontCoursesData,
   } = await ctx.apolloClient.query({
     query: GET_STOREFRONT_COURSES,
+    ...(isServer && context),
   });
 
-  return { unlockedCoursesData, storefrontCoursesData };
+  return { storefrontCoursesData };
 };
 
-export default CourseListPage;
+export default UpgradePage;
