@@ -7,8 +7,6 @@ export default gql`
       bundleId: BundleId!
     ): StorefrontCourse
 
-    storefrontBundles(courseId: CourseId!): [StorefrontBundle!]!
-
     storefrontCourses: [StorefrontCourse!]!
   }
 
@@ -16,7 +14,8 @@ export default gql`
     header: String!
     courseId: CourseId!
     url: String!
-    imageUrl: String
+    imageUrl: String!
+    canUpgrade: Boolean!
     bundle: StorefrontBundle!
   }
 

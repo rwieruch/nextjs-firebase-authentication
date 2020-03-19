@@ -57,15 +57,6 @@ export type BookSection = {
   url: Scalars['String'],
 };
 
-export type Bundle = {
-   __typename?: 'Bundle',
-  header: Scalars['String'],
-  bundleId: BundleId,
-  price: Scalars['Int'],
-  imageUrl: Scalars['String'],
-  benefits: Array<Scalars['String']>,
-};
-
 export enum BundleId {
   Student = 'STUDENT',
   Intermediate = 'INTERMEDIATE',
@@ -234,9 +225,8 @@ export type Query = {
   _?: Maybe<Scalars['Boolean']>,
   me?: Maybe<User>,
   storefrontCourse?: Maybe<StorefrontCourse>,
-  storefrontBundles: Array<Bundle>,
   storefrontCourses: Array<StorefrontCourse>,
-  unlockedCourses: Array<UnlockedCourseMeta>,
+  unlockedCourses: Array<StorefrontCourse>,
   unlockedCourse?: Maybe<UnlockedCourse>,
   book: File,
   onlineChapter: Markdown,
@@ -246,11 +236,6 @@ export type Query = {
 export type QueryStorefrontCourseArgs = {
   courseId: CourseId,
   bundleId: BundleId
-};
-
-
-export type QueryStorefrontBundlesArgs = {
-  courseId: CourseId
 };
 
 
@@ -274,13 +259,23 @@ export type SessionToken = {
   sessionToken: Scalars['String'],
 };
 
+export type StorefrontBundle = {
+   __typename?: 'StorefrontBundle',
+  header: Scalars['String'],
+  bundleId: BundleId,
+  price: Scalars['Int'],
+  imageUrl: Scalars['String'],
+  benefits: Array<Scalars['String']>,
+};
+
 export type StorefrontCourse = {
    __typename?: 'StorefrontCourse',
   header: Scalars['String'],
   courseId: CourseId,
   url: Scalars['String'],
-  imageUrl?: Maybe<Scalars['String']>,
-  bundle: Bundle,
+  imageUrl: Scalars['String'],
+  canUpgrade: Scalars['Boolean'],
+  bundle: StorefrontBundle,
 };
 
 export type StripeId = {
@@ -306,15 +301,6 @@ export type UnlockedCourse = {
   bookDownload?: Maybe<BookDownload>,
   bookOnline?: Maybe<BookOnline>,
   curriculum?: Maybe<Curriculum>,
-};
-
-export type UnlockedCourseMeta = {
-   __typename?: 'UnlockedCourseMeta',
-  courseId: CourseId,
-  header: Scalars['String'],
-  url: Scalars['String'],
-  imageUrl: Scalars['String'],
-  canUpgrade: Scalars['Boolean'],
 };
 
 export type User = {
@@ -356,8 +342,8 @@ export type GetCoursesQueryVariables = {};
 export type GetCoursesQuery = (
   { __typename?: 'Query' }
   & { unlockedCourses: Array<(
-    { __typename?: 'UnlockedCourseMeta' }
-    & Pick<UnlockedCourseMeta, 'courseId' | 'header' | 'url' | 'imageUrl' | 'canUpgrade'>
+    { __typename?: 'StorefrontCourse' }
+    & Pick<StorefrontCourse, 'courseId' | 'header' | 'url' | 'imageUrl' | 'canUpgrade'>
   )> }
 );
 
@@ -539,8 +525,8 @@ export type GetStorefrontCourseQuery = (
     { __typename?: 'StorefrontCourse' }
     & Pick<StorefrontCourse, 'header' | 'courseId'>
     & { bundle: (
-      { __typename?: 'Bundle' }
-      & Pick<Bundle, 'header' | 'bundleId' | 'price' | 'imageUrl'>
+      { __typename?: 'StorefrontBundle' }
+      & Pick<StorefrontBundle, 'header' | 'bundleId' | 'price' | 'imageUrl'>
     ) }
   )> }
 );
