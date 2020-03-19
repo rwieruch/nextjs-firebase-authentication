@@ -1,9 +1,10 @@
 import React from 'react';
+import { useRouter } from 'next/router';
 import { Form, Input, Button, Row, Col } from 'antd';
 
 import { StorefrontCourse } from '@generated/client';
 import FormIcon from '@components/Form/Icon';
-import { formatPrice } from '@services/format';
+import { formatPrice, formatRouteQuery } from '@services/format';
 
 import FreeCheckoutButton from './FreeCheckout';
 import PaypalCheckout from './Adapters/paypal';
@@ -33,12 +34,8 @@ const IdleForm = ({
   stripeButton,
   paypalButton,
 }: IdleFormProps) => {
-  const { courseId, header: courseHeader } = storefrontCourse;
-  const {
-    bundleId,
-    header: bundleHeader,
-    price,
-  } = storefrontCourse.bundle;
+  const { header: courseHeader } = storefrontCourse;
+  const { header: bundleHeader, price } = storefrontCourse.bundle;
 
   const formItemLayout = {
     labelCol: {
@@ -104,7 +101,11 @@ type PayProps = {
 };
 
 const Pay = ({ storefrontCourse, onSuccess }: PayProps) => {
-  const [coupon, setCoupon] = React.useState('');
+  const { query } = useRouter();
+
+  const [coupon, setCoupon] = React.useState(
+    formatRouteQuery(query.coupon) || ''
+  );
   const [currentSelection, setCurrentSelection] = React.useState(
     SELECTIONS.IDLE
   );

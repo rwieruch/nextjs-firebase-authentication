@@ -4,6 +4,7 @@ import { useApolloClient } from '@apollo/react-hooks';
 
 import { Session } from '@typeDefs/session';
 import { CREATE_ADMIN_COURSE } from '@queries/course';
+import { formatRouteQuery } from '@services/format';
 
 const AdminPage = () => {
   const apolloClient = useApolloClient();
@@ -13,16 +14,9 @@ const AdminPage = () => {
     apolloClient.mutate({
       mutation: CREATE_ADMIN_COURSE,
       variables: {
-        uid:
-          query.uid instanceof Array ? query.uid.join('') : query.uid,
-        courseId:
-          query.courseId instanceof Array
-            ? query.courseId.join('')
-            : query.courseId,
-        bundleId:
-          query.bundleId instanceof Array
-            ? query.bundleId.join('')
-            : query.bundleId,
+        uid: formatRouteQuery(query.uid),
+        courseId: formatRouteQuery(query.courseId),
+        bundleId: formatRouteQuery(query.bundleId),
       },
     });
   }, []);

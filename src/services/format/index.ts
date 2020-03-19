@@ -9,3 +9,6 @@ export const formatPrice = (price: number) =>
     style: 'currency',
     currency: 'USD',
   });
+
+export const formatRouteQuery = (queryValue: string | string[]) =>
+  queryValue instanceof Array ? queryValue.join('') : queryValue;
