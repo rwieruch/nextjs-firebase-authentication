@@ -3,6 +3,7 @@ import { Form, Input, Button, Row, Col } from 'antd';
 
 import { StorefrontCourse } from '@generated/client';
 import FormIcon from '@components/Form/Icon';
+import { formatPrice } from '@services/format';
 
 import FreeCheckoutButton from './FreeCheckout';
 import PaypalCheckout from './Adapters/paypal';
@@ -68,12 +69,7 @@ const IdleForm = ({
 
       {!isFree && (
         <Form.Item style={{ margin: 0 }} label="Price">
-          <span className="ant-form-text">
-            {(price / 100).toLocaleString('en-US', {
-              style: 'currency',
-              currency: 'USD',
-            })}
-          </span>
+          <span className="ant-form-text">{formatPrice(price)}</span>
         </Form.Item>
       )}
 
