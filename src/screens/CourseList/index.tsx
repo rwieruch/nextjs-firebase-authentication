@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { Layout as AntdLayout, Card, Icon } from 'antd';
 
 import * as ROUTES from '@constants/routes';
-import { upperSnakeCaseToKebabCase } from '@services/string';
+import { upperSnakeCaseToKebabCase } from '@services/format';
 import { UnlockedCourse, StorefrontCourse } from '@generated/client';
 import { GET_UNLOCKED_COURSES } from '@queries/course';
 import { GET_STOREFRONT_COURSES } from '@queries/storefront';

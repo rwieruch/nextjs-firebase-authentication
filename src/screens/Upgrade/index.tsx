@@ -5,12 +5,14 @@ import styled from 'styled-components';
 import { Layout as AntdLayout, Card, Icon } from 'antd';
 
 import * as ROUTES from '@constants/routes';
-import { kebabCaseToUpperSnakeCase } from '@services/string';
 import { StorefrontCourse } from '@generated/client';
 import { GET_UPGRADEABLE_COURSES } from '@queries/upgrade';
 import { Session } from '@typeDefs/session';
 import Layout from '@components/Layout';
-import { formatPrice } from '@services/format';
+import {
+  formatPricem,
+  kebabCaseToUpperSnakeCase,
+} from '@services/format';
 
 const { Content } = AntdLayout;
 

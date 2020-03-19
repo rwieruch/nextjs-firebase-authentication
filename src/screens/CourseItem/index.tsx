@@ -10,7 +10,7 @@ import * as ROUTES from '@constants/routes';
 import { GET_UNLOCKED_COURSE } from '@queries/course';
 import Layout from '@components/Layout';
 import ExternalLink from '@components/ExternalLink';
-import { kebabCaseToUpperSnakeCase } from '@services/string';
+import { kebabCaseToUpperSnakeCase } from '@services/format';
 
 import Introduction from './Introduction';
 import Onboarding from './Onboarding';
