@@ -2,7 +2,7 @@ import React from 'react';
 import { NextPage } from 'next';
 import Link from 'next/link';
 import styled from 'styled-components';
-import { Layout as AntdLayout, Card, Icon } from 'antd';
+import { Layout as AntdLayout, Breadcrumb, Card, Icon } from 'antd';
 
 import * as ROUTES from '@constants/routes';
 import { StorefrontCourse } from '@generated/client';
@@ -65,6 +65,17 @@ const UpgradePage: NextAuthPage = ({ upgradeableCoursesData }) => {
   return (
     <Layout>
       <StyledContent>
+        <Breadcrumb style={{ flex: '0', margin: '16px 0' }}>
+          <Breadcrumb.Item>
+            <Link href={ROUTES.INDEX}>
+              <a>Courses</a>
+            </Link>
+          </Breadcrumb.Item>
+          <Breadcrumb.Item>
+            Upgrade:{' '}
+            {upgradeableCoursesData.upgradeableCourses[0].header}
+          </Breadcrumb.Item>
+        </Breadcrumb>
         <StyledCards>
           {upgradeableCoursesData.upgradeableCourses.map(
             storefrontCourse => {
