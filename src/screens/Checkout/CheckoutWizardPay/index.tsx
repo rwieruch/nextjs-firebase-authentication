@@ -16,11 +16,13 @@ const SELECTIONS = {
 };
 
 type IdleFormProps = {
-  coupon: string;
   storefrontCourse: StorefrontCourse;
+  coupon: string;
+  redeemed: boolean;
   onCouponChange: (
     event: React.ChangeEvent<HTMLInputElement>
   ) => void;
+  onRedeemedChange: () => void;
   freeButton: React.ReactNode;
   stripeButton: React.ReactNode;
   paypalButton: React.ReactNode;
@@ -29,7 +31,9 @@ type IdleFormProps = {
 const IdleForm = ({
   storefrontCourse,
   coupon,
+  redeemed,
   onCouponChange,
+  onRedeemedChange,
   freeButton,
   stripeButton,
   paypalButton,
@@ -66,19 +70,40 @@ const IdleForm = ({
 
       {!isFree && (
         <Form.Item style={{ margin: 0 }} label="Price">
-          <span className="ant-form-text">{formatPrice(price)}</span>
+          <span
+            className="ant-form-text"
+            style={{
+              textDecoration: redeemed ? 'line-through' : 'none',
+            }}
+          >
+            {formatPrice(price)}
+          </span>
+
+          {redeemed && (
+            <span className="ant-form-text">new price</span>
+          )}
         </Form.Item>
       )}
 
       {!isFree && (
         <Form.Item label="Coupon">
-          <Input
-            value={coupon}
-            onChange={onCouponChange}
-            prefix={<FormIcon type="tag" />}
-            placeholder="Receive an optional discount"
-            aria-label="coupon"
-          />
+          <Row gutter={8}>
+            <Col span={14}>
+              <Input
+                value={coupon}
+                disabled={redeemed}
+                onChange={onCouponChange}
+                prefix={<FormIcon type="tag" />}
+                placeholder="Receive an optional discount"
+                aria-label="coupon"
+              />
+            </Col>
+            <Col span={6}>
+              <Button onClick={onRedeemedChange}>
+                {redeemed ? 'Clear' : 'Apply'}
+              </Button>
+            </Col>
+          </Row>
         </Form.Item>
       )}
 
@@ -106,6 +131,10 @@ const Pay = ({ storefrontCourse, onSuccess }: PayProps) => {
   const [coupon, setCoupon] = React.useState(
     formatRouteQuery(query.coupon) || ''
   );
+  const [redeemed, setRedeemed] = React.useState(
+    formatRouteQuery(query.coupon) ? true : false
+  );
+
   const [currentSelection, setCurrentSelection] = React.useState(
     SELECTIONS.IDLE
   );
@@ -114,6 +143,10 @@ const Pay = ({ storefrontCourse, onSuccess }: PayProps) => {
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setCoupon(event.target.value);
+  };
+
+  const handledRedeemedChange = () => {
+    setRedeemed(!redeemed);
   };
 
   const handleSelectIdle = () => {
@@ -129,7 +162,7 @@ const Pay = ({ storefrontCourse, onSuccess }: PayProps) => {
       <PaypalCheckout
         isShow={currentSelection === SELECTIONS.PAYPAL}
         storefrontCourse={storefrontCourse}
-        coupon={coupon}
+        coupon={redeemed ? coupon : ''}
         onSuccess={onSuccess}
         onBack={handleSelectIdle}
       />
@@ -138,7 +171,9 @@ const Pay = ({ storefrontCourse, onSuccess }: PayProps) => {
         <IdleForm
           storefrontCourse={storefrontCourse}
           coupon={coupon}
+          redeemed={redeemed}
           onCouponChange={handleCouponChange}
+          onRedeemedChange={handledRedeemedChange}
           freeButton={
             <FreeCheckoutButton
               courseId={storefrontCourse.courseId}
@@ -149,7 +184,7 @@ const Pay = ({ storefrontCourse, onSuccess }: PayProps) => {
           stripeButton={
             <StripeCheckoutButton
               storefrontCourse={storefrontCourse}
-              coupon={coupon}
+              coupon={redeemed ? coupon : ''}
             />
           }
           paypalButton={
