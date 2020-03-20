@@ -232,6 +232,7 @@ export type Query = {
   book: File;
   onlineChapter: Markdown;
   upgradeableCourses: Array<StorefrontCourse>;
+  discountedPrice: Scalars['Int'];
 };
 
 
@@ -264,6 +265,13 @@ export type QueryOnlineChapterArgs = {
 
 export type QueryUpgradeableCoursesArgs = {
   courseId: CourseId;
+};
+
+
+export type QueryDiscountedPriceArgs = {
+  courseId: CourseId;
+  bundleId: BundleId;
+  coupon: Scalars['String'];
 };
 
 export type SessionToken = {

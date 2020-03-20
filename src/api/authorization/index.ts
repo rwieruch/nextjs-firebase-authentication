@@ -7,6 +7,8 @@ import { isFreeCourse } from './isFreeCourse';
 export default shield({
   Query: {
     me: isAuthenticated,
+
+    discountedPrice: isAuthenticated,
   },
   Mutation: {
     passwordChange: isAuthenticated,
