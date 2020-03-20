@@ -230,6 +230,7 @@ export type Query = {
   book: File;
   onlineChapter: Markdown;
   upgradeableCourses: Array<StorefrontCourse>;
+  discountedPrice: Scalars['Int'];
 };
 
 
@@ -262,6 +263,13 @@ export type QueryOnlineChapterArgs = {
 
 export type QueryUpgradeableCoursesArgs = {
   courseId: CourseId;
+};
+
+
+export type QueryDiscountedPriceArgs = {
+  courseId: CourseId;
+  bundleId: BundleId;
+  coupon: Scalars['String'];
 };
 
 export type SessionToken = {
@@ -610,6 +618,7 @@ export type QueryResolvers<ContextType = ResolverContext, ParentType extends Res
   book?: Resolver<ResolversTypes['File'], ParentType, ContextType, RequireFields<QueryBookArgs, 'path' | 'fileName'>>,
   onlineChapter?: Resolver<ResolversTypes['Markdown'], ParentType, ContextType, RequireFields<QueryOnlineChapterArgs, 'path'>>,
   upgradeableCourses?: Resolver<Array<ResolversTypes['StorefrontCourse']>, ParentType, ContextType, RequireFields<QueryUpgradeableCoursesArgs, 'courseId'>>,
+  discountedPrice?: Resolver<ResolversTypes['Int'], ParentType, ContextType, RequireFields<QueryDiscountedPriceArgs, 'courseId' | 'bundleId' | 'coupon'>>,
 }>;
 
 export type SessionTokenResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['SessionToken'] = ResolversParentTypes['SessionToken']> = ResolversObject<{

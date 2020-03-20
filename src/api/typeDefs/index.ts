@@ -8,6 +8,7 @@ import stripeSchema from './stripe';
 import courseSchema from './course';
 import bookSchema from './book';
 import upgradeSchema from './upgrade';
+import couponSchema from './coupon';
 
 const linkSchema = gql`
   enum CourseId {
@@ -46,4 +47,5 @@ export default [
   courseSchema,
   bookSchema,
   upgradeSchema,
+  couponSchema,
 ];
