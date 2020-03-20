@@ -226,6 +226,7 @@ export type Query = {
   me?: Maybe<User>;
   storefrontCourse?: Maybe<StorefrontCourse>;
   storefrontCourses: Array<StorefrontCourse>;
+  storefrontBundles: Array<StorefrontBundle>;
   unlockedCourses: Array<StorefrontCourse>;
   unlockedCourse?: Maybe<UnlockedCourse>;
   book: File;
@@ -237,6 +238,11 @@ export type Query = {
 export type QueryStorefrontCourseArgs = {
   courseId: CourseId;
   bundleId: BundleId;
+};
+
+
+export type QueryStorefrontBundlesArgs = {
+  courseId: CourseId;
 };
 
 

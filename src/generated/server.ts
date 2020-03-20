@@ -224,6 +224,7 @@ export type Query = {
   me?: Maybe<User>;
   storefrontCourse?: Maybe<StorefrontCourse>;
   storefrontCourses: Array<StorefrontCourse>;
+  storefrontBundles: Array<StorefrontBundle>;
   unlockedCourses: Array<StorefrontCourse>;
   unlockedCourse?: Maybe<UnlockedCourse>;
   book: File;
@@ -235,6 +236,11 @@ export type Query = {
 export type QueryStorefrontCourseArgs = {
   courseId: CourseId;
   bundleId: BundleId;
+};
+
+
+export type QueryStorefrontBundlesArgs = {
+  courseId: CourseId;
 };
 
 
@@ -598,6 +604,7 @@ export type QueryResolvers<ContextType = ResolverContext, ParentType extends Res
   me?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>,
   storefrontCourse?: Resolver<Maybe<ResolversTypes['StorefrontCourse']>, ParentType, ContextType, RequireFields<QueryStorefrontCourseArgs, 'courseId' | 'bundleId'>>,
   storefrontCourses?: Resolver<Array<ResolversTypes['StorefrontCourse']>, ParentType, ContextType>,
+  storefrontBundles?: Resolver<Array<ResolversTypes['StorefrontBundle']>, ParentType, ContextType, RequireFields<QueryStorefrontBundlesArgs, 'courseId'>>,
   unlockedCourses?: Resolver<Array<ResolversTypes['StorefrontCourse']>, ParentType, ContextType>,
   unlockedCourse?: Resolver<Maybe<ResolversTypes['UnlockedCourse']>, ParentType, ContextType, RequireFields<QueryUnlockedCourseArgs, 'courseId'>>,
   book?: Resolver<ResolversTypes['File'], ParentType, ContextType, RequireFields<QueryBookArgs, 'path' | 'fileName'>>,
