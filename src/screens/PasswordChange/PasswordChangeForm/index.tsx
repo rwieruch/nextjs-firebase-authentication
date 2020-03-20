@@ -1,21 +1,28 @@
 import React from 'react';
 import { Form, Input } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
+import { useApolloClient } from '@apollo/react-hooks';
 
 import { usePasswordChangeMutation } from '@generated/client';
 import FormItem from '@components/Form/Item';
 import FormStretchedButton from '@components/Form/StretchedButton';
-import useErrorIndicator from '@hooks/useErrorIndicator';
+import useIndicators from '@hooks/useIndicators';
+import signOut from '@components/Navigation/signOut';
 
 interface PasswordChangeFormProps extends FormComponentProps {}
 
 const PasswordChangeForm = ({ form }: PasswordChangeFormProps) => {
+  const apolloClient = useApolloClient();
+
   const [
     passwordChange,
     { loading, error },
   ] = usePasswordChangeMutation();
 
-  useErrorIndicator({ error });
+  const { successMessage } = useIndicators({
+    key: 'password-change',
+    error,
+  });
 
   const [
     confirmPasswordDirty,
@@ -65,6 +72,10 @@ const PasswordChangeForm = ({ form }: PasswordChangeFormProps) => {
         });
 
         form.resetFields();
+
+        successMessage();
+
+        signOut(undefined, undefined, apolloClient);
       } catch (error) {}
     });
 

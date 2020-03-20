@@ -20,11 +20,11 @@ const getErrorLink = (ctx = { req: null, res: null }) =>
           console.log('GraphQL error:', message, extensions);
 
           if (extensions.code === 'UNAUTHENTICATED') {
-            signOut(ctx.req, ctx.res);
+            signOut(ctx.req, ctx.res, ctx.apolloClient);
           }
 
           if (extensions.code === 'FORBIDDEN') {
-            signOut(ctx.req, ctx.res);
+            signOut(ctx.req, ctx.res, ctx.apolloClient);
           }
         }
       );
@@ -34,7 +34,7 @@ const getErrorLink = (ctx = { req: null, res: null }) =>
       console.log('Network error', networkError);
 
       if (networkError.statusCode === 401) {
-        signOut(ctx.req, ctx.res);
+        signOut(ctx.req, ctx.res, ctx.apolloClient);
       }
     }
   });

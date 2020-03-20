@@ -3,6 +3,7 @@ import Link from 'next/link';
 import styled from 'styled-components';
 import { Menu, Icon } from 'antd';
 
+import { useApolloClient } from '@apollo/react-hooks';
 import * as ROUTES from '@constants/routes';
 import SessionContext from '@context/session';
 
@@ -18,6 +19,7 @@ const Container = styled.nav`
 `;
 
 const Navigation = () => {
+  const apolloClient = useApolloClient();
   const session = React.useContext(SessionContext);
 
   return (
@@ -54,7 +56,12 @@ const Navigation = () => {
                 </a>
               </Link>
             </Menu.Item>
-            <Menu.Item key="1" onClick={() => signOut()}>
+            <Menu.Item
+              key="1"
+              onClick={() =>
+                signOut(undefined, undefined, apolloClient)
+              }
+            >
               <Icon type="poweroff" />
               Sign Out
             </Menu.Item>

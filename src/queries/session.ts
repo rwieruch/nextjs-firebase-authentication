@@ -31,3 +31,9 @@ export const PASSWORD_FORGOT = gql`
     passwordForgot(email: $email)
   }
 `;
+
+export const EMAIL_CHANGE = gql`
+  mutation EmailChange($email: String!) {
+    emailChange(email: $email)
+  }
+`;
