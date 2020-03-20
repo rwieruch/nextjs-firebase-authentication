@@ -43,7 +43,11 @@ const AccountPage: NextAuthPage = ({ data }) => {
                   <strong>ID:</strong> {data?.me?.uid}
                 </li>
                 <li>
-                  <strong>Email:</strong> {data?.me?.email}
+                  <strong>Email:</strong> {data?.me?.email} (
+                  <Link href={ROUTES.EMAIL_CHANGE}>
+                    <a>Change Email</a>
+                  </Link>
+                  )
                 </li>
               </ul>
             </Card>

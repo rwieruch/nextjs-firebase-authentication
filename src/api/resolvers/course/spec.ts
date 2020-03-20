@@ -147,6 +147,7 @@ describe('createAdminCourse', () => {
       invoice: {
         createdAt: 'TIMESTAMP',
         amount: 0,
+        coupon: '',
         licensesCount: 1,
         currency: 'USD',
         paymentType: 'MANUAL',
@@ -189,6 +190,7 @@ describe('createAdminCourse', () => {
       invoice: {
         createdAt: 'TIMESTAMP',
         amount: 0,
+        coupon: '',
         licensesCount: 1,
         currency: 'USD',
         paymentType: 'MANUAL',

@@ -110,5 +110,16 @@ export const resolvers: Resolvers = {
 
       return true;
     },
+    emailChange: async (parent, { email }, { me }) => {
+      try {
+        await firebaseAdmin.auth().updateUser(me?.uid || '', {
+          email,
+        });
+      } catch (error) {
+        return new Error(error);
+      }
+
+      return true;
+    },
   },
 };

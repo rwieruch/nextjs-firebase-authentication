@@ -13,6 +13,8 @@ export default gql`
     passwordForgot(email: String!): Boolean
 
     passwordChange(password: String!): Boolean
+
+    emailChange(email: String!): Boolean
   }
 
   type SessionToken {

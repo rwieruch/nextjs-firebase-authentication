@@ -7,7 +7,7 @@ export default ({
   error,
 }: {
   key: string;
-  loading: boolean;
+  loading?: boolean;
   error?: { message?: string };
 }) => {
   let destroyMessage = React.useRef(() => {});

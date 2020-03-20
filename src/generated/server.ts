@@ -94,6 +94,12 @@ export type CurriculumSection = {
   items: Array<CurriculumItem>;
 };
 
+export type Discount = {
+   __typename?: 'Discount';
+  price: Scalars['Int'];
+  isDiscount: Scalars['Boolean'];
+};
+
 export type File = {
    __typename?: 'File';
   fileName: Scalars['String'];
@@ -131,6 +137,7 @@ export type Mutation = {
   signUp: SessionToken;
   passwordForgot?: Maybe<Scalars['Boolean']>;
   passwordChange?: Maybe<Scalars['Boolean']>;
+  emailChange?: Maybe<Scalars['Boolean']>;
   paypalCreateOrder: OrderId;
   paypalApproveOrder?: Maybe<Scalars['Boolean']>;
   stripeCreateOrder: StripeId;
@@ -159,6 +166,11 @@ export type MutationPasswordForgotArgs = {
 
 export type MutationPasswordChangeArgs = {
   password: Scalars['String'];
+};
+
+
+export type MutationEmailChangeArgs = {
+  email: Scalars['String'];
 };
 
 
@@ -230,7 +242,7 @@ export type Query = {
   book: File;
   onlineChapter: Markdown;
   upgradeableCourses: Array<StorefrontCourse>;
-  discountedPrice: Scalars['Int'];
+  discountedPrice: Discount;
 };
 
 
@@ -430,6 +442,7 @@ export type ResolversTypes = ResolversObject<{
   Kind: ResolverTypeWrapper<any>,
   File: ResolverTypeWrapper<any>,
   Markdown: ResolverTypeWrapper<any>,
+  Discount: ResolverTypeWrapper<any>,
   Mutation: ResolverTypeWrapper<{}>,
   SessionToken: ResolverTypeWrapper<any>,
   OrderId: ResolverTypeWrapper<any>,
@@ -468,6 +481,7 @@ export type ResolversParentTypes = ResolversObject<{
   Kind: any,
   File: any,
   Markdown: any,
+  Discount: any,
   Mutation: {},
   SessionToken: any,
   OrderId: any,
@@ -545,6 +559,12 @@ export type CurriculumSectionResolvers<ContextType = ResolverContext, ParentType
   __isTypeOf?: isTypeOfResolverFn<ParentType>,
 }>;
 
+export type DiscountResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['Discount'] = ResolversParentTypes['Discount']> = ResolversObject<{
+  price?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
+  isDiscount?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
+  __isTypeOf?: isTypeOfResolverFn<ParentType>,
+}>;
+
 export type FileResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['File'] = ResolversParentTypes['File']> = ResolversObject<{
   fileName?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   contentType?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
@@ -576,6 +596,7 @@ export type MutationResolvers<ContextType = ResolverContext, ParentType extends 
   signUp?: Resolver<ResolversTypes['SessionToken'], ParentType, ContextType, RequireFields<MutationSignUpArgs, 'username' | 'email' | 'password'>>,
   passwordForgot?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationPasswordForgotArgs, 'email'>>,
   passwordChange?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationPasswordChangeArgs, 'password'>>,
+  emailChange?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationEmailChangeArgs, 'email'>>,
   paypalCreateOrder?: Resolver<ResolversTypes['OrderId'], ParentType, ContextType, RequireFields<MutationPaypalCreateOrderArgs, 'courseId' | 'bundleId'>>,
   paypalApproveOrder?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationPaypalApproveOrderArgs, 'orderId'>>,
   stripeCreateOrder?: Resolver<ResolversTypes['StripeId'], ParentType, ContextType, RequireFields<MutationStripeCreateOrderArgs, 'imageUrl' | 'courseId' | 'bundleId'>>,
@@ -618,7 +639,7 @@ export type QueryResolvers<ContextType = ResolverContext, ParentType extends Res
   book?: Resolver<ResolversTypes['File'], ParentType, ContextType, RequireFields<QueryBookArgs, 'path' | 'fileName'>>,
   onlineChapter?: Resolver<ResolversTypes['Markdown'], ParentType, ContextType, RequireFields<QueryOnlineChapterArgs, 'path'>>,
   upgradeableCourses?: Resolver<Array<ResolversTypes['StorefrontCourse']>, ParentType, ContextType, RequireFields<QueryUpgradeableCoursesArgs, 'courseId'>>,
-  discountedPrice?: Resolver<ResolversTypes['Int'], ParentType, ContextType, RequireFields<QueryDiscountedPriceArgs, 'courseId' | 'bundleId' | 'coupon'>>,
+  discountedPrice?: Resolver<ResolversTypes['Discount'], ParentType, ContextType, RequireFields<QueryDiscountedPriceArgs, 'courseId' | 'bundleId' | 'coupon'>>,
 }>;
 
 export type SessionTokenResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['SessionToken'] = ResolversParentTypes['SessionToken']> = ResolversObject<{
@@ -687,6 +708,7 @@ export type Resolvers<ContextType = ResolverContext> = ResolversObject<{
   CurriculumData?: CurriculumDataResolvers<ContextType>,
   CurriculumItem?: CurriculumItemResolvers<ContextType>,
   CurriculumSection?: CurriculumSectionResolvers<ContextType>,
+  Discount?: DiscountResolvers<ContextType>,
   File?: FileResolvers<ContextType>,
   Introduction?: IntroductionResolvers<ContextType>,
   IntroductionData?: IntroductionDataResolvers<ContextType>,

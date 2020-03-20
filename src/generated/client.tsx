@@ -96,6 +96,12 @@ export type CurriculumSection = {
   items: Array<CurriculumItem>;
 };
 
+export type Discount = {
+   __typename?: 'Discount';
+  price: Scalars['Int'];
+  isDiscount: Scalars['Boolean'];
+};
+
 export type File = {
    __typename?: 'File';
   fileName: Scalars['String'];
@@ -133,6 +139,7 @@ export type Mutation = {
   signUp: SessionToken;
   passwordForgot?: Maybe<Scalars['Boolean']>;
   passwordChange?: Maybe<Scalars['Boolean']>;
+  emailChange?: Maybe<Scalars['Boolean']>;
   paypalCreateOrder: OrderId;
   paypalApproveOrder?: Maybe<Scalars['Boolean']>;
   stripeCreateOrder: StripeId;
@@ -161,6 +168,11 @@ export type MutationPasswordForgotArgs = {
 
 export type MutationPasswordChangeArgs = {
   password: Scalars['String'];
+};
+
+
+export type MutationEmailChangeArgs = {
+  email: Scalars['String'];
 };
 
 
@@ -232,7 +244,7 @@ export type Query = {
   book: File;
   onlineChapter: Markdown;
   upgradeableCourses: Array<StorefrontCourse>;
-  discountedPrice: Scalars['Int'];
+  discountedPrice: Discount;
 };
 
 
@@ -353,6 +365,21 @@ export type GetOnlineChapterQuery = (
   & { onlineChapter: (
     { __typename?: 'Markdown' }
     & Pick<Markdown, 'body'>
+  ) }
+);
+
+export type GetDiscountedPriceQueryVariables = {
+  courseId: CourseId;
+  bundleId: BundleId;
+  coupon: Scalars['String'];
+};
+
+
+export type GetDiscountedPriceQuery = (
+  { __typename?: 'Query' }
+  & { discountedPrice: (
+    { __typename?: 'Discount' }
+    & Pick<Discount, 'price' | 'isDiscount'>
   ) }
 );
 
@@ -533,6 +560,16 @@ export type PasswordForgotMutation = (
   & Pick<Mutation, 'passwordForgot'>
 );
 
+export type EmailChangeMutationVariables = {
+  email: Scalars['String'];
+};
+
+
+export type EmailChangeMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'emailChange'>
+);
+
 export type GetStorefrontCourseQueryVariables = {
   courseId: CourseId;
   bundleId: BundleId;
@@ -676,6 +713,42 @@ export function useGetOnlineChapterLazyQuery(baseOptions?: ApolloReactHooks.Lazy
 export type GetOnlineChapterQueryHookResult = ReturnType<typeof useGetOnlineChapterQuery>;
 export type GetOnlineChapterLazyQueryHookResult = ReturnType<typeof useGetOnlineChapterLazyQuery>;
 export type GetOnlineChapterQueryResult = ApolloReactCommon.QueryResult<GetOnlineChapterQuery, GetOnlineChapterQueryVariables>;
+export const GetDiscountedPriceDocument = gql`
+    query GetDiscountedPrice($courseId: CourseId!, $bundleId: BundleId!, $coupon: String!) {
+  discountedPrice(courseId: $courseId, bundleId: $bundleId, coupon: $coupon) {
+    price
+    isDiscount
+  }
+}
+    `;
+
+/**
+ * __useGetDiscountedPriceQuery__
+ *
+ * To run a query within a React component, call `useGetDiscountedPriceQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetDiscountedPriceQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetDiscountedPriceQuery({
+ *   variables: {
+ *      courseId: // value for 'courseId'
+ *      bundleId: // value for 'bundleId'
+ *      coupon: // value for 'coupon'
+ *   },
+ * });
+ */
+export function useGetDiscountedPriceQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetDiscountedPriceQuery, GetDiscountedPriceQueryVariables>) {
+        return ApolloReactHooks.useQuery<GetDiscountedPriceQuery, GetDiscountedPriceQueryVariables>(GetDiscountedPriceDocument, baseOptions);
+      }
+export function useGetDiscountedPriceLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetDiscountedPriceQuery, GetDiscountedPriceQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<GetDiscountedPriceQuery, GetDiscountedPriceQueryVariables>(GetDiscountedPriceDocument, baseOptions);
+        }
+export type GetDiscountedPriceQueryHookResult = ReturnType<typeof useGetDiscountedPriceQuery>;
+export type GetDiscountedPriceLazyQueryHookResult = ReturnType<typeof useGetDiscountedPriceLazyQuery>;
+export type GetDiscountedPriceQueryResult = ApolloReactCommon.QueryResult<GetDiscountedPriceQuery, GetDiscountedPriceQueryVariables>;
 export const GetCoursesDocument = gql`
     query GetCourses {
   unlockedCourses {
@@ -1059,6 +1132,36 @@ export function usePasswordForgotMutation(baseOptions?: ApolloReactHooks.Mutatio
 export type PasswordForgotMutationHookResult = ReturnType<typeof usePasswordForgotMutation>;
 export type PasswordForgotMutationResult = ApolloReactCommon.MutationResult<PasswordForgotMutation>;
 export type PasswordForgotMutationOptions = ApolloReactCommon.BaseMutationOptions<PasswordForgotMutation, PasswordForgotMutationVariables>;
+export const EmailChangeDocument = gql`
+    mutation EmailChange($email: String!) {
+  emailChange(email: $email)
+}
+    `;
+export type EmailChangeMutationFn = ApolloReactCommon.MutationFunction<EmailChangeMutation, EmailChangeMutationVariables>;
+
+/**
+ * __useEmailChangeMutation__
+ *
+ * To run a mutation, you first call `useEmailChangeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useEmailChangeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [emailChangeMutation, { data, loading, error }] = useEmailChangeMutation({
+ *   variables: {
+ *      email: // value for 'email'
+ *   },
+ * });
+ */
+export function useEmailChangeMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<EmailChangeMutation, EmailChangeMutationVariables>) {
+        return ApolloReactHooks.useMutation<EmailChangeMutation, EmailChangeMutationVariables>(EmailChangeDocument, baseOptions);
+      }
+export type EmailChangeMutationHookResult = ReturnType<typeof useEmailChangeMutation>;
+export type EmailChangeMutationResult = ApolloReactCommon.MutationResult<EmailChangeMutation>;
+export type EmailChangeMutationOptions = ApolloReactCommon.BaseMutationOptions<EmailChangeMutation, EmailChangeMutationVariables>;
 export const GetStorefrontCourseDocument = gql`
     query GetStorefrontCourse($courseId: CourseId!, $bundleId: BundleId!) {
   storefrontCourse(courseId: $courseId, bundleId: $bundleId) {
