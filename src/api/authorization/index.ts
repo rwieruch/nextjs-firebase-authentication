@@ -11,6 +11,8 @@ export default shield({
     discountedPrice: isAuthenticated,
   },
   Mutation: {
+    migrate: and(isAuthenticated, isAdmin),
+
     passwordChange: isAuthenticated,
 
     createFreeCourse: and(isAuthenticated, isFreeCourse),

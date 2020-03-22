@@ -1,3 +1,4 @@
+import { resolvers as migrationResolvers } from './migration';
 import { resolvers as sessionResolvers } from './session';
 import { resolvers as userResolvers } from './user';
 import { resolvers as storefrontResolvers } from './storefront';
@@ -9,6 +10,7 @@ import { resolvers as upgradeResolvers } from './upgrade';
 import { resolvers as couponResolvers } from './coupon';
 
 export default [
+  migrationResolvers,
   sessionResolvers,
   userResolvers,
   storefrontResolvers,

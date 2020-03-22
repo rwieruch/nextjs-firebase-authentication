@@ -1,5 +1,6 @@
 import { gql } from 'apollo-server-express';
 
+import mirgationSchema from './migration';
 import sessionSchema from './session';
 import userSchema from './user';
 import storefrontSchema from './storefront';
@@ -39,6 +40,7 @@ const linkSchema = gql`
 
 export default [
   linkSchema,
+  mirgationSchema,
   sessionSchema,
   userSchema,
   storefrontSchema,
