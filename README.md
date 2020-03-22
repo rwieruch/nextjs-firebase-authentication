@@ -10,6 +10,7 @@
   - Sign In
   - Sign Up
   - Sign Out
+  - Email Change
   - Password Change
   - Password Reset
 
