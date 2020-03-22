@@ -18,12 +18,14 @@ export const resolvers: Resolvers = {
               .once('value')
               .then(snapshot => snapshot.val());
 
-            Object.keys(users).forEach(async (uid, index) => {
-              if (users[uid].username) {
-                console.log('Old', users[uid].username);
+            Object.keys(users).forEach(async (key, index) => {
+              const { username, uid } = user;
+
+              if (username) {
+                console.log('Old', username);
                 //   try {
                 //     await firebaseAdmin.auth().updateUser(uid, {
-                //       displayName: users[uid].username,
+                //       displayName: username,
                 //     });
                 //   } catch (error) {
                 //     console.log(error);
