@@ -27,11 +27,12 @@ export const resolvers: Resolvers = {
               const { uid, username } = userList[i];
 
               if (username) {
-                console.log('Old', username, uid);
                 try {
                   await firebaseAdmin.auth().updateUser(uid, {
                     displayName: username,
                   });
+
+                  console.log(`(${i}) New ${username}`);
                 } catch (error) {
                   console.log(error);
                 }
