@@ -28,22 +28,23 @@ export const resolvers: Resolvers = {
 
               if (username) {
                 console.log('Old', username, uid);
-                //   try {
-                //     await firebaseAdmin.auth().updateUser(uid, {
-                //       displayName: username,
-                //     });
-                //   } catch (error) {
-                //     console.log(error);
-                //   }
-
                 try {
-                  const user = await firebaseAdmin
-                    .auth()
-                    .getUser(uid);
-                  console.log(`(${i}) New ${user.displayName}`);
+                  await firebaseAdmin.auth().updateUser(uid, {
+                    displayName: username,
+                  });
                 } catch (error) {
                   console.log(error);
                 }
+
+                // try {
+                //   const user = await firebaseAdmin
+                //     .auth()
+                //     .getUser(uid);
+
+                // console.log(`(${i}) New ${user.displayName}`);
+                // } catch (error) {
+                //   console.log(error);
+                // }
               }
             }
           } catch (error) {
