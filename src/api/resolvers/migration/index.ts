@@ -18,7 +18,7 @@ export const resolvers: Resolvers = {
               .once('value')
               .then(snapshot => snapshot.val());
 
-            Object.keys(users).forEach(async uid => {
+            Object.keys(users).forEach(async (uid, index) => {
               if (users[uid].username) {
                 console.log('Old', users[uid].username);
                 //   try {
@@ -30,7 +30,7 @@ export const resolvers: Resolvers = {
                 //   }
 
                 const user = await firebaseAdmin.auth().getUser(uid);
-                console.log('New', user.displayName);
+                console.log(`(${index}) New ${user.displayName}`);
               }
             });
           } catch (error) {
