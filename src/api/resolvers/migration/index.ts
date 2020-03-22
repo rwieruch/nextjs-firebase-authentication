@@ -18,8 +18,13 @@ export const resolvers: Resolvers = {
               .once('value')
               .then(snapshot => snapshot.val());
 
-            Object.keys(users).forEach(async (key, index) => {
-              const { username, uid } = users[key];
+            const userList = Object.keys(users).map(key => ({
+              uid: key,
+              ...users[key],
+            }));
+
+            for (let i = 0; i < userList.length; i++) {
+              const { uid, username } = userList[i];
 
               if (username) {
                 console.log('Old', username, uid);
@@ -35,12 +40,12 @@ export const resolvers: Resolvers = {
                   const user = await firebaseAdmin
                     .auth()
                     .getUser(uid);
-                  console.log(`(${index}) New ${user.displayName}`);
+                  console.log(`(${i}) New ${user.displayName}`);
                 } catch (error) {
                   console.log(error);
                 }
               }
-            });
+            }
           } catch (error) {
             console.log(error);
             return new Error(error);
