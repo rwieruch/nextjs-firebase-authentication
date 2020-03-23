@@ -27,25 +27,25 @@ export const resolvers: Resolvers = {
               const { uid, username } = userList[i];
 
               if (username) {
-                try {
-                  await firebaseAdmin.auth().updateUser(uid, {
-                    displayName: username,
-                  });
-
-                  console.log(`(${i}) New ${username}`);
-                } catch (error) {
-                  console.log(error);
-                }
-
                 // try {
-                //   const user = await firebaseAdmin
-                //     .auth()
-                //     .getUser(uid);
+                //   await firebaseAdmin.auth().updateUser(uid, {
+                //     displayName: username,
+                //   });
 
-                // console.log(`(${i}) New ${user.displayName}`);
+                //   console.log(`(${i}) New ${username}`);
                 // } catch (error) {
                 //   console.log(error);
                 // }
+
+                try {
+                  const user = await firebaseAdmin
+                    .auth()
+                    .getUser(uid);
+
+                  console.log(`(${i}) New ${user.displayName}`);
+                } catch (error) {
+                  console.log(error);
+                }
               }
             }
           } catch (error) {
