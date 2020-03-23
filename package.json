@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "next start -p 3002",
+    "staging": "next start -p 3003",
     "dev": "concurrently \"next\" \"npm run codegen --watch\"",
     "build": "next build",
     "test:ci": "jest",

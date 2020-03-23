@@ -135,6 +135,7 @@ export type Markdown = {
 export type Mutation = {
    __typename?: 'Mutation';
   _?: Maybe<Scalars['Boolean']>;
+  migrate?: Maybe<Scalars['Boolean']>;
   signIn: SessionToken;
   signUp: SessionToken;
   passwordForgot?: Maybe<Scalars['Boolean']>;
@@ -145,6 +146,11 @@ export type Mutation = {
   stripeCreateOrder: StripeId;
   createFreeCourse: Scalars['Boolean'];
   createAdminCourse: Scalars['Boolean'];
+};
+
+
+export type MutationMigrateArgs = {
+  migrationType: Scalars['String'];
 };
 
 
@@ -484,6 +490,16 @@ export type CreateAdminCourseMutationVariables = {
 export type CreateAdminCourseMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'createAdminCourse'>
+);
+
+export type MigrateMutationVariables = {
+  migrationType: Scalars['String'];
+};
+
+
+export type MigrateMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'migrate'>
 );
 
 export type PaypalCreateOrderMutationVariables = {
@@ -941,6 +957,36 @@ export function useCreateAdminCourseMutation(baseOptions?: ApolloReactHooks.Muta
 export type CreateAdminCourseMutationHookResult = ReturnType<typeof useCreateAdminCourseMutation>;
 export type CreateAdminCourseMutationResult = ApolloReactCommon.MutationResult<CreateAdminCourseMutation>;
 export type CreateAdminCourseMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateAdminCourseMutation, CreateAdminCourseMutationVariables>;
+export const MigrateDocument = gql`
+    mutation Migrate($migrationType: String!) {
+  migrate(migrationType: $migrationType)
+}
+    `;
+export type MigrateMutationFn = ApolloReactCommon.MutationFunction<MigrateMutation, MigrateMutationVariables>;
+
+/**
+ * __useMigrateMutation__
+ *
+ * To run a mutation, you first call `useMigrateMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useMigrateMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [migrateMutation, { data, loading, error }] = useMigrateMutation({
+ *   variables: {
+ *      migrationType: // value for 'migrationType'
+ *   },
+ * });
+ */
+export function useMigrateMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<MigrateMutation, MigrateMutationVariables>) {
+        return ApolloReactHooks.useMutation<MigrateMutation, MigrateMutationVariables>(MigrateDocument, baseOptions);
+      }
+export type MigrateMutationHookResult = ReturnType<typeof useMigrateMutation>;
+export type MigrateMutationResult = ApolloReactCommon.MutationResult<MigrateMutation>;
+export type MigrateMutationOptions = ApolloReactCommon.BaseMutationOptions<MigrateMutation, MigrateMutationVariables>;
 export const PaypalCreateOrderDocument = gql`
     mutation PaypalCreateOrder($courseId: CourseId!, $bundleId: BundleId!, $coupon: String) {
   paypalCreateOrder(courseId: $courseId, bundleId: $bundleId, coupon: $coupon) {

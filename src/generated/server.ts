@@ -133,6 +133,7 @@ export type Markdown = {
 export type Mutation = {
    __typename?: 'Mutation';
   _?: Maybe<Scalars['Boolean']>;
+  migrate?: Maybe<Scalars['Boolean']>;
   signIn: SessionToken;
   signUp: SessionToken;
   passwordForgot?: Maybe<Scalars['Boolean']>;
@@ -143,6 +144,11 @@ export type Mutation = {
   stripeCreateOrder: StripeId;
   createFreeCourse: Scalars['Boolean'];
   createAdminCourse: Scalars['Boolean'];
+};
+
+
+export type MutationMigrateArgs = {
+  migrationType: Scalars['String'];
 };
 
 
@@ -592,6 +598,7 @@ export type MarkdownResolvers<ContextType = ResolverContext, ParentType extends 
 
 export type MutationResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
   _?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>,
+  migrate?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationMigrateArgs, 'migrationType'>>,
   signIn?: Resolver<ResolversTypes['SessionToken'], ParentType, ContextType, RequireFields<MutationSignInArgs, 'email' | 'password'>>,
   signUp?: Resolver<ResolversTypes['SessionToken'], ParentType, ContextType, RequireFields<MutationSignUpArgs, 'username' | 'email' | 'password'>>,
   passwordForgot?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationPasswordForgotArgs, 'email'>>,
