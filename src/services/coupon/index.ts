@@ -2,8 +2,10 @@ import axios from 'axios';
 
 import { COURSE } from '@data/course-keys';
 import { BUNDLE } from '@data/bundle-keys';
-import { getCoursesById } from '@services/firebase/course';
+// LEGACY
+// import { getCoursesById } from '@services/firebase/course';
 import { getUpgradeableCourses } from '@services/course';
+import { Course } from '@models/course';
 
 import { Ppp } from './types';
 
@@ -29,11 +31,13 @@ const tryPppDiscount = async (price: number, coupon: string) => {
 const tryUpgradeDiscount = async (
   courseId: COURSE,
   bundleId: BUNDLE,
+  courses: Course[],
   price: number,
   coupon: string,
   uid: string
 ) => {
-  const courses = await getCoursesById(uid);
+  // LEGACY
+  //const courses = await getCoursesById(uid);
 
   if (!courses) {
     return price;
@@ -55,6 +59,7 @@ const tryUpgradeDiscount = async (
 export const getAsDiscount = async (
   courseId: COURSE,
   bundleId: BUNDLE,
+  courses: Course[],
   price: number,
   coupon: string | undefined | null,
   uid: string | undefined | null
@@ -71,6 +76,7 @@ export const getAsDiscount = async (
   discountedPrice = await tryUpgradeDiscount(
     courseId,
     bundleId,
+    courses,
     price,
     blandCoupon,
     uid

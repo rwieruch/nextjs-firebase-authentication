@@ -47,6 +47,7 @@ export type FirebaseCourseContent = {
     currency: string;
     licencesCount: number;
     paymentType: string;
+    coupon: string;
   };
 };
 

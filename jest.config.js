@@ -7,6 +7,7 @@ module.exports = {
     '\\.(css|less)$': 'identity-obj-proxy',
     '^@components(.*)$': '<rootDir>/src/components$1',
     '^@api(.*)$': '<rootDir>/src/api$1',
+    '^@models(.*)$': '<rootDir>/src/models$1',
     '^@screens(.*)$': '<rootDir>/src/screens$1',
     '^@hooks(.*)$': '<rootDir>/src/hooks$1',
     '^@services(.*)$': '<rootDir>/src/services$1',

@@ -1,7 +1,13 @@
 // https://stripe.com/docs/payments/checkout/fulfillment#webhooks
 
 import stripe from '@services/stripe';
+
+// LEGACY
 import { createCourse } from '@services/firebase/course';
+// LEGACY END
+
+import getConnection from '@models/index';
+import { Course } from '@models/course';
 
 import { send } from 'micro';
 import getRawBody from 'raw-body';
@@ -38,6 +44,22 @@ export default async (
       display_items,
     } = session;
 
+    // NEW
+    const connection = await getConnection();
+
+    const courseRepository = connection!.getRepository(Course);
+    const course = new Course();
+    course.userId = client_reference_id;
+    course.courseId = metadata.courseId;
+    course.bundleId = metadata.bundleId;
+    course.price = display_items[0].amount;
+    course.currency = 'USD';
+    course.paymentType = 'STRIPE';
+    course.coupon = metadata.coupon;
+    await courseRepository.save(course);
+    // NEW END
+
+    // LEGACY
     await createCourse({
       uid: client_reference_id,
       courseId: metadata.courseId,
@@ -46,6 +68,7 @@ export default async (
       paymentType: 'STRIPE',
       coupon: metadata.coupon,
     });
+    // LEGACY END
   }
 
   // TODO

@@ -11,14 +11,23 @@ export const resolvers: Resolvers = {
     discountedPrice: async (
       parent,
       { courseId, bundleId, coupon },
-      { me }
+      { me, courseRepository }
     ) => {
       const course = storefront[courseId];
       const bundle = course.bundles[bundleId];
 
+      if (!me) {
+        return bundle.price;
+      }
+
+      const courses = await courseRepository.find({
+        where: { userId: me.uid, courseId },
+      });
+
       const price = await getAsDiscount(
         courseId,
         bundleId,
+        courses,
         bundle.price,
         coupon,
         me?.uid
