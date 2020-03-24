@@ -25,6 +25,9 @@ export default async function() {
       entities: [Course],
       synchronize: true,
       logging: false,
+      ssl: {
+        ca: process.env.DATABASE_SSL_CERT,
+      },
     });
   } catch (error) {
     console.log(error);

@@ -41,6 +41,7 @@ const nextConfig = {
     DATABASE_USERNAME: process.env.DATABASE_USERNAME,
     DATABASE_PASSWORD: process.env.DATABASE_PASSWORD,
     DATABASE_NAME: process.env.DATABASE_NAME,
+    DATABASE_SSL_CERT: process.env.DATABASE_SSL_CERT,
     // same as in ...
     GOOGLE_ANALYTICS: process.env.GOOGLE_ANALYTICS,
     SENTRY_DSN: process.env.SENTRY_DSN,
