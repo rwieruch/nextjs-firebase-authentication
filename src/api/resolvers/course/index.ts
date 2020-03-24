@@ -3,6 +3,7 @@ import {
   createCourse,
   getCoursesById,
 } from '@services/firebase/course';
+import { Course } from '@models/course';
 import { mergeCourses } from '@services/course';
 
 interface Resolvers {
@@ -12,16 +13,25 @@ interface Resolvers {
 
 export const resolvers: Resolvers = {
   Query: {
-    unlockedCourses: async (parent, args, { me }) => {
+    unlockedCourses: async (
+      parent,
+      args,
+      { me, courseRepository }
+    ) => {
       if (!me) {
         return [];
       }
 
-      const courses = await getCoursesById(me?.uid);
+      // LEGACY
+      // const courses = await getCoursesById(me?.uid);
+      // if (!courses) {
+      //   return [];
+      // }
 
-      if (!courses) {
-        return [];
-      }
+      // NEW
+      const courses = await courseRepository.find({
+        where: { userId: me.uid },
+      });
 
       const unlockedCourses = mergeCourses(courses);
 
@@ -33,16 +43,24 @@ export const resolvers: Resolvers = {
         canUpgrade: unlockedCourse.canUpgrade,
       }));
     },
-    unlockedCourse: async (parent, { courseId }, { me }) => {
+    unlockedCourse: async (
+      parent,
+      { courseId },
+      { me, courseRepository }
+    ) => {
       if (!me) {
         return null;
       }
 
-      const courses = await getCoursesById(me?.uid);
+      // LEGACY
+      // const courses = await getCoursesById(me?.uid);
+      // if (!courses) {
+      //   return null;
+      // }
 
-      if (!courses) {
-        return null;
-      }
+      const courses = await courseRepository.find({
+        where: { userId: me.uid, courseId },
+      });
 
       const unlockedCourses = mergeCourses(courses);
 
@@ -57,8 +75,25 @@ export const resolvers: Resolvers = {
     createFreeCourse: async (
       parent,
       { courseId, bundleId },
-      { me }
+      { me, courseRepository }
     ) => {
+      if (!me) {
+        return false;
+      }
+
+      // NEW
+      const course = new Course();
+      course.userId = me.uid;
+      course.courseId = courseId;
+      course.bundleId = bundleId;
+      course.price = 0;
+      course.currency = 'USD';
+      course.paymentType = 'FREE';
+      course.coupon = '';
+      await courseRepository.save(course);
+      // NEW END
+
+      // LEGACY
       await createCourse({
         uid: me?.uid,
         courseId,
@@ -67,13 +102,28 @@ export const resolvers: Resolvers = {
         paymentType: 'FREE',
         coupon: '',
       });
+      // LEGACY END
 
       return true;
     },
     createAdminCourse: async (
       parent,
-      { uid, courseId, bundleId }
+      { uid, courseId, bundleId },
+      { courseRepository }
     ) => {
+      // NEW
+      const course = new Course();
+      course.userId = uid;
+      course.courseId = courseId;
+      course.bundleId = bundleId;
+      course.price = 0;
+      course.currency = 'USD';
+      course.paymentType = 'MANUAL';
+      course.coupon = '';
+      await courseRepository.save(course);
+      // NEW END
+
+      // LEGACY
       await createCourse({
         uid,
         courseId,
@@ -82,6 +132,7 @@ export const resolvers: Resolvers = {
         paymentType: 'MANUAL',
         coupon: '',
       });
+      // LEGACY END
 
       return true;
     },

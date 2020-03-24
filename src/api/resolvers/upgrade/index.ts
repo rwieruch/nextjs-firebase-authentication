@@ -8,16 +8,24 @@ interface Resolvers {
 
 export const resolvers: Resolvers = {
   Query: {
-    upgradeableCourses: async (parent, { courseId }, { me }) => {
+    upgradeableCourses: async (
+      parent,
+      { courseId },
+      { me, courseRepository }
+    ) => {
       if (!me) {
         return [];
       }
 
-      const courses = await getCoursesById(me?.uid);
+      const courses = await courseRepository.find({
+        where: { userId: me.uid, courseId },
+      });
 
-      if (!courses) {
-        return [];
-      }
+      // LEGACY
+      // const courses = await getCoursesById(me?.uid);
+      // if (!courses) {
+      //   return [];
+      // }
 
       return getUpgradeableCourses(courseId, courses);
     },

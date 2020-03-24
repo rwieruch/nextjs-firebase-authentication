@@ -11,6 +11,5 @@ yarn-debug.log*
 yarn-error.log*
 
 firebaseServiceAccountKey.json
-ca-certificate.crt
 
 src/data/courses
