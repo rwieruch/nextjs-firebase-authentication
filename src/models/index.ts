@@ -25,9 +25,11 @@ export default async function() {
       entities: [Course],
       synchronize: true,
       logging: false,
-      ssl: {
-        ca: process.env.DATABASE_SSL_CERT,
-      },
+      ...(process.env.NODE_ENV === 'production' && {
+        ssl: {
+          ca: process.env.DATABASE_SSL_CERTIFICATE,
+        },
+      }),
     });
   } catch (error) {
     console.log(error);
