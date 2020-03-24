@@ -35,6 +35,12 @@ const nextConfig = {
     COUPON_SALT: process.env.COUPON_SALT,
     COUPON_URL: process.env.COUPON_URL,
     FIREBASE_ADMIN_UID: process.env.FIREBASE_ADMIN_UID,
+    DATABASE_TYPE: process.env.DATABASE_TYPE,
+    DATABASE_HOST: process.env.DATABASE_HOST,
+    DATABASE_PORT: process.env.DATABASE_PORT,
+    DATABASE_USERNAME: process.env.DATABASE_USERNAME,
+    DATABASE_PASSWORD: process.env.DATABASE_PASSWORD,
+    DATABASE_NAME: process.env.DATABASE_NAME,
     // same as in ...
     GOOGLE_ANALYTICS: process.env.GOOGLE_ANALYTICS,
     SENTRY_DSN: process.env.SENTRY_DSN,
