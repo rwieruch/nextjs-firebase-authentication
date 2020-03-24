@@ -160,13 +160,7 @@ export const resolvers: Resolvers = {
 
                     await courseRepository.save(dbCourse);
 
-                    console.log(
-                      await courseRepository.find({
-                        where: {
-                          userId: 'gtbWqFo0fTOlFSEPw9AAswrKDu23',
-                        },
-                      })
-                    );
+                    console.log(`Migration of ${i}`);
                   } catch (error) {
                     console.log(error);
                   }
