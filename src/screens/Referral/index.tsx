@@ -1,7 +1,12 @@
 import React from 'react';
+import { NextPage } from 'next';
+import Link from 'next/link';
 import styled from 'styled-components';
-import { Typography, Card, Layout as AntdLayout } from 'antd';
+import { Card, Layout as AntdLayout, Breadcrumb } from 'antd';
 
+import * as ROUTES from '@constants/routes';
+import { User } from '@generated/client';
+import { GET_ME } from '@queries/user';
 import { Session } from '@typeDefs/session';
 import Layout from '@components/Layout';
 
@@ -31,7 +36,19 @@ const StyledCard = styled(Card)`
   }
 `;
 
-const ReferralPage = () => {
+interface ReferralPageeProps {
+  data: {
+    me: User;
+  };
+}
+
+type NextAuthPage = NextPage<ReferralPageeProps> & {
+  isAuthorized: (session: Session) => boolean;
+};
+
+const ReferralPage: NextAuthPage = ({ data }) => {
+  console.log(data.me);
+
   const [tab, setTab] = React.useState('tab1');
 
   const handleTabChange = (key: string) => {
@@ -41,9 +58,16 @@ const ReferralPage = () => {
   return (
     <Layout>
       <StyledContent>
-        <Typography.Title>Referral Program</Typography.Title>
+        <Breadcrumb style={{ flex: '0', margin: '16px 0' }}>
+          <Breadcrumb.Item>
+            <Link href={ROUTES.ACCOUNT}>
+              <a>Account</a>
+            </Link>
+          </Breadcrumb.Item>
+          <Breadcrumb.Item>Referral Program</Breadcrumb.Item>
+        </Breadcrumb>
+
         <StyledCard
-          title="Referrer Dashboard"
           tabList={tabList}
           activeTabKey={tab}
           onTabChange={handleTabChange}
@@ -56,5 +80,26 @@ const ReferralPage = () => {
 };
 
 ReferralPage.isAuthorized = (session: Session) => !!session;
+
+ReferralPage.getInitialProps = async ctx => {
+  const isServer = ctx.req || ctx.res;
+
+  const context = isServer
+    ? {
+        context: {
+          headers: {
+            cookie: ctx?.req?.headers.cookie,
+          },
+        },
+      }
+    : null;
+
+  const { data } = await ctx.apolloClient.query({
+    query: GET_ME,
+    ...(isServer && context),
+  });
+
+  return { data };
+};
 
 export default ReferralPage;

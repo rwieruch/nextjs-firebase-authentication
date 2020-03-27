@@ -8,5 +8,7 @@ export default gql`
   type User {
     email: String!
     uid: String!
+    username: String!
+    roles: [String!]!
   }
 `;
