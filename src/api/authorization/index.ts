@@ -17,5 +17,7 @@ export default shield({
 
     createFreeCourse: and(isAuthenticated, isFreeCourse),
     createAdminCourse: and(isAuthenticated, isAdmin),
+
+    promoteToPartner: and(isAuthenticated, isAdmin),
   },
 });

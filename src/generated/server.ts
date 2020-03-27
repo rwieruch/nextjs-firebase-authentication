@@ -144,6 +144,7 @@ export type Mutation = {
   stripeCreateOrder: StripeId;
   createFreeCourse: Scalars['Boolean'];
   createAdminCourse: Scalars['Boolean'];
+  promoteToPartner?: Maybe<Scalars['Boolean']>;
 };
 
 
@@ -210,6 +211,11 @@ export type MutationCreateAdminCourseArgs = {
   uid: Scalars['String'];
   courseId: CourseId;
   bundleId: BundleId;
+};
+
+
+export type MutationPromoteToPartnerArgs = {
+  uid: Scalars['String'];
 };
 
 export type Onboarding = {
@@ -611,6 +617,7 @@ export type MutationResolvers<ContextType = ResolverContext, ParentType extends 
   stripeCreateOrder?: Resolver<ResolversTypes['StripeId'], ParentType, ContextType, RequireFields<MutationStripeCreateOrderArgs, 'imageUrl' | 'courseId' | 'bundleId'>>,
   createFreeCourse?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationCreateFreeCourseArgs, 'courseId' | 'bundleId'>>,
   createAdminCourse?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationCreateAdminCourseArgs, 'uid' | 'courseId' | 'bundleId'>>,
+  promoteToPartner?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationPromoteToPartnerArgs, 'uid'>>,
 }>;
 
 export type OnboardingResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['Onboarding'] = ResolversParentTypes['Onboarding']> = ResolversObject<{

@@ -13,8 +13,16 @@ import firebaseAdmin from '@services/firebase/admin';
 if (process.env.FIREBASE_ADMIN_UID) {
   firebaseAdmin
     .auth()
-    .setCustomUserClaims(process.env.FIREBASE_ADMIN_UID, {
-      admin: true,
+    .getUser(process.env.FIREBASE_ADMIN_UID)
+    .then(user => {
+      if (process.env.FIREBASE_ADMIN_UID) {
+        firebaseAdmin
+          .auth()
+          .setCustomUserClaims(process.env.FIREBASE_ADMIN_UID, {
+            ...user.customClaims,
+            admin: true,
+          });
+      }
     });
 }
 

@@ -115,13 +115,13 @@ const getContentList = (
                 referral link and happens to buy something, it will be
                 recorded as a referral payment on your Dashboard. If
                 the user allows the usage of the browser's storage,
-                the first referral link will work over more than one
+                the first referral link will work with more than one
                 browser session.
               </p>
             </li>
             <li>
               <strong>
-                How can I verify that may referral link works?
+                How can I verify that my referral link works?
               </strong>
               <p>
                 Check your Dashboard for the <em>Times Visited</em>{' '}

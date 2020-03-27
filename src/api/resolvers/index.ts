@@ -8,6 +8,7 @@ import { resolvers as courseResolvers } from './course';
 import { resolvers as bookResolvers } from './book';
 import { resolvers as upgradeResolvers } from './upgrade';
 import { resolvers as couponResolvers } from './coupon';
+import { resolvers as partnerResolvers } from './partner';
 
 export default [
   migrationResolvers,
@@ -20,4 +21,5 @@ export default [
   bookResolvers,
   upgradeResolvers,
   couponResolvers,
+  partnerResolvers,
 ];

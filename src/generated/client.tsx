@@ -146,6 +146,7 @@ export type Mutation = {
   stripeCreateOrder: StripeId;
   createFreeCourse: Scalars['Boolean'];
   createAdminCourse: Scalars['Boolean'];
+  promoteToPartner?: Maybe<Scalars['Boolean']>;
 };
 
 
@@ -212,6 +213,11 @@ export type MutationCreateAdminCourseArgs = {
   uid: Scalars['String'];
   courseId: CourseId;
   bundleId: BundleId;
+};
+
+
+export type MutationPromoteToPartnerArgs = {
+  uid: Scalars['String'];
 };
 
 export type Onboarding = {
@@ -502,6 +508,16 @@ export type MigrateMutationVariables = {
 export type MigrateMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'migrate'>
+);
+
+export type PromoteToPartnerMutationVariables = {
+  uid: Scalars['String'];
+};
+
+
+export type PromoteToPartnerMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'promoteToPartner'>
 );
 
 export type PaypalCreateOrderMutationVariables = {
@@ -989,6 +1005,36 @@ export function useMigrateMutation(baseOptions?: ApolloReactHooks.MutationHookOp
 export type MigrateMutationHookResult = ReturnType<typeof useMigrateMutation>;
 export type MigrateMutationResult = ApolloReactCommon.MutationResult<MigrateMutation>;
 export type MigrateMutationOptions = ApolloReactCommon.BaseMutationOptions<MigrateMutation, MigrateMutationVariables>;
+export const PromoteToPartnerDocument = gql`
+    mutation PromoteToPartner($uid: String!) {
+  promoteToPartner(uid: $uid)
+}
+    `;
+export type PromoteToPartnerMutationFn = ApolloReactCommon.MutationFunction<PromoteToPartnerMutation, PromoteToPartnerMutationVariables>;
+
+/**
+ * __usePromoteToPartnerMutation__
+ *
+ * To run a mutation, you first call `usePromoteToPartnerMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `usePromoteToPartnerMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [promoteToPartnerMutation, { data, loading, error }] = usePromoteToPartnerMutation({
+ *   variables: {
+ *      uid: // value for 'uid'
+ *   },
+ * });
+ */
+export function usePromoteToPartnerMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<PromoteToPartnerMutation, PromoteToPartnerMutationVariables>) {
+        return ApolloReactHooks.useMutation<PromoteToPartnerMutation, PromoteToPartnerMutationVariables>(PromoteToPartnerDocument, baseOptions);
+      }
+export type PromoteToPartnerMutationHookResult = ReturnType<typeof usePromoteToPartnerMutation>;
+export type PromoteToPartnerMutationResult = ApolloReactCommon.MutationResult<PromoteToPartnerMutation>;
+export type PromoteToPartnerMutationOptions = ApolloReactCommon.BaseMutationOptions<PromoteToPartnerMutation, PromoteToPartnerMutationVariables>;
 export const PaypalCreateOrderDocument = gql`
     mutation PaypalCreateOrder($courseId: CourseId!, $bundleId: BundleId!, $coupon: String) {
   paypalCreateOrder(courseId: $courseId, bundleId: $bundleId, coupon: $coupon) {
