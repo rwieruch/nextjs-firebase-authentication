@@ -9,7 +9,7 @@ type Claims = {
   admin: boolean;
 };
 
-type AdminUser = {
+type WithClaims = {
   customClaims: Claims;
 };
 
@@ -30,7 +30,7 @@ export default async (req: ServerRequest, res: ServerResponse) => {
         .auth()
         .getUser(
           claims.uid
-        )) as firebaseAdminVanilla.auth.UserRecord & AdminUser;
+        )) as firebaseAdminVanilla.auth.UserRecord & WithClaims;
     })
     .catch(error => {
       throw new AuthenticationError(error.message);

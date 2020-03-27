@@ -346,6 +346,7 @@ export type User = {
   email: Scalars['String'];
   uid: Scalars['String'];
   username: Scalars['String'];
+  roles: Array<Scalars['String']>;
 };
 
 export type GetBookQueryVariables = {
@@ -656,7 +657,7 @@ export type GetMeQuery = (
   { __typename?: 'Query' }
   & { me?: Maybe<(
     { __typename?: 'User' }
-    & Pick<User, 'uid' | 'email' | 'username'>
+    & Pick<User, 'uid' | 'email' | 'username' | 'roles'>
   )> }
 );
 
@@ -1367,6 +1368,7 @@ export const GetMeDocument = gql`
     uid
     email
     username
+    roles
   }
 }
     `;

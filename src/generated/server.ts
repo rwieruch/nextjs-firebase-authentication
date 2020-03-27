@@ -344,6 +344,7 @@ export type User = {
   email: Scalars['String'];
   uid: Scalars['String'];
   username: Scalars['String'];
+  roles: Array<Scalars['String']>;
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -702,6 +703,7 @@ export type UserResolvers<ContextType = ResolverContext, ParentType extends Reso
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   uid?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   username?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  roles?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>,
   __isTypeOf?: isTypeOfResolverFn<ParentType>,
 }>;
 

@@ -70,11 +70,11 @@ const AccountPage: NextAuthPage = ({ data }) => {
             </Card>
           </Col>
           <Col span={12}>
-            <Card title="Referral">
+            <Card title="Partner">
               <ul>
                 <li>
                   <Link href={ROUTES.REFERRAL}>
-                    <a>Referral Program</a>
+                    <a>Partner Program</a>
                   </Link>
                 </li>
               </ul>
