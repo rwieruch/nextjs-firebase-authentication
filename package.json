@@ -56,6 +56,7 @@
     "js-cookie": "^2.2.1",
     "less": "^3.10.3",
     "less-vars-to-js": "^1.3.0",
+    "localforage": "^1.7.3",
     "lodash.invert": "^4.3.0",
     "lodash.omit": "^4.5.0",
     "lodash.sortby": "^4.7.0",

@@ -147,6 +147,7 @@ export type Mutation = {
   createFreeCourse: Scalars['Boolean'];
   createAdminCourse: Scalars['Boolean'];
   promoteToPartner?: Maybe<Scalars['Boolean']>;
+  partnerTrackVisitor?: Maybe<Scalars['Boolean']>;
 };
 
 
@@ -218,6 +219,11 @@ export type MutationCreateAdminCourseArgs = {
 
 export type MutationPromoteToPartnerArgs = {
   uid: Scalars['String'];
+};
+
+
+export type MutationPartnerTrackVisitorArgs = {
+  partnerId: Scalars['String'];
 };
 
 export type Onboarding = {
@@ -518,6 +524,16 @@ export type PromoteToPartnerMutationVariables = {
 export type PromoteToPartnerMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'promoteToPartner'>
+);
+
+export type PartnerTrackVisitorMutationVariables = {
+  partnerId: Scalars['String'];
+};
+
+
+export type PartnerTrackVisitorMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'partnerTrackVisitor'>
 );
 
 export type PaypalCreateOrderMutationVariables = {
@@ -1035,6 +1051,36 @@ export function usePromoteToPartnerMutation(baseOptions?: ApolloReactHooks.Mutat
 export type PromoteToPartnerMutationHookResult = ReturnType<typeof usePromoteToPartnerMutation>;
 export type PromoteToPartnerMutationResult = ApolloReactCommon.MutationResult<PromoteToPartnerMutation>;
 export type PromoteToPartnerMutationOptions = ApolloReactCommon.BaseMutationOptions<PromoteToPartnerMutation, PromoteToPartnerMutationVariables>;
+export const PartnerTrackVisitorDocument = gql`
+    mutation PartnerTrackVisitor($partnerId: String!) {
+  partnerTrackVisitor(partnerId: $partnerId)
+}
+    `;
+export type PartnerTrackVisitorMutationFn = ApolloReactCommon.MutationFunction<PartnerTrackVisitorMutation, PartnerTrackVisitorMutationVariables>;
+
+/**
+ * __usePartnerTrackVisitorMutation__
+ *
+ * To run a mutation, you first call `usePartnerTrackVisitorMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `usePartnerTrackVisitorMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [partnerTrackVisitorMutation, { data, loading, error }] = usePartnerTrackVisitorMutation({
+ *   variables: {
+ *      partnerId: // value for 'partnerId'
+ *   },
+ * });
+ */
+export function usePartnerTrackVisitorMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<PartnerTrackVisitorMutation, PartnerTrackVisitorMutationVariables>) {
+        return ApolloReactHooks.useMutation<PartnerTrackVisitorMutation, PartnerTrackVisitorMutationVariables>(PartnerTrackVisitorDocument, baseOptions);
+      }
+export type PartnerTrackVisitorMutationHookResult = ReturnType<typeof usePartnerTrackVisitorMutation>;
+export type PartnerTrackVisitorMutationResult = ApolloReactCommon.MutationResult<PartnerTrackVisitorMutation>;
+export type PartnerTrackVisitorMutationOptions = ApolloReactCommon.BaseMutationOptions<PartnerTrackVisitorMutation, PartnerTrackVisitorMutationVariables>;
 export const PaypalCreateOrderDocument = gql`
     mutation PaypalCreateOrder($courseId: CourseId!, $bundleId: BundleId!, $coupon: String) {
   paypalCreateOrder(courseId: $courseId, bundleId: $bundleId, coupon: $coupon) {

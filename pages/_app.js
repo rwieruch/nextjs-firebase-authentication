@@ -6,13 +6,16 @@ import { ThemeProvider, createGlobalStyle } from 'styled-components';
 import { ApolloProvider } from '@apollo/react-hooks';
 import * as Sentry from '@sentry/node';
 import { PageTransition } from 'next-page-transitions';
+import lf from 'localforage';
 
+import { formatRouteQuery } from '@services/format';
 import Head from '@components/Head';
 import Loader from '@components/Loader';
 import withApollo from '@services/apollo/withApollo';
 import { initGA, logPageView } from '@services/ga';
 import SessionContext from '@context/session';
 import * as ROUTES from '@constants/routes';
+import { PARTNER_TRACK_VISITOR } from '@queries/partner';
 
 const TIMEOUT = 400;
 
@@ -121,10 +124,47 @@ class MyApp extends NextApp {
     return { pageProps, session };
   }
 
-  componentDidMount() {
+  handleGoogleAnalytics = () => {
     initGA();
     logPageView();
-    Router.events.on('routeChangeComplete', logPageView);
+    Router.events.on('routeChangeComplete', logPageView());
+  };
+
+  handlePartnerProgram = async () => {
+    const { apollo, router } = this.props;
+
+    const partnerId = formatRouteQuery(router.query.partnerId);
+    const partner = JSON.parse(await lf.getItem('partner'));
+
+    if (partnerId) {
+      const timestamp = new Date().getTime();
+      await lf.setItem(
+        'partner',
+        JSON.stringify({ partnerId, timestamp })
+      );
+
+      apollo.mutate({
+        mutation: PARTNER_TRACK_VISITOR,
+        variables: {
+          partnerId,
+        },
+      });
+    }
+
+    if (partner) {
+      const now = new Date().getTime();
+      const expires = 7 * 24 * 60 * 60 * 1000; // 7 days;
+      const isExpired = now > partner.timestamp + expires;
+
+      if (isExpired) {
+        lf.removeItem('partner');
+      }
+    }
+  };
+
+  async componentDidMount() {
+    this.handleGoogleAnalytics();
+    this.handlePartnerProgram();
   }
 
   render() {

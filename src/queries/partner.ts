@@ -5,3 +5,9 @@ export const PROMOTE_TO_PARTNER = gql`
     promoteToPartner(uid: $uid)
   }
 `;
+
+export const PARTNER_TRACK_VISITOR = gql`
+  mutation PartnerTrackVisitor($partnerId: String!) {
+    partnerTrackVisitor(partnerId: $partnerId)
+  }
+`;

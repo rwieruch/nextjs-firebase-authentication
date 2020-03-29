@@ -145,6 +145,7 @@ export type Mutation = {
   createFreeCourse: Scalars['Boolean'];
   createAdminCourse: Scalars['Boolean'];
   promoteToPartner?: Maybe<Scalars['Boolean']>;
+  partnerTrackVisitor?: Maybe<Scalars['Boolean']>;
 };
 
 
@@ -216,6 +217,11 @@ export type MutationCreateAdminCourseArgs = {
 
 export type MutationPromoteToPartnerArgs = {
   uid: Scalars['String'];
+};
+
+
+export type MutationPartnerTrackVisitorArgs = {
+  partnerId: Scalars['String'];
 };
 
 export type Onboarding = {
@@ -618,6 +624,7 @@ export type MutationResolvers<ContextType = ResolverContext, ParentType extends 
   createFreeCourse?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationCreateFreeCourseArgs, 'courseId' | 'bundleId'>>,
   createAdminCourse?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationCreateAdminCourseArgs, 'uid' | 'courseId' | 'bundleId'>>,
   promoteToPartner?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationPromoteToPartnerArgs, 'uid'>>,
+  partnerTrackVisitor?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationPartnerTrackVisitorArgs, 'partnerId'>>,
 }>;
 
 export type OnboardingResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['Onboarding'] = ResolversParentTypes['Onboarding']> = ResolversObject<{
