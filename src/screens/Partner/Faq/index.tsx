@@ -25,8 +25,7 @@ const Faq = ({ me }: FaqProps) => (
     <li>
       <strong>How much does a partner earn?</strong>
       <p>
-        Partners earn 50% (excl. the transaction costs from credit
-        card etc.) from the net amount of each succesful payment.
+        Partners earn 45% from the amount of each succesful payment.
       </p>
     </li>
     <li>

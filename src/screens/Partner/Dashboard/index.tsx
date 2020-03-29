@@ -2,6 +2,9 @@ import React from 'react';
 
 import { User } from '@generated/client';
 
+import VisitorChart from './VisitorChart';
+import SalesTable from './SalesTable';
+
 interface DashboardProps {
   me: User;
   isPartner: boolean;
@@ -12,7 +15,16 @@ const Dashboard = ({ me, isPartner }: DashboardProps) => {
     return null;
   }
 
-  return <p>Times Visited</p>;
+  return (
+    <>
+      <div>
+        <VisitorChart me={me} />
+      </div>
+      <div>
+        <SalesTable me={me} />
+      </div>
+    </>
+  );
 };
 
 export default Dashboard;
