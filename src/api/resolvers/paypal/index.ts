@@ -79,7 +79,7 @@ export const resolvers: Resolvers = {
     paypalApproveOrder: async (
       parent,
       { orderId },
-      { me, courseRepository, partnerSaleRepository }
+      { me, courseRepository, partnerConnector }
     ) => {
       const request = new paypal.orders.OrdersCaptureRequest(orderId);
       request.requestBody({});
@@ -108,12 +108,8 @@ export const resolvers: Resolvers = {
         const { id } = await courseRepository.save(course);
         // NEW END
 
-        // TODO belongs in partner DAO
         if (partnerId) {
-          const partnerSale = new PartnerSale();
-          partnerSale.saleId = id;
-          partnerSale.partnerId = partnerId;
-          await partnerSaleRepository.save(partnerSale);
+          await partnerConnector.createSale(id, partnerId);
         }
 
         // LEGACY

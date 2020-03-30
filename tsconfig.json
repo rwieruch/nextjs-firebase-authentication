@@ -21,6 +21,7 @@
       "@components/*": ["./src/components/*"],
       "@api/*": ["./src/api/*"],
       "@models/*": ["./src/models/*"],
+      "@connectors/*": ["./src/connectors/*"],
       "@screens/*": ["./src/screens/*"],
       "@hooks/*": ["./src/hooks/*"],
       "@services/*": ["./src/services/*"],

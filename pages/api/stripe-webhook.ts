@@ -7,8 +7,8 @@ import { createCourse } from '@services/firebase/course';
 // LEGACY END
 
 import getConnection from '@models/index';
+import { PartnerConnector } from '@connectors/partner';
 import { Course } from '@models/course';
-import { PartnerSale } from '@models/partner';
 
 import { send } from 'micro';
 import getRawBody from 'raw-body';
@@ -62,16 +62,10 @@ export default async (
     const { id } = await courseRepository.save(course);
     // NEW END
 
-    // TODO belongs in partner DAO
-    if (partnerId) {
-      const partnerSaleRepository = connection!.getRepository(
-        PartnerSale
-      );
+    const partnerConnector = new PartnerConnector(connection);
 
-      const partnerSale = new PartnerSale();
-      partnerSale.saleId = id;
-      partnerSale.partnerId = partnerId;
-      await partnerSaleRepository.save(partnerSale);
+    if (partnerId) {
+      await partnerConnector.createSale(id, partnerId);
     }
 
     // LEGACY
