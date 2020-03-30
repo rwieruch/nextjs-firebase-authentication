@@ -5,6 +5,7 @@ import { MutationResolvers } from '@generated/server';
 import { getAsDiscount } from '@services/coupon';
 import paypalClient from '@services/paypal';
 import { Course } from '@models/course';
+import { PartnerSale } from '@models/partner';
 import { createCourse } from '@services/firebase/course';
 
 import storefront from '@data/course-storefront';
@@ -18,7 +19,7 @@ export const resolvers: Resolvers = {
     // https://developer.paypal.com/docs/checkout/reference/server-integration/set-up-transaction/
     paypalCreateOrder: async (
       parent,
-      { courseId, bundleId, coupon },
+      { courseId, bundleId, coupon, partnerId },
       { me, courseRepository }
     ) => {
       const course = storefront[courseId];
@@ -54,6 +55,7 @@ export const resolvers: Resolvers = {
               courseId,
               bundleId,
               coupon,
+              partnerId,
             }),
             description: `${courseId} ${bundleId}`,
             amount: {
@@ -77,7 +79,7 @@ export const resolvers: Resolvers = {
     paypalApproveOrder: async (
       parent,
       { orderId },
-      { me, courseRepository }
+      { me, courseRepository, partnerSaleRepository }
     ) => {
       const request = new paypal.orders.OrdersCaptureRequest(orderId);
       request.requestBody({});
@@ -90,7 +92,9 @@ export const resolvers: Resolvers = {
           custom_id,
         } = capture.result.purchase_units[0].payments.captures[0];
 
-        const { courseId, bundleId, coupon } = JSON.parse(custom_id);
+        const { courseId, bundleId, coupon, partnerId } = JSON.parse(
+          custom_id
+        );
 
         // NEW
         const course = new Course();
@@ -101,9 +105,16 @@ export const resolvers: Resolvers = {
         course.currency = 'USD';
         course.paymentType = 'PAYPAL';
         course.coupon = coupon;
-
-        await courseRepository.save(course);
+        const { id } = await courseRepository.save(course);
         // NEW END
+
+        // TODO belongs in partner DAO
+        if (partnerId) {
+          const partnerSale = new PartnerSale();
+          partnerSale.saleId = id;
+          partnerSale.partnerId = partnerId;
+          await partnerSaleRepository.save(partnerSale);
+        }
 
         // LEGACY
         await createCourse({

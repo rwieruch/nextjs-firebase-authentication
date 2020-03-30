@@ -1,16 +1,13 @@
 // https://developer.paypal.com/docs/checkout/integrate/
 
 import React from 'react';
+import lf from 'localforage';
 
 import {
   StorefrontCourse,
   usePaypalCreateOrderMutation,
   usePaypalApproveOrderMutation,
 } from '@generated/client';
-import {
-  PAYPAL_CREATE_ORDER,
-  PAYPAL_APPROVE_ORDER,
-} from '@queries/paypal';
 import useIndicators from '@hooks/useIndicators';
 import FormAtomButton from '@components/Form/AtomButton';
 
@@ -48,12 +45,16 @@ const PaypalCheckout = ({
 
   React.useEffect(() => {
     const createOrder = async () => {
+      const partner = JSON.parse(await lf.getItem('partner'));
+      const partnerId = partner ? partner.partnerId : '';
+
       try {
         const { data } = await paypalCreateOrder({
           variables: {
             courseId,
             bundleId,
             coupon,
+            partnerId,
           },
         });
 

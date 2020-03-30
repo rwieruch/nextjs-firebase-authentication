@@ -1,9 +1,10 @@
-import { Repository, Connection } from 'typeorm';
+import { Repository } from 'typeorm';
 
 import { ServerResponse, ServerRequest } from '@typeDefs/server';
 import { Me } from '@typeDefs/me';
+
 import { Course } from '@models/course';
-import { PartnerVisitor } from '@models/partner';
+import { PartnerVisitor, PartnerSale } from '@models/partner';
 
 export type ResolverContext = {
   res: ServerResponse;
@@ -11,4 +12,5 @@ export type ResolverContext = {
   me?: Me;
   courseRepository: Repository<Course>;
   partnerVisitorRepository: Repository<PartnerVisitor>;
+  partnerSaleRepository: Repository<PartnerSale>;
 };

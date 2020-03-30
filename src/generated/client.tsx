@@ -190,6 +190,7 @@ export type MutationPaypalCreateOrderArgs = {
   courseId: CourseId;
   bundleId: BundleId;
   coupon?: Maybe<Scalars['String']>;
+  partnerId?: Maybe<Scalars['String']>;
 };
 
 
@@ -203,6 +204,7 @@ export type MutationStripeCreateOrderArgs = {
   courseId: CourseId;
   bundleId: BundleId;
   coupon?: Maybe<Scalars['String']>;
+  partnerId?: Maybe<Scalars['String']>;
 };
 
 
@@ -569,6 +571,7 @@ export type PaypalCreateOrderMutationVariables = {
   courseId: CourseId;
   bundleId: BundleId;
   coupon?: Maybe<Scalars['String']>;
+  partnerId?: Maybe<Scalars['String']>;
 };
 
 
@@ -683,6 +686,7 @@ export type StripeCreateOrderMutationVariables = {
   courseId: CourseId;
   bundleId: BundleId;
   coupon?: Maybe<Scalars['String']>;
+  partnerId?: Maybe<Scalars['String']>;
 };
 
 
@@ -1146,8 +1150,8 @@ export type PartnerGetVisitorsQueryHookResult = ReturnType<typeof usePartnerGetV
 export type PartnerGetVisitorsLazyQueryHookResult = ReturnType<typeof usePartnerGetVisitorsLazyQuery>;
 export type PartnerGetVisitorsQueryResult = ApolloReactCommon.QueryResult<PartnerGetVisitorsQuery, PartnerGetVisitorsQueryVariables>;
 export const PaypalCreateOrderDocument = gql`
-    mutation PaypalCreateOrder($courseId: CourseId!, $bundleId: BundleId!, $coupon: String) {
-  paypalCreateOrder(courseId: $courseId, bundleId: $bundleId, coupon: $coupon) {
+    mutation PaypalCreateOrder($courseId: CourseId!, $bundleId: BundleId!, $coupon: String, $partnerId: String) {
+  paypalCreateOrder(courseId: $courseId, bundleId: $bundleId, coupon: $coupon, partnerId: $partnerId) {
     orderId
   }
 }
@@ -1170,6 +1174,7 @@ export type PaypalCreateOrderMutationFn = ApolloReactCommon.MutationFunction<Pay
  *      courseId: // value for 'courseId'
  *      bundleId: // value for 'bundleId'
  *      coupon: // value for 'coupon'
+ *      partnerId: // value for 'partnerId'
  *   },
  * });
  */
@@ -1443,8 +1448,8 @@ export type GetStorefrontCoursesQueryHookResult = ReturnType<typeof useGetStoref
 export type GetStorefrontCoursesLazyQueryHookResult = ReturnType<typeof useGetStorefrontCoursesLazyQuery>;
 export type GetStorefrontCoursesQueryResult = ApolloReactCommon.QueryResult<GetStorefrontCoursesQuery, GetStorefrontCoursesQueryVariables>;
 export const StripeCreateOrderDocument = gql`
-    mutation StripeCreateOrder($imageUrl: String!, $courseId: CourseId!, $bundleId: BundleId!, $coupon: String) {
-  stripeCreateOrder(imageUrl: $imageUrl, courseId: $courseId, bundleId: $bundleId, coupon: $coupon) {
+    mutation StripeCreateOrder($imageUrl: String!, $courseId: CourseId!, $bundleId: BundleId!, $coupon: String, $partnerId: String) {
+  stripeCreateOrder(imageUrl: $imageUrl, courseId: $courseId, bundleId: $bundleId, coupon: $coupon, partnerId: $partnerId) {
     id
   }
 }
@@ -1468,6 +1473,7 @@ export type StripeCreateOrderMutationFn = ApolloReactCommon.MutationFunction<Str
  *      courseId: // value for 'courseId'
  *      bundleId: // value for 'bundleId'
  *      coupon: // value for 'coupon'
+ *      partnerId: // value for 'partnerId'
  *   },
  * });
  */

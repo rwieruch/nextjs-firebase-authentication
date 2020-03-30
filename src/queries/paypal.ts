@@ -5,11 +5,13 @@ export const PAYPAL_CREATE_ORDER = gql`
     $courseId: CourseId!
     $bundleId: BundleId!
     $coupon: String
+    $partnerId: String
   ) {
     paypalCreateOrder(
       courseId: $courseId
       bundleId: $bundleId
       coupon: $coupon
+      partnerId: $partnerId
     ) {
       orderId
     }

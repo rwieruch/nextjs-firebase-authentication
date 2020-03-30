@@ -134,7 +134,6 @@ class MyApp extends NextApp {
     const { apollo, router } = this.props;
 
     const partnerId = formatRouteQuery(router.query.partnerId);
-    const partner = JSON.parse(await lf.getItem('partner'));
 
     if (partnerId) {
       const timestamp = new Date().getTime();
@@ -150,6 +149,8 @@ class MyApp extends NextApp {
         },
       });
     }
+
+    const partner = JSON.parse(await lf.getItem('partner'));
 
     if (partner) {
       const now = new Date().getTime();

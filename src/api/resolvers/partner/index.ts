@@ -82,7 +82,7 @@ export const resolvers: Resolvers = {
         const partnerVisitor = new PartnerVisitor();
         partnerVisitor.partnerId = partnerId;
 
-        partnerVisitorRepository.save(partnerVisitor);
+        await partnerVisitorRepository.save(partnerVisitor);
       } catch (error) {
         return false;
       }

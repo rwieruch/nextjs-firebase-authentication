@@ -13,7 +13,7 @@ export const resolvers: Resolvers = {
     // https://stripe.com/docs/payments/checkout/one-time#create-one-time-payments
     stripeCreateOrder: async (
       parent,
-      { imageUrl, courseId, bundleId, coupon },
+      { imageUrl, courseId, bundleId, coupon, partnerId },
       { me, courseRepository }
     ) => {
       const course = storefront[courseId];
@@ -57,6 +57,7 @@ export const resolvers: Resolvers = {
             courseId,
             bundleId,
             coupon,
+            partnerId,
           },
           payment_intent_data: {
             description: `${courseId} ${bundleId}`,

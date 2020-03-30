@@ -1,8 +1,8 @@
 import 'reflect-metadata';
 import { createConnection, getConnection } from 'typeorm';
 
-import { Course } from './course';
-import { PartnerVisitor } from './partner';
+import * as CourseEntities from './course';
+import * as PartnerEntities from './partner';
 
 export default async function() {
   let connection;
@@ -23,7 +23,10 @@ export default async function() {
       username: process.env.DATABASE_USERNAME as any,
       password: process.env.DATABASE_PASSWORD as any,
       database: process.env.DATABASE_NAME as any,
-      entities: [Course, PartnerVisitor],
+      entities: [
+        ...Object.values(CourseEntities),
+        ...Object.values(PartnerEntities),
+      ],
       synchronize: true,
       logging: false,
       ...(process.env.NODE_ENV === 'production' && {

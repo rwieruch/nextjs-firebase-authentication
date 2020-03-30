@@ -188,6 +188,7 @@ export type MutationPaypalCreateOrderArgs = {
   courseId: CourseId;
   bundleId: BundleId;
   coupon?: Maybe<Scalars['String']>;
+  partnerId?: Maybe<Scalars['String']>;
 };
 
 
@@ -201,6 +202,7 @@ export type MutationStripeCreateOrderArgs = {
   courseId: CourseId;
   bundleId: BundleId;
   coupon?: Maybe<Scalars['String']>;
+  partnerId?: Maybe<Scalars['String']>;
 };
 
 

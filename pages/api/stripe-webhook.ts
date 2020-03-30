@@ -8,6 +8,7 @@ import { createCourse } from '@services/firebase/course';
 
 import getConnection from '@models/index';
 import { Course } from '@models/course';
+import { PartnerSale } from '@models/partner';
 
 import { send } from 'micro';
 import getRawBody from 'raw-body';
@@ -44,29 +45,43 @@ export default async (
       display_items,
     } = session;
 
+    const { courseId, bundleId, coupon, partnerId } = metadata;
+
     // NEW
     const connection = await getConnection();
 
     const courseRepository = connection!.getRepository(Course);
     const course = new Course();
     course.userId = client_reference_id;
-    course.courseId = metadata.courseId;
-    course.bundleId = metadata.bundleId;
+    course.courseId = courseId;
+    course.bundleId = bundleId;
     course.price = display_items[0].amount;
     course.currency = 'USD';
     course.paymentType = 'STRIPE';
-    course.coupon = metadata.coupon;
-    await courseRepository.save(course);
+    course.coupon = coupon;
+    const { id } = await courseRepository.save(course);
     // NEW END
+
+    // TODO belongs in partner DAO
+    if (partnerId) {
+      const partnerSaleRepository = connection!.getRepository(
+        PartnerSale
+      );
+
+      const partnerSale = new PartnerSale();
+      partnerSale.saleId = id;
+      partnerSale.partnerId = partnerId;
+      await partnerSaleRepository.save(partnerSale);
+    }
 
     // LEGACY
     await createCourse({
       uid: client_reference_id,
-      courseId: metadata.courseId,
-      bundleId: metadata.bundleId,
+      courseId: courseId,
+      bundleId: bundleId,
       amount: Number((display_items[0].amount / 100).toFixed(2)),
       paymentType: 'STRIPE',
-      coupon: metadata.coupon,
+      coupon: coupon,
     });
     // LEGACY END
   }

@@ -3,7 +3,7 @@ import cors from 'micro-cors';
 
 import getConnection from '@models/index';
 import { Course } from '@models/course';
-import { PartnerVisitor } from '@models/partner';
+import { PartnerVisitor, PartnerSale } from '@models/partner';
 
 import { ServerRequest, ServerResponse } from '@typeDefs/server';
 import { ResolverContext } from '@typeDefs/resolver';
@@ -53,6 +53,7 @@ export default async (req: ServerRequest, res: ServerResponse) => {
         partnerVisitorRepository: connection!.getRepository(
           PartnerVisitor
         ),
+        partnerSaleRepository: connection!.getRepository(PartnerSale),
       };
     },
   });

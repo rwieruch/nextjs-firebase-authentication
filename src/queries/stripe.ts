@@ -6,12 +6,14 @@ export const STRIPE_CREATE_ORDER = gql`
     $courseId: CourseId!
     $bundleId: BundleId!
     $coupon: String
+    $partnerId: String
   ) {
     stripeCreateOrder(
       imageUrl: $imageUrl
       courseId: $courseId
       bundleId: $bundleId
       coupon: $coupon
+      partnerId: $partnerId
     ) {
       id
     }
