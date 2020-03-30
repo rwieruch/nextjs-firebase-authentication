@@ -95,7 +95,7 @@ export const resolvers: Resolvers = {
           custom_id
         );
 
-        const { id } = await courseConnector.createCourse({
+        const course = await courseConnector.createCourse({
           userId: me!.uid,
           courseId: courseId,
           bundleId: bundleId,
@@ -106,7 +106,7 @@ export const resolvers: Resolvers = {
         });
 
         if (partnerId) {
-          await partnerConnector.createSale(id, partnerId);
+          await partnerConnector.createSale(course, partnerId);
         }
 
         // LEGACY

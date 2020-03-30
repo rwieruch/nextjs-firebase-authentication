@@ -1,8 +1,9 @@
 import { Between } from 'typeorm';
 import { Connection, Repository } from 'typeorm';
 
-import { PartnerVisitor, PartnerSale } from '@models/partner';
 import { VisitorByDay } from '@generated/client';
+import { PartnerVisitor, PartnerSale } from '@models/partner';
+import { Course } from '@models/course';
 
 const sameDay = (x: Date, y: Date) => {
   return (
@@ -26,11 +27,11 @@ export class PartnerConnector {
     );
   }
 
-  async createSale(saleId: string, partnerId: string) {
+  async createSale(course: Course, partnerId: string) {
     const partnerSale = new PartnerSale();
 
-    partnerSale.saleId = saleId;
     partnerSale.partnerId = partnerId;
+    partnerSale.course = course;
 
     return await this.partnerSaleRepository.save(partnerSale);
   }

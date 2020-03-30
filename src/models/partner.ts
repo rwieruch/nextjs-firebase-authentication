@@ -4,7 +4,11 @@ import {
   Column,
   CreateDateColumn,
   PrimaryGeneratedColumn,
+  OneToOne,
+  JoinColumn,
 } from 'typeorm';
+
+import { Course } from './course';
 
 @Entity()
 export class PartnerVisitor {
@@ -28,9 +32,9 @@ export class PartnerSale {
   @Column('varchar')
   partnerId: string;
 
-  @Index()
-  @Column('varchar')
-  saleId: string;
+  @OneToOne(type => Course)
+  @JoinColumn()
+  course: Course;
 
   @CreateDateColumn()
   createdAt: Date;

@@ -48,10 +48,10 @@ export default async (
     const { courseId, bundleId, coupon, partnerId } = metadata;
 
     const connection = await getConnection();
-    const courseConnector = new CourseConnector(connection);
-    const partnerConnector = new PartnerConnector(connection);
+    const courseConnector = new CourseConnector(connection!);
+    const partnerConnector = new PartnerConnector(connection!);
 
-    const { id } = await courseConnector.createCourse({
+    const course = await courseConnector.createCourse({
       userId: client_reference_id,
       courseId: courseId,
       bundleId: bundleId,
@@ -62,7 +62,7 @@ export default async (
     });
 
     if (partnerId) {
-      await partnerConnector.createSale(id, partnerId);
+      await partnerConnector.createSale(course, partnerId);
     }
 
     // LEGACY
