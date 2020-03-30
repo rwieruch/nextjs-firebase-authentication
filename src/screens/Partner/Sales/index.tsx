@@ -50,9 +50,14 @@ const columns = [
 
 interface SalesTableProps {
   me: User;
+  isPartner: boolean;
 }
 
-const SalesTable = ({ me }: SalesTableProps) => {
+const SalesTable = ({ me, isPartner }: SalesTableProps) => {
+  if (!isPartner) {
+    return null;
+  }
+
   const [pagination, setPagination] = React.useState({
     total: dataSource.length,
     pageSize: 1,

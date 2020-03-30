@@ -13,6 +13,8 @@ import couponSchema from './coupon';
 import partnerSchema from './partner';
 
 const linkSchema = gql`
+  scalar DateTime
+
   enum CourseId {
     THE_ROAD_TO_LEARN_REACT
     TAMING_THE_STATE

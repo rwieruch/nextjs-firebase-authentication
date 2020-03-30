@@ -13,7 +13,8 @@ import Layout from '@components/Layout';
 
 import Faq from './Faq';
 import GetStarted from './GetStarted';
-import Dashboard from './Dashboard';
+import Visitors from './Visitors';
+import Sales from './Sales';
 import Assets from './Assets';
 
 const getTabs = (isPartner: boolean) => {
@@ -32,10 +33,14 @@ const getTabs = (isPartner: boolean) => {
     tabs = tabs.concat([
       {
         key: 'tab3',
-        tab: 'Dashboard',
+        tab: 'Visitors',
       },
       {
         key: 'tab4',
+        tab: 'Sales',
+      },
+      {
+        key: 'tab5',
         tab: 'Assets',
       },
     ]);
@@ -50,8 +55,9 @@ const getTabsContent = (
 ): { [key: string]: React.ReactNode } => ({
   tab1: <Faq me={me} />,
   tab2: <GetStarted me={me} isPartner={isPartner} />,
-  tab3: <Dashboard me={me} isPartner={isPartner} />,
-  tab4: <Assets isPartner={isPartner} />,
+  tab3: <Visitors me={me} isPartner={isPartner} />,
+  tab4: <Sales me={me} isPartner={isPartner} />,
+  tab5: <Assets isPartner={isPartner} />,
 });
 
 const StyledContent = styled(AntdLayout.Content)`

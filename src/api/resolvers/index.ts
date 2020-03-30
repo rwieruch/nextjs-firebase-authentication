@@ -1,3 +1,4 @@
+import { GraphQLDateTime } from 'graphql-iso-date';
 import { resolvers as migrationResolvers } from './migration';
 import { resolvers as sessionResolvers } from './session';
 import { resolvers as userResolvers } from './user';
@@ -10,7 +11,12 @@ import { resolvers as upgradeResolvers } from './upgrade';
 import { resolvers as couponResolvers } from './coupon';
 import { resolvers as partnerResolvers } from './partner';
 
+const customScalarResolver = {
+  DateTime: GraphQLDateTime,
+};
+
 export default [
+  customScalarResolver,
   migrationResolvers,
   sessionResolvers,
   userResolvers,

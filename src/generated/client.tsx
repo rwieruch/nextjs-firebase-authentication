@@ -11,6 +11,7 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  DateTime: any;
 };
 
 export type BookChapter = {
@@ -95,6 +96,7 @@ export type CurriculumSection = {
   label: Scalars['String'];
   items: Array<CurriculumItem>;
 };
+
 
 export type Discount = {
    __typename?: 'Discount';
@@ -263,6 +265,7 @@ export type Query = {
   onlineChapter: Markdown;
   upgradeableCourses: Array<StorefrontCourse>;
   discountedPrice: Discount;
+  partnerGetVisitors: Array<VisitorByDay>;
 };
 
 
@@ -302,6 +305,12 @@ export type QueryDiscountedPriceArgs = {
   courseId: CourseId;
   bundleId: BundleId;
   coupon: Scalars['String'];
+};
+
+
+export type QueryPartnerGetVisitorsArgs = {
+  from: Scalars['DateTime'];
+  to: Scalars['DateTime'];
 };
 
 export type SessionToken = {
@@ -359,6 +368,12 @@ export type User = {
   uid: Scalars['String'];
   username: Scalars['String'];
   roles: Array<Scalars['String']>;
+};
+
+export type VisitorByDay = {
+   __typename?: 'VisitorByDay';
+  date: Scalars['DateTime'];
+  count: Scalars['Int'];
 };
 
 export type GetBookQueryVariables = {
@@ -534,6 +549,20 @@ export type PartnerTrackVisitorMutationVariables = {
 export type PartnerTrackVisitorMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'partnerTrackVisitor'>
+);
+
+export type PartnerGetVisitorsQueryVariables = {
+  from: Scalars['DateTime'];
+  to: Scalars['DateTime'];
+};
+
+
+export type PartnerGetVisitorsQuery = (
+  { __typename?: 'Query' }
+  & { partnerGetVisitors: Array<(
+    { __typename?: 'VisitorByDay' }
+    & Pick<VisitorByDay, 'date' | 'count'>
+  )> }
 );
 
 export type PaypalCreateOrderMutationVariables = {
@@ -1081,6 +1110,41 @@ export function usePartnerTrackVisitorMutation(baseOptions?: ApolloReactHooks.Mu
 export type PartnerTrackVisitorMutationHookResult = ReturnType<typeof usePartnerTrackVisitorMutation>;
 export type PartnerTrackVisitorMutationResult = ApolloReactCommon.MutationResult<PartnerTrackVisitorMutation>;
 export type PartnerTrackVisitorMutationOptions = ApolloReactCommon.BaseMutationOptions<PartnerTrackVisitorMutation, PartnerTrackVisitorMutationVariables>;
+export const PartnerGetVisitorsDocument = gql`
+    query PartnerGetVisitors($from: DateTime!, $to: DateTime!) {
+  partnerGetVisitors(from: $from, to: $to) {
+    date
+    count
+  }
+}
+    `;
+
+/**
+ * __usePartnerGetVisitorsQuery__
+ *
+ * To run a query within a React component, call `usePartnerGetVisitorsQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePartnerGetVisitorsQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePartnerGetVisitorsQuery({
+ *   variables: {
+ *      from: // value for 'from'
+ *      to: // value for 'to'
+ *   },
+ * });
+ */
+export function usePartnerGetVisitorsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<PartnerGetVisitorsQuery, PartnerGetVisitorsQueryVariables>) {
+        return ApolloReactHooks.useQuery<PartnerGetVisitorsQuery, PartnerGetVisitorsQueryVariables>(PartnerGetVisitorsDocument, baseOptions);
+      }
+export function usePartnerGetVisitorsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<PartnerGetVisitorsQuery, PartnerGetVisitorsQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<PartnerGetVisitorsQuery, PartnerGetVisitorsQueryVariables>(PartnerGetVisitorsDocument, baseOptions);
+        }
+export type PartnerGetVisitorsQueryHookResult = ReturnType<typeof usePartnerGetVisitorsQuery>;
+export type PartnerGetVisitorsLazyQueryHookResult = ReturnType<typeof usePartnerGetVisitorsLazyQuery>;
+export type PartnerGetVisitorsQueryResult = ApolloReactCommon.QueryResult<PartnerGetVisitorsQuery, PartnerGetVisitorsQueryVariables>;
 export const PaypalCreateOrderDocument = gql`
     mutation PaypalCreateOrder($courseId: CourseId!, $bundleId: BundleId!, $coupon: String) {
   paypalCreateOrder(courseId: $courseId, bundleId: $bundleId, coupon: $coupon) {
