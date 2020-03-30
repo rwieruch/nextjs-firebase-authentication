@@ -4,6 +4,7 @@ import cors from 'micro-cors';
 import getConnection from '@models/index';
 import { Course } from '@models/course';
 import { PartnerConnector } from '@connectors/partner';
+import { CourseConnector } from '@connectors/course';
 import { ServerRequest, ServerResponse } from '@typeDefs/server';
 import { ResolverContext } from '@typeDefs/resolver';
 import schema from '@api/schema';
@@ -45,12 +46,13 @@ export default async (req: ServerRequest, res: ServerResponse) => {
       const me = await getMe(req, res);
 
       const partnerConnector = new PartnerConnector(connection);
+      const courseConnector = new CourseConnector(connection);
 
       return {
         req,
         res,
         me,
-        courseRepository: connection!.getRepository(Course),
+        courseConnector,
         partnerConnector,
       };
     },

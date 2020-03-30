@@ -7,8 +7,8 @@ import { createCourse } from '@services/firebase/course';
 // LEGACY END
 
 import getConnection from '@models/index';
+import { CourseConnector } from '@connectors/course';
 import { PartnerConnector } from '@connectors/partner';
-import { Course } from '@models/course';
 
 import { send } from 'micro';
 import getRawBody from 'raw-body';
@@ -47,22 +47,19 @@ export default async (
 
     const { courseId, bundleId, coupon, partnerId } = metadata;
 
-    // NEW
     const connection = await getConnection();
-
-    const courseRepository = connection!.getRepository(Course);
-    const course = new Course();
-    course.userId = client_reference_id;
-    course.courseId = courseId;
-    course.bundleId = bundleId;
-    course.price = display_items[0].amount;
-    course.currency = 'USD';
-    course.paymentType = 'STRIPE';
-    course.coupon = coupon;
-    const { id } = await courseRepository.save(course);
-    // NEW END
-
+    const courseConnector = new CourseConnector(connection);
     const partnerConnector = new PartnerConnector(connection);
+
+    const { id } = await courseConnector.createCourse({
+      userId: client_reference_id,
+      courseId: courseId,
+      bundleId: bundleId,
+      price: display_items[0].amount,
+      currency: 'USD',
+      paymentType: 'STRIPE',
+      coupon: coupon,
+    });
 
     if (partnerId) {
       await partnerConnector.createSale(id, partnerId);

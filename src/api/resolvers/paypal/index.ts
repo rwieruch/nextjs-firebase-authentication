@@ -4,8 +4,6 @@ import paypal from '@paypal/checkout-server-sdk';
 import { MutationResolvers } from '@generated/server';
 import { getAsDiscount } from '@services/coupon';
 import paypalClient from '@services/paypal';
-import { Course } from '@models/course';
-import { PartnerSale } from '@models/partner';
 import { createCourse } from '@services/firebase/course';
 
 import storefront from '@data/course-storefront';
@@ -20,7 +18,7 @@ export const resolvers: Resolvers = {
     paypalCreateOrder: async (
       parent,
       { courseId, bundleId, coupon, partnerId },
-      { me, courseRepository }
+      { me, courseConnector }
     ) => {
       const course = storefront[courseId];
       const bundle = course.bundles[bundleId];
@@ -29,9 +27,10 @@ export const resolvers: Resolvers = {
         return { orderId: null };
       }
 
-      const courses = await courseRepository.find({
-        where: { userId: me.uid, courseId },
-      });
+      const courses = await courseConnector.getCoursesByUserIdAndCourseId(
+        me.uid,
+        courseId
+      );
 
       const price = await getAsDiscount(
         courseId,
@@ -79,7 +78,7 @@ export const resolvers: Resolvers = {
     paypalApproveOrder: async (
       parent,
       { orderId },
-      { me, courseRepository, partnerConnector }
+      { me, courseConnector, partnerConnector }
     ) => {
       const request = new paypal.orders.OrdersCaptureRequest(orderId);
       request.requestBody({});
@@ -96,17 +95,15 @@ export const resolvers: Resolvers = {
           custom_id
         );
 
-        // NEW
-        const course = new Course();
-        course.userId = me!.uid;
-        course.courseId = courseId;
-        course.bundleId = bundleId;
-        course.price = +amount.value.replace('.', '');
-        course.currency = 'USD';
-        course.paymentType = 'PAYPAL';
-        course.coupon = coupon;
-        const { id } = await courseRepository.save(course);
-        // NEW END
+        const { id } = await courseConnector.createCourse({
+          userId: me!.uid,
+          courseId: courseId,
+          bundleId: bundleId,
+          price: +amount.value.replace('.', ''),
+          currency: 'USD',
+          paymentType: 'PAYPAL',
+          coupon: coupon,
+        });
 
         if (partnerId) {
           await partnerConnector.createSale(id, partnerId);

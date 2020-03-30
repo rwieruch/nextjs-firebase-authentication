@@ -1,10 +1,6 @@
-const util = require('util');
-
 import { MutationResolvers } from '@generated/server';
 // import firebase from '@services/firebase/client';
 import firebaseAdmin from '@services/firebase/admin';
-import { Course } from '@models/course';
-import storefront from '@data/course-storefront';
 
 import { FirebaseCourseContent } from '@services/firebase/course';
 
@@ -17,7 +13,7 @@ export const resolvers: Resolvers = {
     migrate: async (
       parent,
       { migrationType },
-      { me, courseRepository }
+      { me, courseConnector }
     ) => {
       switch (migrationType) {
         case 'COURSES':
@@ -49,7 +45,7 @@ export const resolvers: Resolvers = {
                     packageId,
                     invoice: {
                       amount,
-                      createdAt,
+                      // createdAt,
                       currency,
                       paymentType,
                       coupon,
@@ -138,7 +134,7 @@ export const resolvers: Resolvers = {
                     userId: uid,
                     courseId,
                     bundleId,
-                    createdAt: new Date(createdAt),
+                    // createdAt: new Date(createdAt),
                     price,
                     currency: newCurrency,
                     paymentType: newPaymentType,
@@ -148,17 +144,15 @@ export const resolvers: Resolvers = {
                   result.push(migratedCourse);
 
                   try {
-                    const dbCourse = new Course();
-                    dbCourse.userId = migratedCourse.userId;
-                    dbCourse.courseId = migratedCourse.courseId;
-                    dbCourse.bundleId = migratedCourse.bundleId;
-                    dbCourse.createdAt = migratedCourse.createdAt;
-                    dbCourse.price = migratedCourse.price;
-                    dbCourse.currency = migratedCourse.currency;
-                    dbCourse.paymentType = migratedCourse.paymentType;
-                    dbCourse.coupon = migratedCourse.coupon;
-
-                    await courseRepository.save(dbCourse);
+                    await courseConnector.createCourse({
+                      userId: migratedCourse.userId,
+                      courseId: migratedCourse.courseId,
+                      bundleId: migratedCourse.bundleId,
+                      price: migratedCourse.price,
+                      currency: migratedCourse.currency,
+                      paymentType: migratedCourse.paymentType,
+                      coupon: migratedCourse.coupon,
+                    });
 
                     console.log(`Migration of ${i}`);
                   } catch (error) {

@@ -14,7 +14,7 @@ export const resolvers: Resolvers = {
     stripeCreateOrder: async (
       parent,
       { imageUrl, courseId, bundleId, coupon, partnerId },
-      { me, courseRepository }
+      { me, courseConnector }
     ) => {
       const course = storefront[courseId];
       const bundle = course.bundles[bundleId];
@@ -23,9 +23,10 @@ export const resolvers: Resolvers = {
         return { id: null };
       }
 
-      const courses = await courseRepository.find({
-        where: { userId: me.uid, courseId },
-      });
+      const courses = await courseConnector.getCoursesByUserIdAndCourseId(
+        me.uid,
+        courseId
+      );
 
       const price = await getAsDiscount(
         courseId,

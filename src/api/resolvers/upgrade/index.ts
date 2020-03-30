@@ -1,5 +1,5 @@
 import { QueryResolvers } from '@generated/server';
-import { getCoursesById } from '@services/firebase/course';
+// import { getCoursesById } from '@services/firebase/course';
 import { getUpgradeableCourses } from '@services/course';
 
 interface Resolvers {
@@ -11,15 +11,16 @@ export const resolvers: Resolvers = {
     upgradeableCourses: async (
       parent,
       { courseId },
-      { me, courseRepository }
+      { me, courseConnector }
     ) => {
       if (!me) {
         return [];
       }
 
-      const courses = await courseRepository.find({
-        where: { userId: me.uid, courseId },
-      });
+      const courses = await courseConnector.getCoursesByUserIdAndCourseId(
+        me.uid,
+        courseId
+      );
 
       // LEGACY
       // const courses = await getCoursesById(me?.uid);
