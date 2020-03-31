@@ -28,7 +28,7 @@ const Assets = ({ isPartner }: AssetsProps) => {
       <p>
         If not only the referral link but also images are needed on
         the partner's side, you can find all the images that can be
-        freely used over here.
+        used freely over here.
       </p>
 
       <ul>

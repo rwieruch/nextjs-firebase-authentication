@@ -73,7 +73,7 @@ const AccountPage: NextAuthPage = ({ data }) => {
             <Card title="Partner">
               <ul>
                 <li>
-                  <Link href={ROUTES.REFERRAL}>
+                  <Link href={ROUTES.PARTNER}>
                     <a>Partner Program</a>
                   </Link>
                 </li>

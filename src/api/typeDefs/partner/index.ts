@@ -6,6 +6,8 @@ export default gql`
       from: DateTime!
       to: DateTime!
     ): [VisitorByDay!]!
+
+    partnerGetSales: [PartnerCourse!]!
   }
 
   extend type Mutation {
@@ -17,5 +19,15 @@ export default gql`
   type VisitorByDay {
     date: DateTime!
     count: Int!
+  }
+
+  type PartnerCourse {
+    id: String!
+    createdAt: DateTime!
+    royalty: Int!
+    price: Int!
+    courseId: CourseId!
+    bundleId: BundleId!
+    isCoupon: Boolean!
   }
 `;

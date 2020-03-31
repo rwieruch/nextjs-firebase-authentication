@@ -1,50 +1,35 @@
 import React from 'react';
-import { Table } from 'antd';
+import { Skeleton, Table } from 'antd';
 
-import { User } from '@generated/client';
-
-const dataSource = [
-  {
-    key: '1',
-    name: 'Mike',
-    gender: 'female',
-    email: '10 Downing Street',
-  },
-  {
-    key: '2',
-    name: 'John',
-    gender: 'male',
-    email: '10 Downing Street',
-  },
-];
+import { User, usePartnerGetSalesQuery } from '@generated/client';
+import useErrorIndicator from '@hooks/useErrorIndicator';
+import { formatDateTime, formatPrice } from '@services/format';
 
 const columns = [
   {
-    key: 'date',
+    key: 'createdAt',
     title: 'Date',
-    dataIndex: 'date',
+    dataIndex: 'createdAt',
   },
   {
     key: 'courseId',
     title: 'Course ID',
     dataIndex: 'courseId',
-    width: '20%',
   },
   {
     key: 'bundleId',
     title: 'Bundle ID',
     dataIndex: 'bundleId',
-    width: '20%',
   },
   {
-    key: 'grossAmount',
-    title: 'Gross Amount',
-    dataIndex: 'grossAmount',
+    key: 'price',
+    title: 'Price',
+    dataIndex: 'price',
   },
   {
-    key: 'netAmount',
-    title: 'Net Amount',
-    dataIndex: 'email',
+    key: 'royalty',
+    title: 'Royalty',
+    dataIndex: 'royalty',
   },
 ];
 
@@ -58,11 +43,34 @@ const SalesTable = ({ me, isPartner }: SalesTableProps) => {
     return null;
   }
 
+  const { data, loading, error } = usePartnerGetSalesQuery();
+
   const [pagination, setPagination] = React.useState({
-    total: dataSource.length,
+    total: 0,
     pageSize: 1,
     current: 0,
   });
+
+  React.useEffect(() => {
+    if (!data) {
+      return;
+    }
+
+    setPagination({
+      total: data.partnerGetSales.length,
+      pageSize: 1,
+      current: 0,
+    });
+  }, [data]);
+
+  console.log(data);
+
+  useErrorIndicator({
+    error,
+  });
+
+  if (loading) return <Skeleton active />;
+  if (!data) return null;
 
   const handleChange = (newPagination: any) => {
     setPagination({
@@ -71,10 +79,15 @@ const SalesTable = ({ me, isPartner }: SalesTableProps) => {
     });
   };
 
+  const dataSource = data.partnerGetSales.map(partnerSale => ({
+    ...partnerSale,
+    createdAt: formatDateTime(new Date(partnerSale.createdAt)),
+    price: formatPrice(partnerSale.price),
+    royalty: formatPrice(partnerSale.royalty),
+  }));
+
   return (
     <Table
-      bordered
-      title={() => 'Partner Sales'}
       columns={columns}
       dataSource={dataSource}
       pagination={pagination}

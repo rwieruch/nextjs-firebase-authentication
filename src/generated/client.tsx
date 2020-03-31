@@ -254,6 +254,17 @@ export type OrderId = {
   orderId: Scalars['String'];
 };
 
+export type PartnerCourse = {
+   __typename?: 'PartnerCourse';
+  id: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+  royalty: Scalars['Int'];
+  price: Scalars['Int'];
+  courseId: CourseId;
+  bundleId: BundleId;
+  isCoupon: Scalars['Boolean'];
+};
+
 export type Query = {
    __typename?: 'Query';
   _?: Maybe<Scalars['Boolean']>;
@@ -268,6 +279,7 @@ export type Query = {
   upgradeableCourses: Array<StorefrontCourse>;
   discountedPrice: Discount;
   partnerGetVisitors: Array<VisitorByDay>;
+  partnerGetSales: Array<PartnerCourse>;
 };
 
 
@@ -564,6 +576,17 @@ export type PartnerGetVisitorsQuery = (
   & { partnerGetVisitors: Array<(
     { __typename?: 'VisitorByDay' }
     & Pick<VisitorByDay, 'date' | 'count'>
+  )> }
+);
+
+export type PartnerGetSalesQueryVariables = {};
+
+
+export type PartnerGetSalesQuery = (
+  { __typename?: 'Query' }
+  & { partnerGetSales: Array<(
+    { __typename?: 'PartnerCourse' }
+    & Pick<PartnerCourse, 'id' | 'royalty' | 'price' | 'createdAt' | 'courseId' | 'bundleId' | 'isCoupon'>
   )> }
 );
 
@@ -1149,6 +1172,44 @@ export function usePartnerGetVisitorsLazyQuery(baseOptions?: ApolloReactHooks.La
 export type PartnerGetVisitorsQueryHookResult = ReturnType<typeof usePartnerGetVisitorsQuery>;
 export type PartnerGetVisitorsLazyQueryHookResult = ReturnType<typeof usePartnerGetVisitorsLazyQuery>;
 export type PartnerGetVisitorsQueryResult = ApolloReactCommon.QueryResult<PartnerGetVisitorsQuery, PartnerGetVisitorsQueryVariables>;
+export const PartnerGetSalesDocument = gql`
+    query PartnerGetSales {
+  partnerGetSales {
+    id
+    royalty
+    price
+    createdAt
+    courseId
+    bundleId
+    isCoupon
+  }
+}
+    `;
+
+/**
+ * __usePartnerGetSalesQuery__
+ *
+ * To run a query within a React component, call `usePartnerGetSalesQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePartnerGetSalesQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePartnerGetSalesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function usePartnerGetSalesQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<PartnerGetSalesQuery, PartnerGetSalesQueryVariables>) {
+        return ApolloReactHooks.useQuery<PartnerGetSalesQuery, PartnerGetSalesQueryVariables>(PartnerGetSalesDocument, baseOptions);
+      }
+export function usePartnerGetSalesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<PartnerGetSalesQuery, PartnerGetSalesQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<PartnerGetSalesQuery, PartnerGetSalesQueryVariables>(PartnerGetSalesDocument, baseOptions);
+        }
+export type PartnerGetSalesQueryHookResult = ReturnType<typeof usePartnerGetSalesQuery>;
+export type PartnerGetSalesLazyQueryHookResult = ReturnType<typeof usePartnerGetSalesLazyQuery>;
+export type PartnerGetSalesQueryResult = ApolloReactCommon.QueryResult<PartnerGetSalesQuery, PartnerGetSalesQueryVariables>;
 export const PaypalCreateOrderDocument = gql`
     mutation PaypalCreateOrder($courseId: CourseId!, $bundleId: BundleId!, $coupon: String, $partnerId: String) {
   paypalCreateOrder(courseId: $courseId, bundleId: $bundleId, coupon: $coupon, partnerId: $partnerId) {

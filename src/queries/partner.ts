@@ -20,3 +20,17 @@ export const PARTNER_GET_VISITORS = gql`
     }
   }
 `;
+
+export const PARTNER_GET_SALES = gql`
+  query PartnerGetSales {
+    partnerGetSales {
+      id
+      royalty
+      price
+      createdAt
+      courseId
+      bundleId
+      isCoupon
+    }
+  }
+`;

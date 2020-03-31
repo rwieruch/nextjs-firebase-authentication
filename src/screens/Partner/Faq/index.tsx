@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { User } from '@generated/client';
+import { PARTNER_PERCENTAGE } from '@constants/partner';
 
 const UnstyledList = styled.ul`
   margin: 0;
@@ -25,7 +26,8 @@ const Faq = ({ me }: FaqProps) => (
     <li>
       <strong>How much does a partner earn?</strong>
       <p>
-        Partners earn 45% from the amount of each succesful payment.
+        Partners earn {PARTNER_PERCENTAGE}% of the amount of each
+        succesful payment.
       </p>
     </li>
     <li>

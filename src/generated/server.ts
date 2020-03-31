@@ -252,6 +252,17 @@ export type OrderId = {
   orderId: Scalars['String'];
 };
 
+export type PartnerCourse = {
+   __typename?: 'PartnerCourse';
+  id: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+  royalty: Scalars['Int'];
+  price: Scalars['Int'];
+  courseId: CourseId;
+  bundleId: BundleId;
+  isCoupon: Scalars['Boolean'];
+};
+
 export type Query = {
    __typename?: 'Query';
   _?: Maybe<Scalars['Boolean']>;
@@ -266,6 +277,7 @@ export type Query = {
   upgradeableCourses: Array<StorefrontCourse>;
   discountedPrice: Discount;
   partnerGetVisitors: Array<VisitorByDay>;
+  partnerGetSales: Array<PartnerCourse>;
 };
 
 
@@ -482,6 +494,7 @@ export type ResolversTypes = ResolversObject<{
   Discount: ResolverTypeWrapper<any>,
   DateTime: ResolverTypeWrapper<any>,
   VisitorByDay: ResolverTypeWrapper<any>,
+  PartnerCourse: ResolverTypeWrapper<any>,
   Mutation: ResolverTypeWrapper<{}>,
   SessionToken: ResolverTypeWrapper<any>,
   OrderId: ResolverTypeWrapper<any>,
@@ -523,6 +536,7 @@ export type ResolversParentTypes = ResolversObject<{
   Discount: any,
   DateTime: any,
   VisitorByDay: any,
+  PartnerCourse: any,
   Mutation: {},
   SessionToken: any,
   OrderId: any,
@@ -676,6 +690,17 @@ export type OrderIdResolvers<ContextType = ResolverContext, ParentType extends R
   __isTypeOf?: isTypeOfResolverFn<ParentType>,
 }>;
 
+export type PartnerCourseResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['PartnerCourse'] = ResolversParentTypes['PartnerCourse']> = ResolversObject<{
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>,
+  royalty?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
+  price?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
+  courseId?: Resolver<ResolversTypes['CourseId'], ParentType, ContextType>,
+  bundleId?: Resolver<ResolversTypes['BundleId'], ParentType, ContextType>,
+  isCoupon?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
+  __isTypeOf?: isTypeOfResolverFn<ParentType>,
+}>;
+
 export type QueryResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   _?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>,
   me?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>,
@@ -689,6 +714,7 @@ export type QueryResolvers<ContextType = ResolverContext, ParentType extends Res
   upgradeableCourses?: Resolver<Array<ResolversTypes['StorefrontCourse']>, ParentType, ContextType, RequireFields<QueryUpgradeableCoursesArgs, 'courseId'>>,
   discountedPrice?: Resolver<ResolversTypes['Discount'], ParentType, ContextType, RequireFields<QueryDiscountedPriceArgs, 'courseId' | 'bundleId' | 'coupon'>>,
   partnerGetVisitors?: Resolver<Array<ResolversTypes['VisitorByDay']>, ParentType, ContextType, RequireFields<QueryPartnerGetVisitorsArgs, 'from' | 'to'>>,
+  partnerGetSales?: Resolver<Array<ResolversTypes['PartnerCourse']>, ParentType, ContextType>,
 }>;
 
 export type SessionTokenResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['SessionToken'] = ResolversParentTypes['SessionToken']> = ResolversObject<{
@@ -776,6 +802,7 @@ export type Resolvers<ContextType = ResolverContext> = ResolversObject<{
   OnboardingData?: OnboardingDataResolvers<ContextType>,
   OnboardingItem?: OnboardingItemResolvers<ContextType>,
   OrderId?: OrderIdResolvers<ContextType>,
+  PartnerCourse?: PartnerCourseResolvers<ContextType>,
   Query?: QueryResolvers<ContextType>,
   SessionToken?: SessionTokenResolvers<ContextType>,
   StorefrontBundle?: StorefrontBundleResolvers<ContextType>,

@@ -4,6 +4,7 @@ import { Connection, Repository } from 'typeorm';
 import { VisitorByDay } from '@generated/client';
 import { PartnerVisitor, PartnerSale } from '@models/partner';
 import { Course } from '@models/course';
+import { PARTNER_PERCENTAGE } from '@constants/partner';
 
 const sameDay = (x: Date, y: Date) => {
   return (
@@ -28,12 +29,24 @@ export class PartnerConnector {
   }
 
   async createSale(course: Course, partnerId: string) {
+    const royalty = Math.round(
+      (course.price / 100) * PARTNER_PERCENTAGE
+    );
+
     const partnerSale = new PartnerSale();
 
     partnerSale.partnerId = partnerId;
+    partnerSale.royalty = royalty;
     partnerSale.course = course;
 
     return await this.partnerSaleRepository.save(partnerSale);
+  }
+
+  async getSalesByPartner(userId: string) {
+    return await this.partnerSaleRepository.find({
+      where: { partnerId: userId },
+      relations: ['course'],
+    });
   }
 
   async createVisitor(partnerId: string) {

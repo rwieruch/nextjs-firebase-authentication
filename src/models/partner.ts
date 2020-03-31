@@ -32,6 +32,10 @@ export class PartnerSale {
   @Column('varchar')
   partnerId: string;
 
+  @Index()
+  @Column('int')
+  royalty: number;
+
   @OneToOne(type => Course)
   @JoinColumn()
   course: Course;
