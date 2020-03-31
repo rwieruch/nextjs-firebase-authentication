@@ -15,26 +15,26 @@ export type Scalars = {
 };
 
 export type BookChapter = {
-   __typename?: 'BookChapter';
+  __typename?: 'BookChapter';
   label: Scalars['String'];
   url?: Maybe<Scalars['String']>;
   sections?: Maybe<Array<BookSection>>;
 };
 
 export type BookDownload = {
-   __typename?: 'BookDownload';
+  __typename?: 'BookDownload';
   label: Scalars['String'];
   data?: Maybe<BookDownloadData>;
 };
 
 export type BookDownloadData = {
-   __typename?: 'BookDownloadData';
+  __typename?: 'BookDownloadData';
   label: Scalars['String'];
   items: Array<BookDownloadItem>;
 };
 
 export type BookDownloadItem = {
-   __typename?: 'BookDownloadItem';
+  __typename?: 'BookDownloadItem';
   label: Scalars['String'];
   description: Scalars['String'];
   url: Scalars['String'];
@@ -42,18 +42,18 @@ export type BookDownloadItem = {
 };
 
 export type BookOnline = {
-   __typename?: 'BookOnline';
+  __typename?: 'BookOnline';
   label: Scalars['String'];
   data?: Maybe<BookOnlineData>;
 };
 
 export type BookOnlineData = {
-   __typename?: 'BookOnlineData';
+  __typename?: 'BookOnlineData';
   chapters: Array<BookChapter>;
 };
 
 export type BookSection = {
-   __typename?: 'BookSection';
+  __typename?: 'BookSection';
   label: Scalars['String'];
   url: Scalars['String'];
 };
@@ -61,29 +61,29 @@ export type BookSection = {
 export enum BundleId {
   Student = 'STUDENT',
   Intermediate = 'INTERMEDIATE',
-  Professional = 'PROFESSIONAL'
+  Professional = 'PROFESSIONAL',
 }
 
 export enum CourseId {
   TheRoadToLearnReact = 'THE_ROAD_TO_LEARN_REACT',
   TamingTheState = 'TAMING_THE_STATE',
   TheRoadToGraphql = 'THE_ROAD_TO_GRAPHQL',
-  TheRoadToReactWithFirebase = 'THE_ROAD_TO_REACT_WITH_FIREBASE'
+  TheRoadToReactWithFirebase = 'THE_ROAD_TO_REACT_WITH_FIREBASE',
 }
 
 export type Curriculum = {
-   __typename?: 'Curriculum';
+  __typename?: 'Curriculum';
   label: Scalars['String'];
   data?: Maybe<CurriculumData>;
 };
 
 export type CurriculumData = {
-   __typename?: 'CurriculumData';
+  __typename?: 'CurriculumData';
   sections: Array<CurriculumSection>;
 };
 
 export type CurriculumItem = {
-   __typename?: 'CurriculumItem';
+  __typename?: 'CurriculumItem';
   label: Scalars['String'];
   url: Scalars['String'];
   description: Scalars['String'];
@@ -92,33 +92,32 @@ export type CurriculumItem = {
 };
 
 export type CurriculumSection = {
-   __typename?: 'CurriculumSection';
+  __typename?: 'CurriculumSection';
   label: Scalars['String'];
   items: Array<CurriculumItem>;
 };
 
-
 export type Discount = {
-   __typename?: 'Discount';
+  __typename?: 'Discount';
   price: Scalars['Int'];
   isDiscount: Scalars['Boolean'];
 };
 
 export type File = {
-   __typename?: 'File';
+  __typename?: 'File';
   fileName: Scalars['String'];
   contentType: Scalars['String'];
   body: Scalars['String'];
 };
 
 export type Introduction = {
-   __typename?: 'Introduction';
+  __typename?: 'Introduction';
   label: Scalars['String'];
   data?: Maybe<IntroductionData>;
 };
 
 export type IntroductionData = {
-   __typename?: 'IntroductionData';
+  __typename?: 'IntroductionData';
   label: Scalars['String'];
   url: Scalars['String'];
   description: Scalars['String'];
@@ -126,16 +125,16 @@ export type IntroductionData = {
 
 export enum Kind {
   Article = 'Article',
-  Video = 'Video'
+  Video = 'Video',
 }
 
 export type Markdown = {
-   __typename?: 'Markdown';
+  __typename?: 'Markdown';
   body: Scalars['String'];
 };
 
 export type Mutation = {
-   __typename?: 'Mutation';
+  __typename?: 'Mutation';
   _?: Maybe<Scalars['Boolean']>;
   migrate?: Maybe<Scalars['Boolean']>;
   signIn: SessionToken;
@@ -152,17 +151,14 @@ export type Mutation = {
   partnerTrackVisitor?: Maybe<Scalars['Boolean']>;
 };
 
-
 export type MutationMigrateArgs = {
   migrationType: Scalars['String'];
 };
-
 
 export type MutationSignInArgs = {
   email: Scalars['String'];
   password: Scalars['String'];
 };
-
 
 export type MutationSignUpArgs = {
   username: Scalars['String'];
@@ -170,21 +166,17 @@ export type MutationSignUpArgs = {
   password: Scalars['String'];
 };
 
-
 export type MutationPasswordForgotArgs = {
   email: Scalars['String'];
 };
-
 
 export type MutationPasswordChangeArgs = {
   password: Scalars['String'];
 };
 
-
 export type MutationEmailChangeArgs = {
   email: Scalars['String'];
 };
-
 
 export type MutationPaypalCreateOrderArgs = {
   courseId: CourseId;
@@ -193,11 +185,9 @@ export type MutationPaypalCreateOrderArgs = {
   partnerId?: Maybe<Scalars['String']>;
 };
 
-
 export type MutationPaypalApproveOrderArgs = {
   orderId: Scalars['String'];
 };
-
 
 export type MutationStripeCreateOrderArgs = {
   imageUrl: Scalars['String'];
@@ -207,12 +197,10 @@ export type MutationStripeCreateOrderArgs = {
   partnerId?: Maybe<Scalars['String']>;
 };
 
-
 export type MutationCreateFreeCourseArgs = {
   courseId: CourseId;
   bundleId: BundleId;
 };
-
 
 export type MutationCreateAdminCourseArgs = {
   uid: Scalars['String'];
@@ -220,29 +208,27 @@ export type MutationCreateAdminCourseArgs = {
   bundleId: BundleId;
 };
 
-
 export type MutationPromoteToPartnerArgs = {
   uid: Scalars['String'];
 };
-
 
 export type MutationPartnerTrackVisitorArgs = {
   partnerId: Scalars['String'];
 };
 
 export type Onboarding = {
-   __typename?: 'Onboarding';
+  __typename?: 'Onboarding';
   label: Scalars['String'];
   data?: Maybe<OnboardingData>;
 };
 
 export type OnboardingData = {
-   __typename?: 'OnboardingData';
+  __typename?: 'OnboardingData';
   items: Array<OnboardingItem>;
 };
 
 export type OnboardingItem = {
-   __typename?: 'OnboardingItem';
+  __typename?: 'OnboardingItem';
   label: Scalars['String'];
   url: Scalars['String'];
   description: Scalars['String'];
@@ -250,12 +236,17 @@ export type OnboardingItem = {
 };
 
 export type OrderId = {
-   __typename?: 'OrderId';
+  __typename?: 'OrderId';
   orderId: Scalars['String'];
 };
 
-export type PartnerCourse = {
-   __typename?: 'PartnerCourse';
+export type PageInfo = {
+  __typename?: 'PageInfo';
+  total: Scalars['Int'];
+};
+
+export type PartnerSale = {
+  __typename?: 'PartnerSale';
   id: Scalars['String'];
   createdAt: Scalars['DateTime'];
   royalty: Scalars['Int'];
@@ -265,8 +256,14 @@ export type PartnerCourse = {
   isCoupon: Scalars['Boolean'];
 };
 
+export type PartnerSaleConnection = {
+  __typename?: 'PartnerSaleConnection';
+  edges: Array<PartnerSale>;
+  pageInfo: PageInfo;
+};
+
 export type Query = {
-   __typename?: 'Query';
+  __typename?: 'Query';
   _?: Maybe<Scalars['Boolean']>;
   me?: Maybe<User>;
   storefrontCourse?: Maybe<StorefrontCourse>;
@@ -279,41 +276,34 @@ export type Query = {
   upgradeableCourses: Array<StorefrontCourse>;
   discountedPrice: Discount;
   partnerGetVisitors: Array<VisitorByDay>;
-  partnerGetSales: Array<PartnerCourse>;
+  partnerSales: PartnerSaleConnection;
 };
-
 
 export type QueryStorefrontCourseArgs = {
   courseId: CourseId;
   bundleId: BundleId;
 };
 
-
 export type QueryStorefrontBundlesArgs = {
   courseId: CourseId;
 };
 
-
 export type QueryUnlockedCourseArgs = {
   courseId: CourseId;
 };
-
 
 export type QueryBookArgs = {
   path: Scalars['String'];
   fileName: Scalars['String'];
 };
 
-
 export type QueryOnlineChapterArgs = {
   path: Scalars['String'];
 };
 
-
 export type QueryUpgradeableCoursesArgs = {
   courseId: CourseId;
 };
-
 
 export type QueryDiscountedPriceArgs = {
   courseId: CourseId;
@@ -321,19 +311,23 @@ export type QueryDiscountedPriceArgs = {
   coupon: Scalars['String'];
 };
 
-
 export type QueryPartnerGetVisitorsArgs = {
   from: Scalars['DateTime'];
   to: Scalars['DateTime'];
 };
 
+export type QueryPartnerSalesArgs = {
+  offset: Scalars['Int'];
+  limit: Scalars['Int'];
+};
+
 export type SessionToken = {
-   __typename?: 'SessionToken';
+  __typename?: 'SessionToken';
   sessionToken: Scalars['String'];
 };
 
 export type StorefrontBundle = {
-   __typename?: 'StorefrontBundle';
+  __typename?: 'StorefrontBundle';
   header: Scalars['String'];
   bundleId: BundleId;
   price: Scalars['Int'];
@@ -342,7 +336,7 @@ export type StorefrontBundle = {
 };
 
 export type StorefrontCourse = {
-   __typename?: 'StorefrontCourse';
+  __typename?: 'StorefrontCourse';
   header: Scalars['String'];
   courseId: CourseId;
   url: Scalars['String'];
@@ -352,17 +346,17 @@ export type StorefrontCourse = {
 };
 
 export type StripeId = {
-   __typename?: 'StripeId';
+  __typename?: 'StripeId';
   id: Scalars['String'];
 };
 
 export type Subscription = {
-   __typename?: 'Subscription';
+  __typename?: 'Subscription';
   _?: Maybe<Scalars['Boolean']>;
 };
 
 export type UnlockedCourse = {
-   __typename?: 'UnlockedCourse';
+  __typename?: 'UnlockedCourse';
   courseId: CourseId;
   bundleId: BundleId;
   header: Scalars['String'];
@@ -377,7 +371,7 @@ export type UnlockedCourse = {
 };
 
 export type User = {
-   __typename?: 'User';
+  __typename?: 'User';
   email: Scalars['String'];
   uid: Scalars['String'];
   username: Scalars['String'];
@@ -385,7 +379,7 @@ export type User = {
 };
 
 export type VisitorByDay = {
-   __typename?: 'VisitorByDay';
+  __typename?: 'VisitorByDay';
   date: Scalars['DateTime'];
   count: Scalars['Int'];
 };
@@ -395,27 +389,20 @@ export type GetBookQueryVariables = {
   fileName: Scalars['String'];
 };
 
-
-export type GetBookQuery = (
-  { __typename?: 'Query' }
-  & { book: (
-    { __typename?: 'File' }
-    & Pick<File, 'body' | 'contentType' | 'fileName'>
-  ) }
-);
+export type GetBookQuery = { __typename?: 'Query' } & {
+  book: { __typename?: 'File' } & Pick<
+    File,
+    'body' | 'contentType' | 'fileName'
+  >;
+};
 
 export type GetOnlineChapterQueryVariables = {
   path: Scalars['String'];
 };
 
-
-export type GetOnlineChapterQuery = (
-  { __typename?: 'Query' }
-  & { onlineChapter: (
-    { __typename?: 'Markdown' }
-    & Pick<Markdown, 'body'>
-  ) }
-);
+export type GetOnlineChapterQuery = { __typename?: 'Query' } & {
+  onlineChapter: { __typename?: 'Markdown' } & Pick<Markdown, 'body'>;
+};
 
 export type GetDiscountedPriceQueryVariables = {
   courseId: CourseId;
@@ -423,105 +410,147 @@ export type GetDiscountedPriceQueryVariables = {
   coupon: Scalars['String'];
 };
 
-
-export type GetDiscountedPriceQuery = (
-  { __typename?: 'Query' }
-  & { discountedPrice: (
-    { __typename?: 'Discount' }
-    & Pick<Discount, 'price' | 'isDiscount'>
-  ) }
-);
+export type GetDiscountedPriceQuery = { __typename?: 'Query' } & {
+  discountedPrice: { __typename?: 'Discount' } & Pick<
+    Discount,
+    'price' | 'isDiscount'
+  >;
+};
 
 export type GetCoursesQueryVariables = {};
 
-
-export type GetCoursesQuery = (
-  { __typename?: 'Query' }
-  & { unlockedCourses: Array<(
-    { __typename?: 'StorefrontCourse' }
-    & Pick<StorefrontCourse, 'courseId' | 'header' | 'url' | 'imageUrl' | 'canUpgrade'>
-  )> }
-);
+export type GetCoursesQuery = { __typename?: 'Query' } & {
+  unlockedCourses: Array<
+    { __typename?: 'StorefrontCourse' } & Pick<
+      StorefrontCourse,
+      'courseId' | 'header' | 'url' | 'imageUrl' | 'canUpgrade'
+    >
+  >;
+};
 
 export type GetCourseQueryVariables = {
   courseId: CourseId;
 };
 
-
-export type GetCourseQuery = (
-  { __typename?: 'Query' }
-  & { unlockedCourse?: Maybe<(
-    { __typename?: 'UnlockedCourse' }
-    & Pick<UnlockedCourse, 'courseId' | 'header' | 'canUpgrade'>
-    & { introduction?: Maybe<(
-      { __typename?: 'Introduction' }
-      & Pick<Introduction, 'label'>
-      & { data?: Maybe<(
-        { __typename?: 'IntroductionData' }
-        & Pick<IntroductionData, 'label' | 'description' | 'url'>
-      )> }
-    )>, onboarding?: Maybe<(
-      { __typename?: 'Onboarding' }
-      & Pick<Onboarding, 'label'>
-      & { data?: Maybe<(
-        { __typename?: 'OnboardingData' }
-        & { items: Array<(
-          { __typename?: 'OnboardingItem' }
-          & Pick<OnboardingItem, 'label' | 'description' | 'url' | 'secondaryUrl'>
-        )> }
-      )> }
-    )>, bookDownload?: Maybe<(
-      { __typename?: 'BookDownload' }
-      & Pick<BookDownload, 'label'>
-      & { data?: Maybe<(
-        { __typename?: 'BookDownloadData' }
-        & { items: Array<(
-          { __typename?: 'BookDownloadItem' }
-          & Pick<BookDownloadItem, 'label' | 'description' | 'url' | 'fileName'>
-        )> }
-      )> }
-    )>, bookOnline?: Maybe<(
-      { __typename?: 'BookOnline' }
-      & Pick<BookOnline, 'label'>
-      & { data?: Maybe<(
-        { __typename?: 'BookOnlineData' }
-        & { chapters: Array<(
-          { __typename?: 'BookChapter' }
-          & Pick<BookChapter, 'label' | 'url'>
-          & { sections?: Maybe<Array<(
-            { __typename?: 'BookSection' }
-            & Pick<BookSection, 'label' | 'url'>
-          )>> }
-        )> }
-      )> }
-    )>, curriculum?: Maybe<(
-      { __typename?: 'Curriculum' }
-      & Pick<Curriculum, 'label'>
-      & { data?: Maybe<(
-        { __typename?: 'CurriculumData' }
-        & { sections: Array<(
-          { __typename?: 'CurriculumSection' }
-          & Pick<CurriculumSection, 'label'>
-          & { items: Array<(
-            { __typename?: 'CurriculumItem' }
-            & Pick<CurriculumItem, 'kind' | 'label' | 'description' | 'url' | 'secondaryUrl'>
-          )> }
-        )> }
-      )> }
-    )> }
-  )> }
-);
+export type GetCourseQuery = { __typename?: 'Query' } & {
+  unlockedCourse?: Maybe<
+    { __typename?: 'UnlockedCourse' } & Pick<
+      UnlockedCourse,
+      'courseId' | 'header' | 'canUpgrade'
+    > & {
+        introduction?: Maybe<
+          { __typename?: 'Introduction' } & Pick<
+            Introduction,
+            'label'
+          > & {
+              data?: Maybe<
+                { __typename?: 'IntroductionData' } & Pick<
+                  IntroductionData,
+                  'label' | 'description' | 'url'
+                >
+              >;
+            }
+        >;
+        onboarding?: Maybe<
+          { __typename?: 'Onboarding' } & Pick<
+            Onboarding,
+            'label'
+          > & {
+              data?: Maybe<
+                { __typename?: 'OnboardingData' } & {
+                  items: Array<
+                    { __typename?: 'OnboardingItem' } & Pick<
+                      OnboardingItem,
+                      'label' | 'description' | 'url' | 'secondaryUrl'
+                    >
+                  >;
+                }
+              >;
+            }
+        >;
+        bookDownload?: Maybe<
+          { __typename?: 'BookDownload' } & Pick<
+            BookDownload,
+            'label'
+          > & {
+              data?: Maybe<
+                { __typename?: 'BookDownloadData' } & {
+                  items: Array<
+                    { __typename?: 'BookDownloadItem' } & Pick<
+                      BookDownloadItem,
+                      'label' | 'description' | 'url' | 'fileName'
+                    >
+                  >;
+                }
+              >;
+            }
+        >;
+        bookOnline?: Maybe<
+          { __typename?: 'BookOnline' } & Pick<
+            BookOnline,
+            'label'
+          > & {
+              data?: Maybe<
+                { __typename?: 'BookOnlineData' } & {
+                  chapters: Array<
+                    { __typename?: 'BookChapter' } & Pick<
+                      BookChapter,
+                      'label' | 'url'
+                    > & {
+                        sections?: Maybe<
+                          Array<
+                            { __typename?: 'BookSection' } & Pick<
+                              BookSection,
+                              'label' | 'url'
+                            >
+                          >
+                        >;
+                      }
+                  >;
+                }
+              >;
+            }
+        >;
+        curriculum?: Maybe<
+          { __typename?: 'Curriculum' } & Pick<
+            Curriculum,
+            'label'
+          > & {
+              data?: Maybe<
+                { __typename?: 'CurriculumData' } & {
+                  sections: Array<
+                    { __typename?: 'CurriculumSection' } & Pick<
+                      CurriculumSection,
+                      'label'
+                    > & {
+                        items: Array<
+                          { __typename?: 'CurriculumItem' } & Pick<
+                            CurriculumItem,
+                            | 'kind'
+                            | 'label'
+                            | 'description'
+                            | 'url'
+                            | 'secondaryUrl'
+                          >
+                        >;
+                      }
+                  >;
+                }
+              >;
+            }
+        >;
+      }
+  >;
+};
 
 export type CreateFreeCourseMutationVariables = {
   courseId: CourseId;
   bundleId: BundleId;
 };
 
-
-export type CreateFreeCourseMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'createFreeCourse'>
-);
+export type CreateFreeCourseMutation = {
+  __typename?: 'Mutation';
+} & Pick<Mutation, 'createFreeCourse'>;
 
 export type CreateAdminCourseMutationVariables = {
   uid: Scalars['String'];
@@ -529,66 +558,71 @@ export type CreateAdminCourseMutationVariables = {
   bundleId: BundleId;
 };
 
-
-export type CreateAdminCourseMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'createAdminCourse'>
-);
+export type CreateAdminCourseMutation = {
+  __typename?: 'Mutation';
+} & Pick<Mutation, 'createAdminCourse'>;
 
 export type MigrateMutationVariables = {
   migrationType: Scalars['String'];
 };
 
-
-export type MigrateMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'migrate'>
-);
+export type MigrateMutation = { __typename?: 'Mutation' } & Pick<
+  Mutation,
+  'migrate'
+>;
 
 export type PromoteToPartnerMutationVariables = {
   uid: Scalars['String'];
 };
 
-
-export type PromoteToPartnerMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'promoteToPartner'>
-);
+export type PromoteToPartnerMutation = {
+  __typename?: 'Mutation';
+} & Pick<Mutation, 'promoteToPartner'>;
 
 export type PartnerTrackVisitorMutationVariables = {
   partnerId: Scalars['String'];
 };
 
-
-export type PartnerTrackVisitorMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'partnerTrackVisitor'>
-);
+export type PartnerTrackVisitorMutation = {
+  __typename?: 'Mutation';
+} & Pick<Mutation, 'partnerTrackVisitor'>;
 
 export type PartnerGetVisitorsQueryVariables = {
   from: Scalars['DateTime'];
   to: Scalars['DateTime'];
 };
 
+export type PartnerGetVisitorsQuery = { __typename?: 'Query' } & {
+  partnerGetVisitors: Array<
+    { __typename?: 'VisitorByDay' } & Pick<
+      VisitorByDay,
+      'date' | 'count'
+    >
+  >;
+};
 
-export type PartnerGetVisitorsQuery = (
-  { __typename?: 'Query' }
-  & { partnerGetVisitors: Array<(
-    { __typename?: 'VisitorByDay' }
-    & Pick<VisitorByDay, 'date' | 'count'>
-  )> }
-);
+export type PartnerSalesQueryVariables = {
+  offset: Scalars['Int'];
+  limit: Scalars['Int'];
+};
 
-export type PartnerGetSalesQueryVariables = {};
-
-
-export type PartnerGetSalesQuery = (
-  { __typename?: 'Query' }
-  & { partnerGetSales: Array<(
-    { __typename?: 'PartnerCourse' }
-    & Pick<PartnerCourse, 'id' | 'royalty' | 'price' | 'createdAt' | 'courseId' | 'bundleId' | 'isCoupon'>
-  )> }
-);
+export type PartnerSalesQuery = { __typename?: 'Query' } & {
+  partnerSales: { __typename?: 'PartnerSaleConnection' } & {
+    edges: Array<
+      { __typename?: 'PartnerSale' } & Pick<
+        PartnerSale,
+        | 'id'
+        | 'royalty'
+        | 'price'
+        | 'createdAt'
+        | 'courseId'
+        | 'bundleId'
+        | 'isCoupon'
+      >
+    >;
+    pageInfo: { __typename?: 'PageInfo' } & Pick<PageInfo, 'total'>;
+  };
+};
 
 export type PaypalCreateOrderMutationVariables = {
   courseId: CourseId;
@@ -597,24 +631,22 @@ export type PaypalCreateOrderMutationVariables = {
   partnerId?: Maybe<Scalars['String']>;
 };
 
-
-export type PaypalCreateOrderMutation = (
-  { __typename?: 'Mutation' }
-  & { paypalCreateOrder: (
-    { __typename?: 'OrderId' }
-    & Pick<OrderId, 'orderId'>
-  ) }
-);
+export type PaypalCreateOrderMutation = {
+  __typename?: 'Mutation';
+} & {
+  paypalCreateOrder: { __typename?: 'OrderId' } & Pick<
+    OrderId,
+    'orderId'
+  >;
+};
 
 export type PaypalApproveOrderMutationVariables = {
   orderId: Scalars['String'];
 };
 
-
-export type PaypalApproveOrderMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'paypalApproveOrder'>
-);
+export type PaypalApproveOrderMutation = {
+  __typename?: 'Mutation';
+} & Pick<Mutation, 'paypalApproveOrder'>;
 
 export type SignUpMutationVariables = {
   username: Scalars['String'];
@@ -622,87 +654,79 @@ export type SignUpMutationVariables = {
   password: Scalars['String'];
 };
 
-
-export type SignUpMutation = (
-  { __typename?: 'Mutation' }
-  & { signUp: (
-    { __typename?: 'SessionToken' }
-    & Pick<SessionToken, 'sessionToken'>
-  ) }
-);
+export type SignUpMutation = { __typename?: 'Mutation' } & {
+  signUp: { __typename?: 'SessionToken' } & Pick<
+    SessionToken,
+    'sessionToken'
+  >;
+};
 
 export type SignInMutationVariables = {
   email: Scalars['String'];
   password: Scalars['String'];
 };
 
-
-export type SignInMutation = (
-  { __typename?: 'Mutation' }
-  & { signIn: (
-    { __typename?: 'SessionToken' }
-    & Pick<SessionToken, 'sessionToken'>
-  ) }
-);
+export type SignInMutation = { __typename?: 'Mutation' } & {
+  signIn: { __typename?: 'SessionToken' } & Pick<
+    SessionToken,
+    'sessionToken'
+  >;
+};
 
 export type PasswordChangeMutationVariables = {
   password: Scalars['String'];
 };
 
-
-export type PasswordChangeMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'passwordChange'>
-);
+export type PasswordChangeMutation = {
+  __typename?: 'Mutation';
+} & Pick<Mutation, 'passwordChange'>;
 
 export type PasswordForgotMutationVariables = {
   email: Scalars['String'];
 };
 
-
-export type PasswordForgotMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'passwordForgot'>
-);
+export type PasswordForgotMutation = {
+  __typename?: 'Mutation';
+} & Pick<Mutation, 'passwordForgot'>;
 
 export type EmailChangeMutationVariables = {
   email: Scalars['String'];
 };
 
-
-export type EmailChangeMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'emailChange'>
-);
+export type EmailChangeMutation = { __typename?: 'Mutation' } & Pick<
+  Mutation,
+  'emailChange'
+>;
 
 export type GetStorefrontCourseQueryVariables = {
   courseId: CourseId;
   bundleId: BundleId;
 };
 
-
-export type GetStorefrontCourseQuery = (
-  { __typename?: 'Query' }
-  & { storefrontCourse?: Maybe<(
-    { __typename?: 'StorefrontCourse' }
-    & Pick<StorefrontCourse, 'header' | 'courseId'>
-    & { bundle: (
-      { __typename?: 'StorefrontBundle' }
-      & Pick<StorefrontBundle, 'header' | 'bundleId' | 'price' | 'imageUrl'>
-    ) }
-  )> }
-);
+export type GetStorefrontCourseQuery = { __typename?: 'Query' } & {
+  storefrontCourse?: Maybe<
+    { __typename?: 'StorefrontCourse' } & Pick<
+      StorefrontCourse,
+      'header' | 'courseId'
+    > & {
+        bundle: { __typename?: 'StorefrontBundle' } & Pick<
+          StorefrontBundle,
+          'header' | 'bundleId' | 'price' | 'imageUrl'
+        >;
+      }
+  >;
+};
 
 export type GetStorefrontCoursesQueryVariables = {};
 
-
-export type GetStorefrontCoursesQuery = (
-  { __typename?: 'Query' }
-  & { storefrontCourses: Array<(
-    { __typename?: 'StorefrontCourse' }
-    & Pick<StorefrontCourse, 'header' | 'courseId' | 'url' | 'imageUrl'>
-  )> }
-);
+export type GetStorefrontCoursesQuery = { __typename?: 'Query' } & {
+  storefrontCourses: Array<
+    { __typename?: 'StorefrontCourse' } & Pick<
+      StorefrontCourse,
+      'header' | 'courseId' | 'url' | 'imageUrl'
+    >
+  >;
+};
 
 export type StripeCreateOrderMutationVariables = {
   imageUrl: Scalars['String'];
@@ -712,59 +736,59 @@ export type StripeCreateOrderMutationVariables = {
   partnerId?: Maybe<Scalars['String']>;
 };
 
-
-export type StripeCreateOrderMutation = (
-  { __typename?: 'Mutation' }
-  & { stripeCreateOrder: (
-    { __typename?: 'StripeId' }
-    & Pick<StripeId, 'id'>
-  ) }
-);
+export type StripeCreateOrderMutation = {
+  __typename?: 'Mutation';
+} & {
+  stripeCreateOrder: { __typename?: 'StripeId' } & Pick<
+    StripeId,
+    'id'
+  >;
+};
 
 export type GetUpgradeableCoursesQueryVariables = {
   courseId: CourseId;
 };
 
-
-export type GetUpgradeableCoursesQuery = (
-  { __typename?: 'Query' }
-  & { upgradeableCourses: Array<(
-    { __typename?: 'StorefrontCourse' }
-    & Pick<StorefrontCourse, 'header' | 'courseId' | 'url'>
-    & { bundle: (
-      { __typename?: 'StorefrontBundle' }
-      & Pick<StorefrontBundle, 'header' | 'bundleId' | 'price' | 'imageUrl'>
-    ) }
-  )> }
-);
+export type GetUpgradeableCoursesQuery = { __typename?: 'Query' } & {
+  upgradeableCourses: Array<
+    { __typename?: 'StorefrontCourse' } & Pick<
+      StorefrontCourse,
+      'header' | 'courseId' | 'url'
+    > & {
+        bundle: { __typename?: 'StorefrontBundle' } & Pick<
+          StorefrontBundle,
+          'header' | 'bundleId' | 'price' | 'imageUrl'
+        >;
+      }
+  >;
+};
 
 export type GetMeQueryVariables = {};
 
-
-export type GetMeQuery = (
-  { __typename?: 'Query' }
-  & { me?: Maybe<(
-    { __typename?: 'User' }
-    & Pick<User, 'uid' | 'email' | 'username' | 'roles'>
-  )> }
-);
-
+export type GetMeQuery = { __typename?: 'Query' } & {
+  me?: Maybe<
+    { __typename?: 'User' } & Pick<
+      User,
+      'uid' | 'email' | 'username' | 'roles'
+    >
+  >;
+};
 
 export const GetBookDocument = gql`
-    query GetBook($path: String!, $fileName: String!) {
-  book(path: $path, fileName: $fileName) {
-    body
-    contentType
-    fileName
+  query GetBook($path: String!, $fileName: String!) {
+    book(path: $path, fileName: $fileName) {
+      body
+      contentType
+      fileName
+    }
   }
-}
-    `;
+`;
 
 /**
  * __useGetBookQuery__
  *
  * To run a query within a React component, call `useGetBookQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetBookQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * When your component renders, `useGetBookQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
@@ -777,28 +801,51 @@ export const GetBookDocument = gql`
  *   },
  * });
  */
-export function useGetBookQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetBookQuery, GetBookQueryVariables>) {
-        return ApolloReactHooks.useQuery<GetBookQuery, GetBookQueryVariables>(GetBookDocument, baseOptions);
-      }
-export function useGetBookLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetBookQuery, GetBookQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<GetBookQuery, GetBookQueryVariables>(GetBookDocument, baseOptions);
-        }
-export type GetBookQueryHookResult = ReturnType<typeof useGetBookQuery>;
-export type GetBookLazyQueryHookResult = ReturnType<typeof useGetBookLazyQuery>;
-export type GetBookQueryResult = ApolloReactCommon.QueryResult<GetBookQuery, GetBookQueryVariables>;
-export const GetOnlineChapterDocument = gql`
-    query GetOnlineChapter($path: String!) {
-  onlineChapter(path: $path) {
-    body
-  }
+export function useGetBookQuery(
+  baseOptions?: ApolloReactHooks.QueryHookOptions<
+    GetBookQuery,
+    GetBookQueryVariables
+  >
+) {
+  return ApolloReactHooks.useQuery<
+    GetBookQuery,
+    GetBookQueryVariables
+  >(GetBookDocument, baseOptions);
 }
-    `;
+export function useGetBookLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    GetBookQuery,
+    GetBookQueryVariables
+  >
+) {
+  return ApolloReactHooks.useLazyQuery<
+    GetBookQuery,
+    GetBookQueryVariables
+  >(GetBookDocument, baseOptions);
+}
+export type GetBookQueryHookResult = ReturnType<
+  typeof useGetBookQuery
+>;
+export type GetBookLazyQueryHookResult = ReturnType<
+  typeof useGetBookLazyQuery
+>;
+export type GetBookQueryResult = ApolloReactCommon.QueryResult<
+  GetBookQuery,
+  GetBookQueryVariables
+>;
+export const GetOnlineChapterDocument = gql`
+  query GetOnlineChapter($path: String!) {
+    onlineChapter(path: $path) {
+      body
+    }
+  }
+`;
 
 /**
  * __useGetOnlineChapterQuery__
  *
  * To run a query within a React component, call `useGetOnlineChapterQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetOnlineChapterQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * When your component renders, `useGetOnlineChapterQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
@@ -810,29 +857,60 @@ export const GetOnlineChapterDocument = gql`
  *   },
  * });
  */
-export function useGetOnlineChapterQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetOnlineChapterQuery, GetOnlineChapterQueryVariables>) {
-        return ApolloReactHooks.useQuery<GetOnlineChapterQuery, GetOnlineChapterQueryVariables>(GetOnlineChapterDocument, baseOptions);
-      }
-export function useGetOnlineChapterLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetOnlineChapterQuery, GetOnlineChapterQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<GetOnlineChapterQuery, GetOnlineChapterQueryVariables>(GetOnlineChapterDocument, baseOptions);
-        }
-export type GetOnlineChapterQueryHookResult = ReturnType<typeof useGetOnlineChapterQuery>;
-export type GetOnlineChapterLazyQueryHookResult = ReturnType<typeof useGetOnlineChapterLazyQuery>;
-export type GetOnlineChapterQueryResult = ApolloReactCommon.QueryResult<GetOnlineChapterQuery, GetOnlineChapterQueryVariables>;
-export const GetDiscountedPriceDocument = gql`
-    query GetDiscountedPrice($courseId: CourseId!, $bundleId: BundleId!, $coupon: String!) {
-  discountedPrice(courseId: $courseId, bundleId: $bundleId, coupon: $coupon) {
-    price
-    isDiscount
-  }
+export function useGetOnlineChapterQuery(
+  baseOptions?: ApolloReactHooks.QueryHookOptions<
+    GetOnlineChapterQuery,
+    GetOnlineChapterQueryVariables
+  >
+) {
+  return ApolloReactHooks.useQuery<
+    GetOnlineChapterQuery,
+    GetOnlineChapterQueryVariables
+  >(GetOnlineChapterDocument, baseOptions);
 }
-    `;
+export function useGetOnlineChapterLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    GetOnlineChapterQuery,
+    GetOnlineChapterQueryVariables
+  >
+) {
+  return ApolloReactHooks.useLazyQuery<
+    GetOnlineChapterQuery,
+    GetOnlineChapterQueryVariables
+  >(GetOnlineChapterDocument, baseOptions);
+}
+export type GetOnlineChapterQueryHookResult = ReturnType<
+  typeof useGetOnlineChapterQuery
+>;
+export type GetOnlineChapterLazyQueryHookResult = ReturnType<
+  typeof useGetOnlineChapterLazyQuery
+>;
+export type GetOnlineChapterQueryResult = ApolloReactCommon.QueryResult<
+  GetOnlineChapterQuery,
+  GetOnlineChapterQueryVariables
+>;
+export const GetDiscountedPriceDocument = gql`
+  query GetDiscountedPrice(
+    $courseId: CourseId!
+    $bundleId: BundleId!
+    $coupon: String!
+  ) {
+    discountedPrice(
+      courseId: $courseId
+      bundleId: $bundleId
+      coupon: $coupon
+    ) {
+      price
+      isDiscount
+    }
+  }
+`;
 
 /**
  * __useGetDiscountedPriceQuery__
  *
  * To run a query within a React component, call `useGetDiscountedPriceQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetDiscountedPriceQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * When your component renders, `useGetDiscountedPriceQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
@@ -846,32 +924,55 @@ export const GetDiscountedPriceDocument = gql`
  *   },
  * });
  */
-export function useGetDiscountedPriceQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetDiscountedPriceQuery, GetDiscountedPriceQueryVariables>) {
-        return ApolloReactHooks.useQuery<GetDiscountedPriceQuery, GetDiscountedPriceQueryVariables>(GetDiscountedPriceDocument, baseOptions);
-      }
-export function useGetDiscountedPriceLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetDiscountedPriceQuery, GetDiscountedPriceQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<GetDiscountedPriceQuery, GetDiscountedPriceQueryVariables>(GetDiscountedPriceDocument, baseOptions);
-        }
-export type GetDiscountedPriceQueryHookResult = ReturnType<typeof useGetDiscountedPriceQuery>;
-export type GetDiscountedPriceLazyQueryHookResult = ReturnType<typeof useGetDiscountedPriceLazyQuery>;
-export type GetDiscountedPriceQueryResult = ApolloReactCommon.QueryResult<GetDiscountedPriceQuery, GetDiscountedPriceQueryVariables>;
-export const GetCoursesDocument = gql`
-    query GetCourses {
-  unlockedCourses {
-    courseId
-    header
-    url
-    imageUrl
-    canUpgrade
-  }
+export function useGetDiscountedPriceQuery(
+  baseOptions?: ApolloReactHooks.QueryHookOptions<
+    GetDiscountedPriceQuery,
+    GetDiscountedPriceQueryVariables
+  >
+) {
+  return ApolloReactHooks.useQuery<
+    GetDiscountedPriceQuery,
+    GetDiscountedPriceQueryVariables
+  >(GetDiscountedPriceDocument, baseOptions);
 }
-    `;
+export function useGetDiscountedPriceLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    GetDiscountedPriceQuery,
+    GetDiscountedPriceQueryVariables
+  >
+) {
+  return ApolloReactHooks.useLazyQuery<
+    GetDiscountedPriceQuery,
+    GetDiscountedPriceQueryVariables
+  >(GetDiscountedPriceDocument, baseOptions);
+}
+export type GetDiscountedPriceQueryHookResult = ReturnType<
+  typeof useGetDiscountedPriceQuery
+>;
+export type GetDiscountedPriceLazyQueryHookResult = ReturnType<
+  typeof useGetDiscountedPriceLazyQuery
+>;
+export type GetDiscountedPriceQueryResult = ApolloReactCommon.QueryResult<
+  GetDiscountedPriceQuery,
+  GetDiscountedPriceQueryVariables
+>;
+export const GetCoursesDocument = gql`
+  query GetCourses {
+    unlockedCourses {
+      courseId
+      header
+      url
+      imageUrl
+      canUpgrade
+    }
+  }
+`;
 
 /**
  * __useGetCoursesQuery__
  *
  * To run a query within a React component, call `useGetCoursesQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetCoursesQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * When your component renders, `useGetCoursesQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
@@ -882,71 +983,56 @@ export const GetCoursesDocument = gql`
  *   },
  * });
  */
-export function useGetCoursesQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetCoursesQuery, GetCoursesQueryVariables>) {
-        return ApolloReactHooks.useQuery<GetCoursesQuery, GetCoursesQueryVariables>(GetCoursesDocument, baseOptions);
-      }
-export function useGetCoursesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetCoursesQuery, GetCoursesQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<GetCoursesQuery, GetCoursesQueryVariables>(GetCoursesDocument, baseOptions);
-        }
-export type GetCoursesQueryHookResult = ReturnType<typeof useGetCoursesQuery>;
-export type GetCoursesLazyQueryHookResult = ReturnType<typeof useGetCoursesLazyQuery>;
-export type GetCoursesQueryResult = ApolloReactCommon.QueryResult<GetCoursesQuery, GetCoursesQueryVariables>;
+export function useGetCoursesQuery(
+  baseOptions?: ApolloReactHooks.QueryHookOptions<
+    GetCoursesQuery,
+    GetCoursesQueryVariables
+  >
+) {
+  return ApolloReactHooks.useQuery<
+    GetCoursesQuery,
+    GetCoursesQueryVariables
+  >(GetCoursesDocument, baseOptions);
+}
+export function useGetCoursesLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    GetCoursesQuery,
+    GetCoursesQueryVariables
+  >
+) {
+  return ApolloReactHooks.useLazyQuery<
+    GetCoursesQuery,
+    GetCoursesQueryVariables
+  >(GetCoursesDocument, baseOptions);
+}
+export type GetCoursesQueryHookResult = ReturnType<
+  typeof useGetCoursesQuery
+>;
+export type GetCoursesLazyQueryHookResult = ReturnType<
+  typeof useGetCoursesLazyQuery
+>;
+export type GetCoursesQueryResult = ApolloReactCommon.QueryResult<
+  GetCoursesQuery,
+  GetCoursesQueryVariables
+>;
 export const GetCourseDocument = gql`
-    query GetCourse($courseId: CourseId!) {
-  unlockedCourse(courseId: $courseId) {
-    courseId
-    header
-    canUpgrade
-    introduction {
-      label
-      data {
+  query GetCourse($courseId: CourseId!) {
+    unlockedCourse(courseId: $courseId) {
+      courseId
+      header
+      canUpgrade
+      introduction {
         label
-        description
-        url
-      }
-    }
-    onboarding {
-      label
-      data {
-        items {
+        data {
           label
           description
           url
-          secondaryUrl
         }
       }
-    }
-    bookDownload {
-      label
-      data {
-        items {
-          label
-          description
-          url
-          fileName
-        }
-      }
-    }
-    bookOnline {
-      label
-      data {
-        chapters {
-          label
-          url
-          sections {
-            label
-            url
-          }
-        }
-      }
-    }
-    curriculum {
-      label
-      data {
-        sections {
-          label
+      onboarding {
+        label
+        data {
           items {
-            kind
             label
             description
             url
@@ -954,16 +1040,54 @@ export const GetCourseDocument = gql`
           }
         }
       }
+      bookDownload {
+        label
+        data {
+          items {
+            label
+            description
+            url
+            fileName
+          }
+        }
+      }
+      bookOnline {
+        label
+        data {
+          chapters {
+            label
+            url
+            sections {
+              label
+              url
+            }
+          }
+        }
+      }
+      curriculum {
+        label
+        data {
+          sections {
+            label
+            items {
+              kind
+              label
+              description
+              url
+              secondaryUrl
+            }
+          }
+        }
+      }
     }
   }
-}
-    `;
+`;
 
 /**
  * __useGetCourseQuery__
  *
  * To run a query within a React component, call `useGetCourseQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetCourseQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * When your component renders, `useGetCourseQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
@@ -975,21 +1099,50 @@ export const GetCourseDocument = gql`
  *   },
  * });
  */
-export function useGetCourseQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetCourseQuery, GetCourseQueryVariables>) {
-        return ApolloReactHooks.useQuery<GetCourseQuery, GetCourseQueryVariables>(GetCourseDocument, baseOptions);
-      }
-export function useGetCourseLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetCourseQuery, GetCourseQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<GetCourseQuery, GetCourseQueryVariables>(GetCourseDocument, baseOptions);
-        }
-export type GetCourseQueryHookResult = ReturnType<typeof useGetCourseQuery>;
-export type GetCourseLazyQueryHookResult = ReturnType<typeof useGetCourseLazyQuery>;
-export type GetCourseQueryResult = ApolloReactCommon.QueryResult<GetCourseQuery, GetCourseQueryVariables>;
-export const CreateFreeCourseDocument = gql`
-    mutation CreateFreeCourse($courseId: CourseId!, $bundleId: BundleId!) {
-  createFreeCourse(courseId: $courseId, bundleId: $bundleId)
+export function useGetCourseQuery(
+  baseOptions?: ApolloReactHooks.QueryHookOptions<
+    GetCourseQuery,
+    GetCourseQueryVariables
+  >
+) {
+  return ApolloReactHooks.useQuery<
+    GetCourseQuery,
+    GetCourseQueryVariables
+  >(GetCourseDocument, baseOptions);
 }
-    `;
-export type CreateFreeCourseMutationFn = ApolloReactCommon.MutationFunction<CreateFreeCourseMutation, CreateFreeCourseMutationVariables>;
+export function useGetCourseLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    GetCourseQuery,
+    GetCourseQueryVariables
+  >
+) {
+  return ApolloReactHooks.useLazyQuery<
+    GetCourseQuery,
+    GetCourseQueryVariables
+  >(GetCourseDocument, baseOptions);
+}
+export type GetCourseQueryHookResult = ReturnType<
+  typeof useGetCourseQuery
+>;
+export type GetCourseLazyQueryHookResult = ReturnType<
+  typeof useGetCourseLazyQuery
+>;
+export type GetCourseQueryResult = ApolloReactCommon.QueryResult<
+  GetCourseQuery,
+  GetCourseQueryVariables
+>;
+export const CreateFreeCourseDocument = gql`
+  mutation CreateFreeCourse(
+    $courseId: CourseId!
+    $bundleId: BundleId!
+  ) {
+    createFreeCourse(courseId: $courseId, bundleId: $bundleId)
+  }
+`;
+export type CreateFreeCourseMutationFn = ApolloReactCommon.MutationFunction<
+  CreateFreeCourseMutation,
+  CreateFreeCourseMutationVariables
+>;
 
 /**
  * __useCreateFreeCourseMutation__
@@ -1009,18 +1162,44 @@ export type CreateFreeCourseMutationFn = ApolloReactCommon.MutationFunction<Crea
  *   },
  * });
  */
-export function useCreateFreeCourseMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CreateFreeCourseMutation, CreateFreeCourseMutationVariables>) {
-        return ApolloReactHooks.useMutation<CreateFreeCourseMutation, CreateFreeCourseMutationVariables>(CreateFreeCourseDocument, baseOptions);
-      }
-export type CreateFreeCourseMutationHookResult = ReturnType<typeof useCreateFreeCourseMutation>;
-export type CreateFreeCourseMutationResult = ApolloReactCommon.MutationResult<CreateFreeCourseMutation>;
-export type CreateFreeCourseMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateFreeCourseMutation, CreateFreeCourseMutationVariables>;
-export const CreateAdminCourseDocument = gql`
-    mutation CreateAdminCourse($uid: String!, $courseId: CourseId!, $bundleId: BundleId!) {
-  createAdminCourse(uid: $uid, courseId: $courseId, bundleId: $bundleId)
+export function useCreateFreeCourseMutation(
+  baseOptions?: ApolloReactHooks.MutationHookOptions<
+    CreateFreeCourseMutation,
+    CreateFreeCourseMutationVariables
+  >
+) {
+  return ApolloReactHooks.useMutation<
+    CreateFreeCourseMutation,
+    CreateFreeCourseMutationVariables
+  >(CreateFreeCourseDocument, baseOptions);
 }
-    `;
-export type CreateAdminCourseMutationFn = ApolloReactCommon.MutationFunction<CreateAdminCourseMutation, CreateAdminCourseMutationVariables>;
+export type CreateFreeCourseMutationHookResult = ReturnType<
+  typeof useCreateFreeCourseMutation
+>;
+export type CreateFreeCourseMutationResult = ApolloReactCommon.MutationResult<
+  CreateFreeCourseMutation
+>;
+export type CreateFreeCourseMutationOptions = ApolloReactCommon.BaseMutationOptions<
+  CreateFreeCourseMutation,
+  CreateFreeCourseMutationVariables
+>;
+export const CreateAdminCourseDocument = gql`
+  mutation CreateAdminCourse(
+    $uid: String!
+    $courseId: CourseId!
+    $bundleId: BundleId!
+  ) {
+    createAdminCourse(
+      uid: $uid
+      courseId: $courseId
+      bundleId: $bundleId
+    )
+  }
+`;
+export type CreateAdminCourseMutationFn = ApolloReactCommon.MutationFunction<
+  CreateAdminCourseMutation,
+  CreateAdminCourseMutationVariables
+>;
 
 /**
  * __useCreateAdminCourseMutation__
@@ -1041,18 +1220,36 @@ export type CreateAdminCourseMutationFn = ApolloReactCommon.MutationFunction<Cre
  *   },
  * });
  */
-export function useCreateAdminCourseMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CreateAdminCourseMutation, CreateAdminCourseMutationVariables>) {
-        return ApolloReactHooks.useMutation<CreateAdminCourseMutation, CreateAdminCourseMutationVariables>(CreateAdminCourseDocument, baseOptions);
-      }
-export type CreateAdminCourseMutationHookResult = ReturnType<typeof useCreateAdminCourseMutation>;
-export type CreateAdminCourseMutationResult = ApolloReactCommon.MutationResult<CreateAdminCourseMutation>;
-export type CreateAdminCourseMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateAdminCourseMutation, CreateAdminCourseMutationVariables>;
-export const MigrateDocument = gql`
-    mutation Migrate($migrationType: String!) {
-  migrate(migrationType: $migrationType)
+export function useCreateAdminCourseMutation(
+  baseOptions?: ApolloReactHooks.MutationHookOptions<
+    CreateAdminCourseMutation,
+    CreateAdminCourseMutationVariables
+  >
+) {
+  return ApolloReactHooks.useMutation<
+    CreateAdminCourseMutation,
+    CreateAdminCourseMutationVariables
+  >(CreateAdminCourseDocument, baseOptions);
 }
-    `;
-export type MigrateMutationFn = ApolloReactCommon.MutationFunction<MigrateMutation, MigrateMutationVariables>;
+export type CreateAdminCourseMutationHookResult = ReturnType<
+  typeof useCreateAdminCourseMutation
+>;
+export type CreateAdminCourseMutationResult = ApolloReactCommon.MutationResult<
+  CreateAdminCourseMutation
+>;
+export type CreateAdminCourseMutationOptions = ApolloReactCommon.BaseMutationOptions<
+  CreateAdminCourseMutation,
+  CreateAdminCourseMutationVariables
+>;
+export const MigrateDocument = gql`
+  mutation Migrate($migrationType: String!) {
+    migrate(migrationType: $migrationType)
+  }
+`;
+export type MigrateMutationFn = ApolloReactCommon.MutationFunction<
+  MigrateMutation,
+  MigrateMutationVariables
+>;
 
 /**
  * __useMigrateMutation__
@@ -1071,18 +1268,36 @@ export type MigrateMutationFn = ApolloReactCommon.MutationFunction<MigrateMutati
  *   },
  * });
  */
-export function useMigrateMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<MigrateMutation, MigrateMutationVariables>) {
-        return ApolloReactHooks.useMutation<MigrateMutation, MigrateMutationVariables>(MigrateDocument, baseOptions);
-      }
-export type MigrateMutationHookResult = ReturnType<typeof useMigrateMutation>;
-export type MigrateMutationResult = ApolloReactCommon.MutationResult<MigrateMutation>;
-export type MigrateMutationOptions = ApolloReactCommon.BaseMutationOptions<MigrateMutation, MigrateMutationVariables>;
-export const PromoteToPartnerDocument = gql`
-    mutation PromoteToPartner($uid: String!) {
-  promoteToPartner(uid: $uid)
+export function useMigrateMutation(
+  baseOptions?: ApolloReactHooks.MutationHookOptions<
+    MigrateMutation,
+    MigrateMutationVariables
+  >
+) {
+  return ApolloReactHooks.useMutation<
+    MigrateMutation,
+    MigrateMutationVariables
+  >(MigrateDocument, baseOptions);
 }
-    `;
-export type PromoteToPartnerMutationFn = ApolloReactCommon.MutationFunction<PromoteToPartnerMutation, PromoteToPartnerMutationVariables>;
+export type MigrateMutationHookResult = ReturnType<
+  typeof useMigrateMutation
+>;
+export type MigrateMutationResult = ApolloReactCommon.MutationResult<
+  MigrateMutation
+>;
+export type MigrateMutationOptions = ApolloReactCommon.BaseMutationOptions<
+  MigrateMutation,
+  MigrateMutationVariables
+>;
+export const PromoteToPartnerDocument = gql`
+  mutation PromoteToPartner($uid: String!) {
+    promoteToPartner(uid: $uid)
+  }
+`;
+export type PromoteToPartnerMutationFn = ApolloReactCommon.MutationFunction<
+  PromoteToPartnerMutation,
+  PromoteToPartnerMutationVariables
+>;
 
 /**
  * __usePromoteToPartnerMutation__
@@ -1101,18 +1316,36 @@ export type PromoteToPartnerMutationFn = ApolloReactCommon.MutationFunction<Prom
  *   },
  * });
  */
-export function usePromoteToPartnerMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<PromoteToPartnerMutation, PromoteToPartnerMutationVariables>) {
-        return ApolloReactHooks.useMutation<PromoteToPartnerMutation, PromoteToPartnerMutationVariables>(PromoteToPartnerDocument, baseOptions);
-      }
-export type PromoteToPartnerMutationHookResult = ReturnType<typeof usePromoteToPartnerMutation>;
-export type PromoteToPartnerMutationResult = ApolloReactCommon.MutationResult<PromoteToPartnerMutation>;
-export type PromoteToPartnerMutationOptions = ApolloReactCommon.BaseMutationOptions<PromoteToPartnerMutation, PromoteToPartnerMutationVariables>;
-export const PartnerTrackVisitorDocument = gql`
-    mutation PartnerTrackVisitor($partnerId: String!) {
-  partnerTrackVisitor(partnerId: $partnerId)
+export function usePromoteToPartnerMutation(
+  baseOptions?: ApolloReactHooks.MutationHookOptions<
+    PromoteToPartnerMutation,
+    PromoteToPartnerMutationVariables
+  >
+) {
+  return ApolloReactHooks.useMutation<
+    PromoteToPartnerMutation,
+    PromoteToPartnerMutationVariables
+  >(PromoteToPartnerDocument, baseOptions);
 }
-    `;
-export type PartnerTrackVisitorMutationFn = ApolloReactCommon.MutationFunction<PartnerTrackVisitorMutation, PartnerTrackVisitorMutationVariables>;
+export type PromoteToPartnerMutationHookResult = ReturnType<
+  typeof usePromoteToPartnerMutation
+>;
+export type PromoteToPartnerMutationResult = ApolloReactCommon.MutationResult<
+  PromoteToPartnerMutation
+>;
+export type PromoteToPartnerMutationOptions = ApolloReactCommon.BaseMutationOptions<
+  PromoteToPartnerMutation,
+  PromoteToPartnerMutationVariables
+>;
+export const PartnerTrackVisitorDocument = gql`
+  mutation PartnerTrackVisitor($partnerId: String!) {
+    partnerTrackVisitor(partnerId: $partnerId)
+  }
+`;
+export type PartnerTrackVisitorMutationFn = ApolloReactCommon.MutationFunction<
+  PartnerTrackVisitorMutation,
+  PartnerTrackVisitorMutationVariables
+>;
 
 /**
  * __usePartnerTrackVisitorMutation__
@@ -1131,26 +1364,41 @@ export type PartnerTrackVisitorMutationFn = ApolloReactCommon.MutationFunction<P
  *   },
  * });
  */
-export function usePartnerTrackVisitorMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<PartnerTrackVisitorMutation, PartnerTrackVisitorMutationVariables>) {
-        return ApolloReactHooks.useMutation<PartnerTrackVisitorMutation, PartnerTrackVisitorMutationVariables>(PartnerTrackVisitorDocument, baseOptions);
-      }
-export type PartnerTrackVisitorMutationHookResult = ReturnType<typeof usePartnerTrackVisitorMutation>;
-export type PartnerTrackVisitorMutationResult = ApolloReactCommon.MutationResult<PartnerTrackVisitorMutation>;
-export type PartnerTrackVisitorMutationOptions = ApolloReactCommon.BaseMutationOptions<PartnerTrackVisitorMutation, PartnerTrackVisitorMutationVariables>;
-export const PartnerGetVisitorsDocument = gql`
-    query PartnerGetVisitors($from: DateTime!, $to: DateTime!) {
-  partnerGetVisitors(from: $from, to: $to) {
-    date
-    count
-  }
+export function usePartnerTrackVisitorMutation(
+  baseOptions?: ApolloReactHooks.MutationHookOptions<
+    PartnerTrackVisitorMutation,
+    PartnerTrackVisitorMutationVariables
+  >
+) {
+  return ApolloReactHooks.useMutation<
+    PartnerTrackVisitorMutation,
+    PartnerTrackVisitorMutationVariables
+  >(PartnerTrackVisitorDocument, baseOptions);
 }
-    `;
+export type PartnerTrackVisitorMutationHookResult = ReturnType<
+  typeof usePartnerTrackVisitorMutation
+>;
+export type PartnerTrackVisitorMutationResult = ApolloReactCommon.MutationResult<
+  PartnerTrackVisitorMutation
+>;
+export type PartnerTrackVisitorMutationOptions = ApolloReactCommon.BaseMutationOptions<
+  PartnerTrackVisitorMutation,
+  PartnerTrackVisitorMutationVariables
+>;
+export const PartnerGetVisitorsDocument = gql`
+  query PartnerGetVisitors($from: DateTime!, $to: DateTime!) {
+    partnerGetVisitors(from: $from, to: $to) {
+      date
+      count
+    }
+  }
+`;
 
 /**
  * __usePartnerGetVisitorsQuery__
  *
  * To run a query within a React component, call `usePartnerGetVisitorsQuery` and pass it any options that fit your needs.
- * When your component renders, `usePartnerGetVisitorsQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * When your component renders, `usePartnerGetVisitorsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
@@ -1163,61 +1411,127 @@ export const PartnerGetVisitorsDocument = gql`
  *   },
  * });
  */
-export function usePartnerGetVisitorsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<PartnerGetVisitorsQuery, PartnerGetVisitorsQueryVariables>) {
-        return ApolloReactHooks.useQuery<PartnerGetVisitorsQuery, PartnerGetVisitorsQueryVariables>(PartnerGetVisitorsDocument, baseOptions);
-      }
-export function usePartnerGetVisitorsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<PartnerGetVisitorsQuery, PartnerGetVisitorsQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<PartnerGetVisitorsQuery, PartnerGetVisitorsQueryVariables>(PartnerGetVisitorsDocument, baseOptions);
-        }
-export type PartnerGetVisitorsQueryHookResult = ReturnType<typeof usePartnerGetVisitorsQuery>;
-export type PartnerGetVisitorsLazyQueryHookResult = ReturnType<typeof usePartnerGetVisitorsLazyQuery>;
-export type PartnerGetVisitorsQueryResult = ApolloReactCommon.QueryResult<PartnerGetVisitorsQuery, PartnerGetVisitorsQueryVariables>;
-export const PartnerGetSalesDocument = gql`
-    query PartnerGetSales {
-  partnerGetSales {
-    id
-    royalty
-    price
-    createdAt
-    courseId
-    bundleId
-    isCoupon
-  }
+export function usePartnerGetVisitorsQuery(
+  baseOptions?: ApolloReactHooks.QueryHookOptions<
+    PartnerGetVisitorsQuery,
+    PartnerGetVisitorsQueryVariables
+  >
+) {
+  return ApolloReactHooks.useQuery<
+    PartnerGetVisitorsQuery,
+    PartnerGetVisitorsQueryVariables
+  >(PartnerGetVisitorsDocument, baseOptions);
 }
-    `;
+export function usePartnerGetVisitorsLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    PartnerGetVisitorsQuery,
+    PartnerGetVisitorsQueryVariables
+  >
+) {
+  return ApolloReactHooks.useLazyQuery<
+    PartnerGetVisitorsQuery,
+    PartnerGetVisitorsQueryVariables
+  >(PartnerGetVisitorsDocument, baseOptions);
+}
+export type PartnerGetVisitorsQueryHookResult = ReturnType<
+  typeof usePartnerGetVisitorsQuery
+>;
+export type PartnerGetVisitorsLazyQueryHookResult = ReturnType<
+  typeof usePartnerGetVisitorsLazyQuery
+>;
+export type PartnerGetVisitorsQueryResult = ApolloReactCommon.QueryResult<
+  PartnerGetVisitorsQuery,
+  PartnerGetVisitorsQueryVariables
+>;
+export const PartnerSalesDocument = gql`
+  query PartnerSales($offset: Int!, $limit: Int!) {
+    partnerSales(offset: $offset, limit: $limit) {
+      edges {
+        id
+        royalty
+        price
+        createdAt
+        courseId
+        bundleId
+        isCoupon
+      }
+      pageInfo {
+        total
+      }
+    }
+  }
+`;
 
 /**
- * __usePartnerGetSalesQuery__
+ * __usePartnerSalesQuery__
  *
- * To run a query within a React component, call `usePartnerGetSalesQuery` and pass it any options that fit your needs.
- * When your component renders, `usePartnerGetSalesQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * To run a query within a React component, call `usePartnerSalesQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePartnerSalesQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = usePartnerGetSalesQuery({
+ * const { data, loading, error } = usePartnerSalesQuery({
  *   variables: {
+ *      offset: // value for 'offset'
+ *      limit: // value for 'limit'
  *   },
  * });
  */
-export function usePartnerGetSalesQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<PartnerGetSalesQuery, PartnerGetSalesQueryVariables>) {
-        return ApolloReactHooks.useQuery<PartnerGetSalesQuery, PartnerGetSalesQueryVariables>(PartnerGetSalesDocument, baseOptions);
-      }
-export function usePartnerGetSalesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<PartnerGetSalesQuery, PartnerGetSalesQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<PartnerGetSalesQuery, PartnerGetSalesQueryVariables>(PartnerGetSalesDocument, baseOptions);
-        }
-export type PartnerGetSalesQueryHookResult = ReturnType<typeof usePartnerGetSalesQuery>;
-export type PartnerGetSalesLazyQueryHookResult = ReturnType<typeof usePartnerGetSalesLazyQuery>;
-export type PartnerGetSalesQueryResult = ApolloReactCommon.QueryResult<PartnerGetSalesQuery, PartnerGetSalesQueryVariables>;
-export const PaypalCreateOrderDocument = gql`
-    mutation PaypalCreateOrder($courseId: CourseId!, $bundleId: BundleId!, $coupon: String, $partnerId: String) {
-  paypalCreateOrder(courseId: $courseId, bundleId: $bundleId, coupon: $coupon, partnerId: $partnerId) {
-    orderId
-  }
+export function usePartnerSalesQuery(
+  baseOptions?: ApolloReactHooks.QueryHookOptions<
+    PartnerSalesQuery,
+    PartnerSalesQueryVariables
+  >
+) {
+  return ApolloReactHooks.useQuery<
+    PartnerSalesQuery,
+    PartnerSalesQueryVariables
+  >(PartnerSalesDocument, baseOptions);
 }
-    `;
-export type PaypalCreateOrderMutationFn = ApolloReactCommon.MutationFunction<PaypalCreateOrderMutation, PaypalCreateOrderMutationVariables>;
+export function usePartnerSalesLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    PartnerSalesQuery,
+    PartnerSalesQueryVariables
+  >
+) {
+  return ApolloReactHooks.useLazyQuery<
+    PartnerSalesQuery,
+    PartnerSalesQueryVariables
+  >(PartnerSalesDocument, baseOptions);
+}
+export type PartnerSalesQueryHookResult = ReturnType<
+  typeof usePartnerSalesQuery
+>;
+export type PartnerSalesLazyQueryHookResult = ReturnType<
+  typeof usePartnerSalesLazyQuery
+>;
+export type PartnerSalesQueryResult = ApolloReactCommon.QueryResult<
+  PartnerSalesQuery,
+  PartnerSalesQueryVariables
+>;
+export const PaypalCreateOrderDocument = gql`
+  mutation PaypalCreateOrder(
+    $courseId: CourseId!
+    $bundleId: BundleId!
+    $coupon: String
+    $partnerId: String
+  ) {
+    paypalCreateOrder(
+      courseId: $courseId
+      bundleId: $bundleId
+      coupon: $coupon
+      partnerId: $partnerId
+    ) {
+      orderId
+    }
+  }
+`;
+export type PaypalCreateOrderMutationFn = ApolloReactCommon.MutationFunction<
+  PaypalCreateOrderMutation,
+  PaypalCreateOrderMutationVariables
+>;
 
 /**
  * __usePaypalCreateOrderMutation__
@@ -1239,18 +1553,36 @@ export type PaypalCreateOrderMutationFn = ApolloReactCommon.MutationFunction<Pay
  *   },
  * });
  */
-export function usePaypalCreateOrderMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<PaypalCreateOrderMutation, PaypalCreateOrderMutationVariables>) {
-        return ApolloReactHooks.useMutation<PaypalCreateOrderMutation, PaypalCreateOrderMutationVariables>(PaypalCreateOrderDocument, baseOptions);
-      }
-export type PaypalCreateOrderMutationHookResult = ReturnType<typeof usePaypalCreateOrderMutation>;
-export type PaypalCreateOrderMutationResult = ApolloReactCommon.MutationResult<PaypalCreateOrderMutation>;
-export type PaypalCreateOrderMutationOptions = ApolloReactCommon.BaseMutationOptions<PaypalCreateOrderMutation, PaypalCreateOrderMutationVariables>;
-export const PaypalApproveOrderDocument = gql`
-    mutation PaypalApproveOrder($orderId: String!) {
-  paypalApproveOrder(orderId: $orderId)
+export function usePaypalCreateOrderMutation(
+  baseOptions?: ApolloReactHooks.MutationHookOptions<
+    PaypalCreateOrderMutation,
+    PaypalCreateOrderMutationVariables
+  >
+) {
+  return ApolloReactHooks.useMutation<
+    PaypalCreateOrderMutation,
+    PaypalCreateOrderMutationVariables
+  >(PaypalCreateOrderDocument, baseOptions);
 }
-    `;
-export type PaypalApproveOrderMutationFn = ApolloReactCommon.MutationFunction<PaypalApproveOrderMutation, PaypalApproveOrderMutationVariables>;
+export type PaypalCreateOrderMutationHookResult = ReturnType<
+  typeof usePaypalCreateOrderMutation
+>;
+export type PaypalCreateOrderMutationResult = ApolloReactCommon.MutationResult<
+  PaypalCreateOrderMutation
+>;
+export type PaypalCreateOrderMutationOptions = ApolloReactCommon.BaseMutationOptions<
+  PaypalCreateOrderMutation,
+  PaypalCreateOrderMutationVariables
+>;
+export const PaypalApproveOrderDocument = gql`
+  mutation PaypalApproveOrder($orderId: String!) {
+    paypalApproveOrder(orderId: $orderId)
+  }
+`;
+export type PaypalApproveOrderMutationFn = ApolloReactCommon.MutationFunction<
+  PaypalApproveOrderMutation,
+  PaypalApproveOrderMutationVariables
+>;
 
 /**
  * __usePaypalApproveOrderMutation__
@@ -1269,20 +1601,42 @@ export type PaypalApproveOrderMutationFn = ApolloReactCommon.MutationFunction<Pa
  *   },
  * });
  */
-export function usePaypalApproveOrderMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<PaypalApproveOrderMutation, PaypalApproveOrderMutationVariables>) {
-        return ApolloReactHooks.useMutation<PaypalApproveOrderMutation, PaypalApproveOrderMutationVariables>(PaypalApproveOrderDocument, baseOptions);
-      }
-export type PaypalApproveOrderMutationHookResult = ReturnType<typeof usePaypalApproveOrderMutation>;
-export type PaypalApproveOrderMutationResult = ApolloReactCommon.MutationResult<PaypalApproveOrderMutation>;
-export type PaypalApproveOrderMutationOptions = ApolloReactCommon.BaseMutationOptions<PaypalApproveOrderMutation, PaypalApproveOrderMutationVariables>;
-export const SignUpDocument = gql`
-    mutation SignUp($username: String!, $email: String!, $password: String!) {
-  signUp(username: $username, email: $email, password: $password) {
-    sessionToken
-  }
+export function usePaypalApproveOrderMutation(
+  baseOptions?: ApolloReactHooks.MutationHookOptions<
+    PaypalApproveOrderMutation,
+    PaypalApproveOrderMutationVariables
+  >
+) {
+  return ApolloReactHooks.useMutation<
+    PaypalApproveOrderMutation,
+    PaypalApproveOrderMutationVariables
+  >(PaypalApproveOrderDocument, baseOptions);
 }
-    `;
-export type SignUpMutationFn = ApolloReactCommon.MutationFunction<SignUpMutation, SignUpMutationVariables>;
+export type PaypalApproveOrderMutationHookResult = ReturnType<
+  typeof usePaypalApproveOrderMutation
+>;
+export type PaypalApproveOrderMutationResult = ApolloReactCommon.MutationResult<
+  PaypalApproveOrderMutation
+>;
+export type PaypalApproveOrderMutationOptions = ApolloReactCommon.BaseMutationOptions<
+  PaypalApproveOrderMutation,
+  PaypalApproveOrderMutationVariables
+>;
+export const SignUpDocument = gql`
+  mutation SignUp(
+    $username: String!
+    $email: String!
+    $password: String!
+  ) {
+    signUp(username: $username, email: $email, password: $password) {
+      sessionToken
+    }
+  }
+`;
+export type SignUpMutationFn = ApolloReactCommon.MutationFunction<
+  SignUpMutation,
+  SignUpMutationVariables
+>;
 
 /**
  * __useSignUpMutation__
@@ -1303,20 +1657,38 @@ export type SignUpMutationFn = ApolloReactCommon.MutationFunction<SignUpMutation
  *   },
  * });
  */
-export function useSignUpMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<SignUpMutation, SignUpMutationVariables>) {
-        return ApolloReactHooks.useMutation<SignUpMutation, SignUpMutationVariables>(SignUpDocument, baseOptions);
-      }
-export type SignUpMutationHookResult = ReturnType<typeof useSignUpMutation>;
-export type SignUpMutationResult = ApolloReactCommon.MutationResult<SignUpMutation>;
-export type SignUpMutationOptions = ApolloReactCommon.BaseMutationOptions<SignUpMutation, SignUpMutationVariables>;
-export const SignInDocument = gql`
-    mutation SignIn($email: String!, $password: String!) {
-  signIn(email: $email, password: $password) {
-    sessionToken
-  }
+export function useSignUpMutation(
+  baseOptions?: ApolloReactHooks.MutationHookOptions<
+    SignUpMutation,
+    SignUpMutationVariables
+  >
+) {
+  return ApolloReactHooks.useMutation<
+    SignUpMutation,
+    SignUpMutationVariables
+  >(SignUpDocument, baseOptions);
 }
-    `;
-export type SignInMutationFn = ApolloReactCommon.MutationFunction<SignInMutation, SignInMutationVariables>;
+export type SignUpMutationHookResult = ReturnType<
+  typeof useSignUpMutation
+>;
+export type SignUpMutationResult = ApolloReactCommon.MutationResult<
+  SignUpMutation
+>;
+export type SignUpMutationOptions = ApolloReactCommon.BaseMutationOptions<
+  SignUpMutation,
+  SignUpMutationVariables
+>;
+export const SignInDocument = gql`
+  mutation SignIn($email: String!, $password: String!) {
+    signIn(email: $email, password: $password) {
+      sessionToken
+    }
+  }
+`;
+export type SignInMutationFn = ApolloReactCommon.MutationFunction<
+  SignInMutation,
+  SignInMutationVariables
+>;
 
 /**
  * __useSignInMutation__
@@ -1336,18 +1708,36 @@ export type SignInMutationFn = ApolloReactCommon.MutationFunction<SignInMutation
  *   },
  * });
  */
-export function useSignInMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<SignInMutation, SignInMutationVariables>) {
-        return ApolloReactHooks.useMutation<SignInMutation, SignInMutationVariables>(SignInDocument, baseOptions);
-      }
-export type SignInMutationHookResult = ReturnType<typeof useSignInMutation>;
-export type SignInMutationResult = ApolloReactCommon.MutationResult<SignInMutation>;
-export type SignInMutationOptions = ApolloReactCommon.BaseMutationOptions<SignInMutation, SignInMutationVariables>;
-export const PasswordChangeDocument = gql`
-    mutation PasswordChange($password: String!) {
-  passwordChange(password: $password)
+export function useSignInMutation(
+  baseOptions?: ApolloReactHooks.MutationHookOptions<
+    SignInMutation,
+    SignInMutationVariables
+  >
+) {
+  return ApolloReactHooks.useMutation<
+    SignInMutation,
+    SignInMutationVariables
+  >(SignInDocument, baseOptions);
 }
-    `;
-export type PasswordChangeMutationFn = ApolloReactCommon.MutationFunction<PasswordChangeMutation, PasswordChangeMutationVariables>;
+export type SignInMutationHookResult = ReturnType<
+  typeof useSignInMutation
+>;
+export type SignInMutationResult = ApolloReactCommon.MutationResult<
+  SignInMutation
+>;
+export type SignInMutationOptions = ApolloReactCommon.BaseMutationOptions<
+  SignInMutation,
+  SignInMutationVariables
+>;
+export const PasswordChangeDocument = gql`
+  mutation PasswordChange($password: String!) {
+    passwordChange(password: $password)
+  }
+`;
+export type PasswordChangeMutationFn = ApolloReactCommon.MutationFunction<
+  PasswordChangeMutation,
+  PasswordChangeMutationVariables
+>;
 
 /**
  * __usePasswordChangeMutation__
@@ -1366,18 +1756,36 @@ export type PasswordChangeMutationFn = ApolloReactCommon.MutationFunction<Passwo
  *   },
  * });
  */
-export function usePasswordChangeMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<PasswordChangeMutation, PasswordChangeMutationVariables>) {
-        return ApolloReactHooks.useMutation<PasswordChangeMutation, PasswordChangeMutationVariables>(PasswordChangeDocument, baseOptions);
-      }
-export type PasswordChangeMutationHookResult = ReturnType<typeof usePasswordChangeMutation>;
-export type PasswordChangeMutationResult = ApolloReactCommon.MutationResult<PasswordChangeMutation>;
-export type PasswordChangeMutationOptions = ApolloReactCommon.BaseMutationOptions<PasswordChangeMutation, PasswordChangeMutationVariables>;
-export const PasswordForgotDocument = gql`
-    mutation PasswordForgot($email: String!) {
-  passwordForgot(email: $email)
+export function usePasswordChangeMutation(
+  baseOptions?: ApolloReactHooks.MutationHookOptions<
+    PasswordChangeMutation,
+    PasswordChangeMutationVariables
+  >
+) {
+  return ApolloReactHooks.useMutation<
+    PasswordChangeMutation,
+    PasswordChangeMutationVariables
+  >(PasswordChangeDocument, baseOptions);
 }
-    `;
-export type PasswordForgotMutationFn = ApolloReactCommon.MutationFunction<PasswordForgotMutation, PasswordForgotMutationVariables>;
+export type PasswordChangeMutationHookResult = ReturnType<
+  typeof usePasswordChangeMutation
+>;
+export type PasswordChangeMutationResult = ApolloReactCommon.MutationResult<
+  PasswordChangeMutation
+>;
+export type PasswordChangeMutationOptions = ApolloReactCommon.BaseMutationOptions<
+  PasswordChangeMutation,
+  PasswordChangeMutationVariables
+>;
+export const PasswordForgotDocument = gql`
+  mutation PasswordForgot($email: String!) {
+    passwordForgot(email: $email)
+  }
+`;
+export type PasswordForgotMutationFn = ApolloReactCommon.MutationFunction<
+  PasswordForgotMutation,
+  PasswordForgotMutationVariables
+>;
 
 /**
  * __usePasswordForgotMutation__
@@ -1396,18 +1804,36 @@ export type PasswordForgotMutationFn = ApolloReactCommon.MutationFunction<Passwo
  *   },
  * });
  */
-export function usePasswordForgotMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<PasswordForgotMutation, PasswordForgotMutationVariables>) {
-        return ApolloReactHooks.useMutation<PasswordForgotMutation, PasswordForgotMutationVariables>(PasswordForgotDocument, baseOptions);
-      }
-export type PasswordForgotMutationHookResult = ReturnType<typeof usePasswordForgotMutation>;
-export type PasswordForgotMutationResult = ApolloReactCommon.MutationResult<PasswordForgotMutation>;
-export type PasswordForgotMutationOptions = ApolloReactCommon.BaseMutationOptions<PasswordForgotMutation, PasswordForgotMutationVariables>;
-export const EmailChangeDocument = gql`
-    mutation EmailChange($email: String!) {
-  emailChange(email: $email)
+export function usePasswordForgotMutation(
+  baseOptions?: ApolloReactHooks.MutationHookOptions<
+    PasswordForgotMutation,
+    PasswordForgotMutationVariables
+  >
+) {
+  return ApolloReactHooks.useMutation<
+    PasswordForgotMutation,
+    PasswordForgotMutationVariables
+  >(PasswordForgotDocument, baseOptions);
 }
-    `;
-export type EmailChangeMutationFn = ApolloReactCommon.MutationFunction<EmailChangeMutation, EmailChangeMutationVariables>;
+export type PasswordForgotMutationHookResult = ReturnType<
+  typeof usePasswordForgotMutation
+>;
+export type PasswordForgotMutationResult = ApolloReactCommon.MutationResult<
+  PasswordForgotMutation
+>;
+export type PasswordForgotMutationOptions = ApolloReactCommon.BaseMutationOptions<
+  PasswordForgotMutation,
+  PasswordForgotMutationVariables
+>;
+export const EmailChangeDocument = gql`
+  mutation EmailChange($email: String!) {
+    emailChange(email: $email)
+  }
+`;
+export type EmailChangeMutationFn = ApolloReactCommon.MutationFunction<
+  EmailChangeMutation,
+  EmailChangeMutationVariables
+>;
 
 /**
  * __useEmailChangeMutation__
@@ -1426,32 +1852,50 @@ export type EmailChangeMutationFn = ApolloReactCommon.MutationFunction<EmailChan
  *   },
  * });
  */
-export function useEmailChangeMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<EmailChangeMutation, EmailChangeMutationVariables>) {
-        return ApolloReactHooks.useMutation<EmailChangeMutation, EmailChangeMutationVariables>(EmailChangeDocument, baseOptions);
-      }
-export type EmailChangeMutationHookResult = ReturnType<typeof useEmailChangeMutation>;
-export type EmailChangeMutationResult = ApolloReactCommon.MutationResult<EmailChangeMutation>;
-export type EmailChangeMutationOptions = ApolloReactCommon.BaseMutationOptions<EmailChangeMutation, EmailChangeMutationVariables>;
+export function useEmailChangeMutation(
+  baseOptions?: ApolloReactHooks.MutationHookOptions<
+    EmailChangeMutation,
+    EmailChangeMutationVariables
+  >
+) {
+  return ApolloReactHooks.useMutation<
+    EmailChangeMutation,
+    EmailChangeMutationVariables
+  >(EmailChangeDocument, baseOptions);
+}
+export type EmailChangeMutationHookResult = ReturnType<
+  typeof useEmailChangeMutation
+>;
+export type EmailChangeMutationResult = ApolloReactCommon.MutationResult<
+  EmailChangeMutation
+>;
+export type EmailChangeMutationOptions = ApolloReactCommon.BaseMutationOptions<
+  EmailChangeMutation,
+  EmailChangeMutationVariables
+>;
 export const GetStorefrontCourseDocument = gql`
-    query GetStorefrontCourse($courseId: CourseId!, $bundleId: BundleId!) {
-  storefrontCourse(courseId: $courseId, bundleId: $bundleId) {
-    header
-    courseId
-    bundle {
+  query GetStorefrontCourse(
+    $courseId: CourseId!
+    $bundleId: BundleId!
+  ) {
+    storefrontCourse(courseId: $courseId, bundleId: $bundleId) {
       header
-      bundleId
-      price
-      imageUrl
+      courseId
+      bundle {
+        header
+        bundleId
+        price
+        imageUrl
+      }
     }
   }
-}
-    `;
+`;
 
 /**
  * __useGetStorefrontCourseQuery__
  *
  * To run a query within a React component, call `useGetStorefrontCourseQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetStorefrontCourseQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * When your component renders, `useGetStorefrontCourseQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
@@ -1464,31 +1908,54 @@ export const GetStorefrontCourseDocument = gql`
  *   },
  * });
  */
-export function useGetStorefrontCourseQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetStorefrontCourseQuery, GetStorefrontCourseQueryVariables>) {
-        return ApolloReactHooks.useQuery<GetStorefrontCourseQuery, GetStorefrontCourseQueryVariables>(GetStorefrontCourseDocument, baseOptions);
-      }
-export function useGetStorefrontCourseLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetStorefrontCourseQuery, GetStorefrontCourseQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<GetStorefrontCourseQuery, GetStorefrontCourseQueryVariables>(GetStorefrontCourseDocument, baseOptions);
-        }
-export type GetStorefrontCourseQueryHookResult = ReturnType<typeof useGetStorefrontCourseQuery>;
-export type GetStorefrontCourseLazyQueryHookResult = ReturnType<typeof useGetStorefrontCourseLazyQuery>;
-export type GetStorefrontCourseQueryResult = ApolloReactCommon.QueryResult<GetStorefrontCourseQuery, GetStorefrontCourseQueryVariables>;
-export const GetStorefrontCoursesDocument = gql`
-    query GetStorefrontCourses {
-  storefrontCourses {
-    header
-    courseId
-    url
-    imageUrl
-  }
+export function useGetStorefrontCourseQuery(
+  baseOptions?: ApolloReactHooks.QueryHookOptions<
+    GetStorefrontCourseQuery,
+    GetStorefrontCourseQueryVariables
+  >
+) {
+  return ApolloReactHooks.useQuery<
+    GetStorefrontCourseQuery,
+    GetStorefrontCourseQueryVariables
+  >(GetStorefrontCourseDocument, baseOptions);
 }
-    `;
+export function useGetStorefrontCourseLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    GetStorefrontCourseQuery,
+    GetStorefrontCourseQueryVariables
+  >
+) {
+  return ApolloReactHooks.useLazyQuery<
+    GetStorefrontCourseQuery,
+    GetStorefrontCourseQueryVariables
+  >(GetStorefrontCourseDocument, baseOptions);
+}
+export type GetStorefrontCourseQueryHookResult = ReturnType<
+  typeof useGetStorefrontCourseQuery
+>;
+export type GetStorefrontCourseLazyQueryHookResult = ReturnType<
+  typeof useGetStorefrontCourseLazyQuery
+>;
+export type GetStorefrontCourseQueryResult = ApolloReactCommon.QueryResult<
+  GetStorefrontCourseQuery,
+  GetStorefrontCourseQueryVariables
+>;
+export const GetStorefrontCoursesDocument = gql`
+  query GetStorefrontCourses {
+    storefrontCourses {
+      header
+      courseId
+      url
+      imageUrl
+    }
+  }
+`;
 
 /**
  * __useGetStorefrontCoursesQuery__
  *
  * To run a query within a React component, call `useGetStorefrontCoursesQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetStorefrontCoursesQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * When your component renders, `useGetStorefrontCoursesQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
@@ -1499,23 +1966,61 @@ export const GetStorefrontCoursesDocument = gql`
  *   },
  * });
  */
-export function useGetStorefrontCoursesQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetStorefrontCoursesQuery, GetStorefrontCoursesQueryVariables>) {
-        return ApolloReactHooks.useQuery<GetStorefrontCoursesQuery, GetStorefrontCoursesQueryVariables>(GetStorefrontCoursesDocument, baseOptions);
-      }
-export function useGetStorefrontCoursesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetStorefrontCoursesQuery, GetStorefrontCoursesQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<GetStorefrontCoursesQuery, GetStorefrontCoursesQueryVariables>(GetStorefrontCoursesDocument, baseOptions);
-        }
-export type GetStorefrontCoursesQueryHookResult = ReturnType<typeof useGetStorefrontCoursesQuery>;
-export type GetStorefrontCoursesLazyQueryHookResult = ReturnType<typeof useGetStorefrontCoursesLazyQuery>;
-export type GetStorefrontCoursesQueryResult = ApolloReactCommon.QueryResult<GetStorefrontCoursesQuery, GetStorefrontCoursesQueryVariables>;
-export const StripeCreateOrderDocument = gql`
-    mutation StripeCreateOrder($imageUrl: String!, $courseId: CourseId!, $bundleId: BundleId!, $coupon: String, $partnerId: String) {
-  stripeCreateOrder(imageUrl: $imageUrl, courseId: $courseId, bundleId: $bundleId, coupon: $coupon, partnerId: $partnerId) {
-    id
-  }
+export function useGetStorefrontCoursesQuery(
+  baseOptions?: ApolloReactHooks.QueryHookOptions<
+    GetStorefrontCoursesQuery,
+    GetStorefrontCoursesQueryVariables
+  >
+) {
+  return ApolloReactHooks.useQuery<
+    GetStorefrontCoursesQuery,
+    GetStorefrontCoursesQueryVariables
+  >(GetStorefrontCoursesDocument, baseOptions);
 }
-    `;
-export type StripeCreateOrderMutationFn = ApolloReactCommon.MutationFunction<StripeCreateOrderMutation, StripeCreateOrderMutationVariables>;
+export function useGetStorefrontCoursesLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    GetStorefrontCoursesQuery,
+    GetStorefrontCoursesQueryVariables
+  >
+) {
+  return ApolloReactHooks.useLazyQuery<
+    GetStorefrontCoursesQuery,
+    GetStorefrontCoursesQueryVariables
+  >(GetStorefrontCoursesDocument, baseOptions);
+}
+export type GetStorefrontCoursesQueryHookResult = ReturnType<
+  typeof useGetStorefrontCoursesQuery
+>;
+export type GetStorefrontCoursesLazyQueryHookResult = ReturnType<
+  typeof useGetStorefrontCoursesLazyQuery
+>;
+export type GetStorefrontCoursesQueryResult = ApolloReactCommon.QueryResult<
+  GetStorefrontCoursesQuery,
+  GetStorefrontCoursesQueryVariables
+>;
+export const StripeCreateOrderDocument = gql`
+  mutation StripeCreateOrder(
+    $imageUrl: String!
+    $courseId: CourseId!
+    $bundleId: BundleId!
+    $coupon: String
+    $partnerId: String
+  ) {
+    stripeCreateOrder(
+      imageUrl: $imageUrl
+      courseId: $courseId
+      bundleId: $bundleId
+      coupon: $coupon
+      partnerId: $partnerId
+    ) {
+      id
+    }
+  }
+`;
+export type StripeCreateOrderMutationFn = ApolloReactCommon.MutationFunction<
+  StripeCreateOrderMutation,
+  StripeCreateOrderMutationVariables
+>;
 
 /**
  * __useStripeCreateOrderMutation__
@@ -1538,33 +2043,48 @@ export type StripeCreateOrderMutationFn = ApolloReactCommon.MutationFunction<Str
  *   },
  * });
  */
-export function useStripeCreateOrderMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<StripeCreateOrderMutation, StripeCreateOrderMutationVariables>) {
-        return ApolloReactHooks.useMutation<StripeCreateOrderMutation, StripeCreateOrderMutationVariables>(StripeCreateOrderDocument, baseOptions);
-      }
-export type StripeCreateOrderMutationHookResult = ReturnType<typeof useStripeCreateOrderMutation>;
-export type StripeCreateOrderMutationResult = ApolloReactCommon.MutationResult<StripeCreateOrderMutation>;
-export type StripeCreateOrderMutationOptions = ApolloReactCommon.BaseMutationOptions<StripeCreateOrderMutation, StripeCreateOrderMutationVariables>;
+export function useStripeCreateOrderMutation(
+  baseOptions?: ApolloReactHooks.MutationHookOptions<
+    StripeCreateOrderMutation,
+    StripeCreateOrderMutationVariables
+  >
+) {
+  return ApolloReactHooks.useMutation<
+    StripeCreateOrderMutation,
+    StripeCreateOrderMutationVariables
+  >(StripeCreateOrderDocument, baseOptions);
+}
+export type StripeCreateOrderMutationHookResult = ReturnType<
+  typeof useStripeCreateOrderMutation
+>;
+export type StripeCreateOrderMutationResult = ApolloReactCommon.MutationResult<
+  StripeCreateOrderMutation
+>;
+export type StripeCreateOrderMutationOptions = ApolloReactCommon.BaseMutationOptions<
+  StripeCreateOrderMutation,
+  StripeCreateOrderMutationVariables
+>;
 export const GetUpgradeableCoursesDocument = gql`
-    query GetUpgradeableCourses($courseId: CourseId!) {
-  upgradeableCourses(courseId: $courseId) {
-    header
-    courseId
-    url
-    bundle {
+  query GetUpgradeableCourses($courseId: CourseId!) {
+    upgradeableCourses(courseId: $courseId) {
       header
-      bundleId
-      price
-      imageUrl
+      courseId
+      url
+      bundle {
+        header
+        bundleId
+        price
+        imageUrl
+      }
     }
   }
-}
-    `;
+`;
 
 /**
  * __useGetUpgradeableCoursesQuery__
  *
  * To run a query within a React component, call `useGetUpgradeableCoursesQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetUpgradeableCoursesQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * When your component renders, `useGetUpgradeableCoursesQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
@@ -1576,31 +2096,54 @@ export const GetUpgradeableCoursesDocument = gql`
  *   },
  * });
  */
-export function useGetUpgradeableCoursesQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetUpgradeableCoursesQuery, GetUpgradeableCoursesQueryVariables>) {
-        return ApolloReactHooks.useQuery<GetUpgradeableCoursesQuery, GetUpgradeableCoursesQueryVariables>(GetUpgradeableCoursesDocument, baseOptions);
-      }
-export function useGetUpgradeableCoursesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetUpgradeableCoursesQuery, GetUpgradeableCoursesQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<GetUpgradeableCoursesQuery, GetUpgradeableCoursesQueryVariables>(GetUpgradeableCoursesDocument, baseOptions);
-        }
-export type GetUpgradeableCoursesQueryHookResult = ReturnType<typeof useGetUpgradeableCoursesQuery>;
-export type GetUpgradeableCoursesLazyQueryHookResult = ReturnType<typeof useGetUpgradeableCoursesLazyQuery>;
-export type GetUpgradeableCoursesQueryResult = ApolloReactCommon.QueryResult<GetUpgradeableCoursesQuery, GetUpgradeableCoursesQueryVariables>;
-export const GetMeDocument = gql`
-    query GetMe {
-  me {
-    uid
-    email
-    username
-    roles
-  }
+export function useGetUpgradeableCoursesQuery(
+  baseOptions?: ApolloReactHooks.QueryHookOptions<
+    GetUpgradeableCoursesQuery,
+    GetUpgradeableCoursesQueryVariables
+  >
+) {
+  return ApolloReactHooks.useQuery<
+    GetUpgradeableCoursesQuery,
+    GetUpgradeableCoursesQueryVariables
+  >(GetUpgradeableCoursesDocument, baseOptions);
 }
-    `;
+export function useGetUpgradeableCoursesLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    GetUpgradeableCoursesQuery,
+    GetUpgradeableCoursesQueryVariables
+  >
+) {
+  return ApolloReactHooks.useLazyQuery<
+    GetUpgradeableCoursesQuery,
+    GetUpgradeableCoursesQueryVariables
+  >(GetUpgradeableCoursesDocument, baseOptions);
+}
+export type GetUpgradeableCoursesQueryHookResult = ReturnType<
+  typeof useGetUpgradeableCoursesQuery
+>;
+export type GetUpgradeableCoursesLazyQueryHookResult = ReturnType<
+  typeof useGetUpgradeableCoursesLazyQuery
+>;
+export type GetUpgradeableCoursesQueryResult = ApolloReactCommon.QueryResult<
+  GetUpgradeableCoursesQuery,
+  GetUpgradeableCoursesQueryVariables
+>;
+export const GetMeDocument = gql`
+  query GetMe {
+    me {
+      uid
+      email
+      username
+      roles
+    }
+  }
+`;
 
 /**
  * __useGetMeQuery__
  *
  * To run a query within a React component, call `useGetMeQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetMeQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * When your component renders, `useGetMeQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
@@ -1611,12 +2154,33 @@ export const GetMeDocument = gql`
  *   },
  * });
  */
-export function useGetMeQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetMeQuery, GetMeQueryVariables>) {
-        return ApolloReactHooks.useQuery<GetMeQuery, GetMeQueryVariables>(GetMeDocument, baseOptions);
-      }
-export function useGetMeLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetMeQuery, GetMeQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<GetMeQuery, GetMeQueryVariables>(GetMeDocument, baseOptions);
-        }
+export function useGetMeQuery(
+  baseOptions?: ApolloReactHooks.QueryHookOptions<
+    GetMeQuery,
+    GetMeQueryVariables
+  >
+) {
+  return ApolloReactHooks.useQuery<GetMeQuery, GetMeQueryVariables>(
+    GetMeDocument,
+    baseOptions
+  );
+}
+export function useGetMeLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    GetMeQuery,
+    GetMeQueryVariables
+  >
+) {
+  return ApolloReactHooks.useLazyQuery<
+    GetMeQuery,
+    GetMeQueryVariables
+  >(GetMeDocument, baseOptions);
+}
 export type GetMeQueryHookResult = ReturnType<typeof useGetMeQuery>;
-export type GetMeLazyQueryHookResult = ReturnType<typeof useGetMeLazyQuery>;
-export type GetMeQueryResult = ApolloReactCommon.QueryResult<GetMeQuery, GetMeQueryVariables>;
+export type GetMeLazyQueryHookResult = ReturnType<
+  typeof useGetMeLazyQuery
+>;
+export type GetMeQueryResult = ApolloReactCommon.QueryResult<
+  GetMeQuery,
+  GetMeQueryVariables
+>;

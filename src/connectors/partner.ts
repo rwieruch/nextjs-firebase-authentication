@@ -42,11 +42,23 @@ export class PartnerConnector {
     return await this.partnerSaleRepository.save(partnerSale);
   }
 
-  async getSalesByPartner(userId: string) {
-    return await this.partnerSaleRepository.find({
+  async getSalesByPartner(
+    userId: string,
+    offset: number,
+    limit: number
+  ) {
+    const edges = await this.partnerSaleRepository.find({
       where: { partnerId: userId },
       relations: ['course'],
+      skip: offset,
+      take: limit,
     });
+
+    const total = await this.partnerSaleRepository.count({
+      partnerId: userId,
+    });
+
+    return { edges, total };
   }
 
   async createVisitor(partnerId: string) {

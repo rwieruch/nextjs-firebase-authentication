@@ -23,9 +23,9 @@ export const resolvers: Resolvers = {
         return [];
       }
     },
-    partnerGetSales: async (
+    partnerSales: async (
       parent,
-      args,
+      { offset, limit },
       { me, partnerConnector }
     ) => {
       if (!me) {
@@ -33,19 +33,29 @@ export const resolvers: Resolvers = {
       }
 
       try {
-        const salesByPartner = await partnerConnector.getSalesByPartner(
-          me.uid
+        const {
+          edges,
+          total,
+        } = await partnerConnector.getSalesByPartner(
+          me.uid,
+          offset,
+          limit
         );
 
-        return salesByPartner.map(saleByPartner => ({
-          id: saleByPartner.id,
-          createdAt: saleByPartner.createdAt,
-          royalty: saleByPartner.royalty,
-          price: saleByPartner.course.price,
-          courseId: saleByPartner.course.courseId,
-          bundleId: saleByPartner.course.bundleId,
-          isCoupon: !!saleByPartner.course.coupon,
-        }));
+        return {
+          edges: edges.map(saleByPartner => ({
+            id: saleByPartner.id,
+            createdAt: saleByPartner.createdAt,
+            royalty: saleByPartner.royalty,
+            price: saleByPartner.course.price,
+            courseId: saleByPartner.course.courseId,
+            bundleId: saleByPartner.course.bundleId,
+            isCoupon: !!saleByPartner.course.coupon,
+          })),
+          pageInfo: {
+            total,
+          },
+        };
       } catch (error) {
         return [];
       }

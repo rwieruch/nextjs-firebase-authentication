@@ -21,16 +21,21 @@ export const PARTNER_GET_VISITORS = gql`
   }
 `;
 
-export const PARTNER_GET_SALES = gql`
-  query PartnerGetSales {
-    partnerGetSales {
-      id
-      royalty
-      price
-      createdAt
-      courseId
-      bundleId
-      isCoupon
+export const PARTNER_SALES = gql`
+  query PartnerSales($offset: Int!, $limit: Int!) {
+    partnerSales(offset: $offset, limit: $limit) {
+      edges {
+        id
+        royalty
+        price
+        createdAt
+        courseId
+        bundleId
+        isCoupon
+      }
+      pageInfo {
+        total
+      }
     }
   }
 `;

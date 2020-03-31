@@ -7,7 +7,7 @@ export default gql`
       to: DateTime!
     ): [VisitorByDay!]!
 
-    partnerGetSales: [PartnerCourse!]!
+    partnerSales(offset: Int!, limit: Int!): PartnerSaleConnection!
   }
 
   extend type Mutation {
@@ -21,7 +21,16 @@ export default gql`
     count: Int!
   }
 
-  type PartnerCourse {
+  type PartnerSaleConnection {
+    edges: [PartnerSale!]!
+    pageInfo: PageInfo!
+  }
+
+  type PageInfo {
+    total: Int!
+  }
+
+  type PartnerSale {
     id: String!
     createdAt: DateTime!
     royalty: Int!

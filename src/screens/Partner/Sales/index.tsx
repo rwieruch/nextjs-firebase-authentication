@@ -1,7 +1,7 @@
 import React from 'react';
 import { Skeleton, Table } from 'antd';
 
-import { User, usePartnerGetSalesQuery } from '@generated/client';
+import { User, usePartnerSalesLazyQuery } from '@generated/client';
 import useErrorIndicator from '@hooks/useErrorIndicator';
 import { formatDateTime, formatPrice } from '@services/format';
 
@@ -38,17 +38,32 @@ interface SalesTableProps {
   isPartner: boolean;
 }
 
+const LIMIT = 10;
+
 const SalesTable = ({ me, isPartner }: SalesTableProps) => {
   if (!isPartner) {
     return null;
   }
 
-  const { data, loading, error } = usePartnerGetSalesQuery();
+  const [
+    getPartnerSales,
+    { loading, error, data },
+  ] = usePartnerSalesLazyQuery();
+
+  React.useEffect(() => {
+    getPartnerSales({
+      variables: {
+        offset: 0,
+        limit: LIMIT,
+      },
+    });
+  }, []);
 
   const [pagination, setPagination] = React.useState({
     total: 0,
-    pageSize: 1,
-    current: 0,
+    pageSize: LIMIT,
+    current: 1,
+    simple: true,
   });
 
   React.useEffect(() => {
@@ -57,42 +72,46 @@ const SalesTable = ({ me, isPartner }: SalesTableProps) => {
     }
 
     setPagination({
-      total: data.partnerGetSales.length,
-      pageSize: 1,
-      current: 0,
+      ...pagination,
+      total: data.partnerSales.pageInfo.total,
     });
   }, [data]);
-
-  console.log(data);
 
   useErrorIndicator({
     error,
   });
-
-  if (loading) return <Skeleton active />;
-  if (!data) return null;
 
   const handleChange = (newPagination: any) => {
     setPagination({
       ...pagination,
       current: newPagination.current,
     });
+
+    getPartnerSales({
+      variables: {
+        offset: Math.round(LIMIT * newPagination.current - 1),
+        limit: LIMIT,
+      },
+    });
   };
 
-  const dataSource = data.partnerGetSales.map(partnerSale => ({
-    ...partnerSale,
-    createdAt: formatDateTime(new Date(partnerSale.createdAt)),
-    price: formatPrice(partnerSale.price),
-    royalty: formatPrice(partnerSale.royalty),
-  }));
+  const dataSource = (data?.partnerSales?.edges || []).map(
+    partnerSale => ({
+      ...partnerSale,
+      createdAt: formatDateTime(new Date(partnerSale.createdAt)),
+      price: formatPrice(partnerSale.price),
+      royalty: formatPrice(partnerSale.royalty),
+    })
+  );
 
   return (
     <Table
+      rowKey="id"
       columns={columns}
       dataSource={dataSource}
       pagination={pagination}
       onChange={handleChange}
-      loading={false}
+      loading={loading}
     />
   );
 };
