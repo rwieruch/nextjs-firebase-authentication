@@ -1,7 +1,7 @@
 import { Between } from 'typeorm';
 import { Connection, Repository } from 'typeorm';
 
-import { VisitorByDay } from '@generated/client';
+import { VisitorByDay, PartnerPayment } from '@generated/client';
 import { PartnerVisitor, PartnerSale } from '@models/partner';
 import { Course } from '@models/course';
 import { PARTNER_PERCENTAGE } from '@constants/partner';
@@ -11,6 +11,13 @@ const sameDay = (x: Date, y: Date) => {
     x.getFullYear() === y.getFullYear() &&
     x.getMonth() === y.getMonth() &&
     x.getDate() === y.getDate()
+  );
+};
+
+const sameMonth = (x: Date, y: Date) => {
+  return (
+    x.getFullYear() === y.getFullYear() &&
+    x.getMonth() === y.getMonth()
   );
 };
 
@@ -61,6 +68,37 @@ export class PartnerConnector {
     return { edges, total };
   }
 
+  async getPaymentsByPartner(userId: string) {
+    const partnerSales = await this.partnerSaleRepository.find({
+      where: { partnerId: userId },
+    });
+
+    const aggregateByMonth = (
+      acc: PartnerPayment[],
+      dbValue: PartnerSale
+    ) => {
+      const prevValue = acc[acc.length - 1];
+
+      const newEntry =
+        !acc.length ||
+        !sameMonth(prevValue.createdAt, dbValue.createdAt);
+
+      if (newEntry) {
+        acc = acc.concat({
+          createdAt: dbValue.createdAt,
+          royalty: dbValue.royalty,
+        });
+      } else {
+        acc[acc.length - 1].royalty =
+          prevValue.royalty + dbValue.royalty;
+      }
+
+      return acc;
+    };
+
+    return partnerSales.reduce(aggregateByMonth, []);
+  }
+
   async createVisitor(partnerId: string) {
     const partnerVisitor = new PartnerVisitor();
 
@@ -93,7 +131,7 @@ export class PartnerConnector {
           count: 1,
         });
       } else {
-        prevValue.count = prevValue.count + 1;
+        acc[acc.length - 1].count = prevValue.count + 1;
       }
 
       return acc;

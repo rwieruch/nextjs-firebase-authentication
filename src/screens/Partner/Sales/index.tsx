@@ -1,5 +1,5 @@
 import React from 'react';
-import { Skeleton, Table } from 'antd';
+import { Table } from 'antd';
 
 import { User, usePartnerSalesLazyQuery } from '@generated/client';
 import useErrorIndicator from '@hooks/useErrorIndicator';

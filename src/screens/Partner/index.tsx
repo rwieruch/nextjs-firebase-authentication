@@ -6,7 +6,7 @@ import { Card, Layout as AntdLayout, Breadcrumb } from 'antd';
 
 import * as ROUTES from '@constants/routes';
 import * as ROLES from '@constants/roles';
-import { User, StorefrontCourse } from '@generated/client';
+import { User } from '@generated/client';
 import { GET_ME } from '@queries/user';
 import { Session } from '@typeDefs/session';
 import Layout from '@components/Layout';
@@ -15,6 +15,7 @@ import Faq from './Faq';
 import GetStarted from './GetStarted';
 import Visitors from './Visitors';
 import Sales from './Sales';
+import Payments from './Payments';
 import Assets from './Assets';
 
 const getTabs = (isPartner: boolean) => {
@@ -41,6 +42,10 @@ const getTabs = (isPartner: boolean) => {
       },
       {
         key: 'tab5',
+        tab: 'Payments',
+      },
+      {
+        key: 'tab6',
         tab: 'Assets',
       },
     ]);
@@ -57,7 +62,8 @@ const getTabsContent = (
   tab2: <GetStarted me={me} isPartner={isPartner} />,
   tab3: <Visitors me={me} isPartner={isPartner} />,
   tab4: <Sales me={me} isPartner={isPartner} />,
-  tab5: <Assets isPartner={isPartner} />,
+  tab5: <Payments me={me} isPartner={isPartner} />,
+  tab6: <Assets isPartner={isPartner} />,
 });
 
 const StyledContent = styled(AntdLayout.Content)`

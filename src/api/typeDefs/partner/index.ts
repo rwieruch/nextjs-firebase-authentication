@@ -8,6 +8,7 @@ export default gql`
     ): [VisitorByDay!]!
 
     partnerSales(offset: Int!, limit: Int!): PartnerSaleConnection!
+    partnerPayments: [PartnerPayment!]!
   }
 
   extend type Mutation {
@@ -26,10 +27,6 @@ export default gql`
     pageInfo: PageInfo!
   }
 
-  type PageInfo {
-    total: Int!
-  }
-
   type PartnerSale {
     id: String!
     createdAt: DateTime!
@@ -38,5 +35,14 @@ export default gql`
     courseId: CourseId!
     bundleId: BundleId!
     isCoupon: Boolean!
+  }
+
+  type PartnerPayment {
+    createdAt: DateTime!
+    royalty: Int!
+  }
+
+  type PageInfo {
+    total: Int!
   }
 `;

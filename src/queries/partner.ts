@@ -39,3 +39,12 @@ export const PARTNER_SALES = gql`
     }
   }
 `;
+
+export const PARTNER_PAYMENTS = gql`
+  query PartnerPayments {
+    partnerPayments {
+      createdAt
+      royalty
+    }
+  }
+`;

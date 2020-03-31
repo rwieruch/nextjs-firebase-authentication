@@ -60,6 +60,21 @@ export const resolvers: Resolvers = {
         return [];
       }
     },
+    partnerPayments: async (
+      parent,
+      args,
+      { me, partnerConnector }
+    ) => {
+      if (!me) {
+        return [];
+      }
+
+      try {
+        return await partnerConnector.getPaymentsByPartner(me.uid);
+      } catch (error) {
+        return [];
+      }
+    },
   },
   Mutation: {
     promoteToPartner: async (parent, { uid }, { me }) => {
