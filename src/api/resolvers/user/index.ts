@@ -6,7 +6,7 @@ interface Resolvers {
 
 export const resolvers: Resolvers = {
   Query: {
-    me: (parent, args, { me }) => {
+    me: (_, __, { me }) => {
       const rolesObject = me?.customClaims || {};
       const roles = Object.keys(rolesObject).filter(
         key => rolesObject[key]

@@ -3,7 +3,7 @@ import { ForbiddenError } from 'apollo-server';
 
 import { hasAdminRole } from '@validation/admin';
 
-export const isAdmin = rule()(async (parent, args, { me }) => {
+export const isAdmin = rule()(async (_, __, { me }) => {
   if (!me) {
     return new ForbiddenError('Not authenticated as user.');
   }

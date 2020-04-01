@@ -9,7 +9,7 @@ interface Resolvers {
 export const resolvers: Resolvers = {
   Query: {
     upgradeableCourses: async (
-      parent,
+      _,
       { courseId },
       { me, courseConnector }
     ) => {

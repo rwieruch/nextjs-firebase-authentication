@@ -2,7 +2,7 @@ import { ApolloServer } from 'apollo-server-micro';
 import cors from 'micro-cors';
 
 import getConnection from '@models/index';
-import { Course } from '@models/course';
+import { AdminConnector } from '@connectors/admin';
 import { PartnerConnector } from '@connectors/partner';
 import { CourseConnector } from '@connectors/course';
 import { ServerRequest, ServerResponse } from '@typeDefs/server';
@@ -45,6 +45,7 @@ export default async (req: ServerRequest, res: ServerResponse) => {
     context: async ({ req, res }): Promise<ResolverContext> => {
       const me = await getMe(req, res);
 
+      const adminConnector = new AdminConnector();
       const partnerConnector = new PartnerConnector(connection!);
       const courseConnector = new CourseConnector(connection!);
 
@@ -52,6 +53,7 @@ export default async (req: ServerRequest, res: ServerResponse) => {
         req,
         res,
         me,
+        adminConnector,
         courseConnector,
         partnerConnector,
       };

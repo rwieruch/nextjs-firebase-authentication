@@ -3,7 +3,7 @@ import { ForbiddenError } from 'apollo-server';
 
 import { hasPartnerRole } from '@validation/partner';
 
-export const isPartner = rule()(async (parent, args, { me }) => {
+export const isPartner = rule()(async (_, __, { me }) => {
   if (!me) {
     return new ForbiddenError('Not authenticated as user.');
   }

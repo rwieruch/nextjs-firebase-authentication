@@ -10,11 +10,7 @@ interface Resolvers {
 
 export const resolvers: Resolvers = {
   Mutation: {
-    migrate: async (
-      parent,
-      { migrationType },
-      { me, courseConnector }
-    ) => {
+    migrate: async (_, { migrationType }, { courseConnector }) => {
       switch (migrationType) {
         case 'COURSES':
           try {

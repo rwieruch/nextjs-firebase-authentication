@@ -12,7 +12,7 @@ export const resolvers: Resolvers = {
   Mutation: {
     // https://stripe.com/docs/payments/checkout/one-time#create-one-time-payments
     stripeCreateOrder: async (
-      parent,
+      _,
       { imageUrl, courseId, bundleId, coupon, partnerId },
       { me, courseConnector }
     ) => {

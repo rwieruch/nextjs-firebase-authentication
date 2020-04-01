@@ -12,7 +12,7 @@ interface Resolvers {
 
 export const resolvers: Resolvers = {
   Mutation: {
-    signIn: async (parent, { email, password }) => {
+    signIn: async (_, { email, password }) => {
       let result;
 
       try {
@@ -35,7 +35,7 @@ export const resolvers: Resolvers = {
 
       return { sessionToken };
     },
-    signUp: async (parent, { username, email, password }) => {
+    signUp: async (_, { username, email, password }) => {
       try {
         await firebaseAdmin.auth().createUser({
           email,
@@ -90,7 +90,7 @@ export const resolvers: Resolvers = {
 
       return { sessionToken };
     },
-    passwordForgot: async (parent, { email }) => {
+    passwordForgot: async (_, { email }) => {
       try {
         await firebase.auth().sendPasswordResetEmail(email);
       } catch (error) {
@@ -99,7 +99,7 @@ export const resolvers: Resolvers = {
 
       return true;
     },
-    passwordChange: async (parent, { password }, { me }) => {
+    passwordChange: async (_, { password }, { me }) => {
       try {
         await firebaseAdmin.auth().updateUser(me?.uid || '', {
           password,
@@ -110,7 +110,7 @@ export const resolvers: Resolvers = {
 
       return true;
     },
-    emailChange: async (parent, { email }, { me }) => {
+    emailChange: async (_, { email }, { me }) => {
       try {
         await firebaseAdmin.auth().updateUser(me?.uid || '', {
           email,

@@ -12,11 +12,7 @@ interface Resolvers {
 
 export const resolvers: Resolvers = {
   Query: {
-    unlockedCourses: async (
-      parent,
-      args,
-      { me, courseConnector }
-    ) => {
+    unlockedCourses: async (_, __, { me, courseConnector }) => {
       if (!me) {
         return [];
       }
@@ -42,7 +38,7 @@ export const resolvers: Resolvers = {
       }));
     },
     unlockedCourse: async (
-      parent,
+      _,
       { courseId },
       { me, courseConnector }
     ) => {
@@ -72,7 +68,7 @@ export const resolvers: Resolvers = {
   },
   Mutation: {
     createFreeCourse: async (
-      parent,
+      _,
       { courseId, bundleId },
       { me, courseConnector }
     ) => {
@@ -104,7 +100,7 @@ export const resolvers: Resolvers = {
       return true;
     },
     createAdminCourse: async (
-      parent,
+      _,
       { uid, courseId, bundleId },
       { courseConnector }
     ) => {

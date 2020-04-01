@@ -1,5 +1,4 @@
 import { QueryResolvers, MutationResolvers } from '@generated/server';
-import firebaseAdmin from '@services/firebase/admin';
 import { hasPartnerRole } from '@validation/partner';
 
 interface Resolvers {
@@ -10,7 +9,7 @@ interface Resolvers {
 export const resolvers: Resolvers = {
   Query: {
     partnerGetVisitors: async (
-      parent,
+      _,
       { from, to },
       { partnerConnector }
     ) => {
@@ -24,7 +23,7 @@ export const resolvers: Resolvers = {
       }
     },
     partnerSales: async (
-      parent,
+      _,
       { offset, limit },
       { me, partnerConnector }
     ) => {
@@ -60,11 +59,7 @@ export const resolvers: Resolvers = {
         return [];
       }
     },
-    partnerPayments: async (
-      parent,
-      args,
-      { me, partnerConnector }
-    ) => {
+    partnerPayments: async (_, __, { me, partnerConnector }) => {
       if (!me) {
         return [];
       }
@@ -77,10 +72,9 @@ export const resolvers: Resolvers = {
     },
   },
   Mutation: {
-    promoteToPartner: async (parent, { uid }, { me }) => {
+    promoteToPartner: async (_, { uid }, { adminConnector }) => {
       try {
-        await firebaseAdmin.auth().setCustomUserClaims(uid, {
-          ...me?.customClaims,
+        await adminConnector.setCustomClaims(uid, {
           partner: true,
         });
       } catch (error) {
@@ -90,12 +84,12 @@ export const resolvers: Resolvers = {
       return true;
     },
     partnerTrackVisitor: async (
-      parent,
+      _,
       { partnerId },
-      { partnerConnector }
+      { partnerConnector, adminConnector }
     ) => {
       try {
-        const partner = await firebaseAdmin.auth().getUser(partnerId);
+        const partner = await adminConnector.getUser(partnerId);
 
         if (!hasPartnerRole(partner)) {
           return false;

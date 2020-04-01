@@ -16,7 +16,7 @@ export const resolvers: Resolvers = {
   Mutation: {
     // https://developer.paypal.com/docs/checkout/reference/server-integration/set-up-transaction/
     paypalCreateOrder: async (
-      parent,
+      _,
       { courseId, bundleId, coupon, partnerId },
       { me, courseConnector }
     ) => {
@@ -76,7 +76,7 @@ export const resolvers: Resolvers = {
     },
     // https://developer.paypal.com/docs/checkout/reference/server-integration/capture-transaction/
     paypalApproveOrder: async (
-      parent,
+      _,
       { orderId },
       { me, courseConnector, partnerConnector }
     ) => {
