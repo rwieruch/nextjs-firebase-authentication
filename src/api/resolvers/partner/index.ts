@@ -1,6 +1,6 @@
 import { QueryResolvers, MutationResolvers } from '@generated/server';
-import { Course } from '@models/course';
 import firebaseAdmin from '@services/firebase/admin';
+import { hasPartnerRole } from '@validation/partner';
 
 interface Resolvers {
   Query: QueryResolvers;
@@ -94,6 +94,16 @@ export const resolvers: Resolvers = {
       { partnerId },
       { partnerConnector }
     ) => {
+      try {
+        const partner = await firebaseAdmin.auth().getUser(partnerId);
+
+        if (!hasPartnerRole(partner)) {
+          return false;
+        }
+      } catch (error) {
+        return false;
+      }
+
       try {
         await partnerConnector.createVisitor(partnerId);
       } catch (error) {

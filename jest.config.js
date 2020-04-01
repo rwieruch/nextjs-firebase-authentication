@@ -12,6 +12,7 @@ module.exports = {
     '^@screens(.*)$': '<rootDir>/src/screens$1',
     '^@hooks(.*)$': '<rootDir>/src/hooks$1',
     '^@services(.*)$': '<rootDir>/src/services$1',
+    '^@validation(.*)$': '<rootDir>/src/validation$1',
     '^@constants(.*)$': '<rootDir>/src/constants$1',
     '^@context(.*)$': '<rootDir>/src/context$1',
     '^@queries(.*)$': '<rootDir>/src/queries$1',

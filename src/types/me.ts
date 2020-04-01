@@ -2,10 +2,12 @@ import * as firebaseAdminVanilla from 'firebase-admin';
 
 type Claims = {
   admin?: boolean;
+  role?: boolean;
 };
 
-type AdminUser = {
-  customClaims: Claims;
+type WithClaims = {
+  customClaims?: (Claims & { [key: string]: any }) | undefined;
 };
 
-export type Me = firebaseAdminVanilla.auth.UserRecord & AdminUser;
+export type Me = firebaseAdminVanilla.auth.UserRecord;
+// & WithClaims;

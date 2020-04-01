@@ -45,8 +45,8 @@ export default async (req: ServerRequest, res: ServerResponse) => {
     context: async ({ req, res }): Promise<ResolverContext> => {
       const me = await getMe(req, res);
 
-      const partnerConnector = new PartnerConnector(connection);
-      const courseConnector = new CourseConnector(connection);
+      const partnerConnector = new PartnerConnector(connection!);
+      const courseConnector = new CourseConnector(connection!);
 
       return {
         req,

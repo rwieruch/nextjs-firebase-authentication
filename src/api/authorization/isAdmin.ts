@@ -9,6 +9,6 @@ export const isAdmin = rule()(async (parent, args, { me }) => {
   }
 
   return me.customClaims && me.customClaims[ROLES.ADMIN]
-     true
+    ? true
     : new ForbiddenError('No admin user.');
 });

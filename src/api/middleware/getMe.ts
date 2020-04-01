@@ -1,17 +1,9 @@
 import { AuthenticationError } from 'apollo-server-micro';
-import * as firebaseAdminVanilla from 'firebase-admin';
 
 import firebaseAdmin from '@services/firebase/admin';
 
 import { ServerResponse, ServerRequest } from '@typeDefs/server';
-
-type Claims = {
-  admin: boolean;
-};
-
-type WithClaims = {
-  customClaims: Claims;
-};
+import { Me } from '@typeDefs/me';
 
 export default async (req: ServerRequest, res: ServerResponse) => {
   const { session } = req.cookies;
@@ -20,17 +12,13 @@ export default async (req: ServerRequest, res: ServerResponse) => {
     return undefined;
   }
 
-  const checkRevoked = true;
+  const CHECK_REVOKED = true;
 
   return await firebaseAdmin
     .auth()
-    .verifySessionCookie(session, checkRevoked)
+    .verifySessionCookie(session, CHECK_REVOKED)
     .then(async claims => {
-      return (await firebaseAdmin
-        .auth()
-        .getUser(
-          claims.uid
-        )) as firebaseAdminVanilla.auth.UserRecord & WithClaims;
+      return (await firebaseAdmin.auth().getUser(claims.uid)) as Me;
     })
     .catch(error => {
       throw new AuthenticationError(error.message);
