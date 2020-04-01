@@ -1,4 +1,4 @@
-import { Between } from 'typeorm';
+import { LessThan } from 'typeorm';
 import { Connection, Repository } from 'typeorm';
 
 import { Coupon } from '@models/coupon';
@@ -15,6 +15,8 @@ export class CouponConnector {
     discount: number,
     count: number
   ) {
+    await this.removeExpiredCoupons();
+
     const expiresAt = new Date();
     expiresAt.setDate(expiresAt.getDate() + 7);
 
@@ -67,6 +69,20 @@ export class CouponConnector {
       await this.couponRepository.save(couponEntity);
     } else {
       await this.couponRepository.remove(couponEntity);
+    }
+
+    return;
+  }
+
+  async removeExpiredCoupons() {
+    const coupons = await this.couponRepository.find({
+      where: {
+        expiresAt: LessThan(new Date()),
+      },
+    });
+
+    for (let i = 0; i < coupons.length; i++) {
+      await this.couponRepository.remove(coupons[i]);
     }
 
     return;
