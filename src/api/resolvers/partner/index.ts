@@ -8,7 +8,7 @@ interface Resolvers {
 
 export const resolvers: Resolvers = {
   Query: {
-    partnerGetVisitors: async (
+    partnerVisitors: async (
       _,
       { from, to },
       { partnerConnector }

@@ -293,7 +293,7 @@ export type Query = {
   onlineChapter: Markdown;
   upgradeableCourses: Array<StorefrontCourse>;
   discountedPrice: Discount;
-  partnerGetVisitors: Array<VisitorByDay>;
+  partnerVisitors: Array<VisitorByDay>;
   partnerSales: PartnerSaleConnection;
   partnerPayments: Array<PartnerPayment>;
 };
@@ -338,7 +338,7 @@ export type QueryDiscountedPriceArgs = {
 };
 
 
-export type QueryPartnerGetVisitorsArgs = {
+export type QueryPartnerVisitorsArgs = {
   from: Scalars['DateTime'];
   to: Scalars['DateTime'];
 };
@@ -760,7 +760,7 @@ export type QueryResolvers<ContextType = ResolverContext, ParentType extends Res
   onlineChapter?: Resolver<ResolversTypes['Markdown'], ParentType, ContextType, RequireFields<QueryOnlineChapterArgs, 'path'>>,
   upgradeableCourses?: Resolver<Array<ResolversTypes['StorefrontCourse']>, ParentType, ContextType, RequireFields<QueryUpgradeableCoursesArgs, 'courseId'>>,
   discountedPrice?: Resolver<ResolversTypes['Discount'], ParentType, ContextType, RequireFields<QueryDiscountedPriceArgs, 'courseId' | 'bundleId' | 'coupon'>>,
-  partnerGetVisitors?: Resolver<Array<ResolversTypes['VisitorByDay']>, ParentType, ContextType, RequireFields<QueryPartnerGetVisitorsArgs, 'from' | 'to'>>,
+  partnerVisitors?: Resolver<Array<ResolversTypes['VisitorByDay']>, ParentType, ContextType, RequireFields<QueryPartnerVisitorsArgs, 'from' | 'to'>>,
   partnerSales?: Resolver<ResolversTypes['PartnerSaleConnection'], ParentType, ContextType, RequireFields<QueryPartnerSalesArgs, 'offset' | 'limit'>>,
   partnerPayments?: Resolver<Array<ResolversTypes['PartnerPayment']>, ParentType, ContextType>,
 }>;

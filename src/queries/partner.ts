@@ -12,9 +12,9 @@ export const PARTNER_TRACK_VISITOR = gql`
   }
 `;
 
-export const PARTNER_GET_VISITORS = gql`
-  query PartnerGetVisitors($from: DateTime!, $to: DateTime!) {
-    partnerGetVisitors(from: $from, to: $to) {
+export const PARTNER_VISITORS = gql`
+  query PartnerVisitors($from: DateTime!, $to: DateTime!) {
+    partnerVisitors(from: $from, to: $to) {
       date
       count
     }

@@ -9,7 +9,15 @@ export default shield({
   Query: {
     me: isAuthenticated,
 
+    // Coupon
+
     discountedPrice: isAuthenticated,
+
+    // Partner
+
+    partnerVisitors: and(isAuthenticated, isPartner),
+    partnerSales: and(isAuthenticated, isPartner),
+    partnerPayments: and(isAuthenticated, isPartner),
   },
   Mutation: {
     migrate: and(isAuthenticated, isAdmin),
@@ -26,8 +34,5 @@ export default shield({
     // Partner
 
     promoteToPartner: and(isAuthenticated, isAdmin),
-    partnerGetVisitors: and(isAuthenticated, isPartner),
-    partnerSales: and(isAuthenticated, isPartner),
-    partnerPayments: and(isAuthenticated, isPartner),
   },
 });

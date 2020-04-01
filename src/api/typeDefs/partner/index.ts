@@ -2,18 +2,13 @@ import { gql } from 'apollo-server-micro';
 
 export default gql`
   extend type Query {
-    partnerGetVisitors(
-      from: DateTime!
-      to: DateTime!
-    ): [VisitorByDay!]!
-
+    partnerVisitors(from: DateTime!, to: DateTime!): [VisitorByDay!]!
     partnerSales(offset: Int!, limit: Int!): PartnerSaleConnection!
     partnerPayments: [PartnerPayment!]!
   }
 
   extend type Mutation {
     promoteToPartner(uid: String!): Boolean
-
     partnerTrackVisitor(partnerId: String!): Boolean
   }
 

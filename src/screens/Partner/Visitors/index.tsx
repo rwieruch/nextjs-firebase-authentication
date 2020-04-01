@@ -6,7 +6,7 @@ import useErrorIndicator from '@hooks/useErrorIndicator';
 import {
   User,
   VisitorByDay,
-  usePartnerGetVisitorsQuery,
+  usePartnerVisitorsQuery,
 } from '@generated/client';
 
 interface VisitorChartProps {
@@ -35,7 +35,7 @@ const VisitorChart = ({ me, isPartner }: VisitorChartProps) => {
     12
   );
 
-  const { data, loading, error } = usePartnerGetVisitorsQuery({
+  const { data, loading, error } = usePartnerVisitorsQuery({
     variables: {
       from: startOfLastYearDate,
       to: endOfYearDate,
@@ -49,7 +49,7 @@ const VisitorChart = ({ me, isPartner }: VisitorChartProps) => {
   if (loading) return <Skeleton active />;
   if (!data) return null;
 
-  const chartData = data.partnerGetVisitors.map(
+  const chartData = data.partnerVisitors.map(
     (value: VisitorByDay) => ({
       day: formatDateForChart(new Date(value.date)),
       value: value.count,

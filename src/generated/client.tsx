@@ -295,7 +295,7 @@ export type Query = {
   onlineChapter: Markdown;
   upgradeableCourses: Array<StorefrontCourse>;
   discountedPrice: Discount;
-  partnerGetVisitors: Array<VisitorByDay>;
+  partnerVisitors: Array<VisitorByDay>;
   partnerSales: PartnerSaleConnection;
   partnerPayments: Array<PartnerPayment>;
 };
@@ -340,7 +340,7 @@ export type QueryDiscountedPriceArgs = {
 };
 
 
-export type QueryPartnerGetVisitorsArgs = {
+export type QueryPartnerVisitorsArgs = {
   from: Scalars['DateTime'];
   to: Scalars['DateTime'];
 };
@@ -589,15 +589,15 @@ export type PartnerTrackVisitorMutation = (
   & Pick<Mutation, 'partnerTrackVisitor'>
 );
 
-export type PartnerGetVisitorsQueryVariables = {
+export type PartnerVisitorsQueryVariables = {
   from: Scalars['DateTime'];
   to: Scalars['DateTime'];
 };
 
 
-export type PartnerGetVisitorsQuery = (
+export type PartnerVisitorsQuery = (
   { __typename?: 'Query' }
-  & { partnerGetVisitors: Array<(
+  & { partnerVisitors: Array<(
     { __typename?: 'VisitorByDay' }
     & Pick<VisitorByDay, 'date' | 'count'>
   )> }
@@ -1181,9 +1181,9 @@ export function usePartnerTrackVisitorMutation(baseOptions?: ApolloReactHooks.Mu
 export type PartnerTrackVisitorMutationHookResult = ReturnType<typeof usePartnerTrackVisitorMutation>;
 export type PartnerTrackVisitorMutationResult = ApolloReactCommon.MutationResult<PartnerTrackVisitorMutation>;
 export type PartnerTrackVisitorMutationOptions = ApolloReactCommon.BaseMutationOptions<PartnerTrackVisitorMutation, PartnerTrackVisitorMutationVariables>;
-export const PartnerGetVisitorsDocument = gql`
-    query PartnerGetVisitors($from: DateTime!, $to: DateTime!) {
-  partnerGetVisitors(from: $from, to: $to) {
+export const PartnerVisitorsDocument = gql`
+    query PartnerVisitors($from: DateTime!, $to: DateTime!) {
+  partnerVisitors(from: $from, to: $to) {
     date
     count
   }
@@ -1191,31 +1191,31 @@ export const PartnerGetVisitorsDocument = gql`
     `;
 
 /**
- * __usePartnerGetVisitorsQuery__
+ * __usePartnerVisitorsQuery__
  *
- * To run a query within a React component, call `usePartnerGetVisitorsQuery` and pass it any options that fit your needs.
- * When your component renders, `usePartnerGetVisitorsQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * To run a query within a React component, call `usePartnerVisitorsQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePartnerVisitorsQuery` returns an object from Apollo Client that contains loading, error, and data properties 
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = usePartnerGetVisitorsQuery({
+ * const { data, loading, error } = usePartnerVisitorsQuery({
  *   variables: {
  *      from: // value for 'from'
  *      to: // value for 'to'
  *   },
  * });
  */
-export function usePartnerGetVisitorsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<PartnerGetVisitorsQuery, PartnerGetVisitorsQueryVariables>) {
-        return ApolloReactHooks.useQuery<PartnerGetVisitorsQuery, PartnerGetVisitorsQueryVariables>(PartnerGetVisitorsDocument, baseOptions);
+export function usePartnerVisitorsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<PartnerVisitorsQuery, PartnerVisitorsQueryVariables>) {
+        return ApolloReactHooks.useQuery<PartnerVisitorsQuery, PartnerVisitorsQueryVariables>(PartnerVisitorsDocument, baseOptions);
       }
-export function usePartnerGetVisitorsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<PartnerGetVisitorsQuery, PartnerGetVisitorsQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<PartnerGetVisitorsQuery, PartnerGetVisitorsQueryVariables>(PartnerGetVisitorsDocument, baseOptions);
+export function usePartnerVisitorsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<PartnerVisitorsQuery, PartnerVisitorsQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<PartnerVisitorsQuery, PartnerVisitorsQueryVariables>(PartnerVisitorsDocument, baseOptions);
         }
-export type PartnerGetVisitorsQueryHookResult = ReturnType<typeof usePartnerGetVisitorsQuery>;
-export type PartnerGetVisitorsLazyQueryHookResult = ReturnType<typeof usePartnerGetVisitorsLazyQuery>;
-export type PartnerGetVisitorsQueryResult = ApolloReactCommon.QueryResult<PartnerGetVisitorsQuery, PartnerGetVisitorsQueryVariables>;
+export type PartnerVisitorsQueryHookResult = ReturnType<typeof usePartnerVisitorsQuery>;
+export type PartnerVisitorsLazyQueryHookResult = ReturnType<typeof usePartnerVisitorsLazyQuery>;
+export type PartnerVisitorsQueryResult = ApolloReactCommon.QueryResult<PartnerVisitorsQuery, PartnerVisitorsQueryVariables>;
 export const PartnerSalesDocument = gql`
     query PartnerSales($offset: Int!, $limit: Int!) {
   partnerSales(offset: $offset, limit: $limit) {
