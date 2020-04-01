@@ -1,5 +1,5 @@
 import * as ROLES from '@constants/roles';
-import { Me } from '@typeDefs/me';
+import { User } from '@typeDefs/user';
 
-export const hasPartnerRole = (user: Me) =>
+export const hasPartnerRole = (user: User) =>
   user && user.customClaims && user.customClaims[ROLES.PARTNER];
