@@ -1,5 +1,5 @@
 import { QueryResolvers, MutationResolvers } from '@generated/server';
-import { getAsDiscount } from '@services/coupon';
+import { priceWithDiscount } from '@services/discount';
 import storefront from '@data/course-storefront';
 
 interface Resolvers {
@@ -12,7 +12,7 @@ export const resolvers: Resolvers = {
     discountedPrice: async (
       _,
       { courseId, bundleId, coupon },
-      { me, courseConnector }
+      { me, courseConnector, couponConnector }
     ) => {
       const course = storefront[courseId];
       const bundle = course.bundles[bundleId];
@@ -21,19 +21,10 @@ export const resolvers: Resolvers = {
         return bundle.price;
       }
 
-      const courses = await courseConnector.getCoursesByUserIdAndCourseId(
-        me.uid,
-        courseId
-      );
-
-      const price = await getAsDiscount(
-        courseId,
-        bundleId,
-        courses,
-        bundle.price,
-        coupon,
-        me?.uid
-      );
+      const price = await priceWithDiscount(
+        couponConnector,
+        courseConnector
+      )(courseId, bundleId, bundle.price, coupon, me.uid);
 
       return {
         price,

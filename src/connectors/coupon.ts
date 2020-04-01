@@ -27,4 +27,48 @@ export class CouponConnector {
 
     return await this.couponRepository.save(couponEntity);
   }
+
+  async redeemCoupon(coupon: string, price: number) {
+    const couponEntity = await this.couponRepository.findOne({
+      coupon,
+    });
+
+    if (!couponEntity) {
+      return price;
+    }
+
+    const isExpired =
+      new Date().getTime() >
+      new Date(couponEntity.expiresAt).getTime();
+
+    if (isExpired) {
+      await this.couponRepository.delete(couponEntity.id);
+      return price;
+    }
+
+    const discountPrice = Number(
+      ((price / 100) * (100 - couponEntity.discount)).toFixed(0)
+    );
+
+    return discountPrice;
+  }
+
+  async removeCoupon(coupon: string) {
+    const couponEntity = await this.couponRepository.findOne({
+      coupon,
+    });
+
+    if (!couponEntity) {
+      return;
+    }
+
+    if (couponEntity.count > 1) {
+      couponEntity.count = couponEntity.count - 1;
+      await this.couponRepository.save(couponEntity);
+    } else {
+      await this.couponRepository.remove(couponEntity);
+    }
+
+    return;
+  }
 }

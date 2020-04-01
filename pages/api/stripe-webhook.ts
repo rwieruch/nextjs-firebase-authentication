@@ -9,6 +9,7 @@ import { createCourse } from '@services/firebase/course';
 import getConnection from '@models/index';
 import { CourseConnector } from '@connectors/course';
 import { PartnerConnector } from '@connectors/partner';
+import { CouponConnector } from '@connectors/coupon';
 
 import { send } from 'micro';
 import getRawBody from 'raw-body';
@@ -50,6 +51,7 @@ export default async (
     const connection = await getConnection();
     const courseConnector = new CourseConnector(connection!);
     const partnerConnector = new PartnerConnector(connection!);
+    const couponConnector = new CouponConnector(connection!);
 
     const course = await courseConnector.createCourse({
       userId: client_reference_id,
@@ -60,6 +62,10 @@ export default async (
       paymentType: 'STRIPE',
       coupon: coupon,
     });
+
+    if (coupon) {
+      await couponConnector.removeCoupon(coupon);
+    }
 
     if (partnerId && partnerId !== client_reference_id) {
       await partnerConnector.createSale(course, partnerId);
