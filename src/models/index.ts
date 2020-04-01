@@ -3,6 +3,7 @@ import { createConnection, getConnection } from 'typeorm';
 
 import * as CourseEntities from './course';
 import * as PartnerEntities from './partner';
+import * as CouponEntities from './coupon';
 
 export default async function() {
   let connection;
@@ -26,6 +27,7 @@ export default async function() {
       entities: [
         ...Object.values(CourseEntities),
         ...Object.values(PartnerEntities),
+        ...Object.values(CouponEntities),
       ],
       synchronize: true,
       logging: false,

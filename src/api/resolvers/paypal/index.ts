@@ -2,7 +2,7 @@
 import paypal from '@paypal/checkout-server-sdk';
 
 import { MutationResolvers } from '@generated/server';
-import { getAsDiscount } from '@services/coupon';
+import { priceWithDiscount } from '@services/discount';
 import paypalClient from '@services/paypal';
 import { createCourse } from '@services/firebase/course';
 
@@ -18,7 +18,7 @@ export const resolvers: Resolvers = {
     paypalCreateOrder: async (
       _,
       { courseId, bundleId, coupon, partnerId },
-      { me, courseConnector }
+      { me, couponConnector, courseConnector }
     ) => {
       const course = storefront[courseId];
       const bundle = course.bundles[bundleId];
@@ -27,19 +27,10 @@ export const resolvers: Resolvers = {
         return { orderId: null };
       }
 
-      const courses = await courseConnector.getCoursesByUserIdAndCourseId(
-        me.uid,
-        courseId
-      );
-
-      const price = await getAsDiscount(
-        courseId,
-        bundleId,
-        courses,
-        bundle.price,
-        coupon,
-        me.uid
-      );
+      const price = await priceWithDiscount(
+        couponConnector,
+        courseConnector
+      )(courseId, bundleId, bundle.price, coupon, me.uid);
 
       const request = new paypal.orders.OrdersCreateRequest();
 
@@ -78,7 +69,7 @@ export const resolvers: Resolvers = {
     paypalApproveOrder: async (
       _,
       { orderId },
-      { me, courseConnector, partnerConnector }
+      { me, courseConnector, partnerConnector, couponConnector }
     ) => {
       const request = new paypal.orders.OrdersCaptureRequest(orderId);
       request.requestBody({});
@@ -104,6 +95,10 @@ export const resolvers: Resolvers = {
           paymentType: 'PAYPAL',
           coupon: coupon,
         });
+
+        if (coupon) {
+          await couponConnector.removeCoupon(coupon);
+        }
 
         if (partnerId && partnerId !== me?.uid) {
           await partnerConnector.createSale(course, partnerId);

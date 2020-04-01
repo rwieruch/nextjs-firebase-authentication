@@ -4,6 +4,7 @@ import { User } from '@typeDefs/user';
 import { AdminConnector } from '@connectors/admin';
 import { CourseConnector } from '@connectors/course';
 import { PartnerConnector } from '@connectors/partner';
+import { CouponConnector } from '@connectors/coupon';
 
 export type ResolverContext = {
   res: ServerResponse;
@@ -12,4 +13,5 @@ export type ResolverContext = {
   adminConnector: AdminConnector;
   courseConnector: CourseConnector;
   partnerConnector: PartnerConnector;
+  couponConnector: CouponConnector;
 };

@@ -7,6 +7,9 @@ import { BUNDLE } from '@data/bundle-keys';
 import { getUpgradeableCourses } from '@services/course';
 import { Course } from '@models/course';
 
+import { CouponConnector } from '@connectors/coupon';
+import { CourseConnector } from '@connectors/course';
+
 import { Ppp } from './types';
 
 const getPpp = async (countryCodeIsoAlpha2: string) =>
@@ -56,36 +59,60 @@ const tryUpgradeDiscount = async (
   return price;
 };
 
-export const getAsDiscount = async (
+export const priceWithDiscount = (
+  couponConnector: CouponConnector,
+  courseConnector: CourseConnector
+) => async (
   courseId: COURSE,
   bundleId: BUNDLE,
-  courses: Course[],
   price: number,
   coupon: string | undefined | null,
-  uid: string | undefined | null
+  uid: string
 ) => {
-  if (!coupon || !uid || price === 0) {
+  if (!coupon || price === 0) {
     return price;
   }
 
-  const salt = process.env.COUPON_SALT || '';
-  const blandCoupon = coupon.replace(salt, '');
+  // Custom Coupon
 
   let discountedPrice;
+
+  discountedPrice = await couponConnector.redeemCoupon(coupon, price);
+
+  if (discountedPrice !== price) {
+    return discountedPrice;
+  }
+
+  // Upgrade
+
+  const courses = await courseConnector.getCoursesByUserIdAndCourseId(
+    uid,
+    courseId
+  );
 
   discountedPrice = await tryUpgradeDiscount(
     courseId,
     bundleId,
     courses,
     price,
-    blandCoupon,
+    coupon,
     uid
   );
 
+  if (discountedPrice !== price) {
+    return discountedPrice;
+  }
+
+  // PPP
+
   discountedPrice = await tryPppDiscount(
     discountedPrice,
-    blandCoupon
+    coupon.replace(process.env.COUPON_SALT || '', '')
   );
 
-  return discountedPrice;
+  if (discountedPrice !== price) {
+    return discountedPrice;
+  }
+
+  return price;
 };

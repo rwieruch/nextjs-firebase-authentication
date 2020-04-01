@@ -1,9 +1,10 @@
-import { QueryResolvers } from '@generated/server';
-import { getAsDiscount } from '@services/coupon';
+import { QueryResolvers, MutationResolvers } from '@generated/server';
+import { priceWithDiscount } from '@services/discount';
 import storefront from '@data/course-storefront';
 
 interface Resolvers {
   Query: QueryResolvers;
+  Mutation: MutationResolvers;
 }
 
 export const resolvers: Resolvers = {
@@ -11,7 +12,7 @@ export const resolvers: Resolvers = {
     discountedPrice: async (
       _,
       { courseId, bundleId, coupon },
-      { me, courseConnector }
+      { me, courseConnector, couponConnector }
     ) => {
       const course = storefront[courseId];
       const bundle = course.bundles[bundleId];
@@ -20,24 +21,30 @@ export const resolvers: Resolvers = {
         return bundle.price;
       }
 
-      const courses = await courseConnector.getCoursesByUserIdAndCourseId(
-        me.uid,
-        courseId
-      );
-
-      const price = await getAsDiscount(
-        courseId,
-        bundleId,
-        courses,
-        bundle.price,
-        coupon,
-        me?.uid
-      );
+      const price = await priceWithDiscount(
+        couponConnector,
+        courseConnector
+      )(courseId, bundleId, bundle.price, coupon, me.uid);
 
       return {
         price,
         isDiscount: price !== bundle.price,
       };
+    },
+  },
+  Mutation: {
+    couponCreate: async (
+      _,
+      { coupon, discount, count },
+      { couponConnector }
+    ) => {
+      try {
+        await couponConnector.createCoupons(coupon, discount, count);
+      } catch (error) {
+        return false;
+      }
+
+      return true;
     },
   },
 };

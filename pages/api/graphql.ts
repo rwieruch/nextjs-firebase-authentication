@@ -5,6 +5,7 @@ import getConnection from '@models/index';
 import { AdminConnector } from '@connectors/admin';
 import { PartnerConnector } from '@connectors/partner';
 import { CourseConnector } from '@connectors/course';
+import { CouponConnector } from '@connectors/coupon';
 import { ServerRequest, ServerResponse } from '@typeDefs/server';
 import { ResolverContext } from '@typeDefs/resolver';
 import schema from '@api/schema';
@@ -48,6 +49,7 @@ export default async (req: ServerRequest, res: ServerResponse) => {
       const adminConnector = new AdminConnector();
       const partnerConnector = new PartnerConnector(connection!);
       const courseConnector = new CourseConnector(connection!);
+      const couponConnector = new CouponConnector(connection!);
 
       return {
         req,
@@ -56,6 +58,7 @@ export default async (req: ServerRequest, res: ServerResponse) => {
         adminConnector,
         courseConnector,
         partnerConnector,
+        couponConnector,
       };
     },
   });

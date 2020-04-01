@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-import { getAsDiscount } from './';
+import { priceWithDiscount } from './';
 
-describe('getAsDiscount', () => {
+describe('priceWithDiscount', () => {
   it('applies successfully the discount if coupon', async () => {
     const data = {
       data: {
@@ -16,7 +16,7 @@ describe('getAsDiscount', () => {
     get.mockImplementationOnce(() => Promise.resolve(data));
 
     await expect(
-      getAsDiscount(
+      priceWithDiscount(
         'THE_ROAD_TO_LEARN_REACT',
         'PROFESSIONAL',
         100,
@@ -39,7 +39,7 @@ describe('getAsDiscount', () => {
     get.mockImplementationOnce(() => Promise.resolve(data));
 
     await expect(
-      getAsDiscount(
+      priceWithDiscount(
         'THE_ROAD_TO_LEARN_REACT',
         'PROFESSIONAL',
         100,
@@ -56,7 +56,7 @@ describe('getAsDiscount', () => {
     );
 
     await expect(
-      getAsDiscount(
+      priceWithDiscount(
         'THE_ROAD_TO_LEARN_REACT',
         'PROFESSIONAL',
         100,

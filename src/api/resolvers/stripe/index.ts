@@ -1,5 +1,5 @@
 import { MutationResolvers } from '@generated/server';
-import { getAsDiscount } from '@services/coupon';
+import { priceWithDiscount } from '@services/discount';
 import stripe from '@services/stripe';
 
 import storefront from '@data/course-storefront';
@@ -14,7 +14,7 @@ export const resolvers: Resolvers = {
     stripeCreateOrder: async (
       _,
       { imageUrl, courseId, bundleId, coupon, partnerId },
-      { me, courseConnector }
+      { me, couponConnector, courseConnector }
     ) => {
       const course = storefront[courseId];
       const bundle = course.bundles[bundleId];
@@ -23,19 +23,10 @@ export const resolvers: Resolvers = {
         return { id: null };
       }
 
-      const courses = await courseConnector.getCoursesByUserIdAndCourseId(
-        me.uid,
-        courseId
-      );
-
-      const price = await getAsDiscount(
-        courseId,
-        bundleId,
-        courses,
-        bundle.price,
-        coupon,
-        me?.uid
-      );
+      const price = await priceWithDiscount(
+        couponConnector,
+        courseConnector
+      )(courseId, bundleId, bundle.price, coupon, me.uid);
 
       let session;
 
