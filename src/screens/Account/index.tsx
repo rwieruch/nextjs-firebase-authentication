@@ -2,13 +2,7 @@ import React from 'react';
 import { NextPage } from 'next';
 import Link from 'next/link';
 import styled from 'styled-components';
-import {
-  Card,
-  Col,
-  Row,
-  Typography,
-  Layout as AntdLayout,
-} from 'antd';
+import { Card, Col, Row, Layout as AntdLayout } from 'antd';
 
 import { User } from '@generated/client';
 import { GET_ME } from '@queries/user';
@@ -34,13 +28,15 @@ const AccountPage: NextAuthPage = ({ data }) => {
   return (
     <Layout>
       <StyledContent>
-        <Typography.Title>Your Account</Typography.Title>
         <Row gutter={[16, 16]}>
           <Col span={12}>
             <Card title="Details">
               <ul>
                 <li>
                   <strong>ID:</strong> {data?.me?.uid}
+                </li>
+                <li>
+                  <strong>Username:</strong> {data?.me?.username}
                 </li>
                 <li>
                   <strong>Email:</strong> {data?.me?.email} (
@@ -65,15 +61,20 @@ const AccountPage: NextAuthPage = ({ data }) => {
                     <a>Forgot Password</a>
                   </Link>
                 </li>
+                <li>
+                  <Link href={ROUTES.EMAIL_CHANGE}>
+                    <a>Change Email</a>
+                  </Link>
+                </li>
               </ul>
             </Card>
           </Col>
           <Col span={12}>
-            <Card title="Referral">
+            <Card title="Partner">
               <ul>
                 <li>
-                  <Link href={ROUTES.REFERRAL}>
-                    <a>Referral Program</a>
+                  <Link href={ROUTES.PARTNER}>
+                    <a>Partner Program</a>
                   </Link>
                 </li>
               </ul>

@@ -56,8 +56,16 @@ const Navigation = () => {
                 </a>
               </Link>
             </Menu.Item>
+            <Menu.Item key="1">
+              <Link href={ROUTES.PARTNER}>
+                <a>
+                  <Icon type="coffee" />
+                  Partner
+                </a>
+              </Link>
+            </Menu.Item>
             <Menu.Item
-              key="1"
+              key="2"
               onClick={() =>
                 signOut(undefined, undefined, apolloClient)
               }

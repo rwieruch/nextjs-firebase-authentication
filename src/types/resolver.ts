@@ -1,12 +1,15 @@
-import { Repository, Connection } from 'typeorm';
-
 import { ServerResponse, ServerRequest } from '@typeDefs/server';
-import { Me } from '@typeDefs/me';
-import { Course } from '@models/course';
+import { User } from '@typeDefs/user';
+
+import { AdminConnector } from '@connectors/admin';
+import { CourseConnector } from '@connectors/course';
+import { PartnerConnector } from '@connectors/partner';
 
 export type ResolverContext = {
   res: ServerResponse;
   req: ServerRequest;
-  me?: Me;
-  courseRepository: Repository<Course>;
+  me?: User;
+  adminConnector: AdminConnector;
+  courseConnector: CourseConnector;
+  partnerConnector: PartnerConnector;
 };

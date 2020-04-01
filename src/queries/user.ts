@@ -5,6 +5,8 @@ export const GET_ME = gql`
     me {
       uid
       email
+      username
+      roles
     }
   }
 `;

@@ -2,8 +2,9 @@ import { ApolloServer } from 'apollo-server-micro';
 import cors from 'micro-cors';
 
 import getConnection from '@models/index';
-import { Course } from '@models/course';
-
+import { AdminConnector } from '@connectors/admin';
+import { PartnerConnector } from '@connectors/partner';
+import { CourseConnector } from '@connectors/course';
 import { ServerRequest, ServerResponse } from '@typeDefs/server';
 import { ResolverContext } from '@typeDefs/resolver';
 import schema from '@api/schema';
@@ -13,8 +14,16 @@ import firebaseAdmin from '@services/firebase/admin';
 if (process.env.FIREBASE_ADMIN_UID) {
   firebaseAdmin
     .auth()
-    .setCustomUserClaims(process.env.FIREBASE_ADMIN_UID, {
-      admin: true,
+    .getUser(process.env.FIREBASE_ADMIN_UID)
+    .then(user => {
+      if (process.env.FIREBASE_ADMIN_UID) {
+        firebaseAdmin
+          .auth()
+          .setCustomUserClaims(process.env.FIREBASE_ADMIN_UID, {
+            ...user.customClaims,
+            admin: true,
+          });
+      }
     });
 }
 
@@ -36,11 +45,17 @@ export default async (req: ServerRequest, res: ServerResponse) => {
     context: async ({ req, res }): Promise<ResolverContext> => {
       const me = await getMe(req, res);
 
+      const adminConnector = new AdminConnector();
+      const partnerConnector = new PartnerConnector(connection!);
+      const courseConnector = new CourseConnector(connection!);
+
       return {
         req,
         res,
         me,
-        courseRepository: connection!.getRepository(Course),
+        adminConnector,
+        courseConnector,
+        partnerConnector,
       };
     },
   });

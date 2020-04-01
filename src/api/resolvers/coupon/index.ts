@@ -9,9 +9,9 @@ interface Resolvers {
 export const resolvers: Resolvers = {
   Query: {
     discountedPrice: async (
-      parent,
+      _,
       { courseId, bundleId, coupon },
-      { me, courseRepository }
+      { me, courseConnector }
     ) => {
       const course = storefront[courseId];
       const bundle = course.bundles[bundleId];
@@ -20,9 +20,10 @@ export const resolvers: Resolvers = {
         return bundle.price;
       }
 
-      const courses = await courseRepository.find({
-        where: { userId: me.uid, courseId },
-      });
+      const courses = await courseConnector.getCoursesByUserIdAndCourseId(
+        me.uid,
+        courseId
+      );
 
       const price = await getAsDiscount(
         courseId,

@@ -1,9 +1,8 @@
 import { QueryResolvers, MutationResolvers } from '@generated/server';
 import {
   createCourse,
-  getCoursesById,
+  // getCoursesById,
 } from '@services/firebase/course';
-import { Course } from '@models/course';
 import { mergeCourses } from '@services/course';
 
 interface Resolvers {
@@ -13,11 +12,7 @@ interface Resolvers {
 
 export const resolvers: Resolvers = {
   Query: {
-    unlockedCourses: async (
-      parent,
-      args,
-      { me, courseRepository }
-    ) => {
+    unlockedCourses: async (_, __, { me, courseConnector }) => {
       if (!me) {
         return [];
       }
@@ -28,10 +23,9 @@ export const resolvers: Resolvers = {
       //   return [];
       // }
 
-      // NEW
-      const courses = await courseRepository.find({
-        where: { userId: me.uid },
-      });
+      const courses = await courseConnector.getCoursesByUserId(
+        me.uid
+      );
 
       const unlockedCourses = mergeCourses(courses);
 
@@ -44,9 +38,9 @@ export const resolvers: Resolvers = {
       }));
     },
     unlockedCourse: async (
-      parent,
+      _,
       { courseId },
-      { me, courseRepository }
+      { me, courseConnector }
     ) => {
       if (!me) {
         return null;
@@ -58,9 +52,10 @@ export const resolvers: Resolvers = {
       //   return null;
       // }
 
-      const courses = await courseRepository.find({
-        where: { userId: me.uid, courseId },
-      });
+      const courses = await courseConnector.getCoursesByUserIdAndCourseId(
+        me.uid,
+        courseId
+      );
 
       const unlockedCourses = mergeCourses(courses);
 
@@ -73,25 +68,23 @@ export const resolvers: Resolvers = {
   },
   Mutation: {
     createFreeCourse: async (
-      parent,
+      _,
       { courseId, bundleId },
-      { me, courseRepository }
+      { me, courseConnector }
     ) => {
       if (!me) {
         return false;
       }
 
-      // NEW
-      const course = new Course();
-      course.userId = me.uid;
-      course.courseId = courseId;
-      course.bundleId = bundleId;
-      course.price = 0;
-      course.currency = 'USD';
-      course.paymentType = 'FREE';
-      course.coupon = '';
-      await courseRepository.save(course);
-      // NEW END
+      await courseConnector.createCourse({
+        userId: me.uid,
+        courseId: courseId,
+        bundleId: bundleId,
+        price: 0,
+        currency: 'USD',
+        paymentType: 'FREE',
+        coupon: '',
+      });
 
       // LEGACY
       await createCourse({
@@ -107,21 +100,19 @@ export const resolvers: Resolvers = {
       return true;
     },
     createAdminCourse: async (
-      parent,
+      _,
       { uid, courseId, bundleId },
-      { courseRepository }
+      { courseConnector }
     ) => {
-      // NEW
-      const course = new Course();
-      course.userId = uid;
-      course.courseId = courseId;
-      course.bundleId = bundleId;
-      course.price = 0;
-      course.currency = 'USD';
-      course.paymentType = 'MANUAL';
-      course.coupon = '';
-      await courseRepository.save(course);
-      // NEW END
+      await courseConnector.createCourse({
+        userId: uid,
+        courseId: courseId,
+        bundleId: bundleId,
+        price: 0,
+        currency: 'USD',
+        paymentType: 'MANUAL',
+        coupon: '',
+      });
 
       // LEGACY
       await createCourse({

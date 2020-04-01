@@ -7,7 +7,8 @@ import { createCourse } from '@services/firebase/course';
 // LEGACY END
 
 import getConnection from '@models/index';
-import { Course } from '@models/course';
+import { CourseConnector } from '@connectors/course';
+import { PartnerConnector } from '@connectors/partner';
 
 import { send } from 'micro';
 import getRawBody from 'raw-body';
@@ -44,29 +45,34 @@ export default async (
       display_items,
     } = session;
 
-    // NEW
-    const connection = await getConnection();
+    const { courseId, bundleId, coupon, partnerId } = metadata;
 
-    const courseRepository = connection!.getRepository(Course);
-    const course = new Course();
-    course.userId = client_reference_id;
-    course.courseId = metadata.courseId;
-    course.bundleId = metadata.bundleId;
-    course.price = display_items[0].amount;
-    course.currency = 'USD';
-    course.paymentType = 'STRIPE';
-    course.coupon = metadata.coupon;
-    await courseRepository.save(course);
-    // NEW END
+    const connection = await getConnection();
+    const courseConnector = new CourseConnector(connection!);
+    const partnerConnector = new PartnerConnector(connection!);
+
+    const course = await courseConnector.createCourse({
+      userId: client_reference_id,
+      courseId: courseId,
+      bundleId: bundleId,
+      price: display_items[0].amount,
+      currency: 'USD',
+      paymentType: 'STRIPE',
+      coupon: coupon,
+    });
+
+    if (partnerId && partnerId !== client_reference_id) {
+      await partnerConnector.createSale(course, partnerId);
+    }
 
     // LEGACY
     await createCourse({
       uid: client_reference_id,
-      courseId: metadata.courseId,
-      bundleId: metadata.bundleId,
+      courseId: courseId,
+      bundleId: bundleId,
       amount: Number((display_items[0].amount / 100).toFixed(2)),
       paymentType: 'STRIPE',
-      coupon: metadata.coupon,
+      coupon: coupon,
     });
     // LEGACY END
   }

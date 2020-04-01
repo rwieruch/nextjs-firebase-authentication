@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Button, message } from 'antd';
+import lf from 'localforage';
 
 import {
   StorefrontCourse,
@@ -31,6 +32,9 @@ const StripeCheckout = ({
   });
 
   const handlePay = async () => {
+    const partner = JSON.parse(await lf.getItem('partner'));
+    const partnerId = partner ? partner.partnerId : '';
+
     let result;
 
     try {
@@ -40,6 +44,7 @@ const StripeCheckout = ({
           courseId,
           bundleId,
           coupon,
+          partnerId,
         },
       });
     } catch (error) {}

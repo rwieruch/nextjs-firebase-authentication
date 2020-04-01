@@ -6,6 +6,7 @@ export default gql`
       courseId: CourseId!
       bundleId: BundleId!
       coupon: String
+      partnerId: String
     ): OrderId!
 
     paypalApproveOrder(orderId: String!): Boolean

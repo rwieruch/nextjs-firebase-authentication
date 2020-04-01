@@ -6,7 +6,7 @@ import { BUNDLE } from '@data/bundle-keys';
 
 export const isFreeCourse = rule()(
   async (
-    parent,
+    _,
     { courseId, bundleId }: { courseId: COURSE; bundleId: BUNDLE }
   ) => {
     const course = storefront[courseId];

@@ -10,8 +10,11 @@ import courseSchema from './course';
 import bookSchema from './book';
 import upgradeSchema from './upgrade';
 import couponSchema from './coupon';
+import partnerSchema from './partner';
 
 const linkSchema = gql`
+  scalar DateTime
+
   enum CourseId {
     THE_ROAD_TO_LEARN_REACT
     TAMING_THE_STATE
@@ -50,4 +53,5 @@ export default [
   bookSchema,
   upgradeSchema,
   couponSchema,
+  partnerSchema,
 ];

@@ -11,6 +11,7 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  DateTime: any;
 };
 
 export type BookChapter = {
@@ -96,6 +97,7 @@ export type CurriculumSection = {
   items: Array<CurriculumItem>;
 };
 
+
 export type Discount = {
    __typename?: 'Discount';
   price: Scalars['Int'];
@@ -146,6 +148,8 @@ export type Mutation = {
   stripeCreateOrder: StripeId;
   createFreeCourse: Scalars['Boolean'];
   createAdminCourse: Scalars['Boolean'];
+  promoteToPartner?: Maybe<Scalars['Boolean']>;
+  partnerTrackVisitor?: Maybe<Scalars['Boolean']>;
 };
 
 
@@ -186,6 +190,7 @@ export type MutationPaypalCreateOrderArgs = {
   courseId: CourseId;
   bundleId: BundleId;
   coupon?: Maybe<Scalars['String']>;
+  partnerId?: Maybe<Scalars['String']>;
 };
 
 
@@ -199,6 +204,7 @@ export type MutationStripeCreateOrderArgs = {
   courseId: CourseId;
   bundleId: BundleId;
   coupon?: Maybe<Scalars['String']>;
+  partnerId?: Maybe<Scalars['String']>;
 };
 
 
@@ -212,6 +218,16 @@ export type MutationCreateAdminCourseArgs = {
   uid: Scalars['String'];
   courseId: CourseId;
   bundleId: BundleId;
+};
+
+
+export type MutationPromoteToPartnerArgs = {
+  uid: Scalars['String'];
+};
+
+
+export type MutationPartnerTrackVisitorArgs = {
+  partnerId: Scalars['String'];
 };
 
 export type Onboarding = {
@@ -238,6 +254,34 @@ export type OrderId = {
   orderId: Scalars['String'];
 };
 
+export type PageInfo = {
+   __typename?: 'PageInfo';
+  total: Scalars['Int'];
+};
+
+export type PartnerPayment = {
+   __typename?: 'PartnerPayment';
+  createdAt: Scalars['DateTime'];
+  royalty: Scalars['Int'];
+};
+
+export type PartnerSale = {
+   __typename?: 'PartnerSale';
+  id: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+  royalty: Scalars['Int'];
+  price: Scalars['Int'];
+  courseId: CourseId;
+  bundleId: BundleId;
+  isCoupon: Scalars['Boolean'];
+};
+
+export type PartnerSaleConnection = {
+   __typename?: 'PartnerSaleConnection';
+  edges: Array<PartnerSale>;
+  pageInfo: PageInfo;
+};
+
 export type Query = {
    __typename?: 'Query';
   _?: Maybe<Scalars['Boolean']>;
@@ -251,6 +295,9 @@ export type Query = {
   onlineChapter: Markdown;
   upgradeableCourses: Array<StorefrontCourse>;
   discountedPrice: Discount;
+  partnerVisitors: Array<VisitorByDay>;
+  partnerSales: PartnerSaleConnection;
+  partnerPayments: Array<PartnerPayment>;
 };
 
 
@@ -290,6 +337,18 @@ export type QueryDiscountedPriceArgs = {
   courseId: CourseId;
   bundleId: BundleId;
   coupon: Scalars['String'];
+};
+
+
+export type QueryPartnerVisitorsArgs = {
+  from: Scalars['DateTime'];
+  to: Scalars['DateTime'];
+};
+
+
+export type QueryPartnerSalesArgs = {
+  offset: Scalars['Int'];
+  limit: Scalars['Int'];
 };
 
 export type SessionToken = {
@@ -345,6 +404,14 @@ export type User = {
    __typename?: 'User';
   email: Scalars['String'];
   uid: Scalars['String'];
+  username: Scalars['String'];
+  roles: Array<Scalars['String']>;
+};
+
+export type VisitorByDay = {
+   __typename?: 'VisitorByDay';
+  date: Scalars['DateTime'];
+  count: Scalars['Int'];
 };
 
 export type GetBookQueryVariables = {
@@ -502,10 +569,76 @@ export type MigrateMutation = (
   & Pick<Mutation, 'migrate'>
 );
 
+export type PromoteToPartnerMutationVariables = {
+  uid: Scalars['String'];
+};
+
+
+export type PromoteToPartnerMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'promoteToPartner'>
+);
+
+export type PartnerTrackVisitorMutationVariables = {
+  partnerId: Scalars['String'];
+};
+
+
+export type PartnerTrackVisitorMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'partnerTrackVisitor'>
+);
+
+export type PartnerVisitorsQueryVariables = {
+  from: Scalars['DateTime'];
+  to: Scalars['DateTime'];
+};
+
+
+export type PartnerVisitorsQuery = (
+  { __typename?: 'Query' }
+  & { partnerVisitors: Array<(
+    { __typename?: 'VisitorByDay' }
+    & Pick<VisitorByDay, 'date' | 'count'>
+  )> }
+);
+
+export type PartnerSalesQueryVariables = {
+  offset: Scalars['Int'];
+  limit: Scalars['Int'];
+};
+
+
+export type PartnerSalesQuery = (
+  { __typename?: 'Query' }
+  & { partnerSales: (
+    { __typename?: 'PartnerSaleConnection' }
+    & { edges: Array<(
+      { __typename?: 'PartnerSale' }
+      & Pick<PartnerSale, 'id' | 'royalty' | 'price' | 'createdAt' | 'courseId' | 'bundleId' | 'isCoupon'>
+    )>, pageInfo: (
+      { __typename?: 'PageInfo' }
+      & Pick<PageInfo, 'total'>
+    ) }
+  ) }
+);
+
+export type PartnerPaymentsQueryVariables = {};
+
+
+export type PartnerPaymentsQuery = (
+  { __typename?: 'Query' }
+  & { partnerPayments: Array<(
+    { __typename?: 'PartnerPayment' }
+    & Pick<PartnerPayment, 'createdAt' | 'royalty'>
+  )> }
+);
+
 export type PaypalCreateOrderMutationVariables = {
   courseId: CourseId;
   bundleId: BundleId;
   coupon?: Maybe<Scalars['String']>;
+  partnerId?: Maybe<Scalars['String']>;
 };
 
 
@@ -620,6 +753,7 @@ export type StripeCreateOrderMutationVariables = {
   courseId: CourseId;
   bundleId: BundleId;
   coupon?: Maybe<Scalars['String']>;
+  partnerId?: Maybe<Scalars['String']>;
 };
 
 
@@ -655,7 +789,7 @@ export type GetMeQuery = (
   { __typename?: 'Query' }
   & { me?: Maybe<(
     { __typename?: 'User' }
-    & Pick<User, 'uid' | 'email'>
+    & Pick<User, 'uid' | 'email' | 'username' | 'roles'>
   )> }
 );
 
@@ -987,9 +1121,182 @@ export function useMigrateMutation(baseOptions?: ApolloReactHooks.MutationHookOp
 export type MigrateMutationHookResult = ReturnType<typeof useMigrateMutation>;
 export type MigrateMutationResult = ApolloReactCommon.MutationResult<MigrateMutation>;
 export type MigrateMutationOptions = ApolloReactCommon.BaseMutationOptions<MigrateMutation, MigrateMutationVariables>;
+export const PromoteToPartnerDocument = gql`
+    mutation PromoteToPartner($uid: String!) {
+  promoteToPartner(uid: $uid)
+}
+    `;
+export type PromoteToPartnerMutationFn = ApolloReactCommon.MutationFunction<PromoteToPartnerMutation, PromoteToPartnerMutationVariables>;
+
+/**
+ * __usePromoteToPartnerMutation__
+ *
+ * To run a mutation, you first call `usePromoteToPartnerMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `usePromoteToPartnerMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [promoteToPartnerMutation, { data, loading, error }] = usePromoteToPartnerMutation({
+ *   variables: {
+ *      uid: // value for 'uid'
+ *   },
+ * });
+ */
+export function usePromoteToPartnerMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<PromoteToPartnerMutation, PromoteToPartnerMutationVariables>) {
+        return ApolloReactHooks.useMutation<PromoteToPartnerMutation, PromoteToPartnerMutationVariables>(PromoteToPartnerDocument, baseOptions);
+      }
+export type PromoteToPartnerMutationHookResult = ReturnType<typeof usePromoteToPartnerMutation>;
+export type PromoteToPartnerMutationResult = ApolloReactCommon.MutationResult<PromoteToPartnerMutation>;
+export type PromoteToPartnerMutationOptions = ApolloReactCommon.BaseMutationOptions<PromoteToPartnerMutation, PromoteToPartnerMutationVariables>;
+export const PartnerTrackVisitorDocument = gql`
+    mutation PartnerTrackVisitor($partnerId: String!) {
+  partnerTrackVisitor(partnerId: $partnerId)
+}
+    `;
+export type PartnerTrackVisitorMutationFn = ApolloReactCommon.MutationFunction<PartnerTrackVisitorMutation, PartnerTrackVisitorMutationVariables>;
+
+/**
+ * __usePartnerTrackVisitorMutation__
+ *
+ * To run a mutation, you first call `usePartnerTrackVisitorMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `usePartnerTrackVisitorMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [partnerTrackVisitorMutation, { data, loading, error }] = usePartnerTrackVisitorMutation({
+ *   variables: {
+ *      partnerId: // value for 'partnerId'
+ *   },
+ * });
+ */
+export function usePartnerTrackVisitorMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<PartnerTrackVisitorMutation, PartnerTrackVisitorMutationVariables>) {
+        return ApolloReactHooks.useMutation<PartnerTrackVisitorMutation, PartnerTrackVisitorMutationVariables>(PartnerTrackVisitorDocument, baseOptions);
+      }
+export type PartnerTrackVisitorMutationHookResult = ReturnType<typeof usePartnerTrackVisitorMutation>;
+export type PartnerTrackVisitorMutationResult = ApolloReactCommon.MutationResult<PartnerTrackVisitorMutation>;
+export type PartnerTrackVisitorMutationOptions = ApolloReactCommon.BaseMutationOptions<PartnerTrackVisitorMutation, PartnerTrackVisitorMutationVariables>;
+export const PartnerVisitorsDocument = gql`
+    query PartnerVisitors($from: DateTime!, $to: DateTime!) {
+  partnerVisitors(from: $from, to: $to) {
+    date
+    count
+  }
+}
+    `;
+
+/**
+ * __usePartnerVisitorsQuery__
+ *
+ * To run a query within a React component, call `usePartnerVisitorsQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePartnerVisitorsQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePartnerVisitorsQuery({
+ *   variables: {
+ *      from: // value for 'from'
+ *      to: // value for 'to'
+ *   },
+ * });
+ */
+export function usePartnerVisitorsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<PartnerVisitorsQuery, PartnerVisitorsQueryVariables>) {
+        return ApolloReactHooks.useQuery<PartnerVisitorsQuery, PartnerVisitorsQueryVariables>(PartnerVisitorsDocument, baseOptions);
+      }
+export function usePartnerVisitorsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<PartnerVisitorsQuery, PartnerVisitorsQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<PartnerVisitorsQuery, PartnerVisitorsQueryVariables>(PartnerVisitorsDocument, baseOptions);
+        }
+export type PartnerVisitorsQueryHookResult = ReturnType<typeof usePartnerVisitorsQuery>;
+export type PartnerVisitorsLazyQueryHookResult = ReturnType<typeof usePartnerVisitorsLazyQuery>;
+export type PartnerVisitorsQueryResult = ApolloReactCommon.QueryResult<PartnerVisitorsQuery, PartnerVisitorsQueryVariables>;
+export const PartnerSalesDocument = gql`
+    query PartnerSales($offset: Int!, $limit: Int!) {
+  partnerSales(offset: $offset, limit: $limit) {
+    edges {
+      id
+      royalty
+      price
+      createdAt
+      courseId
+      bundleId
+      isCoupon
+    }
+    pageInfo {
+      total
+    }
+  }
+}
+    `;
+
+/**
+ * __usePartnerSalesQuery__
+ *
+ * To run a query within a React component, call `usePartnerSalesQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePartnerSalesQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePartnerSalesQuery({
+ *   variables: {
+ *      offset: // value for 'offset'
+ *      limit: // value for 'limit'
+ *   },
+ * });
+ */
+export function usePartnerSalesQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<PartnerSalesQuery, PartnerSalesQueryVariables>) {
+        return ApolloReactHooks.useQuery<PartnerSalesQuery, PartnerSalesQueryVariables>(PartnerSalesDocument, baseOptions);
+      }
+export function usePartnerSalesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<PartnerSalesQuery, PartnerSalesQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<PartnerSalesQuery, PartnerSalesQueryVariables>(PartnerSalesDocument, baseOptions);
+        }
+export type PartnerSalesQueryHookResult = ReturnType<typeof usePartnerSalesQuery>;
+export type PartnerSalesLazyQueryHookResult = ReturnType<typeof usePartnerSalesLazyQuery>;
+export type PartnerSalesQueryResult = ApolloReactCommon.QueryResult<PartnerSalesQuery, PartnerSalesQueryVariables>;
+export const PartnerPaymentsDocument = gql`
+    query PartnerPayments {
+  partnerPayments {
+    createdAt
+    royalty
+  }
+}
+    `;
+
+/**
+ * __usePartnerPaymentsQuery__
+ *
+ * To run a query within a React component, call `usePartnerPaymentsQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePartnerPaymentsQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePartnerPaymentsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function usePartnerPaymentsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<PartnerPaymentsQuery, PartnerPaymentsQueryVariables>) {
+        return ApolloReactHooks.useQuery<PartnerPaymentsQuery, PartnerPaymentsQueryVariables>(PartnerPaymentsDocument, baseOptions);
+      }
+export function usePartnerPaymentsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<PartnerPaymentsQuery, PartnerPaymentsQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<PartnerPaymentsQuery, PartnerPaymentsQueryVariables>(PartnerPaymentsDocument, baseOptions);
+        }
+export type PartnerPaymentsQueryHookResult = ReturnType<typeof usePartnerPaymentsQuery>;
+export type PartnerPaymentsLazyQueryHookResult = ReturnType<typeof usePartnerPaymentsLazyQuery>;
+export type PartnerPaymentsQueryResult = ApolloReactCommon.QueryResult<PartnerPaymentsQuery, PartnerPaymentsQueryVariables>;
 export const PaypalCreateOrderDocument = gql`
-    mutation PaypalCreateOrder($courseId: CourseId!, $bundleId: BundleId!, $coupon: String) {
-  paypalCreateOrder(courseId: $courseId, bundleId: $bundleId, coupon: $coupon) {
+    mutation PaypalCreateOrder($courseId: CourseId!, $bundleId: BundleId!, $coupon: String, $partnerId: String) {
+  paypalCreateOrder(courseId: $courseId, bundleId: $bundleId, coupon: $coupon, partnerId: $partnerId) {
     orderId
   }
 }
@@ -1012,6 +1319,7 @@ export type PaypalCreateOrderMutationFn = ApolloReactCommon.MutationFunction<Pay
  *      courseId: // value for 'courseId'
  *      bundleId: // value for 'bundleId'
  *      coupon: // value for 'coupon'
+ *      partnerId: // value for 'partnerId'
  *   },
  * });
  */
@@ -1285,8 +1593,8 @@ export type GetStorefrontCoursesQueryHookResult = ReturnType<typeof useGetStoref
 export type GetStorefrontCoursesLazyQueryHookResult = ReturnType<typeof useGetStorefrontCoursesLazyQuery>;
 export type GetStorefrontCoursesQueryResult = ApolloReactCommon.QueryResult<GetStorefrontCoursesQuery, GetStorefrontCoursesQueryVariables>;
 export const StripeCreateOrderDocument = gql`
-    mutation StripeCreateOrder($imageUrl: String!, $courseId: CourseId!, $bundleId: BundleId!, $coupon: String) {
-  stripeCreateOrder(imageUrl: $imageUrl, courseId: $courseId, bundleId: $bundleId, coupon: $coupon) {
+    mutation StripeCreateOrder($imageUrl: String!, $courseId: CourseId!, $bundleId: BundleId!, $coupon: String, $partnerId: String) {
+  stripeCreateOrder(imageUrl: $imageUrl, courseId: $courseId, bundleId: $bundleId, coupon: $coupon, partnerId: $partnerId) {
     id
   }
 }
@@ -1310,6 +1618,7 @@ export type StripeCreateOrderMutationFn = ApolloReactCommon.MutationFunction<Str
  *      courseId: // value for 'courseId'
  *      bundleId: // value for 'bundleId'
  *      coupon: // value for 'coupon'
+ *      partnerId: // value for 'partnerId'
  *   },
  * });
  */
@@ -1365,6 +1674,8 @@ export const GetMeDocument = gql`
   me {
     uid
     email
+    username
+    roles
   }
 }
     `;

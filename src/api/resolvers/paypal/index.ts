@@ -4,7 +4,6 @@ import paypal from '@paypal/checkout-server-sdk';
 import { MutationResolvers } from '@generated/server';
 import { getAsDiscount } from '@services/coupon';
 import paypalClient from '@services/paypal';
-import { Course } from '@models/course';
 import { createCourse } from '@services/firebase/course';
 
 import storefront from '@data/course-storefront';
@@ -17,9 +16,9 @@ export const resolvers: Resolvers = {
   Mutation: {
     // https://developer.paypal.com/docs/checkout/reference/server-integration/set-up-transaction/
     paypalCreateOrder: async (
-      parent,
-      { courseId, bundleId, coupon },
-      { me, courseRepository }
+      _,
+      { courseId, bundleId, coupon, partnerId },
+      { me, courseConnector }
     ) => {
       const course = storefront[courseId];
       const bundle = course.bundles[bundleId];
@@ -28,9 +27,10 @@ export const resolvers: Resolvers = {
         return { orderId: null };
       }
 
-      const courses = await courseRepository.find({
-        where: { userId: me.uid, courseId },
-      });
+      const courses = await courseConnector.getCoursesByUserIdAndCourseId(
+        me.uid,
+        courseId
+      );
 
       const price = await getAsDiscount(
         courseId,
@@ -38,7 +38,7 @@ export const resolvers: Resolvers = {
         courses,
         bundle.price,
         coupon,
-        me?.uid
+        me.uid
       );
 
       const request = new paypal.orders.OrdersCreateRequest();
@@ -54,6 +54,7 @@ export const resolvers: Resolvers = {
               courseId,
               bundleId,
               coupon,
+              partnerId,
             }),
             description: `${courseId} ${bundleId}`,
             amount: {
@@ -75,9 +76,9 @@ export const resolvers: Resolvers = {
     },
     // https://developer.paypal.com/docs/checkout/reference/server-integration/capture-transaction/
     paypalApproveOrder: async (
-      parent,
+      _,
       { orderId },
-      { me, courseRepository }
+      { me, courseConnector, partnerConnector }
     ) => {
       const request = new paypal.orders.OrdersCaptureRequest(orderId);
       request.requestBody({});
@@ -90,20 +91,23 @@ export const resolvers: Resolvers = {
           custom_id,
         } = capture.result.purchase_units[0].payments.captures[0];
 
-        const { courseId, bundleId, coupon } = JSON.parse(custom_id);
+        const { courseId, bundleId, coupon, partnerId } = JSON.parse(
+          custom_id
+        );
 
-        // NEW
-        const course = new Course();
-        course.userId = me!.uid;
-        course.courseId = courseId;
-        course.bundleId = bundleId;
-        course.price = +amount.value.replace('.', '');
-        course.currency = 'USD';
-        course.paymentType = 'PAYPAL';
-        course.coupon = coupon;
+        const course = await courseConnector.createCourse({
+          userId: me!.uid,
+          courseId: courseId,
+          bundleId: bundleId,
+          price: +amount.value.replace('.', ''),
+          currency: 'USD',
+          paymentType: 'PAYPAL',
+          coupon: coupon,
+        });
 
-        await courseRepository.save(course);
-        // NEW END
+        if (partnerId && partnerId !== me?.uid) {
+          await partnerConnector.createSale(course, partnerId);
+        }
 
         // LEGACY
         await createCourse({

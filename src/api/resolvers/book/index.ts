@@ -7,7 +7,7 @@ interface Resolvers {
 
 export const resolvers: Resolvers = {
   Query: {
-    book: async (parent, { path, fileName }) => {
+    book: async (_, { path, fileName }) => {
       const data = await s3
         .getObject({
           Bucket: bucket,
@@ -21,7 +21,7 @@ export const resolvers: Resolvers = {
         body: data?.Body?.toString('base64'),
       };
     },
-    onlineChapter: async (parent, { path }) => {
+    onlineChapter: async (_, { path }) => {
       const data = await s3
         .getObject({
           Bucket: bucket,

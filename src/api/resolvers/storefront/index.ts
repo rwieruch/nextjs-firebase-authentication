@@ -9,7 +9,7 @@ interface Resolvers {
 
 export const resolvers: Resolvers = {
   Query: {
-    storefrontCourse: (parent, { courseId, bundleId }) => {
+    storefrontCourse: (_, { courseId, bundleId }) => {
       const course = storefront[courseId];
       const bundle = course.bundles[bundleId];
 
@@ -32,7 +32,7 @@ export const resolvers: Resolvers = {
         canUpgrade: false,
       }));
     },
-    storefrontBundles: (parent, { courseId }) => {
+    storefrontBundles: (_, { courseId }) => {
       const course = storefront[courseId];
 
       return sortBy(

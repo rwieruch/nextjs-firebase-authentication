@@ -12,9 +12,9 @@ export const resolvers: Resolvers = {
   Mutation: {
     // https://stripe.com/docs/payments/checkout/one-time#create-one-time-payments
     stripeCreateOrder: async (
-      parent,
-      { imageUrl, courseId, bundleId, coupon },
-      { me, courseRepository }
+      _,
+      { imageUrl, courseId, bundleId, coupon, partnerId },
+      { me, courseConnector }
     ) => {
       const course = storefront[courseId];
       const bundle = course.bundles[bundleId];
@@ -23,9 +23,10 @@ export const resolvers: Resolvers = {
         return { id: null };
       }
 
-      const courses = await courseRepository.find({
-        where: { userId: me.uid, courseId },
-      });
+      const courses = await courseConnector.getCoursesByUserIdAndCourseId(
+        me.uid,
+        courseId
+      );
 
       const price = await getAsDiscount(
         courseId,
@@ -57,6 +58,7 @@ export const resolvers: Resolvers = {
             courseId,
             bundleId,
             coupon,
+            partnerId,
           },
           payment_intent_data: {
             description: `${courseId} ${bundleId}`,

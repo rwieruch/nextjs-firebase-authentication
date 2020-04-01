@@ -5,12 +5,15 @@ import { useApolloClient } from '@apollo/react-hooks';
 import { Session } from '@typeDefs/session';
 import { MIGRATE } from '@queries/migrate';
 import { CREATE_ADMIN_COURSE } from '@queries/course';
+import { PROMOTE_TO_PARTNER } from '@queries/partner';
 import { formatRouteQuery } from '@services/format';
 
 const TYPES = {
   MIGRATE: 'MIGRATE',
 
   COURSE_CREATE: 'COURSE_CREATE',
+
+  PROMOTE_TO_PARTNER: 'PROMOTE_TO_PARTNER',
 };
 
 const AdminPage = () => {
@@ -36,6 +39,15 @@ const AdminPage = () => {
         mutation: MIGRATE,
         variables: {
           migrationType: formatRouteQuery(query.migrationType),
+        },
+      });
+    }
+
+    if (type === TYPES.PROMOTE_TO_PARTNER) {
+      apolloClient.mutate({
+        mutation: PROMOTE_TO_PARTNER,
+        variables: {
+          uid: formatRouteQuery(query.uid),
         },
       });
     }
