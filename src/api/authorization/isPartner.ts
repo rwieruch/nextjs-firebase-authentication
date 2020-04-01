@@ -3,12 +3,12 @@ import { ForbiddenError } from 'apollo-server';
 
 import * as ROLES from '@constants/roles';
 
-export const isAdmin = rule()(async (parent, args, { me }) => {
+export const isPartner = rule()(async (parent, args, { me }) => {
   if (!me) {
     return new ForbiddenError('Not authenticated as user.');
   }
 
-  return me.customClaims && me.customClaims[ROLES.ADMIN]
-     true
-    : new ForbiddenError('No admin user.');
+  return me.customClaims && me.customClaims[ROLES.PARTNER]
+    ? true
+    : new ForbiddenError('No partner user.');
 });

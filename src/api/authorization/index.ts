@@ -2,6 +2,7 @@ import { shield, and } from 'graphql-shield';
 
 import { isAuthenticated } from './isAuthenticated';
 import { isAdmin } from './isAdmin';
+import { isPartner } from './isPartner';
 import { isFreeCourse } from './isFreeCourse';
 
 export default shield({
@@ -13,11 +14,20 @@ export default shield({
   Mutation: {
     migrate: and(isAuthenticated, isAdmin),
 
+    // Session
+
     passwordChange: isAuthenticated,
+
+    // Course
 
     createFreeCourse: and(isAuthenticated, isFreeCourse),
     createAdminCourse: and(isAuthenticated, isAdmin),
 
+    // Partner
+
     promoteToPartner: and(isAuthenticated, isAdmin),
+    partnerGetVisitors: and(isAuthenticated, isPartner),
+    partnerSales: and(isAuthenticated, isPartner),
+    partnerPayments: and(isAuthenticated, isPartner),
   },
 });
