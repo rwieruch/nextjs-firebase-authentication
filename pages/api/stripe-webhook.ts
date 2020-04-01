@@ -61,7 +61,7 @@ export default async (
       coupon: coupon,
     });
 
-    if (partnerId) {
+    if (partnerId && partnerId !== client_reference_id) {
       await partnerConnector.createSale(course, partnerId);
     }
 

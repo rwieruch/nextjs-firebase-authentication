@@ -38,7 +38,7 @@ export const resolvers: Resolvers = {
         courses,
         bundle.price,
         coupon,
-        me?.uid
+        me.uid
       );
 
       const request = new paypal.orders.OrdersCreateRequest();
@@ -105,7 +105,7 @@ export const resolvers: Resolvers = {
           coupon: coupon,
         });
 
-        if (partnerId) {
+        if (partnerId && partnerId !== me?.uid) {
           await partnerConnector.createSale(course, partnerId);
         }
 
