@@ -16,3 +16,13 @@ export const GET_DISCOUNTED_PRICE = gql`
     }
   }
 `;
+
+export const COUPON_CREATE = gql`
+  mutation CouponCreate(
+    $coupon: String!
+    $discount: Int!
+    $count: Int!
+  ) {
+    couponCreate(coupon: $coupon, discount: $discount, count: $count)
+  }
+`;

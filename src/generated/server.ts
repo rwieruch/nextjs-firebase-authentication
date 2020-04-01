@@ -146,6 +146,7 @@ export type Mutation = {
   stripeCreateOrder: StripeId;
   createFreeCourse: Scalars['Boolean'];
   createAdminCourse: Scalars['Boolean'];
+  couponCreate?: Maybe<Scalars['Boolean']>;
   promoteToPartner?: Maybe<Scalars['Boolean']>;
   partnerTrackVisitor?: Maybe<Scalars['Boolean']>;
 };
@@ -216,6 +217,13 @@ export type MutationCreateAdminCourseArgs = {
   uid: Scalars['String'];
   courseId: CourseId;
   bundleId: BundleId;
+};
+
+
+export type MutationCouponCreateArgs = {
+  coupon: Scalars['String'];
+  discount: Scalars['Int'];
+  count: Scalars['Int'];
 };
 
 
@@ -692,6 +700,7 @@ export type MutationResolvers<ContextType = ResolverContext, ParentType extends 
   stripeCreateOrder?: Resolver<ResolversTypes['StripeId'], ParentType, ContextType, RequireFields<MutationStripeCreateOrderArgs, 'imageUrl' | 'courseId' | 'bundleId'>>,
   createFreeCourse?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationCreateFreeCourseArgs, 'courseId' | 'bundleId'>>,
   createAdminCourse?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationCreateAdminCourseArgs, 'uid' | 'courseId' | 'bundleId'>>,
+  couponCreate?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationCouponCreateArgs, 'coupon' | 'discount' | 'count'>>,
   promoteToPartner?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationPromoteToPartnerArgs, 'uid'>>,
   partnerTrackVisitor?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationPartnerTrackVisitorArgs, 'partnerId'>>,
 }>;

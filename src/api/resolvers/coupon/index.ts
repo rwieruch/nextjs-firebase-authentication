@@ -1,9 +1,10 @@
-import { QueryResolvers } from '@generated/server';
+import { QueryResolvers, MutationResolvers } from '@generated/server';
 import { getAsDiscount } from '@services/coupon';
 import storefront from '@data/course-storefront';
 
 interface Resolvers {
   Query: QueryResolvers;
+  Mutation: MutationResolvers;
 }
 
 export const resolvers: Resolvers = {
@@ -38,6 +39,21 @@ export const resolvers: Resolvers = {
         price,
         isDiscount: price !== bundle.price,
       };
+    },
+  },
+  Mutation: {
+    couponCreate: async (
+      _,
+      { coupon, discount, count },
+      { couponConnector }
+    ) => {
+      try {
+        await couponConnector.createCoupons(coupon, discount, count);
+      } catch (error) {
+        return false;
+      }
+
+      return true;
     },
   },
 };

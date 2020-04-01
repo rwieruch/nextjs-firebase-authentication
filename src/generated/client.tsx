@@ -148,6 +148,7 @@ export type Mutation = {
   stripeCreateOrder: StripeId;
   createFreeCourse: Scalars['Boolean'];
   createAdminCourse: Scalars['Boolean'];
+  couponCreate?: Maybe<Scalars['Boolean']>;
   promoteToPartner?: Maybe<Scalars['Boolean']>;
   partnerTrackVisitor?: Maybe<Scalars['Boolean']>;
 };
@@ -218,6 +219,13 @@ export type MutationCreateAdminCourseArgs = {
   uid: Scalars['String'];
   courseId: CourseId;
   bundleId: BundleId;
+};
+
+
+export type MutationCouponCreateArgs = {
+  coupon: Scalars['String'];
+  discount: Scalars['Int'];
+  count: Scalars['Int'];
 };
 
 
@@ -454,6 +462,18 @@ export type GetDiscountedPriceQuery = (
     { __typename?: 'Discount' }
     & Pick<Discount, 'price' | 'isDiscount'>
   ) }
+);
+
+export type CouponCreateMutationVariables = {
+  coupon: Scalars['String'];
+  discount: Scalars['Int'];
+  count: Scalars['Int'];
+};
+
+
+export type CouponCreateMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'couponCreate'>
 );
 
 export type GetCoursesQueryVariables = {};
@@ -899,6 +919,38 @@ export function useGetDiscountedPriceLazyQuery(baseOptions?: ApolloReactHooks.La
 export type GetDiscountedPriceQueryHookResult = ReturnType<typeof useGetDiscountedPriceQuery>;
 export type GetDiscountedPriceLazyQueryHookResult = ReturnType<typeof useGetDiscountedPriceLazyQuery>;
 export type GetDiscountedPriceQueryResult = ApolloReactCommon.QueryResult<GetDiscountedPriceQuery, GetDiscountedPriceQueryVariables>;
+export const CouponCreateDocument = gql`
+    mutation CouponCreate($coupon: String!, $discount: Int!, $count: Int!) {
+  couponCreate(coupon: $coupon, discount: $discount, count: $count)
+}
+    `;
+export type CouponCreateMutationFn = ApolloReactCommon.MutationFunction<CouponCreateMutation, CouponCreateMutationVariables>;
+
+/**
+ * __useCouponCreateMutation__
+ *
+ * To run a mutation, you first call `useCouponCreateMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCouponCreateMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [couponCreateMutation, { data, loading, error }] = useCouponCreateMutation({
+ *   variables: {
+ *      coupon: // value for 'coupon'
+ *      discount: // value for 'discount'
+ *      count: // value for 'count'
+ *   },
+ * });
+ */
+export function useCouponCreateMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CouponCreateMutation, CouponCreateMutationVariables>) {
+        return ApolloReactHooks.useMutation<CouponCreateMutation, CouponCreateMutationVariables>(CouponCreateDocument, baseOptions);
+      }
+export type CouponCreateMutationHookResult = ReturnType<typeof useCouponCreateMutation>;
+export type CouponCreateMutationResult = ApolloReactCommon.MutationResult<CouponCreateMutation>;
+export type CouponCreateMutationOptions = ApolloReactCommon.BaseMutationOptions<CouponCreateMutation, CouponCreateMutationVariables>;
 export const GetCoursesDocument = gql`
     query GetCourses {
   unlockedCourses {

@@ -8,9 +8,6 @@ import { isFreeCourse } from './isFreeCourse';
 export default shield({
   Query: {
     me: isAuthenticated,
-
-    // Coupon
-
     discountedPrice: isAuthenticated,
 
     // Partner
@@ -20,19 +17,17 @@ export default shield({
     partnerPayments: and(isAuthenticated, isPartner),
   },
   Mutation: {
-    migrate: and(isAuthenticated, isAdmin),
-
-    // Session
-
     passwordChange: isAuthenticated,
 
-    // Course
+    // Admin
 
-    createFreeCourse: and(isAuthenticated, isFreeCourse),
+    migrate: and(isAuthenticated, isAdmin),
+    promoteToPartner: and(isAuthenticated, isAdmin),
+    couponCreate: and(isAuthenticated, isAdmin),
     createAdminCourse: and(isAuthenticated, isAdmin),
 
-    // Partner
+    // Free
 
-    promoteToPartner: and(isAuthenticated, isAdmin),
+    createFreeCourse: and(isAuthenticated, isFreeCourse),
   },
 });
