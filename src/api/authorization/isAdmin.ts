@@ -1,14 +1,14 @@
 import { rule } from 'graphql-shield';
 import { ForbiddenError } from 'apollo-server';
 
-import * as ROLES from '@constants/roles';
+import { hasAdminRole } from '@validation/admin';
 
 export const isAdmin = rule()(async (parent, args, { me }) => {
   if (!me) {
     return new ForbiddenError('Not authenticated as user.');
   }
 
-  return me.customClaims && me.customClaims[ROLES.ADMIN]
+  return hasAdminRole(me)
     ? true
     : new ForbiddenError('No admin user.');
 });
