@@ -151,6 +151,7 @@ export type Mutation = {
   couponCreate?: Maybe<Scalars['Boolean']>;
   promoteToPartner?: Maybe<Scalars['Boolean']>;
   partnerTrackVisitor?: Maybe<Scalars['Boolean']>;
+  communityJoin?: Maybe<Scalars['Boolean']>;
 };
 
 
@@ -236,6 +237,11 @@ export type MutationPromoteToPartnerArgs = {
 
 export type MutationPartnerTrackVisitorArgs = {
   partnerId: Scalars['String'];
+};
+
+
+export type MutationCommunityJoinArgs = {
+  email: Scalars['String'];
 };
 
 export type Onboarding = {
@@ -447,6 +453,16 @@ export type GetOnlineChapterQuery = (
     { __typename?: 'Markdown' }
     & Pick<Markdown, 'body'>
   ) }
+);
+
+export type CommunityJoinMutationVariables = {
+  email: Scalars['String'];
+};
+
+
+export type CommunityJoinMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'communityJoin'>
 );
 
 export type GetDiscountedPriceQueryVariables = {
@@ -883,6 +899,36 @@ export function useGetOnlineChapterLazyQuery(baseOptions?: ApolloReactHooks.Lazy
 export type GetOnlineChapterQueryHookResult = ReturnType<typeof useGetOnlineChapterQuery>;
 export type GetOnlineChapterLazyQueryHookResult = ReturnType<typeof useGetOnlineChapterLazyQuery>;
 export type GetOnlineChapterQueryResult = ApolloReactCommon.QueryResult<GetOnlineChapterQuery, GetOnlineChapterQueryVariables>;
+export const CommunityJoinDocument = gql`
+    mutation CommunityJoin($email: String!) {
+  communityJoin(email: $email)
+}
+    `;
+export type CommunityJoinMutationFn = ApolloReactCommon.MutationFunction<CommunityJoinMutation, CommunityJoinMutationVariables>;
+
+/**
+ * __useCommunityJoinMutation__
+ *
+ * To run a mutation, you first call `useCommunityJoinMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCommunityJoinMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [communityJoinMutation, { data, loading, error }] = useCommunityJoinMutation({
+ *   variables: {
+ *      email: // value for 'email'
+ *   },
+ * });
+ */
+export function useCommunityJoinMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CommunityJoinMutation, CommunityJoinMutationVariables>) {
+        return ApolloReactHooks.useMutation<CommunityJoinMutation, CommunityJoinMutationVariables>(CommunityJoinDocument, baseOptions);
+      }
+export type CommunityJoinMutationHookResult = ReturnType<typeof useCommunityJoinMutation>;
+export type CommunityJoinMutationResult = ApolloReactCommon.MutationResult<CommunityJoinMutation>;
+export type CommunityJoinMutationOptions = ApolloReactCommon.BaseMutationOptions<CommunityJoinMutation, CommunityJoinMutationVariables>;
 export const GetDiscountedPriceDocument = gql`
     query GetDiscountedPrice($courseId: CourseId!, $bundleId: BundleId!, $coupon: String!) {
   discountedPrice(courseId: $courseId, bundleId: $bundleId, coupon: $coupon) {

@@ -5,10 +5,12 @@ export default ({
   key,
   loading,
   error,
+  success,
 }: {
   key: string;
   loading?: boolean;
   error?: { message?: string };
+  success?: { message?: string };
 }) => {
   let destroyMessage = React.useRef(() => {});
 
@@ -37,7 +39,7 @@ export default ({
 
   const successMessage = () => {
     destroyMessage.current = message.success({
-      content: 'Success!',
+      content: success ? success.message : 'Success!',
       key: key,
       duration: 2,
     });

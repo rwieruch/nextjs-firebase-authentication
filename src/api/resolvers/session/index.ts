@@ -71,12 +71,6 @@ export const resolvers: Resolvers = {
       await firebase.auth().signOut();
 
       try {
-        inviteToSlack(email);
-      } catch (error) {
-        console.log(error);
-      }
-
-      try {
         inviteToConvertkit(email, username);
       } catch (error) {
         console.log(error);

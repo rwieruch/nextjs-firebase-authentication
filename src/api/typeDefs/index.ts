@@ -11,6 +11,7 @@ import bookSchema from './book';
 import upgradeSchema from './upgrade';
 import couponSchema from './coupon';
 import partnerSchema from './partner';
+import communitySchema from './community';
 
 const linkSchema = gql`
   scalar DateTime
@@ -54,4 +55,5 @@ export default [
   upgradeSchema,
   couponSchema,
   partnerSchema,
+  communitySchema,
 ];

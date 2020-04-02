@@ -18,6 +18,7 @@ export default shield({
   },
   Mutation: {
     passwordChange: isAuthenticated,
+    communityJoin: isAuthenticated,
 
     // Admin
 
