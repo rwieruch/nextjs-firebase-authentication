@@ -67,9 +67,9 @@ export const priceWithDiscount = (
   bundleId: BUNDLE,
   price: number,
   coupon: string | undefined | null,
-  uid: string
+  uid: string | undefined | null
 ) => {
-  if (!coupon || price === 0) {
+  if (!coupon || price === 0 || !uid) {
     return price;
   }
 
