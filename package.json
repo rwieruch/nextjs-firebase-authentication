@@ -49,7 +49,7 @@
     "babel-plugin-inline-import": "^3.0.0",
     "dotenv": "^8.2.0",
     "file-saver": "^2.0.2",
-    "firebase": "^7.7.0",
+    "firebase": "^7.13.2",
     "firebase-admin": "^8.9.1",
     "graphql": "^14.5.8",
     "graphql-iso-date": "^3.6.1",
