@@ -127,7 +127,7 @@ class MyApp extends NextApp {
   handleGoogleAnalytics = () => {
     initGA();
     logPageView();
-    Router.events.on('routeChangeComplete', logPageView());
+    Router.events.on('routeChangeComplete', logPageView);
   };
 
   handlePartnerProgram = async () => {
