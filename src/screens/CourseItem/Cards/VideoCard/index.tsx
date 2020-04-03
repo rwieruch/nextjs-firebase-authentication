@@ -4,7 +4,7 @@ import { Modal, Icon } from 'antd';
 import ReactPlayer from 'react-player';
 
 import { CurriculumItem } from '@generated/client';
-import ExternalLink from '@components/ExternalLink';
+import Link from '@components/Link';
 
 import { StyledCard } from '../../styles';
 
@@ -45,7 +45,7 @@ const VideoCard = ({ item }: VideoCardProps) => {
 
   if (item.secondaryUrl) {
     actions = actions.concat(
-      <ExternalLink href={item.secondaryUrl}>More</ExternalLink>
+      <Link href={item.secondaryUrl}>More</Link>
     );
   }
 

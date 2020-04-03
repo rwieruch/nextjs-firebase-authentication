@@ -2,7 +2,7 @@ import React from 'react';
 import { Icon } from 'antd';
 
 import { OnboardingData, OnboardingItem } from '@generated/client';
-import ExternalLink from '@components/ExternalLink';
+import Link from '@components/Link';
 
 import { StyledCards, StyledCard } from '../styles';
 
@@ -11,11 +11,11 @@ type OnboardingCardProps = {
 };
 
 const OnboardingCard = ({ item }: OnboardingCardProps) => {
-  let actions = [<ExternalLink href={item.url}>Hop On</ExternalLink>];
+  let actions = [<Link href={item.url}>Hop On</Link>];
 
   if (item.secondaryUrl) {
     actions = actions.concat(
-      <ExternalLink href={item.secondaryUrl}>More</ExternalLink>
+      <Link href={item.secondaryUrl}>More</Link>
     );
   }
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { Icon } from 'antd';
 
 import { CurriculumItem } from '@generated/client';
-import ExternalLink from '@components/ExternalLink';
+import Link from '@components/Link';
 
 import { StyledCard } from '../../styles';
 
@@ -11,13 +11,11 @@ type ArticleCardProps = {
 };
 
 const ArticleCard = ({ item }: ArticleCardProps) => {
-  let actions = [
-    <ExternalLink href={item.url || ''}>Read</ExternalLink>,
-  ];
+  let actions = [<Link href={item.url || ''}>Read</Link>];
 
   if (item.secondaryUrl) {
     actions = actions.concat(
-      <ExternalLink href={item.secondaryUrl}>More</ExternalLink>
+      <Link href={item.secondaryUrl}>More</Link>
     );
   }
 

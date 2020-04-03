@@ -1,6 +1,5 @@
 import React from 'react';
 import { NextPage } from 'next';
-import Link from 'next/link';
 import styled from 'styled-components';
 import { Card, Col, Row, Layout as AntdLayout } from 'antd';
 
@@ -9,6 +8,7 @@ import { GET_ME } from '@queries/user';
 import { Session } from '@typeDefs/session';
 import * as ROUTES from '@constants/routes';
 import Layout from '@components/Layout';
+import Link from '@components/Link';
 
 const StyledContent = styled(AntdLayout.Content)`
   margin: calc(56px + 32px) 32px 32px;
@@ -40,9 +40,7 @@ const AccountPage: NextAuthPage = ({ data }) => {
                 </li>
                 <li>
                   <strong>Email:</strong> {data?.me?.email} (
-                  <Link href={ROUTES.EMAIL_CHANGE}>
-                    <a>Change Email</a>
-                  </Link>
+                  <Link href={ROUTES.EMAIL_CHANGE}>Change Email</Link>
                   )
                 </li>
               </ul>
@@ -53,18 +51,16 @@ const AccountPage: NextAuthPage = ({ data }) => {
               <ul>
                 <li>
                   <Link href={ROUTES.PASSWORD_CHANGE}>
-                    <a>Change Password</a>
+                    Change Password
                   </Link>
                 </li>
                 <li>
                   <Link href={ROUTES.PASSWORD_FORGOT}>
-                    <a>Forgot Password</a>
+                    Forgot Password
                   </Link>
                 </li>
                 <li>
-                  <Link href={ROUTES.EMAIL_CHANGE}>
-                    <a>Change Email</a>
-                  </Link>
+                  <Link href={ROUTES.EMAIL_CHANGE}>Change Email</Link>
                 </li>
               </ul>
             </Card>
@@ -73,9 +69,7 @@ const AccountPage: NextAuthPage = ({ data }) => {
             <Card title="Partner">
               <ul>
                 <li>
-                  <Link href={ROUTES.PARTNER}>
-                    <a>Partner Program</a>
-                  </Link>
+                  <Link href={ROUTES.PARTNER}>Partner Program</Link>
                 </li>
               </ul>
             </Card>

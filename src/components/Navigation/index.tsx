@@ -1,11 +1,11 @@
 import React from 'react';
-import Link from 'next/link';
 import styled from 'styled-components';
 import { Menu, Icon } from 'antd';
 
 import { useApolloClient } from '@apollo/react-hooks';
 import * as ROUTES from '@constants/routes';
 import SessionContext from '@context/session';
+import Link from '@components/Link';
 
 import signOut from './signOut';
 
@@ -32,17 +32,13 @@ const Navigation = () => {
           }}
         >
           <Link href="/">
-            <a>
-              <img height="40" src="/logo.svg" alt="logo" />
-            </a>
+            <img height="40" src="/logo.svg" alt="logo" />
           </Link>
         </Menu.Item>
 
         {!session && (
           <Menu.Item style={{ float: 'right' }}>
-            <Link href={ROUTES.SIGN_IN}>
-              <a>Sign In</a>
-            </Link>
+            <Link href={ROUTES.SIGN_IN}>Sign In</Link>
           </Menu.Item>
         )}
 
@@ -50,26 +46,20 @@ const Navigation = () => {
           <Menu.SubMenu style={{ float: 'right' }} title="Home">
             <Menu.Item key="0">
               <Link href={ROUTES.ACCOUNT}>
-                <a>
-                  <Icon type="user" />
-                  Account
-                </a>
+                <Icon type="user" />
+                Account
               </Link>
             </Menu.Item>
             <Menu.Item key="2">
               <Link href={ROUTES.COMMUNITY_JOIN}>
-                <a>
-                  <Icon type="notification" />
-                  Join Community
-                </a>
+                <Icon type="notification" />
+                Join Community
               </Link>
             </Menu.Item>
             <Menu.Item key="3">
               <Link href={ROUTES.PARTNER}>
-                <a>
-                  <Icon type="coffee" />
-                  Partner Program
-                </a>
+                <Icon type="coffee" />
+                Partner Program
               </Link>
             </Menu.Item>
             <Menu.Item
@@ -85,9 +75,7 @@ const Navigation = () => {
         )}
 
         <Menu.Item style={{ float: 'right' }}>
-          <Link href={ROUTES.INDEX}>
-            <a>Courses</a>
-          </Link>
+          <Link href={ROUTES.INDEX}>Courses</Link>
         </Menu.Item>
       </Menu>
     </Container>

@@ -1,6 +1,5 @@
 import React from 'react';
 import { NextPage } from 'next';
-import Link from 'next/link';
 import styled from 'styled-components';
 import { Layout as AntdLayout, Breadcrumb, Menu, Icon } from 'antd';
 
@@ -9,6 +8,7 @@ import { Session } from '@typeDefs/session';
 import * as ROUTES from '@constants/routes';
 import { GET_UNLOCKED_COURSE } from '@queries/course';
 import Layout from '@components/Layout';
+import Link from '@components/Link';
 import {
   kebabCaseToUpperSnakeCase,
   upperSnakeCaseToKebabCase,
@@ -80,9 +80,7 @@ const CourseItemPage: NextAuthPage = ({ data }) => {
       <StyledContent>
         <Breadcrumb style={{ flex: '0', margin: '16px 0' }}>
           <Breadcrumb.Item>
-            <Link href={ROUTES.INDEX}>
-              <a>Courses</a>
-            </Link>
+            <Link href={ROUTES.INDEX}>Courses</Link>
           </Breadcrumb.Item>
           <Breadcrumb.Item>{header}</Breadcrumb.Item>
         </Breadcrumb>
@@ -217,9 +215,7 @@ const CourseItemPage: NextAuthPage = ({ data }) => {
                       courseId
                     )}`}
                   >
-                    <a>
-                      <Icon type="fire" /> Upgrade
-                    </a>
+                    <Icon type="fire" /> Upgrade
                   </Link>
                 </Menu.Item>
               )}
