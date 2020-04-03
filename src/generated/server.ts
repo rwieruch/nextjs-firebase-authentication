@@ -149,6 +149,7 @@ export type Mutation = {
   couponCreate?: Maybe<Scalars['Boolean']>;
   promoteToPartner?: Maybe<Scalars['Boolean']>;
   partnerTrackVisitor?: Maybe<Scalars['Boolean']>;
+  communityJoin?: Maybe<Scalars['Boolean']>;
 };
 
 
@@ -234,6 +235,11 @@ export type MutationPromoteToPartnerArgs = {
 
 export type MutationPartnerTrackVisitorArgs = {
   partnerId: Scalars['String'];
+};
+
+
+export type MutationCommunityJoinArgs = {
+  email: Scalars['String'];
 };
 
 export type Onboarding = {
@@ -703,6 +709,7 @@ export type MutationResolvers<ContextType = ResolverContext, ParentType extends 
   couponCreate?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationCouponCreateArgs, 'coupon' | 'discount' | 'count'>>,
   promoteToPartner?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationPromoteToPartnerArgs, 'uid'>>,
   partnerTrackVisitor?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationPartnerTrackVisitorArgs, 'partnerId'>>,
+  communityJoin?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationCommunityJoinArgs, 'email'>>,
 }>;
 
 export type OnboardingResolvers<ContextType = ResolverContext, ParentType extends ResolversParentTypes['Onboarding'] = ResolversParentTypes['Onboarding']> = ResolversObject<{

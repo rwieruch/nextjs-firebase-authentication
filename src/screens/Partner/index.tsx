@@ -1,6 +1,5 @@
 import React from 'react';
 import { NextPage } from 'next';
-import Link from 'next/link';
 import styled from 'styled-components';
 import { Card, Layout as AntdLayout, Breadcrumb } from 'antd';
 
@@ -10,6 +9,7 @@ import { User } from '@generated/client';
 import { GET_ME } from '@queries/user';
 import { Session } from '@typeDefs/session';
 import Layout from '@components/Layout';
+import Link from '@components/Link';
 
 import Faq from './Faq';
 import GetStarted from './GetStarted';
@@ -100,9 +100,7 @@ const PartnerPage: NextAuthPage = ({ data }) => {
       <StyledContent>
         <Breadcrumb style={{ flex: '0', margin: '16px 0' }}>
           <Breadcrumb.Item>
-            <Link href={ROUTES.ACCOUNT}>
-              <a>Account</a>
-            </Link>
+            <Link href={ROUTES.ACCOUNT}>Account</Link>
           </Breadcrumb.Item>
           <Breadcrumb.Item>Partner Program</Breadcrumb.Item>
         </Breadcrumb>

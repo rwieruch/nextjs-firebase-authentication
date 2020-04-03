@@ -1,6 +1,5 @@
 import React from 'react';
 import { NextPage } from 'next';
-import Link from 'next/link';
 import styled from 'styled-components';
 import { Layout as AntdLayout, Breadcrumb, Card, Icon } from 'antd';
 
@@ -9,7 +8,7 @@ import { StorefrontCourse } from '@generated/client';
 import { GET_UPGRADEABLE_COURSES } from '@queries/upgrade';
 import { Session } from '@typeDefs/session';
 import Layout from '@components/Layout';
-import ExternalLink from '@components/ExternalLink';
+import Link from '@components/Link';
 import {
   formatPrice,
   kebabCaseToUpperSnakeCase,
@@ -67,9 +66,7 @@ const UpgradePage: NextAuthPage = ({ upgradeableCoursesData }) => {
       <StyledContent>
         <Breadcrumb style={{ flex: '0', margin: '16px 0' }}>
           <Breadcrumb.Item>
-            <Link href={ROUTES.INDEX}>
-              <a>Courses</a>
-            </Link>
+            <Link href={ROUTES.INDEX}>Courses</Link>
           </Breadcrumb.Item>
           <Breadcrumb.Item>
             Upgrade:{' '}
@@ -83,14 +80,12 @@ const UpgradePage: NextAuthPage = ({ upgradeableCoursesData }) => {
                 <Link
                   href={`${ROUTES.CHECKOUT}?courseId=${storefrontCourse.courseId}&bundleId=${storefrontCourse.bundle.bundleId}&coupon=${storefrontCourse.bundle.bundleId}`}
                 >
-                  <a>
-                    <Icon type="fire" key="unlock" /> Upgrade&nbsp;
-                    {formatPrice(storefrontCourse.bundle.price)}
-                  </a>
+                  <Icon type="fire" key="unlock" /> Upgrade&nbsp;
+                  {formatPrice(storefrontCourse.bundle.price)}
                 </Link>,
-                <ExternalLink href={storefrontCourse.url}>
+                <Link href={storefrontCourse.url}>
                   <Icon type="link" key="learn" /> About
-                </ExternalLink>,
+                </Link>,
               ];
 
               return (

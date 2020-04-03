@@ -1,6 +1,5 @@
 import React from 'react';
 import { NextPage } from 'next';
-import Link from 'next/link';
 import styled from 'styled-components';
 import { Layout as AntdLayout, Card, Icon } from 'antd';
 
@@ -11,7 +10,7 @@ import { GET_UNLOCKED_COURSES } from '@queries/course';
 import { GET_STOREFRONT_COURSES } from '@queries/storefront';
 import { Session } from '@typeDefs/session';
 import Layout from '@components/Layout';
-import ExternalLink from '@components/ExternalLink';
+import Link from '@components/Link';
 
 const { Content } = AntdLayout;
 
@@ -83,9 +82,7 @@ const CourseListPage: NextAuthPage = ({
                   course.courseId
                 )}`}
               >
-                <a>
-                  <Icon type="book" key="book" /> Get Started
-                </a>
+                <Icon type="book" key="book" /> Get Started
               </Link>,
             ];
 
@@ -97,9 +94,7 @@ const CourseListPage: NextAuthPage = ({
                     course.courseId
                   )}`}
                 >
-                  <a>
-                    <Icon type="fire" key="unlock" /> Upgrade
-                  </a>
+                  <Icon type="fire" key="unlock" /> Upgrade
                 </Link>
               );
             }
@@ -118,9 +113,9 @@ const CourseListPage: NextAuthPage = ({
             .filter(isUnlocked)
             .map(storefrontCourse => {
               const actions = [
-                <ExternalLink href={storefrontCourse.url}>
+                <Link href={storefrontCourse.url}>
                   <Icon type="unlock" key="unlock" /> Unlock Course
-                </ExternalLink>,
+                </Link>,
               ];
 
               return (

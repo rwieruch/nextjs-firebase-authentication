@@ -10,6 +10,7 @@ import { resolvers as bookResolvers } from './book';
 import { resolvers as upgradeResolvers } from './upgrade';
 import { resolvers as couponResolvers } from './coupon';
 import { resolvers as partnerResolvers } from './partner';
+import { resolvers as communityResolvers } from './community';
 
 const customScalarResolver = {
   DateTime: GraphQLDateTime,
@@ -28,4 +29,5 @@ export default [
   upgradeResolvers,
   couponResolvers,
   partnerResolvers,
+  communityResolvers,
 ];

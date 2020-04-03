@@ -23,14 +23,10 @@ export const resolvers: Resolvers = {
       const course = storefront[courseId];
       const bundle = course.bundles[bundleId];
 
-      if (!me) {
-        return { orderId: null };
-      }
-
       const price = await priceWithDiscount(
         couponConnector,
         courseConnector
-      )(courseId, bundleId, bundle.price, coupon, me.uid);
+      )(courseId, bundleId, bundle.price, coupon, me?.uid);
 
       const request = new paypal.orders.OrdersCreateRequest();
 

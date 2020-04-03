@@ -3,7 +3,7 @@ import { Skeleton } from 'antd';
 
 import { useGetStorefrontCoursesQuery } from '@generated/client';
 import useErrorIndicator from '@hooks/useErrorIndicator';
-import ExternalLink from '@components/ExternalLink';
+import Link from '@components/Link';
 
 interface AssetsProps {
   isPartner: boolean;
@@ -34,9 +34,9 @@ const Assets = ({ isPartner }: AssetsProps) => {
       <ul>
         {data.storefrontCourses.map(storefrontCourse => (
           <li key={storefrontCourse.courseId}>
-            <ExternalLink href={storefrontCourse.url}>
+            <Link href={storefrontCourse.url}>
               {storefrontCourse.header}
-            </ExternalLink>
+            </Link>
           </li>
         ))}
       </ul>
