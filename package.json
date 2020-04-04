@@ -51,7 +51,7 @@
     "file-saver": "^2.0.2",
     "firebase": "^7.7.0",
     "firebase-admin": "^8.9.1",
-    "graphql": "^14.5.8",
+    "graphql": "^15.0.0",
     "graphql-iso-date": "^3.6.1",
     "graphql-middleware": "^4.0.2",
     "graphql-shield": "^7.0.9",
