@@ -4,7 +4,6 @@ import Router from 'next/router';
 import nextCookie from 'next-cookies';
 import { ThemeProvider, createGlobalStyle } from 'styled-components';
 import { ApolloProvider } from '@apollo/react-hooks';
-import * as Sentry from '@sentry/node';
 import { PageTransition } from 'next-page-transitions';
 import lf from 'localforage';
 
@@ -95,10 +94,6 @@ const GlobalStyle = createGlobalStyle`
     padding-left: 20px;
   }
 `;
-
-Sentry.init({
-  dsn: process.env.SENTRY_DSN,
-});
 
 class MyApp extends NextApp {
   static async getInitialProps({ Component, ctx }) {

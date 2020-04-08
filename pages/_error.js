@@ -4,6 +4,10 @@ import React from 'react';
 import Error from 'next/error';
 import * as Sentry from '@sentry/node';
 
+Sentry.init({
+  dsn: process.env.SENTRY_DSN,
+});
+
 const MyError = ({ statusCode, hasGetInitialPropsRun, err }) => {
   if (!hasGetInitialPropsRun && err) {
     // getInitialProps is not called in case of
