@@ -54,6 +54,7 @@
     "graphql": "^14.5.8",
     "graphql-iso-date": "^3.6.1",
     "graphql-middleware": "^4.0.2",
+    "graphql-middleware-sentry": "^3.2.1",
     "graphql-shield": "^7.0.9",
     "isomorphic-unfetch": "^3.0.0",
     "js-cookie": "^2.2.1",
