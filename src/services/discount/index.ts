@@ -2,8 +2,6 @@ import axios from 'axios';
 
 import { COURSE } from '@data/course-keys';
 import { BUNDLE } from '@data/bundle-keys';
-// LEGACY
-// import { getCoursesById } from '@services/firebase/course';
 import { getUpgradeableCourses } from '@services/course';
 import { Course } from '@models/course';
 
@@ -39,9 +37,6 @@ const tryUpgradeDiscount = async (
   coupon: string,
   uid: string
 ) => {
-  // LEGACY
-  //const courses = await getCoursesById(uid);
-
   if (!courses) {
     return price;
   }

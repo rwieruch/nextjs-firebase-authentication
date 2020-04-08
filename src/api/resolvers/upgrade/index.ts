@@ -1,5 +1,4 @@
 import { QueryResolvers } from '@generated/server';
-// import { getCoursesById } from '@services/firebase/course';
 import { getUpgradeableCourses } from '@services/course';
 
 interface Resolvers {
@@ -21,12 +20,6 @@ export const resolvers: Resolvers = {
         me.uid,
         courseId
       );
-
-      // LEGACY
-      // const courses = await getCoursesById(me?.uid);
-      // if (!courses) {
-      //   return [];
-      // }
 
       return getUpgradeableCourses(courseId, courses);
     },

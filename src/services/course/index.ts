@@ -1,10 +1,5 @@
 import omit from 'lodash.omit';
 
-// import {
-//   FirebaseCourseContent,
-//   FirebaseCourse,
-// } from '@services/firebase/course';
-
 import { Course } from '@models/course';
 import { COURSE } from '@data/course-keys';
 import BUNDLE_LEGACY from '@data/bundle-legacy';

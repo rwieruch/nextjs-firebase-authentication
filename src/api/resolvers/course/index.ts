@@ -1,8 +1,5 @@
 import { QueryResolvers, MutationResolvers } from '@generated/server';
-import {
-  createCourse,
-  // getCoursesById,
-} from '@services/firebase/course';
+import { createCourse } from '@services/firebase/course';
 import { mergeCourses } from '@services/course';
 
 interface Resolvers {
@@ -16,12 +13,6 @@ export const resolvers: Resolvers = {
       if (!me) {
         return [];
       }
-
-      // LEGACY
-      // const courses = await getCoursesById(me?.uid);
-      // if (!courses) {
-      //   return [];
-      // }
 
       const courses = await courseConnector.getCoursesByUserId(
         me.uid
@@ -45,12 +36,6 @@ export const resolvers: Resolvers = {
       if (!me) {
         return null;
       }
-
-      // LEGACY
-      // const courses = await getCoursesById(me?.uid);
-      // if (!courses) {
-      //   return null;
-      // }
 
       const courses = await courseConnector.getCoursesByUserIdAndCourseId(
         me.uid,

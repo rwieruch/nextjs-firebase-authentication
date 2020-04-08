@@ -37,29 +37,3 @@ export const createCourse = async ({
         coupon,
       },
     });
-
-export type FirebaseCourseContent = {
-  courseId: COURSE;
-  packageId: BUNDLE;
-  invoice: {
-    amount: number;
-    createdAt: number;
-    currency: string;
-    licencesCount: number;
-    paymentType: string;
-    coupon: string;
-  };
-};
-
-export type FirebaseCourse = {
-  [key: string]: FirebaseCourseContent;
-};
-
-export const getCoursesById = async (
-  uid?: string
-): Promise<FirebaseCourse> =>
-  await firebaseAdmin
-    .database()
-    .ref(`users/${uid}/courses`)
-    .once('value')
-    .then(snapshot => snapshot.val());
