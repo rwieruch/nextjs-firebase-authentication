@@ -152,7 +152,7 @@ export const resolvers: Resolvers = {
 
                     console.log(`Migration of ${i}`);
                   } catch (error) {
-                    console.log(error);
+                    throw new Error(error);
                   }
                 }
               }
@@ -210,8 +210,7 @@ export const resolvers: Resolvers = {
               }, {} as any)
             );
           } catch (error) {
-            console.log(error);
-            return new Error(error);
+            throw new Error(error);
           }
 
           return true;
@@ -232,16 +231,6 @@ export const resolvers: Resolvers = {
               const { uid, username } = userList[i];
 
               if (username) {
-                // try {
-                //   await firebaseAdmin.auth().updateUser(uid, {
-                //     displayName: username,
-                //   });
-
-                //   console.log(`(${i}) New ${username}`);
-                // } catch (error) {
-                //   console.log(error);
-                // }
-
                 try {
                   const user = await firebaseAdmin
                     .auth()
@@ -249,13 +238,12 @@ export const resolvers: Resolvers = {
 
                   console.log(`(${i}) New ${user.displayName}`);
                 } catch (error) {
-                  console.log(error);
+                  throw new Error(error);
                 }
               }
             }
           } catch (error) {
-            console.log(error);
-            return new Error(error);
+            throw new Error(error);
           }
 
           return true;

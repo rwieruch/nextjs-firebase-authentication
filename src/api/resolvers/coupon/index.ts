@@ -41,7 +41,7 @@ export const resolvers: Resolvers = {
       try {
         await couponConnector.createCoupons(coupon, discount, count);
       } catch (error) {
-        return false;
+        throw new Error(error);
       }
 
       return true;

@@ -14,7 +14,9 @@ export default async function() {
     if (connection.isConnected) {
       await connection.close();
     }
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 
   try {
     connection = await createConnection({

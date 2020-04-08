@@ -60,7 +60,7 @@ export const resolvers: Resolvers = {
       try {
         order = await paypalClient().execute(request);
       } catch (error) {
-        throw new Error(error.message);
+        throw new Error(error);
       }
 
       return { orderId: order.result.id };
@@ -115,7 +115,7 @@ export const resolvers: Resolvers = {
         });
         // LEGACY END
       } catch (error) {
-        throw new Error(error.message);
+        throw new Error(error);
       }
 
       return true;

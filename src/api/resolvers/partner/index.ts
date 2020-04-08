@@ -78,7 +78,7 @@ export const resolvers: Resolvers = {
           partner: true,
         });
       } catch (error) {
-        return false;
+        throw new Error(error);
       }
 
       return true;
