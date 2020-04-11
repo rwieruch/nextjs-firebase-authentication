@@ -25,7 +25,7 @@
     "@sentry/node": "^5.12.4",
     "@types/file-saver": "^2.0.1",
     "@types/graphql-iso-date": "^3.3.3",
-    "@types/js-cookie": "^2.2.4",
+    "@types/js-cookie": "^2.2.6",
     "@types/lodash.invert": "^4.3.6",
     "@types/lodash.omit": "^4.5.6",
     "@types/lodash.sortby": "^4.7.6",
