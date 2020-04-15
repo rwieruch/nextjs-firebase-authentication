@@ -1,9 +1,6 @@
-import { MutationResolvers } from '@generated/server';
-import { inviteToSlack } from '@services/slack';
+import { Arg, Resolver, Mutation } from 'type-graphql';
 
-interface Resolvers {
-  Mutation: MutationResolvers;
-}
+import { inviteToSlack } from '@services/slack';
 
 // https://api.slack.com/methods/admin.users.invite
 const SLACK_ERRORS: { [key: string]: string } = {
@@ -61,24 +58,24 @@ const SLACK_ERRORS: { [key: string]: string } = {
     "The server could not complete your operation(s) without encountering an error, likely due to a transient issue on our end. It's possible some aspect of the operation succeeded before the error was raised.",
 };
 
-export const resolvers: Resolvers = {
-  Mutation: {
-    communityJoin: async (_, { email }) => {
-      try {
-        const result = await inviteToSlack(email);
+@Resolver()
+export default class CommunityResolver {
+  @Mutation(() => Boolean)
+  async communityJoin(@Arg('email') email: string) {
+    try {
+      const result = await inviteToSlack(email);
 
-        if (!result) {
-          return new Error('Something went wrong.');
-        }
-
-        if (!result.data.ok) {
-          return new Error(SLACK_ERRORS[result.data.error]);
-        }
-      } catch (error) {
-        return new Error(error);
+      if (!result) {
+        return new Error('Something went wrong.');
       }
 
-      return true;
-    },
-  },
-};
+      if (!result.data.ok) {
+        return new Error(SLACK_ERRORS[result.data.error]);
+      }
+    } catch (error) {
+      return new Error(error);
+    }
+
+    return true;
+  }
+}

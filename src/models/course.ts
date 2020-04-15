@@ -6,8 +6,8 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-import { COURSE } from '@data/course-keys';
-import { BUNDLE } from '@data/bundle-keys';
+import { COURSE } from '@data/course-keys-types';
+import { BUNDLE } from '@data/bundle-keys-types';
 
 @Entity()
 export class Course {

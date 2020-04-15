@@ -1,7 +1,7 @@
 import { Connection, Repository } from 'typeorm';
 
-import { COURSE } from '@data/course-keys';
-import { BUNDLE } from '@data/bundle-keys';
+import { COURSE } from '@data/course-keys-types';
+import { BUNDLE } from '@data/bundle-keys-types';
 import { Course } from '@models/course';
 
 export class CourseConnector {

@@ -1,4 +1,3 @@
-import 'reflect-metadata';
 import { createConnection, getConnection } from 'typeorm';
 
 import * as CourseEntities from './course';

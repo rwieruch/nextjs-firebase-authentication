@@ -22,7 +22,7 @@ export const PARTNER_VISITORS = gql`
 `;
 
 export const PARTNER_SALES = gql`
-  query PartnerSales($offset: Int!, $limit: Int!) {
+  query PartnerSales($offset: Float!, $limit: Float!) {
     partnerSales(offset: $offset, limit: $limit) {
       edges {
         id

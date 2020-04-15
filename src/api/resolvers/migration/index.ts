@@ -1,20 +1,16 @@
-import { MutationResolvers } from '@generated/server';
+import { Arg, Resolver, Mutation } from 'type-graphql';
 
-interface Resolvers {
-  Mutation: MutationResolvers;
+@Resolver()
+export default class MigrationResolver {
+  @Mutation(() => Boolean)
+  async migrate(@Arg('migrationType') migrationType: string) {
+    switch (migrationType) {
+      case 'FOO':
+        return true;
+      case 'BAR':
+        return true;
+      default:
+        return false;
+    }
+  }
 }
-
-export const resolvers: Resolvers = {
-  Mutation: {
-    migrate: async (_, { migrationType }) => {
-      switch (migrationType) {
-        case 'FOO':
-          return true;
-        case 'BAR':
-          return true;
-        default:
-          return false;
-      }
-    },
-  },
-};

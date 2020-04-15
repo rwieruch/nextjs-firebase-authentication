@@ -1,37 +1,63 @@
-import { QueryResolvers } from '@generated/server';
 import s3, { bucket } from '@services/aws/s3';
 
-interface Resolvers {
-  Query: QueryResolvers;
+import {
+  ObjectType,
+  Field,
+  Arg,
+  Resolver,
+  Query,
+} from 'type-graphql';
+
+@ObjectType()
+class File {
+  @Field()
+  fileName: string;
+
+  @Field()
+  contentType: string;
+
+  @Field()
+  body: string;
 }
 
-export const resolvers: Resolvers = {
-  Query: {
-    book: async (_, { path, fileName }) => {
-      const data = await s3
-        .getObject({
-          Bucket: bucket,
-          Key: path,
-        })
-        .promise();
+@ObjectType()
+class Markdown {
+  @Field()
+  body: string;
+}
 
-      return {
-        fileName,
-        contentType: data.ContentType,
-        body: data?.Body?.toString('base64'),
-      };
-    },
-    onlineChapter: async (_, { path }) => {
-      const data = await s3
-        .getObject({
-          Bucket: bucket,
-          Key: path,
-        })
-        .promise();
+@Resolver()
+export default class BookResolver {
+  @Query(() => File)
+  async book(
+    @Arg('path') path: string,
+    @Arg('fileName') fileName: string
+  ) {
+    const data = await s3
+      .getObject({
+        Bucket: bucket,
+        Key: path,
+      })
+      .promise();
 
-      return {
-        body: data?.Body?.toString('base64'),
-      };
-    },
-  },
-};
+    return {
+      fileName,
+      contentType: data.ContentType,
+      body: data?.Body?.toString('base64'),
+    };
+  }
+
+  @Query(() => Markdown)
+  async onlineChapter(@Arg('path') path: string) {
+    const data = await s3
+      .getObject({
+        Bucket: bucket,
+        Key: path,
+      })
+      .promise();
+
+    return {
+      body: data?.Body?.toString('base64'),
+    };
+  }
+}

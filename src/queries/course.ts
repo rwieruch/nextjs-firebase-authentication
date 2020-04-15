@@ -13,7 +13,7 @@ export const GET_UNLOCKED_COURSES = gql`
 `;
 
 export const GET_UNLOCKED_COURSE = gql`
-  query GetCourse($courseId: CourseId!) {
+  query GetCourse($courseId: String!) {
     unlockedCourse(courseId: $courseId) {
       courseId
       header
@@ -81,10 +81,7 @@ export const GET_UNLOCKED_COURSE = gql`
 `;
 
 export const CREATE_FREE_COURSE = gql`
-  mutation CreateFreeCourse(
-    $courseId: CourseId!
-    $bundleId: BundleId!
-  ) {
+  mutation CreateFreeCourse($courseId: String!, $bundleId: String!) {
     createFreeCourse(courseId: $courseId, bundleId: $bundleId)
   }
 `;
@@ -92,8 +89,8 @@ export const CREATE_FREE_COURSE = gql`
 export const CREATE_ADMIN_COURSE = gql`
   mutation CreateAdminCourse(
     $uid: String!
-    $courseId: CourseId!
-    $bundleId: BundleId!
+    $courseId: String!
+    $bundleId: String!
   ) {
     createAdminCourse(
       uid: $uid

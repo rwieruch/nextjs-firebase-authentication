@@ -58,19 +58,6 @@ export type BookSection = {
   url: Scalars['String'];
 };
 
-export enum BundleId {
-  Student = 'STUDENT',
-  Intermediate = 'INTERMEDIATE',
-  Professional = 'PROFESSIONAL'
-}
-
-export enum CourseId {
-  TheRoadToLearnReact = 'THE_ROAD_TO_LEARN_REACT',
-  TamingTheState = 'TAMING_THE_STATE',
-  TheRoadToGraphql = 'THE_ROAD_TO_GRAPHQL',
-  TheRoadToReactWithFirebase = 'THE_ROAD_TO_REACT_WITH_FIREBASE'
-}
-
 export type Curriculum = {
    __typename?: 'Curriculum';
   label: Scalars['String'];
@@ -87,7 +74,7 @@ export type CurriculumItem = {
   label: Scalars['String'];
   url: Scalars['String'];
   description: Scalars['String'];
-  kind: Kind;
+  kind: Scalars['String'];
   secondaryUrl?: Maybe<Scalars['String']>;
 };
 
@@ -100,7 +87,7 @@ export type CurriculumSection = {
 
 export type Discount = {
    __typename?: 'Discount';
-  price: Scalars['Int'];
+  price: Scalars['Float'];
   isDiscount: Scalars['Boolean'];
 };
 
@@ -124,11 +111,6 @@ export type IntroductionData = {
   description: Scalars['String'];
 };
 
-export enum Kind {
-  Article = 'Article',
-  Video = 'Video'
-}
-
 export type Markdown = {
    __typename?: 'Markdown';
   body: Scalars['String'];
@@ -136,22 +118,21 @@ export type Markdown = {
 
 export type Mutation = {
    __typename?: 'Mutation';
-  _?: Maybe<Scalars['Boolean']>;
-  migrate?: Maybe<Scalars['Boolean']>;
+  migrate: Scalars['Boolean'];
   signIn: SessionToken;
   signUp: SessionToken;
   passwordForgot?: Maybe<Scalars['Boolean']>;
   passwordChange?: Maybe<Scalars['Boolean']>;
   emailChange?: Maybe<Scalars['Boolean']>;
-  paypalCreateOrder: OrderId;
-  paypalApproveOrder?: Maybe<Scalars['Boolean']>;
+  paypalCreateOrder: PaypalOrderId;
+  paypalApproveOrder: Scalars['Boolean'];
   stripeCreateOrder: StripeId;
   createFreeCourse: Scalars['Boolean'];
   createAdminCourse: Scalars['Boolean'];
   couponCreate?: Maybe<Scalars['Boolean']>;
-  promoteToPartner?: Maybe<Scalars['Boolean']>;
-  partnerTrackVisitor?: Maybe<Scalars['Boolean']>;
-  communityJoin?: Maybe<Scalars['Boolean']>;
+  promoteToPartner: Scalars['Boolean'];
+  partnerTrackVisitor: Scalars['Boolean'];
+  communityJoin: Scalars['Boolean'];
 };
 
 
@@ -161,15 +142,15 @@ export type MutationMigrateArgs = {
 
 
 export type MutationSignInArgs = {
-  email: Scalars['String'];
   password: Scalars['String'];
+  email: Scalars['String'];
 };
 
 
 export type MutationSignUpArgs = {
-  username: Scalars['String'];
-  email: Scalars['String'];
   password: Scalars['String'];
+  email: Scalars['String'];
+  username: Scalars['String'];
 };
 
 
@@ -189,10 +170,10 @@ export type MutationEmailChangeArgs = {
 
 
 export type MutationPaypalCreateOrderArgs = {
-  courseId: CourseId;
-  bundleId: BundleId;
-  coupon?: Maybe<Scalars['String']>;
   partnerId?: Maybe<Scalars['String']>;
+  coupon?: Maybe<Scalars['String']>;
+  bundleId: Scalars['String'];
+  courseId: Scalars['String'];
 };
 
 
@@ -202,31 +183,31 @@ export type MutationPaypalApproveOrderArgs = {
 
 
 export type MutationStripeCreateOrderArgs = {
-  imageUrl: Scalars['String'];
-  courseId: CourseId;
-  bundleId: BundleId;
-  coupon?: Maybe<Scalars['String']>;
   partnerId?: Maybe<Scalars['String']>;
+  coupon?: Maybe<Scalars['String']>;
+  bundleId: Scalars['String'];
+  courseId: Scalars['String'];
+  imageUrl: Scalars['String'];
 };
 
 
 export type MutationCreateFreeCourseArgs = {
-  courseId: CourseId;
-  bundleId: BundleId;
+  bundleId: Scalars['String'];
+  courseId: Scalars['String'];
 };
 
 
 export type MutationCreateAdminCourseArgs = {
   uid: Scalars['String'];
-  courseId: CourseId;
-  bundleId: BundleId;
+  bundleId: Scalars['String'];
+  courseId: Scalars['String'];
 };
 
 
 export type MutationCouponCreateArgs = {
+  count: Scalars['Float'];
+  discount: Scalars['Float'];
   coupon: Scalars['String'];
-  discount: Scalars['Int'];
-  count: Scalars['Int'];
 };
 
 
@@ -263,30 +244,25 @@ export type OnboardingItem = {
   secondaryUrl?: Maybe<Scalars['String']>;
 };
 
-export type OrderId = {
-   __typename?: 'OrderId';
-  orderId: Scalars['String'];
-};
-
 export type PageInfo = {
    __typename?: 'PageInfo';
-  total: Scalars['Int'];
+  total: Scalars['Float'];
 };
 
 export type PartnerPayment = {
    __typename?: 'PartnerPayment';
   createdAt: Scalars['DateTime'];
-  royalty: Scalars['Int'];
+  royalty: Scalars['Float'];
 };
 
 export type PartnerSale = {
    __typename?: 'PartnerSale';
   id: Scalars['String'];
   createdAt: Scalars['DateTime'];
-  royalty: Scalars['Int'];
-  price: Scalars['Int'];
-  courseId: CourseId;
-  bundleId: BundleId;
+  royalty: Scalars['Float'];
+  price: Scalars['Float'];
+  courseId: Scalars['String'];
+  bundleId: Scalars['String'];
   isCoupon: Scalars['Boolean'];
 };
 
@@ -296,11 +272,15 @@ export type PartnerSaleConnection = {
   pageInfo: PageInfo;
 };
 
+export type PaypalOrderId = {
+   __typename?: 'PaypalOrderId';
+  orderId?: Maybe<Scalars['String']>;
+};
+
 export type Query = {
    __typename?: 'Query';
-  _?: Maybe<Scalars['Boolean']>;
-  me?: Maybe<User>;
-  storefrontCourse?: Maybe<StorefrontCourse>;
+  me: User;
+  storefrontCourse: StorefrontCourse;
   storefrontCourses: Array<StorefrontCourse>;
   storefrontBundles: Array<StorefrontBundle>;
   unlockedCourses: Array<StorefrontCourse>;
@@ -316,24 +296,24 @@ export type Query = {
 
 
 export type QueryStorefrontCourseArgs = {
-  courseId: CourseId;
-  bundleId: BundleId;
+  bundleId: Scalars['String'];
+  courseId: Scalars['String'];
 };
 
 
 export type QueryStorefrontBundlesArgs = {
-  courseId: CourseId;
+  courseId: Scalars['String'];
 };
 
 
 export type QueryUnlockedCourseArgs = {
-  courseId: CourseId;
+  courseId: Scalars['String'];
 };
 
 
 export type QueryBookArgs = {
-  path: Scalars['String'];
   fileName: Scalars['String'];
+  path: Scalars['String'];
 };
 
 
@@ -343,26 +323,26 @@ export type QueryOnlineChapterArgs = {
 
 
 export type QueryUpgradeableCoursesArgs = {
-  courseId: CourseId;
+  courseId: Scalars['String'];
 };
 
 
 export type QueryDiscountedPriceArgs = {
-  courseId: CourseId;
-  bundleId: BundleId;
   coupon: Scalars['String'];
+  bundleId: Scalars['String'];
+  courseId: Scalars['String'];
 };
 
 
 export type QueryPartnerVisitorsArgs = {
-  from: Scalars['DateTime'];
   to: Scalars['DateTime'];
+  from: Scalars['DateTime'];
 };
 
 
 export type QueryPartnerSalesArgs = {
-  offset: Scalars['Int'];
-  limit: Scalars['Int'];
+  limit: Scalars['Float'];
+  offset: Scalars['Float'];
 };
 
 export type SessionToken = {
@@ -373,8 +353,8 @@ export type SessionToken = {
 export type StorefrontBundle = {
    __typename?: 'StorefrontBundle';
   header: Scalars['String'];
-  bundleId: BundleId;
-  price: Scalars['Int'];
+  bundleId: Scalars['String'];
+  price: Scalars['Float'];
   imageUrl: Scalars['String'];
   benefits: Array<Scalars['String']>;
 };
@@ -382,7 +362,7 @@ export type StorefrontBundle = {
 export type StorefrontCourse = {
    __typename?: 'StorefrontCourse';
   header: Scalars['String'];
-  courseId: CourseId;
+  courseId: Scalars['String'];
   url: Scalars['String'];
   imageUrl: Scalars['String'];
   canUpgrade: Scalars['Boolean'];
@@ -391,18 +371,13 @@ export type StorefrontCourse = {
 
 export type StripeId = {
    __typename?: 'StripeId';
-  id: Scalars['String'];
-};
-
-export type Subscription = {
-   __typename?: 'Subscription';
-  _?: Maybe<Scalars['Boolean']>;
+  id?: Maybe<Scalars['String']>;
 };
 
 export type UnlockedCourse = {
    __typename?: 'UnlockedCourse';
-  courseId: CourseId;
-  bundleId: BundleId;
+  courseId: Scalars['String'];
+  bundleId: Scalars['String'];
   header: Scalars['String'];
   url: Scalars['String'];
   imageUrl: Scalars['String'];
@@ -425,7 +400,7 @@ export type User = {
 export type VisitorByDay = {
    __typename?: 'VisitorByDay';
   date: Scalars['DateTime'];
-  count: Scalars['Int'];
+  count: Scalars['Float'];
 };
 
 export type GetBookQueryVariables = {
@@ -466,8 +441,8 @@ export type CommunityJoinMutation = (
 );
 
 export type GetDiscountedPriceQueryVariables = {
-  courseId: CourseId;
-  bundleId: BundleId;
+  courseId: Scalars['String'];
+  bundleId: Scalars['String'];
   coupon: Scalars['String'];
 };
 
@@ -482,8 +457,8 @@ export type GetDiscountedPriceQuery = (
 
 export type CouponCreateMutationVariables = {
   coupon: Scalars['String'];
-  discount: Scalars['Int'];
-  count: Scalars['Int'];
+  discount: Scalars['Float'];
+  count: Scalars['Float'];
 };
 
 
@@ -504,7 +479,7 @@ export type GetCoursesQuery = (
 );
 
 export type GetCourseQueryVariables = {
-  courseId: CourseId;
+  courseId: Scalars['String'];
 };
 
 
@@ -573,8 +548,8 @@ export type GetCourseQuery = (
 );
 
 export type CreateFreeCourseMutationVariables = {
-  courseId: CourseId;
-  bundleId: BundleId;
+  courseId: Scalars['String'];
+  bundleId: Scalars['String'];
 };
 
 
@@ -585,8 +560,8 @@ export type CreateFreeCourseMutation = (
 
 export type CreateAdminCourseMutationVariables = {
   uid: Scalars['String'];
-  courseId: CourseId;
-  bundleId: BundleId;
+  courseId: Scalars['String'];
+  bundleId: Scalars['String'];
 };
 
 
@@ -640,8 +615,8 @@ export type PartnerVisitorsQuery = (
 );
 
 export type PartnerSalesQueryVariables = {
-  offset: Scalars['Int'];
-  limit: Scalars['Int'];
+  offset: Scalars['Float'];
+  limit: Scalars['Float'];
 };
 
 
@@ -671,8 +646,8 @@ export type PartnerPaymentsQuery = (
 );
 
 export type PaypalCreateOrderMutationVariables = {
-  courseId: CourseId;
-  bundleId: BundleId;
+  courseId: Scalars['String'];
+  bundleId: Scalars['String'];
   coupon?: Maybe<Scalars['String']>;
   partnerId?: Maybe<Scalars['String']>;
 };
@@ -681,8 +656,8 @@ export type PaypalCreateOrderMutationVariables = {
 export type PaypalCreateOrderMutation = (
   { __typename?: 'Mutation' }
   & { paypalCreateOrder: (
-    { __typename?: 'OrderId' }
-    & Pick<OrderId, 'orderId'>
+    { __typename?: 'PaypalOrderId' }
+    & Pick<PaypalOrderId, 'orderId'>
   ) }
 );
 
@@ -756,21 +731,21 @@ export type EmailChangeMutation = (
 );
 
 export type GetStorefrontCourseQueryVariables = {
-  courseId: CourseId;
-  bundleId: BundleId;
+  courseId: Scalars['String'];
+  bundleId: Scalars['String'];
 };
 
 
 export type GetStorefrontCourseQuery = (
   { __typename?: 'Query' }
-  & { storefrontCourse?: Maybe<(
+  & { storefrontCourse: (
     { __typename?: 'StorefrontCourse' }
     & Pick<StorefrontCourse, 'header' | 'courseId'>
     & { bundle: (
       { __typename?: 'StorefrontBundle' }
       & Pick<StorefrontBundle, 'header' | 'bundleId' | 'price' | 'imageUrl'>
     ) }
-  )> }
+  ) }
 );
 
 export type GetStorefrontCoursesQueryVariables = {};
@@ -786,8 +761,8 @@ export type GetStorefrontCoursesQuery = (
 
 export type StripeCreateOrderMutationVariables = {
   imageUrl: Scalars['String'];
-  courseId: CourseId;
-  bundleId: BundleId;
+  courseId: Scalars['String'];
+  bundleId: Scalars['String'];
   coupon?: Maybe<Scalars['String']>;
   partnerId?: Maybe<Scalars['String']>;
 };
@@ -802,7 +777,7 @@ export type StripeCreateOrderMutation = (
 );
 
 export type GetUpgradeableCoursesQueryVariables = {
-  courseId: CourseId;
+  courseId: Scalars['String'];
 };
 
 
@@ -823,10 +798,10 @@ export type GetMeQueryVariables = {};
 
 export type GetMeQuery = (
   { __typename?: 'Query' }
-  & { me?: Maybe<(
+  & { me: (
     { __typename?: 'User' }
     & Pick<User, 'uid' | 'email' | 'username' | 'roles'>
-  )> }
+  ) }
 );
 
 
@@ -930,7 +905,7 @@ export type CommunityJoinMutationHookResult = ReturnType<typeof useCommunityJoin
 export type CommunityJoinMutationResult = ApolloReactCommon.MutationResult<CommunityJoinMutation>;
 export type CommunityJoinMutationOptions = ApolloReactCommon.BaseMutationOptions<CommunityJoinMutation, CommunityJoinMutationVariables>;
 export const GetDiscountedPriceDocument = gql`
-    query GetDiscountedPrice($courseId: CourseId!, $bundleId: BundleId!, $coupon: String!) {
+    query GetDiscountedPrice($courseId: String!, $bundleId: String!, $coupon: String!) {
   discountedPrice(courseId: $courseId, bundleId: $bundleId, coupon: $coupon) {
     price
     isDiscount
@@ -966,7 +941,7 @@ export type GetDiscountedPriceQueryHookResult = ReturnType<typeof useGetDiscount
 export type GetDiscountedPriceLazyQueryHookResult = ReturnType<typeof useGetDiscountedPriceLazyQuery>;
 export type GetDiscountedPriceQueryResult = ApolloReactCommon.QueryResult<GetDiscountedPriceQuery, GetDiscountedPriceQueryVariables>;
 export const CouponCreateDocument = gql`
-    mutation CouponCreate($coupon: String!, $discount: Int!, $count: Int!) {
+    mutation CouponCreate($coupon: String!, $discount: Float!, $count: Float!) {
   couponCreate(coupon: $coupon, discount: $discount, count: $count)
 }
     `;
@@ -1034,7 +1009,7 @@ export type GetCoursesQueryHookResult = ReturnType<typeof useGetCoursesQuery>;
 export type GetCoursesLazyQueryHookResult = ReturnType<typeof useGetCoursesLazyQuery>;
 export type GetCoursesQueryResult = ApolloReactCommon.QueryResult<GetCoursesQuery, GetCoursesQueryVariables>;
 export const GetCourseDocument = gql`
-    query GetCourse($courseId: CourseId!) {
+    query GetCourse($courseId: String!) {
   unlockedCourse(courseId: $courseId) {
     courseId
     header
@@ -1127,7 +1102,7 @@ export type GetCourseQueryHookResult = ReturnType<typeof useGetCourseQuery>;
 export type GetCourseLazyQueryHookResult = ReturnType<typeof useGetCourseLazyQuery>;
 export type GetCourseQueryResult = ApolloReactCommon.QueryResult<GetCourseQuery, GetCourseQueryVariables>;
 export const CreateFreeCourseDocument = gql`
-    mutation CreateFreeCourse($courseId: CourseId!, $bundleId: BundleId!) {
+    mutation CreateFreeCourse($courseId: String!, $bundleId: String!) {
   createFreeCourse(courseId: $courseId, bundleId: $bundleId)
 }
     `;
@@ -1158,7 +1133,7 @@ export type CreateFreeCourseMutationHookResult = ReturnType<typeof useCreateFree
 export type CreateFreeCourseMutationResult = ApolloReactCommon.MutationResult<CreateFreeCourseMutation>;
 export type CreateFreeCourseMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateFreeCourseMutation, CreateFreeCourseMutationVariables>;
 export const CreateAdminCourseDocument = gql`
-    mutation CreateAdminCourse($uid: String!, $courseId: CourseId!, $bundleId: BundleId!) {
+    mutation CreateAdminCourse($uid: String!, $courseId: String!, $bundleId: String!) {
   createAdminCourse(uid: $uid, courseId: $courseId, bundleId: $bundleId)
 }
     `;
@@ -1315,7 +1290,7 @@ export type PartnerVisitorsQueryHookResult = ReturnType<typeof usePartnerVisitor
 export type PartnerVisitorsLazyQueryHookResult = ReturnType<typeof usePartnerVisitorsLazyQuery>;
 export type PartnerVisitorsQueryResult = ApolloReactCommon.QueryResult<PartnerVisitorsQuery, PartnerVisitorsQueryVariables>;
 export const PartnerSalesDocument = gql`
-    query PartnerSales($offset: Int!, $limit: Int!) {
+    query PartnerSales($offset: Float!, $limit: Float!) {
   partnerSales(offset: $offset, limit: $limit) {
     edges {
       id
@@ -1393,7 +1368,7 @@ export type PartnerPaymentsQueryHookResult = ReturnType<typeof usePartnerPayment
 export type PartnerPaymentsLazyQueryHookResult = ReturnType<typeof usePartnerPaymentsLazyQuery>;
 export type PartnerPaymentsQueryResult = ApolloReactCommon.QueryResult<PartnerPaymentsQuery, PartnerPaymentsQueryVariables>;
 export const PaypalCreateOrderDocument = gql`
-    mutation PaypalCreateOrder($courseId: CourseId!, $bundleId: BundleId!, $coupon: String, $partnerId: String) {
+    mutation PaypalCreateOrder($courseId: String!, $bundleId: String!, $coupon: String, $partnerId: String) {
   paypalCreateOrder(courseId: $courseId, bundleId: $bundleId, coupon: $coupon, partnerId: $partnerId) {
     orderId
   }
@@ -1615,7 +1590,7 @@ export type EmailChangeMutationHookResult = ReturnType<typeof useEmailChangeMuta
 export type EmailChangeMutationResult = ApolloReactCommon.MutationResult<EmailChangeMutation>;
 export type EmailChangeMutationOptions = ApolloReactCommon.BaseMutationOptions<EmailChangeMutation, EmailChangeMutationVariables>;
 export const GetStorefrontCourseDocument = gql`
-    query GetStorefrontCourse($courseId: CourseId!, $bundleId: BundleId!) {
+    query GetStorefrontCourse($courseId: String!, $bundleId: String!) {
   storefrontCourse(courseId: $courseId, bundleId: $bundleId) {
     header
     courseId
@@ -1691,7 +1666,7 @@ export type GetStorefrontCoursesQueryHookResult = ReturnType<typeof useGetStoref
 export type GetStorefrontCoursesLazyQueryHookResult = ReturnType<typeof useGetStorefrontCoursesLazyQuery>;
 export type GetStorefrontCoursesQueryResult = ApolloReactCommon.QueryResult<GetStorefrontCoursesQuery, GetStorefrontCoursesQueryVariables>;
 export const StripeCreateOrderDocument = gql`
-    mutation StripeCreateOrder($imageUrl: String!, $courseId: CourseId!, $bundleId: BundleId!, $coupon: String, $partnerId: String) {
+    mutation StripeCreateOrder($imageUrl: String!, $courseId: String!, $bundleId: String!, $coupon: String, $partnerId: String) {
   stripeCreateOrder(imageUrl: $imageUrl, courseId: $courseId, bundleId: $bundleId, coupon: $coupon, partnerId: $partnerId) {
     id
   }
@@ -1727,7 +1702,7 @@ export type StripeCreateOrderMutationHookResult = ReturnType<typeof useStripeCre
 export type StripeCreateOrderMutationResult = ApolloReactCommon.MutationResult<StripeCreateOrderMutation>;
 export type StripeCreateOrderMutationOptions = ApolloReactCommon.BaseMutationOptions<StripeCreateOrderMutation, StripeCreateOrderMutationVariables>;
 export const GetUpgradeableCoursesDocument = gql`
-    query GetUpgradeableCourses($courseId: CourseId!) {
+    query GetUpgradeableCourses($courseId: String!) {
   upgradeableCourses(courseId: $courseId) {
     header
     courseId

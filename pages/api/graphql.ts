@@ -1,5 +1,7 @@
 import { ApolloServer } from 'apollo-server-micro';
 import cors from 'micro-cors';
+import { buildSchema } from 'type-graphql';
+import 'reflect-metadata';
 
 import getConnection from '@models/index';
 import { AdminConnector } from '@connectors/admin';
@@ -8,7 +10,8 @@ import { CourseConnector } from '@connectors/course';
 import { CouponConnector } from '@connectors/coupon';
 import { ServerRequest, ServerResponse } from '@typeDefs/server';
 import { ResolverContext } from '@typeDefs/resolver';
-import schema from '@api/schema';
+
+import resolvers from '@api/resolvers';
 import getMe from '@api/middleware/getMe';
 import firebaseAdmin from '@services/firebase/admin';
 
@@ -40,6 +43,11 @@ export const config = {
 
 export default async (req: ServerRequest, res: ServerResponse) => {
   const connection = await getConnection();
+
+  const schema = await buildSchema({
+    resolvers,
+    dateScalarMode: 'isoDate',
+  });
 
   const server = new ApolloServer({
     schema,

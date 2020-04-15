@@ -1,44 +1,96 @@
+import {
+  ObjectType,
+  Field,
+  Arg,
+  Resolver,
+  Query,
+} from 'type-graphql';
+
+import { COURSE } from '@data/course-keys-types';
+import { BUNDLE } from '@data/bundle-keys-types';
+
 import sortBy from 'lodash.sortby';
-import { QueryResolvers } from '@generated/server';
 
 import storefront from '@data/course-storefront';
 
-interface Resolvers {
-  Query: QueryResolvers;
+@ObjectType()
+export class StorefrontBundle {
+  @Field()
+  header: string;
+
+  @Field()
+  bundleId: string;
+
+  @Field()
+  price: number;
+
+  @Field()
+  imageUrl: string;
+
+  @Field(type => [String])
+  benefits: string[];
 }
 
-export const resolvers: Resolvers = {
-  Query: {
-    storefrontCourse: (_, { courseId, bundleId }) => {
-      const course = storefront[courseId];
-      const bundle = course.bundles[bundleId];
+@ObjectType()
+export class StorefrontCourse {
+  @Field()
+  header: string;
 
-      return {
-        ...course,
-        header: course.header,
-        courseId: course.courseId,
-        url: course.url,
-        imageUrl: course.imageUrl,
-        canUpgrade: false,
-        bundle,
-      };
-    },
-    storefrontCourses: () => {
-      return Object.values(storefront).map(storefrontCourse => ({
-        courseId: storefrontCourse.courseId,
-        header: storefrontCourse.header,
-        url: storefrontCourse.url,
-        imageUrl: storefrontCourse.imageUrl,
-        canUpgrade: false,
-      }));
-    },
-    storefrontBundles: (_, { courseId }) => {
-      const course = storefront[courseId];
+  @Field()
+  courseId: string;
 
-      return sortBy(
-        Object.values(course.bundles),
-        (bundle: any) => bundle.weight
-      );
-    },
-  },
-};
+  @Field()
+  url: string;
+
+  @Field()
+  imageUrl: string;
+
+  @Field()
+  canUpgrade: boolean;
+
+  @Field()
+  bundle: StorefrontBundle;
+}
+
+@Resolver()
+export default class StorefrontResolver {
+  @Query(() => StorefrontCourse)
+  async storefrontCourse(
+    @Arg('courseId') courseId: string,
+    @Arg('bundleId') bundleId: string
+  ) {
+    const course = storefront[courseId as COURSE];
+    const bundle = course.bundles[bundleId as BUNDLE];
+
+    return {
+      ...course,
+      header: course.header,
+      courseId: course.courseId,
+      url: course.url,
+      imageUrl: course.imageUrl,
+      canUpgrade: false,
+      bundle,
+    };
+  }
+
+  @Query(() => [StorefrontCourse])
+  async storefrontCourses() {
+    return Object.values(storefront).map(storefrontCourse => ({
+      courseId: storefrontCourse.courseId,
+      header: storefrontCourse.header,
+      url: storefrontCourse.url,
+      imageUrl: storefrontCourse.imageUrl,
+      canUpgrade: false,
+    }));
+  }
+
+  @Query(() => [StorefrontBundle])
+  async storefrontBundles(@Arg('courseId') courseId: string) {
+    const course = storefront[courseId as COURSE];
+
+    return sortBy(
+      Object.values(course.bundles),
+      (bundle: any) => bundle.weight
+    );
+  }
+}

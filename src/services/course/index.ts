@@ -1,7 +1,7 @@
 import omit from 'lodash.omit';
 
 import { Course } from '@models/course';
-import { COURSE } from '@data/course-keys';
+import { COURSE } from '@data/course-keys-types';
 import BUNDLE_LEGACY from '@data/bundle-legacy';
 import allCourseContent from '@data/courses';
 import storefront from '@data/course-storefront';
