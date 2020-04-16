@@ -1,7 +1,9 @@
 import { ApolloServer } from 'apollo-server-micro';
-import cors from 'micro-cors';
 import { buildSchema } from 'type-graphql';
 import { applyMiddleware } from 'graphql-middleware';
+
+import cors from 'micro-cors';
+
 import 'reflect-metadata';
 
 import getConnection from '@models/index';
@@ -13,8 +15,9 @@ import { ServerRequest, ServerResponse } from '@typeDefs/server';
 import { ResolverContext } from '@typeDefs/resolver';
 
 import resolvers from '@api/resolvers';
-import getMe from '@api/middleware/me';
+import meMiddleware from '@api/middleware/me';
 import sentryMiddleware from '@api/middleware/sentry';
+
 import firebaseAdmin from '@services/firebase/admin';
 
 if (process.env.FIREBASE_ADMIN_UID) {
@@ -52,11 +55,9 @@ export default async (req: ServerRequest, res: ServerResponse) => {
   });
 
   const server = new ApolloServer({
-    schema: applyMiddleware(schema, sentryMiddleware),
+    schema: applyMiddleware(schema, sentryMiddleware, meMiddleware),
 
     context: async ({ req, res }): Promise<ResolverContext> => {
-      const me = await getMe(req, res);
-
       const adminConnector = new AdminConnector();
       const partnerConnector = new PartnerConnector(connection!);
       const courseConnector = new CourseConnector(connection!);
@@ -65,7 +66,6 @@ export default async (req: ServerRequest, res: ServerResponse) => {
       return {
         req,
         res,
-        me,
         adminConnector,
         courseConnector,
         partnerConnector,
@@ -77,8 +77,6 @@ export default async (req: ServerRequest, res: ServerResponse) => {
   const handler = withCors(
     server.createHandler({ path: '/api/graphql' })
   );
-
-  // await connection.close();
 
   return handler(req, res);
 };

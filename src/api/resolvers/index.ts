@@ -1,3 +1,5 @@
+import { NonEmptyArray } from 'type-graphql';
+
 import MigrationResolvers from './migration';
 import SessionResolver from './session';
 import UserResolvers from './user';
@@ -24,4 +26,4 @@ export default [
   CouponResolver,
   PartnerResolver,
   CommunityResolvers,
-];
+] as NonEmptyArray<Function>;

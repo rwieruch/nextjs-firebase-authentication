@@ -233,7 +233,7 @@ export default class CourseResolver {
   async unlockedCourse(
     @Arg('courseId') courseId: string,
     @Ctx() ctx: ResolverContext
-  ) {
+  ): Promise<UnlockedCourse | null> {
     if (!ctx.me) {
       return null;
     }
@@ -257,7 +257,7 @@ export default class CourseResolver {
     @Arg('courseId') courseId: string,
     @Arg('bundleId') bundleId: string,
     @Ctx() ctx: ResolverContext
-  ) {
+  ): Promise<boolean> {
     if (!ctx.me) {
       return false;
     }
@@ -292,7 +292,7 @@ export default class CourseResolver {
     @Arg('bundleId') bundleId: string,
     @Arg('uid') uid: string,
     @Ctx() ctx: ResolverContext
-  ) {
+  ): Promise<boolean> {
     await ctx.courseConnector.createCourse({
       userId: uid,
       courseId: courseId as COURSE,
