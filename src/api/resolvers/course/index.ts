@@ -6,6 +6,7 @@ import {
   Resolver,
   Query,
   Mutation,
+  UseMiddleware,
 } from 'type-graphql';
 
 import { StorefrontCourse } from '@api/resolvers/storefront';
@@ -14,6 +15,9 @@ import { createCourse } from '@services/firebase/course';
 import { mergeCourses } from '@services/course';
 import { COURSE } from '@data/course-keys-types';
 import { BUNDLE } from '@data/bundle-keys-types';
+import { isAuthenticated } from '@api/middleware/resolver/isAuthenticated';
+import { isFreeCourse } from '@api/middleware/resolver/isFreeCourse';
+import { isAdmin } from '@api/middleware/resolver/isAdmin';
 
 @ObjectType()
 class CurriculumItem {
@@ -229,17 +233,14 @@ export default class CourseResolver {
     }));
   }
 
-  @Query(() => UnlockedCourse, { nullable: true })
+  @Query(() => UnlockedCourse)
+  @UseMiddleware(isAuthenticated)
   async unlockedCourse(
     @Arg('courseId') courseId: string,
     @Ctx() ctx: ResolverContext
-  ): Promise<UnlockedCourse | null> {
-    if (!ctx.me) {
-      return null;
-    }
-
+  ): Promise<UnlockedCourse> {
     const courses = await ctx.courseConnector.getCoursesByUserIdAndCourseId(
-      ctx.me.uid,
+      ctx.me!.uid,
       courseId as COURSE
     );
 
@@ -253,6 +254,7 @@ export default class CourseResolver {
   }
 
   @Mutation(() => Boolean)
+  @UseMiddleware(isAuthenticated, isFreeCourse)
   async createFreeCourse(
     @Arg('courseId') courseId: string,
     @Arg('bundleId') bundleId: string,
@@ -287,6 +289,7 @@ export default class CourseResolver {
   }
 
   @Mutation(() => Boolean)
+  @UseMiddleware(isAuthenticated, isAdmin)
   async createAdminCourse(
     @Arg('courseId') courseId: string,
     @Arg('bundleId') bundleId: string,

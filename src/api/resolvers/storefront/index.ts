@@ -49,7 +49,7 @@ export class StorefrontCourse {
   canUpgrade: boolean;
 
   @Field()
-  bundle: StorefrontBundle;
+  bundle?: StorefrontBundle;
 }
 
 @Resolver()
@@ -58,7 +58,7 @@ export default class StorefrontResolver {
   async storefrontCourse(
     @Arg('courseId') courseId: string,
     @Arg('bundleId') bundleId: string
-  ) {
+  ): Promise<StorefrontCourse> {
     const course = storefront[courseId as COURSE];
     const bundle = course.bundles[bundleId as BUNDLE];
 
@@ -74,7 +74,7 @@ export default class StorefrontResolver {
   }
 
   @Query(() => [StorefrontCourse])
-  async storefrontCourses() {
+  async storefrontCourses(): Promise<StorefrontCourse[]> {
     return Object.values(storefront).map(storefrontCourse => ({
       courseId: storefrontCourse.courseId,
       header: storefrontCourse.header,
@@ -85,7 +85,9 @@ export default class StorefrontResolver {
   }
 
   @Query(() => [StorefrontBundle])
-  async storefrontBundles(@Arg('courseId') courseId: string) {
+  async storefrontBundles(
+    @Arg('courseId') courseId: string
+  ): Promise<StorefrontBundle[]> {
     const course = storefront[courseId as COURSE];
 
     return sortBy(

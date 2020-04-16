@@ -1,6 +1,7 @@
-import { Arg, Resolver, Mutation } from 'type-graphql';
+import { Arg, Resolver, Mutation, UseMiddleware } from 'type-graphql';
 
 import { inviteToSlack } from '@services/slack';
+import { isAuthenticated } from '@api/middleware/resolver/isAuthenticated';
 
 // https://api.slack.com/methods/admin.users.invite
 const SLACK_ERRORS: { [key: string]: string } = {
@@ -61,19 +62,20 @@ const SLACK_ERRORS: { [key: string]: string } = {
 @Resolver()
 export default class CommunityResolver {
   @Mutation(() => Boolean)
-  async communityJoin(@Arg('email') email: string) {
+  @UseMiddleware(isAuthenticated)
+  async communityJoin(@Arg('email') email: string): Promise<Boolean> {
     try {
       const result = await inviteToSlack(email);
 
       if (!result) {
-        return new Error('Something went wrong.');
+        throw new Error('Something went wrong.');
       }
 
       if (!result.data.ok) {
-        return new Error(SLACK_ERRORS[result.data.error]);
+        throw new Error(SLACK_ERRORS[result.data.error]);
       }
     } catch (error) {
-      return new Error(error);
+      throw new Error(error);
     }
 
     return true;

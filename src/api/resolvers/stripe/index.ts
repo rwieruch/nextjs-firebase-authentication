@@ -5,6 +5,7 @@ import {
   Ctx,
   Resolver,
   Mutation,
+  UseMiddleware,
 } from 'type-graphql';
 
 import { COURSE } from '@data/course-keys-types';
@@ -21,6 +22,7 @@ import { priceWithDiscount } from '@services/discount';
 import stripe from '@services/stripe';
 
 import storefront from '@data/course-storefront';
+import { isAuthenticated } from '@api/middleware/resolver/isAuthenticated';
 
 // https://stripe.com/docs/payments/checkout/one-time#create-one-time-payments
 @Resolver()

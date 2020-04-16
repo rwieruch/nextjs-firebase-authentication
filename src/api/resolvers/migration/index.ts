@@ -1,9 +1,14 @@
-import { Arg, Resolver, Mutation } from 'type-graphql';
+import { Arg, Resolver, Mutation, UseMiddleware } from 'type-graphql';
+import { isAuthenticated } from '@api/middleware/resolver/isAuthenticated';
+import { isAdmin } from '@api/middleware/resolver/isAdmin';
 
 @Resolver()
 export default class MigrationResolver {
   @Mutation(() => Boolean)
-  async migrate(@Arg('migrationType') migrationType: string) {
+  @UseMiddleware(isAuthenticated, isAdmin)
+  async migrate(
+    @Arg('migrationType') migrationType: string
+  ): Promise<Boolean> {
     switch (migrationType) {
       case 'FOO':
         return true;

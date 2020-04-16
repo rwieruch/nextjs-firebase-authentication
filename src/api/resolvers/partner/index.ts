@@ -6,10 +6,14 @@ import {
   Resolver,
   Query,
   Mutation,
+  UseMiddleware,
 } from 'type-graphql';
 
 import { ResolverContext } from '@typeDefs/resolver';
 import { hasPartnerRole } from '@validation/partner';
+import { isAuthenticated } from '@api/middleware/resolver/isAuthenticated';
+import { isAdmin } from '@api/middleware/resolver/isAdmin';
+import { isPartner } from '@api/middleware/resolver/isPartner';
 
 @ObjectType()
 export class VisitorByDay {
@@ -70,11 +74,12 @@ export class PartnerPayment {
 @Resolver()
 export default class PartnerResolver {
   @Query(() => [VisitorByDay])
+  @UseMiddleware(isAuthenticated, isPartner)
   async partnerVisitors(
     @Arg('from') from: Date,
     @Arg('to') to: Date,
     @Ctx() ctx: ResolverContext
-  ) {
+  ): Promise<VisitorByDay[]> {
     try {
       return await ctx.partnerConnector.getVisitorsBetweenAggregatedByDate(
         from,
@@ -86,21 +91,18 @@ export default class PartnerResolver {
   }
 
   @Query(() => PartnerSaleConnection)
+  @UseMiddleware(isAuthenticated, isPartner)
   async partnerSales(
     @Arg('offset') offset: number,
     @Arg('limit') limit: number,
     @Ctx() ctx: ResolverContext
-  ) {
-    if (!ctx.me) {
-      return [];
-    }
-
+  ): Promise<PartnerSaleConnection> {
     try {
       const {
         edges,
         total,
       } = await ctx.partnerConnector.getSalesByPartner(
-        ctx.me.uid,
+        ctx.me!.uid,
         offset,
         limit
       );
@@ -120,19 +122,18 @@ export default class PartnerResolver {
         },
       };
     } catch (error) {
-      return [];
+      throw new Error(error);
     }
   }
 
   @Query(() => [PartnerPayment])
-  async partnerPayments(@Ctx() ctx: ResolverContext) {
-    if (!ctx.me) {
-      return [];
-    }
-
+  @UseMiddleware(isAuthenticated, isPartner)
+  async partnerPayments(
+    @Ctx() ctx: ResolverContext
+  ): Promise<PartnerPayment[]> {
     try {
       return await ctx.partnerConnector.getPaymentsByPartner(
-        ctx.me.uid
+        ctx.me!.uid
       );
     } catch (error) {
       return [];
@@ -140,10 +141,11 @@ export default class PartnerResolver {
   }
 
   @Mutation(() => Boolean)
+  @UseMiddleware(isAuthenticated, isAdmin)
   async promoteToPartner(
     @Arg('uid') uid: string,
     @Ctx() ctx: ResolverContext
-  ) {
+  ): Promise<Boolean> {
     try {
       await ctx.adminConnector.setCustomClaims(uid, {
         partner: true,
@@ -159,7 +161,7 @@ export default class PartnerResolver {
   async partnerTrackVisitor(
     @Arg('partnerId') partnerId: string,
     @Ctx() ctx: ResolverContext
-  ) {
+  ): Promise<Boolean> {
     try {
       const partner = await ctx.adminConnector.getUser(partnerId);
 

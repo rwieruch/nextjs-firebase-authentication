@@ -6,7 +6,9 @@ import {
   Arg,
   Resolver,
   Query,
+  UseMiddleware,
 } from 'type-graphql';
+import { isAuthenticated } from '@api/middleware/resolver/isAuthenticated';
 
 @ObjectType()
 class File {
@@ -29,35 +31,45 @@ class Markdown {
 @Resolver()
 export default class BookResolver {
   @Query(() => File)
+  @UseMiddleware(isAuthenticated)
   async book(
     @Arg('path') path: string,
     @Arg('fileName') fileName: string
-  ) {
-    const data = await s3
+  ): Promise<File> {
+    const { ContentType, Body } = await s3
       .getObject({
         Bucket: bucket,
         Key: path,
       })
       .promise();
 
+    if (!ContentType || !Body) {
+      throw new Error("Book couldn't get downloaded.");
+    }
+
     return {
       fileName,
-      contentType: data.ContentType,
-      body: data?.Body?.toString('base64'),
+      contentType: ContentType,
+      body: Body.toString('base64'),
     };
   }
 
   @Query(() => Markdown)
-  async onlineChapter(@Arg('path') path: string) {
-    const data = await s3
+  @UseMiddleware(isAuthenticated)
+  async onlineChapter(@Arg('path') path: string): Promise<Markdown> {
+    const { Body } = await s3
       .getObject({
         Bucket: bucket,
         Key: path,
       })
       .promise();
 
+    if (!Body) {
+      throw new Error("Chapter couldn't get downloaded.");
+    }
+
     return {
-      body: data?.Body?.toString('base64'),
+      body: Body.toString('base64'),
     };
   }
 }

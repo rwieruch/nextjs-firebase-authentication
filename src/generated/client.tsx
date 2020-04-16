@@ -129,7 +129,7 @@ export type Mutation = {
   stripeCreateOrder: StripeId;
   createFreeCourse: Scalars['Boolean'];
   createAdminCourse: Scalars['Boolean'];
-  couponCreate?: Maybe<Scalars['Boolean']>;
+  couponCreate: Scalars['Boolean'];
   promoteToPartner: Scalars['Boolean'];
   partnerTrackVisitor: Scalars['Boolean'];
   communityJoin: Scalars['Boolean'];
@@ -284,7 +284,7 @@ export type Query = {
   storefrontCourses: Array<StorefrontCourse>;
   storefrontBundles: Array<StorefrontBundle>;
   unlockedCourses: Array<StorefrontCourse>;
-  unlockedCourse?: Maybe<UnlockedCourse>;
+  unlockedCourse: UnlockedCourse;
   book: File;
   onlineChapter: Markdown;
   upgradeableCourses: Array<StorefrontCourse>;
@@ -391,8 +391,8 @@ export type UnlockedCourse = {
 
 export type User = {
    __typename?: 'User';
-  email: Scalars['String'];
   uid: Scalars['String'];
+  email: Scalars['String'];
   username: Scalars['String'];
   roles: Array<Scalars['String']>;
 };
@@ -485,7 +485,7 @@ export type GetCourseQueryVariables = {
 
 export type GetCourseQuery = (
   { __typename?: 'Query' }
-  & { unlockedCourse?: Maybe<(
+  & { unlockedCourse: (
     { __typename?: 'UnlockedCourse' }
     & Pick<UnlockedCourse, 'courseId' | 'header' | 'canUpgrade'>
     & { introduction?: Maybe<(
@@ -544,7 +544,7 @@ export type GetCourseQuery = (
         )> }
       )> }
     )> }
-  )> }
+  ) }
 );
 
 export type CreateFreeCourseMutationVariables = {
