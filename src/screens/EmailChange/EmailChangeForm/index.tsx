@@ -18,6 +18,9 @@ const EmailChangeForm = ({ form }: EmailChangeFormProps) => {
   const { successMessage } = useIndicators({
     key: 'email-change',
     error,
+    success: {
+      message: 'Success! You can use your new email now.',
+    },
   });
 
   const [confirmEmailDirty, setConfirmEmailDirty] = React.useState(

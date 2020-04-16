@@ -22,6 +22,9 @@ const PasswordChangeForm = ({ form }: PasswordChangeFormProps) => {
   const { successMessage } = useIndicators({
     key: 'password-change',
     error,
+    success: {
+      message: 'Success! You can use your new password now.',
+    },
   });
 
   const [

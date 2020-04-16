@@ -66,7 +66,7 @@ const AccountPage: NextAuthPage = ({ data }) => {
             </Card>
           </Col>
           <Col span={12}>
-            <Card title="Partner">
+            <Card title="Programs">
               <ul>
                 <li>
                   <Link href={ROUTES.PARTNER}>Partner Program</Link>
