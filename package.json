@@ -82,7 +82,7 @@
     "react-ga": "^2.7.0",
     "react-player": "^1.15.2",
     "reflect-metadata": "^0.1.13",
-    "stripe": "^8.7.0",
+    "stripe": "^8.43.0",
     "styled-components": "^5.0.0",
     "typeorm": "^0.2.24"
   },
