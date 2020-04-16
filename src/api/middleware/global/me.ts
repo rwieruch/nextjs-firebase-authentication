@@ -15,7 +15,7 @@ export default async (
   const { session } = context.req.cookies;
 
   if (!session) {
-    return undefined;
+    return await resolve(root, args, context, info);
   }
 
   const CHECK_REVOKED = true;

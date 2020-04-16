@@ -29,7 +29,7 @@ describe('SignInForm', () => {
         },
         result: () => {
           mutationCalled = true;
-          return { data: { signIn: { sessionToken: '1' } } };
+          return { data: { signIn: { token: '1' } } };
         },
       },
     ];

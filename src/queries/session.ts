@@ -7,7 +7,7 @@ export const SIGN_UP = gql`
     $password: String!
   ) {
     signUp(username: $username, email: $email, password: $password) {
-      sessionToken
+      token
     }
   }
 `;
@@ -15,7 +15,7 @@ export const SIGN_UP = gql`
 export const SIGN_IN = gql`
   mutation SignIn($email: String!, $password: String!) {
     signIn(email: $email, password: $password) {
-      sessionToken
+      token
     }
   }
 `;

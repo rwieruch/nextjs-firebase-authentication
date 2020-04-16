@@ -22,9 +22,6 @@ const PasswordChangeForm = ({ form }: PasswordChangeFormProps) => {
   const { successMessage } = useIndicators({
     key: 'password-change',
     error,
-    success: {
-      message: 'Success! Check your email inbox.',
-    },
   });
 
   const [

@@ -121,9 +121,9 @@ export type Mutation = {
   migrate: Scalars['Boolean'];
   signIn: SessionToken;
   signUp: SessionToken;
-  passwordForgot?: Maybe<Scalars['Boolean']>;
-  passwordChange?: Maybe<Scalars['Boolean']>;
-  emailChange?: Maybe<Scalars['Boolean']>;
+  passwordForgot: Scalars['Boolean'];
+  passwordChange: Scalars['Boolean'];
+  emailChange: Scalars['Boolean'];
   paypalCreateOrder: PaypalOrderId;
   paypalApproveOrder: Scalars['Boolean'];
   stripeCreateOrder: StripeId;
@@ -347,7 +347,7 @@ export type QueryPartnerSalesArgs = {
 
 export type SessionToken = {
    __typename?: 'SessionToken';
-  sessionToken: Scalars['String'];
+  token: Scalars['String'];
 };
 
 export type StorefrontBundle = {
@@ -682,7 +682,7 @@ export type SignUpMutation = (
   { __typename?: 'Mutation' }
   & { signUp: (
     { __typename?: 'SessionToken' }
-    & Pick<SessionToken, 'sessionToken'>
+    & Pick<SessionToken, 'token'>
   ) }
 );
 
@@ -696,7 +696,7 @@ export type SignInMutation = (
   { __typename?: 'Mutation' }
   & { signIn: (
     { __typename?: 'SessionToken' }
-    & Pick<SessionToken, 'sessionToken'>
+    & Pick<SessionToken, 'token'>
   ) }
 );
 
@@ -1435,7 +1435,7 @@ export type PaypalApproveOrderMutationOptions = ApolloReactCommon.BaseMutationOp
 export const SignUpDocument = gql`
     mutation SignUp($username: String!, $email: String!, $password: String!) {
   signUp(username: $username, email: $email, password: $password) {
-    sessionToken
+    token
   }
 }
     `;
@@ -1469,7 +1469,7 @@ export type SignUpMutationOptions = ApolloReactCommon.BaseMutationOptions<SignUp
 export const SignInDocument = gql`
     mutation SignIn($email: String!, $password: String!) {
   signIn(email: $email, password: $password) {
-    sessionToken
+    token
   }
 }
     `;

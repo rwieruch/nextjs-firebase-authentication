@@ -5,6 +5,7 @@ import {
   Ctx,
   Resolver,
   Mutation,
+  UseMiddleware,
 } from 'type-graphql';
 
 import { ResolverContext } from '@typeDefs/resolver';
@@ -13,11 +14,12 @@ import firebase from '@services/firebase/client';
 import firebaseAdmin from '@services/firebase/admin';
 import { inviteToRevue } from '@services/revue';
 import { inviteToConvertkit } from '@services/convertkit';
+import { isAuthenticated } from '@api/middleware/resolver/isAuthenticated';
 
 @ObjectType()
 class SessionToken {
   @Field()
-  sessionToken: string;
+  token: string;
 }
 
 @Resolver()
@@ -26,7 +28,7 @@ export default class SessionResolver {
   async signIn(
     @Arg('email') email: string,
     @Arg('password') password: string
-  ) {
+  ): Promise<SessionToken> {
     let result;
 
     try {
@@ -34,20 +36,29 @@ export default class SessionResolver {
         .auth()
         .signInWithEmailAndPassword(email, password);
     } catch (error) {
-      return new Error(error);
+      throw new Error(error);
     }
 
-    const idToken = await result.user?.getIdToken();
-    const sessionToken = await firebaseAdmin
+    if (!result.user) {
+      throw new Error('No user found.');
+    }
+
+    const idToken = await result.user.getIdToken();
+
+    const token = await firebaseAdmin
       .auth()
-      .createSessionCookie(idToken || '', {
+      .createSessionCookie(idToken, {
         expiresIn: EXPIRES_IN,
       });
+
+    if (!token) {
+      throw new Error('Not able to create a session cookie.');
+    }
 
     // We manage the session ourselves.
     await firebase.auth().signOut();
 
-    return { sessionToken };
+    return { token };
   }
 
   @Mutation(() => SessionToken)
@@ -63,23 +74,22 @@ export default class SessionResolver {
         displayName: username,
       });
     } catch (error) {
-      if (error.message.includes('email address is already in use')) {
-        return new Error(
-          'You already registered with this email. Hint: Check your password manager for our old domain: roadtoreact.com'
-        );
-      } else {
-        return new Error(error);
-      }
+      throw new Error(error);
     }
 
     const { user } = await firebase
       .auth()
       .signInWithEmailAndPassword(email, password);
 
-    const idToken = await user?.getIdToken();
-    const sessionToken = await firebaseAdmin
+    if (!user) {
+      throw new Error('No user found.');
+    }
+
+    const idToken = await user.getIdToken();
+
+    const token = await firebaseAdmin
       .auth()
-      .createSessionCookie(idToken || '', {
+      .createSessionCookie(idToken, {
         expiresIn: EXPIRES_IN,
       });
 
@@ -98,47 +108,49 @@ export default class SessionResolver {
       console.log(error);
     }
 
-    return { sessionToken };
+    return { token };
   }
 
-  @Mutation(() => Boolean, { nullable: true })
+  @Mutation(() => Boolean)
   async passwordForgot(@Arg('email') email: string) {
     try {
       await firebase.auth().sendPasswordResetEmail(email);
     } catch (error) {
-      return new Error(error);
+      throw new Error(error);
     }
 
     return true;
   }
 
-  @Mutation(() => Boolean, { nullable: true })
+  @Mutation(() => Boolean)
+  @UseMiddleware(isAuthenticated)
   async passwordChange(
     @Arg('password') password: string,
     @Ctx() ctx: ResolverContext
   ) {
     try {
-      await firebaseAdmin.auth().updateUser(ctx.me?.uid || '', {
+      await firebaseAdmin.auth().updateUser(ctx.me!.uid, {
         password,
       });
     } catch (error) {
-      return new Error(error);
+      throw new Error(error);
     }
 
     return true;
   }
 
-  @Mutation(() => Boolean, { nullable: true })
+  @Mutation(() => Boolean)
+  @UseMiddleware(isAuthenticated)
   async emailChange(
     @Arg('email') email: string,
     @Ctx() ctx: ResolverContext
   ) {
     try {
-      await firebaseAdmin.auth().updateUser(ctx.me?.uid || '', {
+      await firebaseAdmin.auth().updateUser(ctx.me!.uid, {
         email,
       });
     } catch (error) {
-      return new Error(error);
+      throw new Error(error);
     }
 
     return true;

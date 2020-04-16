@@ -15,8 +15,8 @@ import { ServerRequest, ServerResponse } from '@typeDefs/server';
 import { ResolverContext } from '@typeDefs/resolver';
 
 import resolvers from '@api/resolvers';
-import meMiddleware from '@api/middleware/me';
-import sentryMiddleware from '@api/middleware/sentry';
+import meMiddleware from '@api/middleware/global/me';
+import sentryMiddleware from '@api/middleware/global/sentry';
 
 import firebaseAdmin from '@services/firebase/admin';
 

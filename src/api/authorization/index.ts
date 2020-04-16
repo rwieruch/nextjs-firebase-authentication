@@ -17,7 +17,8 @@ export default shield({
     partnerPayments: and(isAuthenticated, isPartner),
   },
   Mutation: {
-    passwordChange: isAuthenticated,
+    // passwordChange: isAuthenticated,
+    // emailChange: isAuthenticated,
     communityJoin: isAuthenticated,
 
     // Admin
