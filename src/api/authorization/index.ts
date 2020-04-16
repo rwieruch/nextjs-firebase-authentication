@@ -7,8 +7,8 @@ import { isFreeCourse } from './isFreeCourse';
 
 export default shield({
   Query: {
-    me: isAuthenticated,
-    discountedPrice: isAuthenticated,
+    // me: isAuthenticated,
+    // discountedPrice: isAuthenticated,
 
     // Partner
 

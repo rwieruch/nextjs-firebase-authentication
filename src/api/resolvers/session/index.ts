@@ -66,7 +66,7 @@ export default class SessionResolver {
     @Arg('username') username: string,
     @Arg('email') email: string,
     @Arg('password') password: string
-  ) {
+  ): Promise<SessionToken> {
     try {
       await firebaseAdmin.auth().createUser({
         email,
@@ -112,7 +112,9 @@ export default class SessionResolver {
   }
 
   @Mutation(() => Boolean)
-  async passwordForgot(@Arg('email') email: string) {
+  async passwordForgot(
+    @Arg('email') email: string
+  ): Promise<Boolean> {
     try {
       await firebase.auth().sendPasswordResetEmail(email);
     } catch (error) {
@@ -127,7 +129,7 @@ export default class SessionResolver {
   async passwordChange(
     @Arg('password') password: string,
     @Ctx() ctx: ResolverContext
-  ) {
+  ): Promise<Boolean> {
     try {
       await firebaseAdmin.auth().updateUser(ctx.me!.uid, {
         password,
@@ -144,7 +146,7 @@ export default class SessionResolver {
   async emailChange(
     @Arg('email') email: string,
     @Ctx() ctx: ResolverContext
-  ) {
+  ): Promise<Boolean> {
     try {
       await firebaseAdmin.auth().updateUser(ctx.me!.uid, {
         email,

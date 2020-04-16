@@ -4,17 +4,19 @@ import {
   Ctx,
   Resolver,
   Query,
+  UseMiddleware,
 } from 'type-graphql';
 
 import { ResolverContext } from '@typeDefs/resolver';
+import { isAuthenticated } from '@api/middleware/resolver/isAuthenticated';
 
 @ObjectType()
 class User {
   @Field()
-  email: string;
+  uid: string;
 
   @Field()
-  uid: string;
+  email: string;
 
   @Field()
   username: string;
@@ -26,16 +28,18 @@ class User {
 @Resolver()
 export default class UserResolver {
   @Query(() => User)
-  async me(@Ctx() ctx: ResolverContext) {
-    const rolesObject = ctx.me?.customClaims || {};
+  @UseMiddleware(isAuthenticated)
+  async me(@Ctx() ctx: ResolverContext): Promise<User> {
+    const rolesObject = ctx.me!.customClaims || {};
+
     const roles = Object.keys(rolesObject).filter(
       key => rolesObject[key]
     );
 
     return {
-      email: ctx.me?.email,
-      uid: ctx.me?.uid,
-      username: ctx.me?.displayName,
+      uid: ctx.me!.uid,
+      email: ctx.me!.email || '',
+      username: ctx.me!.displayName || '',
       roles,
     };
   }
