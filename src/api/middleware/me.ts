@@ -2,6 +2,7 @@ import { AuthenticationError } from 'apollo-server-micro';
 
 import firebaseAdmin from '@services/firebase/admin';
 
+import { ResolverContext } from '@typeDefs/resolver';
 import { ServerResponse, ServerRequest } from '@typeDefs/server';
 import { User } from '@typeDefs/user';
 

@@ -1,6 +1,7 @@
 import { ApolloServer } from 'apollo-server-micro';
 import cors from 'micro-cors';
 import { buildSchema } from 'type-graphql';
+import { applyMiddleware } from 'graphql-middleware';
 import 'reflect-metadata';
 
 import getConnection from '@models/index';
@@ -12,7 +13,8 @@ import { ServerRequest, ServerResponse } from '@typeDefs/server';
 import { ResolverContext } from '@typeDefs/resolver';
 
 import resolvers from '@api/resolvers';
-import getMe from '@api/middleware/getMe';
+import getMe from '@api/middleware/me';
+import sentryMiddleware from '@api/middleware/sentry';
 import firebaseAdmin from '@services/firebase/admin';
 
 if (process.env.FIREBASE_ADMIN_UID) {
@@ -50,7 +52,8 @@ export default async (req: ServerRequest, res: ServerResponse) => {
   });
 
   const server = new ApolloServer({
-    schema,
+    schema: applyMiddleware(schema, sentryMiddleware),
+
     context: async ({ req, res }): Promise<ResolverContext> => {
       const me = await getMe(req, res);
 
