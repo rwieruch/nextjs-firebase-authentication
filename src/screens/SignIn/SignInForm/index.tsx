@@ -57,7 +57,7 @@ const SignInForm = ({
           },
         });
 
-        cookie.set('session', data?.signIn.sessionToken || '', {
+        cookie.set('session', data?.signIn.token || '', {
           expires: EXPIRES_IN,
           // TODO: 1) Get it work with httpOnly 2) Get it work on the server. See SignUpForm.tsx
           // httpOnly: true,

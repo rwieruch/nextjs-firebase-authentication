@@ -30,7 +30,7 @@ describe('SignUpForm', () => {
         },
         result: () => {
           mutationCalled = true;
-          return { data: { signUp: { sessionToken: '1' } } };
+          return { data: { signUp: { token: '1' } } };
         },
       },
     ];

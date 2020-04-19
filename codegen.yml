@@ -1,14 +1,6 @@
 schema: http://localhost:3000/api/graphql
 
 generates:
-  src/generated/server.ts:
-    config:
-      defaultMapper: any
-      contextType: @typeDefs/resolver#ResolverContext
-      useIndexSignature: true
-    plugins:
-      - typescript
-      - typescript-resolvers
   src/generated/client.tsx:
     documents: ./src/queries/*.ts
     config:

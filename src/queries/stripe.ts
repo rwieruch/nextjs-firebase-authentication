@@ -3,8 +3,8 @@ import gql from 'graphql-tag';
 export const STRIPE_CREATE_ORDER = gql`
   mutation StripeCreateOrder(
     $imageUrl: String!
-    $courseId: CourseId!
-    $bundleId: BundleId!
+    $courseId: String!
+    $bundleId: String!
     $coupon: String
     $partnerId: String
   ) {

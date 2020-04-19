@@ -1,0 +1,12 @@
+import {
+  THE_ROAD_TO_LEARN_REACT,
+  TAMING_THE_STATE,
+  THE_ROAD_TO_GRAPHQL,
+  THE_ROAD_TO_REACT_WITH_FIREBASE,
+} from './course-keys';
+
+export type COURSE =
+  | typeof THE_ROAD_TO_LEARN_REACT
+  | typeof TAMING_THE_STATE
+  | typeof THE_ROAD_TO_GRAPHQL
+  | typeof THE_ROAD_TO_REACT_WITH_FIREBASE;

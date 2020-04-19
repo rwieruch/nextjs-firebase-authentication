@@ -1,50 +1,78 @@
-import { QueryResolvers, MutationResolvers } from '@generated/server';
+import {
+  ObjectType,
+  Field,
+  Arg,
+  Ctx,
+  Resolver,
+  Query,
+  Mutation,
+  UseMiddleware,
+} from 'type-graphql';
+
+import { ResolverContext } from '@typeDefs/resolver';
 import { priceWithDiscount } from '@services/discount';
 import storefront from '@data/course-storefront';
+import { COURSE } from '@data/course-keys-types';
+import { BUNDLE } from '@data/bundle-keys-types';
+import { isAuthenticated } from '@api/middleware/resolver/isAuthenticated';
+import { isAdmin } from '@api/middleware/resolver/isAdmin';
+@ObjectType()
+class Discount {
+  @Field()
+  price: number;
 
-interface Resolvers {
-  Query: QueryResolvers;
-  Mutation: MutationResolvers;
+  @Field()
+  isDiscount: boolean;
 }
 
-export const resolvers: Resolvers = {
-  Query: {
-    discountedPrice: async (
-      _,
-      { courseId, bundleId, coupon },
-      { me, courseConnector, couponConnector }
-    ) => {
-      const course = storefront[courseId];
-      const bundle = course.bundles[bundleId];
+@Resolver()
+export default class CouponResolver {
+  @Query(() => Discount)
+  @UseMiddleware(isAuthenticated)
+  async discountedPrice(
+    @Arg('courseId') courseId: string,
+    @Arg('bundleId') bundleId: string,
+    @Arg('coupon') coupon: string,
+    @Ctx() ctx: ResolverContext
+  ): Promise<Discount> {
+    const course = storefront[courseId as COURSE];
+    const bundle = course.bundles[bundleId as BUNDLE];
 
-      if (!me) {
-        return bundle.price;
-      }
+    const price = await priceWithDiscount(
+      ctx.couponConnector,
+      ctx.courseConnector
+    )(
+      courseId as COURSE,
+      bundleId as BUNDLE,
+      bundle.price,
+      coupon,
+      ctx.me!.uid
+    );
 
-      const price = await priceWithDiscount(
-        couponConnector,
-        courseConnector
-      )(courseId, bundleId, bundle.price, coupon, me.uid);
+    return {
+      price,
+      isDiscount: price !== bundle.price,
+    };
+  }
 
-      return {
-        price,
-        isDiscount: price !== bundle.price,
-      };
-    },
-  },
-  Mutation: {
-    couponCreate: async (
-      _,
-      { coupon, discount, count },
-      { couponConnector }
-    ) => {
-      try {
-        await couponConnector.createCoupons(coupon, discount, count);
-      } catch (error) {
-        throw new Error(error);
-      }
+  @Mutation(() => Boolean)
+  @UseMiddleware(isAuthenticated, isAdmin)
+  async couponCreate(
+    @Arg('coupon') coupon: string,
+    @Arg('discount') discount: number,
+    @Arg('count') count: number,
+    @Ctx() ctx: ResolverContext
+  ): Promise<Boolean> {
+    try {
+      await ctx.couponConnector.createCoupons(
+        coupon,
+        discount,
+        count
+      );
+    } catch (error) {
+      throw new Error(error);
+    }
 
-      return true;
-    },
-  },
-};
+    return true;
+  }
+}

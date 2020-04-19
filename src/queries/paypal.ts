@@ -2,8 +2,8 @@ import gql from 'graphql-tag';
 
 export const PAYPAL_CREATE_ORDER = gql`
   mutation PaypalCreateOrder(
-    $courseId: CourseId!
-    $bundleId: BundleId!
+    $courseId: String!
+    $bundleId: String!
     $coupon: String
     $partnerId: String
   ) {

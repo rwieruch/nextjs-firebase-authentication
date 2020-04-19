@@ -2,8 +2,8 @@ import gql from 'graphql-tag';
 
 export const GET_DISCOUNTED_PRICE = gql`
   query GetDiscountedPrice(
-    $courseId: CourseId!
-    $bundleId: BundleId!
+    $courseId: String!
+    $bundleId: String!
     $coupon: String!
   ) {
     discountedPrice(
@@ -20,8 +20,8 @@ export const GET_DISCOUNTED_PRICE = gql`
 export const COUPON_CREATE = gql`
   mutation CouponCreate(
     $coupon: String!
-    $discount: Int!
-    $count: Int!
+    $discount: Float!
+    $count: Float!
   ) {
     couponCreate(coupon: $coupon, discount: $discount, count: $count)
   }

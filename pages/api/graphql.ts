@@ -1,5 +1,10 @@
 import { ApolloServer } from 'apollo-server-micro';
+import { buildSchema } from 'type-graphql';
+import { applyMiddleware } from 'graphql-middleware';
+
 import cors from 'micro-cors';
+
+import 'reflect-metadata';
 
 import getConnection from '@models/index';
 import { AdminConnector } from '@connectors/admin';
@@ -8,8 +13,11 @@ import { CourseConnector } from '@connectors/course';
 import { CouponConnector } from '@connectors/coupon';
 import { ServerRequest, ServerResponse } from '@typeDefs/server';
 import { ResolverContext } from '@typeDefs/resolver';
-import schema from '@api/schema';
-import getMe from '@api/middleware/getMe';
+
+import resolvers from '@api/resolvers';
+import meMiddleware from '@api/middleware/global/me';
+import sentryMiddleware from '@api/middleware/global/sentry';
+
 import firebaseAdmin from '@services/firebase/admin';
 
 if (process.env.FIREBASE_ADMIN_UID) {
@@ -41,11 +49,15 @@ export const config = {
 export default async (req: ServerRequest, res: ServerResponse) => {
   const connection = await getConnection();
 
-  const server = new ApolloServer({
-    schema,
-    context: async ({ req, res }): Promise<ResolverContext> => {
-      const me = await getMe(req, res);
+  const schema = await buildSchema({
+    resolvers,
+    dateScalarMode: 'isoDate',
+  });
 
+  const server = new ApolloServer({
+    schema: applyMiddleware(schema, sentryMiddleware, meMiddleware),
+
+    context: async ({ req, res }): Promise<ResolverContext> => {
       const adminConnector = new AdminConnector();
       const partnerConnector = new PartnerConnector(connection!);
       const courseConnector = new CourseConnector(connection!);
@@ -54,7 +66,6 @@ export default async (req: ServerRequest, res: ServerResponse) => {
       return {
         req,
         res,
-        me,
         adminConnector,
         courseConnector,
         partnerConnector,
@@ -66,8 +77,6 @@ export default async (req: ServerRequest, res: ServerResponse) => {
   const handler = withCors(
     server.createHandler({ path: '/api/graphql' })
   );
-
-  // await connection.close();
 
   return handler(req, res);
 };

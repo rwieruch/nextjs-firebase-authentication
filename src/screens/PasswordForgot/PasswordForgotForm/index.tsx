@@ -5,7 +5,7 @@ import { FormComponentProps } from 'antd/lib/form';
 import { usePasswordForgotMutation } from '@generated/client';
 import FormItem from '@components/Form/Item';
 import FormStretchedButton from '@components/Form/StretchedButton';
-import useErrorIndicator from '@hooks/useErrorIndicator';
+import useIndicators from '@hooks/useIndicators';
 
 interface PasswordForgotFormProps extends FormComponentProps {}
 
@@ -15,7 +15,11 @@ const PasswordForgotForm = ({ form }: PasswordForgotFormProps) => {
     { loading, error },
   ] = usePasswordForgotMutation();
 
-  useErrorIndicator({ error });
+  const { successMessage } = useIndicators({
+    key: 'password-forgot',
+    error,
+    success: { message: 'Success! Check your email inbox.' },
+  });
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     form.validateFields(async (error, values) => {
@@ -27,6 +31,8 @@ const PasswordForgotForm = ({ form }: PasswordForgotFormProps) => {
             email: values.email,
           },
         });
+
+        successMessage();
 
         form.resetFields();
       } catch (error) {}

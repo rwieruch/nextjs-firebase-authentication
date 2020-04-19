@@ -1,118 +1,160 @@
-import { MutationResolvers } from '@generated/server';
+import {
+  ObjectType,
+  Field,
+  Arg,
+  Ctx,
+  Resolver,
+  Mutation,
+  UseMiddleware,
+} from 'type-graphql';
+
+import { ResolverContext } from '@typeDefs/resolver';
 import { EXPIRES_IN } from '@constants/cookie';
 import firebase from '@services/firebase/client';
 import firebaseAdmin from '@services/firebase/admin';
 import { inviteToRevue } from '@services/revue';
 import { inviteToConvertkit } from '@services/convertkit';
+import { isAuthenticated } from '@api/middleware/resolver/isAuthenticated';
 
-interface Resolvers {
-  Mutation: MutationResolvers;
+@ObjectType()
+class SessionToken {
+  @Field()
+  token: string;
 }
 
-export const resolvers: Resolvers = {
-  Mutation: {
-    signIn: async (_, { email, password }) => {
-      let result;
+@Resolver()
+export default class SessionResolver {
+  @Mutation(() => SessionToken)
+  async signIn(
+    @Arg('email') email: string,
+    @Arg('password') password: string
+  ): Promise<SessionToken> {
+    let result;
 
-      try {
-        result = await firebase
-          .auth()
-          .signInWithEmailAndPassword(email, password);
-      } catch (error) {
-        return new Error(error);
-      }
-
-      const idToken = await result.user?.getIdToken();
-      const sessionToken = await firebaseAdmin
-        .auth()
-        .createSessionCookie(idToken || '', {
-          expiresIn: EXPIRES_IN,
-        });
-
-      // We manage the session ourselves.
-      await firebase.auth().signOut();
-
-      return { sessionToken };
-    },
-    signUp: async (_, { username, email, password }) => {
-      try {
-        await firebaseAdmin.auth().createUser({
-          email,
-          password,
-          displayName: username,
-        });
-      } catch (error) {
-        if (
-          error.message.includes('email address is already in use')
-        ) {
-          const customError =
-            'You already registered with this email. Hint: Check your password manager for our old domain: roadtoreact.com';
-          return new Error(customError);
-        } else {
-          return new Error(error);
-        }
-      }
-
-      const {
-        user,
-      } = await firebase
+    try {
+      result = await firebase
         .auth()
         .signInWithEmailAndPassword(email, password);
+    } catch (error) {
+      throw new Error(error);
+    }
 
-      const idToken = await user?.getIdToken();
-      const sessionToken = await firebaseAdmin
-        .auth()
-        .createSessionCookie(idToken || '', {
-          expiresIn: EXPIRES_IN,
-        });
+    if (!result.user) {
+      throw new Error('No user found.');
+    }
 
-      // We manage the session ourselves.
-      await firebase.auth().signOut();
+    const idToken = await result.user.getIdToken();
 
-      try {
-        inviteToConvertkit(email, username);
-      } catch (error) {
-        console.log(error);
-      }
+    const token = await firebaseAdmin
+      .auth()
+      .createSessionCookie(idToken, {
+        expiresIn: EXPIRES_IN,
+      });
 
-      try {
-        inviteToRevue(email, username);
-      } catch (error) {
-        console.log(error);
-      }
+    if (!token) {
+      throw new Error('Not able to create a session cookie.');
+    }
 
-      return { sessionToken };
-    },
-    passwordForgot: async (_, { email }) => {
-      try {
-        await firebase.auth().sendPasswordResetEmail(email);
-      } catch (error) {
-        return new Error(error);
-      }
+    // We manage the session ourselves.
+    await firebase.auth().signOut();
 
-      return true;
-    },
-    passwordChange: async (_, { password }, { me }) => {
-      try {
-        await firebaseAdmin.auth().updateUser(me?.uid || '', {
-          password,
-        });
-      } catch (error) {
-        return new Error(error);
-      }
+    return { token };
+  }
 
-      return true;
-    },
-    emailChange: async (_, { email }, { me }) => {
-      try {
-        await firebaseAdmin.auth().updateUser(me?.uid || '', {
-          email,
-        });
-      } catch (error) {
-        return new Error(error);
-      }
+  @Mutation(() => SessionToken)
+  async signUp(
+    @Arg('username') username: string,
+    @Arg('email') email: string,
+    @Arg('password') password: string
+  ): Promise<SessionToken> {
+    try {
+      await firebaseAdmin.auth().createUser({
+        email,
+        password,
+        displayName: username,
+      });
+    } catch (error) {
+      throw new Error(error);
+    }
 
-      return true;
-    },
-  },
-};
+    const { user } = await firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password);
+
+    if (!user) {
+      throw new Error('No user found.');
+    }
+
+    const idToken = await user.getIdToken();
+
+    const token = await firebaseAdmin
+      .auth()
+      .createSessionCookie(idToken, {
+        expiresIn: EXPIRES_IN,
+      });
+
+    // We manage the session ourselves.
+    await firebase.auth().signOut();
+
+    try {
+      inviteToConvertkit(email, username);
+    } catch (error) {
+      console.log(error);
+    }
+
+    try {
+      inviteToRevue(email, username);
+    } catch (error) {
+      console.log(error);
+    }
+
+    return { token };
+  }
+
+  @Mutation(() => Boolean)
+  async passwordForgot(
+    @Arg('email') email: string
+  ): Promise<Boolean> {
+    try {
+      await firebase.auth().sendPasswordResetEmail(email);
+    } catch (error) {
+      throw new Error(error);
+    }
+
+    return true;
+  }
+
+  @Mutation(() => Boolean)
+  @UseMiddleware(isAuthenticated)
+  async passwordChange(
+    @Arg('password') password: string,
+    @Ctx() ctx: ResolverContext
+  ): Promise<Boolean> {
+    try {
+      await firebaseAdmin.auth().updateUser(ctx.me!.uid, {
+        password,
+      });
+    } catch (error) {
+      throw new Error(error);
+    }
+
+    return true;
+  }
+
+  @Mutation(() => Boolean)
+  @UseMiddleware(isAuthenticated)
+  async emailChange(
+    @Arg('email') email: string,
+    @Ctx() ctx: ResolverContext
+  ): Promise<Boolean> {
+    try {
+      await firebaseAdmin.auth().updateUser(ctx.me!.uid, {
+        email,
+      });
+    } catch (error) {
+      throw new Error(error);
+    }
+
+    return true;
+  }
+}

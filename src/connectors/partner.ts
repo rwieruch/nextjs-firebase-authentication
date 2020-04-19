@@ -1,7 +1,7 @@
 import { Between } from 'typeorm';
 import { Connection, Repository } from 'typeorm';
 
-import { VisitorByDay, PartnerPayment } from '@generated/client';
+import { VisitorByDay, PartnerPayment } from '@api/resolvers/partner';
 import { PartnerVisitor, PartnerSale } from '@models/partner';
 import { Course } from '@models/course';
 import { PARTNER_PERCENTAGE } from '@constants/partner';

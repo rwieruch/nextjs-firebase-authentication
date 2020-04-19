@@ -23,7 +23,7 @@ const PasswordChangeForm = ({ form }: PasswordChangeFormProps) => {
     key: 'password-change',
     error,
     success: {
-      message: 'Success! Check your email inbox.',
+      message: 'Success! You can use your new password now.',
     },
   });
 

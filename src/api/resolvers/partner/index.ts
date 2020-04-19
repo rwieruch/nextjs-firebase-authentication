@@ -1,110 +1,183 @@
-import { QueryResolvers, MutationResolvers } from '@generated/server';
-import { hasPartnerRole } from '@validation/partner';
+import {
+  ObjectType,
+  Field,
+  Arg,
+  Ctx,
+  Resolver,
+  Query,
+  Mutation,
+  UseMiddleware,
+} from 'type-graphql';
 
-interface Resolvers {
-  Query: QueryResolvers;
-  Mutation: MutationResolvers;
+import { ResolverContext } from '@typeDefs/resolver';
+import { hasPartnerRole } from '@validation/partner';
+import { isAuthenticated } from '@api/middleware/resolver/isAuthenticated';
+import { isAdmin } from '@api/middleware/resolver/isAdmin';
+import { isPartner } from '@api/middleware/resolver/isPartner';
+
+@ObjectType()
+export class VisitorByDay {
+  @Field()
+  date: Date;
+
+  @Field()
+  count: number;
 }
 
-export const resolvers: Resolvers = {
-  Query: {
-    partnerVisitors: async (
-      _,
-      { from, to },
-      { partnerConnector }
-    ) => {
-      try {
-        return await partnerConnector.getVisitorsBetweenAggregatedByDate(
-          from,
-          to
-        );
-      } catch (error) {
-        return [];
-      }
-    },
-    partnerSales: async (
-      _,
-      { offset, limit },
-      { me, partnerConnector }
-    ) => {
-      if (!me) {
-        return [];
-      }
+@ObjectType()
+class PartnerSale {
+  @Field()
+  id: string;
 
-      try {
-        const {
-          edges,
+  @Field()
+  createdAt: Date;
+
+  @Field()
+  royalty: number;
+
+  @Field()
+  price: number;
+
+  @Field()
+  courseId: string;
+
+  @Field()
+  bundleId: string;
+
+  @Field()
+  isCoupon: boolean;
+}
+
+@ObjectType()
+class PageInfo {
+  @Field()
+  total: number;
+}
+
+@ObjectType()
+class PartnerSaleConnection {
+  @Field(type => [PartnerSale])
+  edges: PartnerSale[];
+
+  @Field()
+  pageInfo: PageInfo;
+}
+
+@ObjectType()
+export class PartnerPayment {
+  @Field()
+  createdAt: Date;
+
+  @Field()
+  royalty: number;
+}
+@Resolver()
+export default class PartnerResolver {
+  @Query(() => [VisitorByDay])
+  @UseMiddleware(isAuthenticated, isPartner)
+  async partnerVisitors(
+    @Arg('from') from: Date,
+    @Arg('to') to: Date,
+    @Ctx() ctx: ResolverContext
+  ): Promise<VisitorByDay[]> {
+    try {
+      return await ctx.partnerConnector.getVisitorsBetweenAggregatedByDate(
+        from,
+        to
+      );
+    } catch (error) {
+      return [];
+    }
+  }
+
+  @Query(() => PartnerSaleConnection)
+  @UseMiddleware(isAuthenticated, isPartner)
+  async partnerSales(
+    @Arg('offset') offset: number,
+    @Arg('limit') limit: number,
+    @Ctx() ctx: ResolverContext
+  ): Promise<PartnerSaleConnection> {
+    try {
+      const {
+        edges,
+        total,
+      } = await ctx.partnerConnector.getSalesByPartner(
+        ctx.me!.uid,
+        offset,
+        limit
+      );
+
+      return {
+        edges: edges.map(saleByPartner => ({
+          id: saleByPartner.id,
+          createdAt: saleByPartner.createdAt,
+          royalty: saleByPartner.royalty,
+          price: saleByPartner.course.price,
+          courseId: saleByPartner.course.courseId,
+          bundleId: saleByPartner.course.bundleId,
+          isCoupon: !!saleByPartner.course.coupon,
+        })),
+        pageInfo: {
           total,
-        } = await partnerConnector.getSalesByPartner(
-          me.uid,
-          offset,
-          limit
-        );
+        },
+      };
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
 
-        return {
-          edges: edges.map(saleByPartner => ({
-            id: saleByPartner.id,
-            createdAt: saleByPartner.createdAt,
-            royalty: saleByPartner.royalty,
-            price: saleByPartner.course.price,
-            courseId: saleByPartner.course.courseId,
-            bundleId: saleByPartner.course.bundleId,
-            isCoupon: !!saleByPartner.course.coupon,
-          })),
-          pageInfo: {
-            total,
-          },
-        };
-      } catch (error) {
-        return [];
-      }
-    },
-    partnerPayments: async (_, __, { me, partnerConnector }) => {
-      if (!me) {
-        return [];
-      }
+  @Query(() => [PartnerPayment])
+  @UseMiddleware(isAuthenticated, isPartner)
+  async partnerPayments(
+    @Ctx() ctx: ResolverContext
+  ): Promise<PartnerPayment[]> {
+    try {
+      return await ctx.partnerConnector.getPaymentsByPartner(
+        ctx.me!.uid
+      );
+    } catch (error) {
+      return [];
+    }
+  }
 
-      try {
-        return await partnerConnector.getPaymentsByPartner(me.uid);
-      } catch (error) {
-        return [];
-      }
-    },
-  },
-  Mutation: {
-    promoteToPartner: async (_, { uid }, { adminConnector }) => {
-      try {
-        await adminConnector.setCustomClaims(uid, {
-          partner: true,
-        });
-      } catch (error) {
-        throw new Error(error);
-      }
+  @Mutation(() => Boolean)
+  @UseMiddleware(isAuthenticated, isAdmin)
+  async promoteToPartner(
+    @Arg('uid') uid: string,
+    @Ctx() ctx: ResolverContext
+  ): Promise<Boolean> {
+    try {
+      await ctx.adminConnector.setCustomClaims(uid, {
+        partner: true,
+      });
+    } catch (error) {
+      throw new Error(error);
+    }
 
-      return true;
-    },
-    partnerTrackVisitor: async (
-      _,
-      { partnerId },
-      { partnerConnector, adminConnector }
-    ) => {
-      try {
-        const partner = await adminConnector.getUser(partnerId);
+    return true;
+  }
 
-        if (!hasPartnerRole(partner)) {
-          return false;
-        }
-      } catch (error) {
+  @Mutation(() => Boolean)
+  async partnerTrackVisitor(
+    @Arg('partnerId') partnerId: string,
+    @Ctx() ctx: ResolverContext
+  ): Promise<Boolean> {
+    try {
+      const partner = await ctx.adminConnector.getUser(partnerId);
+
+      if (!hasPartnerRole(partner)) {
         return false;
       }
+    } catch (error) {
+      return false;
+    }
 
-      try {
-        await partnerConnector.createVisitor(partnerId);
-      } catch (error) {
-        return false;
-      }
+    try {
+      await ctx.partnerConnector.createVisitor(partnerId);
+    } catch (error) {
+      return false;
+    }
 
-      return true;
-    },
-  },
-};
+    return true;
+  }
+}

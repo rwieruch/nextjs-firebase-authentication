@@ -2,19 +2,25 @@ import { AuthenticationError } from 'apollo-server-micro';
 
 import firebaseAdmin from '@services/firebase/admin';
 
-import { ServerResponse, ServerRequest } from '@typeDefs/server';
+import { ResolverContext } from '@typeDefs/resolver';
 import { User } from '@typeDefs/user';
 
-export default async (req: ServerRequest, res: ServerResponse) => {
-  const { session } = req.cookies;
+export default async (
+  resolve: Function,
+  root: any,
+  args: any,
+  context: ResolverContext,
+  info: any
+) => {
+  const { session } = context.req.cookies;
 
   if (!session) {
-    return undefined;
+    return await resolve(root, args, context, info);
   }
 
   const CHECK_REVOKED = true;
 
-  return await firebaseAdmin
+  const me = await firebaseAdmin
     .auth()
     .verifySessionCookie(session, CHECK_REVOKED)
     .then(async claims => {
@@ -23,4 +29,8 @@ export default async (req: ServerRequest, res: ServerResponse) => {
     .catch(error => {
       throw new AuthenticationError(error.message);
     });
+
+  context.me = me;
+
+  return await resolve(root, args, context, info);
 };

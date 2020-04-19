@@ -1,4 +1,3 @@
-import 'reflect-metadata';
 import { createConnection, getConnection } from 'typeorm';
 
 import * as CourseEntities from './course';
@@ -14,9 +13,7 @@ export default async function() {
     if (connection.isConnected) {
       await connection.close();
     }
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 
   try {
     connection = await createConnection({
@@ -39,9 +36,7 @@ export default async function() {
         },
       }),
     });
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 
   return connection;
 }
