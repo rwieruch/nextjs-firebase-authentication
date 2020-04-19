@@ -1,6 +1,6 @@
 import invert from 'lodash.invert';
 
-import { COURSE } from './course-keys';
+import { COURSE } from './course-keys-types';
 import BUNDLE_LEGACY from './bundle-legacy';
 
 const applyMigration = (
