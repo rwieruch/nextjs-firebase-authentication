@@ -16,10 +16,10 @@ class File {
   fileName: string;
 
   @Field()
-  contentType: string;
+  contentType: string | undefined | null;
 
   @Field()
-  body: string;
+  body: string | undefined | null;
 }
 
 @ObjectType()
@@ -43,14 +43,10 @@ export default class BookResolver {
       })
       .promise();
 
-    if (!ContentType || !Body) {
-      throw new Error("Book couldn't get downloaded.");
-    }
-
     return {
       fileName,
       contentType: ContentType,
-      body: Body.toString('base64'),
+      body: Body?.toString('base64'),
     };
   }
 
