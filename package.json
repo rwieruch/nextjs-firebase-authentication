@@ -22,7 +22,7 @@
     "@nivo/calendar": "^0.61.1",
     "@paypal/checkout-server-sdk": "^1.0.2",
     "@sentry/browser": "^5.12.4",
-    "@sentry/node": "^5.12.4",
+    "@sentry/node": "^5.15.5",
     "@types/file-saver": "^2.0.1",
     "@types/js-cookie": "^2.2.4",
     "@types/lodash.invert": "^4.3.6",
