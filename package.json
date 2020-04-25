@@ -109,7 +109,7 @@
     "babel-core": "^6.26.3",
     "babel-jest": "^24.9.0",
     "babel-plugin-module-resolver": "^4.0.0",
-    "concurrently": "^5.1.0",
+    "concurrently": "^5.2.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^24.9.0",
     "next-compose-plugins": "^2.2.0",
