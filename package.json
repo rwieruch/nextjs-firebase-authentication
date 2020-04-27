@@ -16,7 +16,7 @@
   "license": "MIT",
   "dependencies": {
     "@apollo/react-hooks": "^3.1.3",
-    "@mdx-js/loader": "^1.5.5",
+    "@mdx-js/loader": "^1.6.0",
     "@mdx-js/runtime": "^1.5.5",
     "@next/mdx": "^9.2.1",
     "@nivo/calendar": "^0.61.1",
