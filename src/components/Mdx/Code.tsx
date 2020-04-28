@@ -68,9 +68,17 @@ const Code = ({ children, offset, className }: CodeProps) => {
             }}
           >
             {tokensWithoutTrailingLine.map((line, i) => {
-              const lineProps = getLineProps({ line, key: i });
+              const lineProps = getLineProps({
+                line,
+                key: i,
+              });
               if (isLineToHighlight(i)) {
                 lineProps.className = `${lineProps.className} highlight-line`;
+              }
+
+              //github.com/FormidableLabs/prism-react-renderer/issues/36#issue-439146277
+              if (line.length === 1 && line[0].content === '') {
+                line[0].content = ' ';
               }
 
               return (
@@ -78,7 +86,10 @@ const Code = ({ children, offset, className }: CodeProps) => {
                   {line.map((token, key) => (
                     <span
                       key={key}
-                      {...getTokenProps({ token, key })}
+                      {...getTokenProps({
+                        token,
+                        key,
+                      })}
                     />
                   ))}
                 </div>
