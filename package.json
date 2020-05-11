@@ -40,7 +40,7 @@
     "apollo-link-error": "^1.1.12",
     "apollo-link-http": "^1.5.16",
     "apollo-server": "^2.9.16",
-    "apollo-server-micro": "^2.9.16",
+    "apollo-server-micro": "^2.13.1",
     "aws-sdk": "^2.615.0",
     "axios": "^0.19.2",
     "b64-to-blob": "^1.2.19",
