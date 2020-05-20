@@ -97,7 +97,7 @@
     "@graphql-codegen/typescript-operations": "^1.12.1",
     "@graphql-codegen/typescript-react-apollo": "^1.12.1",
     "@graphql-codegen/typescript-resolvers": "^1.12.1",
-    "@next/bundle-analyzer": "^9.2.0",
+    "@next/bundle-analyzer": "^9.4.2",
     "@testing-library/jest-dom": "^5.1.0",
     "@testing-library/react": "^9.4.0",
     "@types/jest": "^24.9.0",
