@@ -83,7 +83,7 @@
     "react-player": "^1.15.2",
     "reflect-metadata": "^0.1.13",
     "stripe": "^8.7.0",
-    "styled-components": "^5.0.0",
+    "styled-components": "^5.1.1",
     "type-graphql": "^0.18.0-beta.16",
     "typeorm": "^0.2.24"
   },
