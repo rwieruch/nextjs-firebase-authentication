@@ -78,5 +78,11 @@ export default async (req: ServerRequest, res: ServerResponse) => {
     server.createHandler({ path: '/api/graphql' })
   );
 
-  return handler(req, res);
+  const response = await handler(req, res);
+
+  if (connection) {
+    connection.close();
+  }
+
+  return response;
 };
