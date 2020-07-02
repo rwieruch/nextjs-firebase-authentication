@@ -8,6 +8,14 @@ export default async function() {
   let connection;
 
   try {
+    connection = await getConnection();
+
+    if (connection.isConnected) {
+      await connection.close();
+    }
+  } catch (error) {}
+
+  try {
     connection = await createConnection({
       type: process.env.DATABASE_TYPE as any,
       host: process.env.DATABASE_HOST as any,
