@@ -102,11 +102,11 @@ export default class SessionResolver {
       console.log(error);
     }
 
-    try {
-      inviteToRevue(email, username);
-    } catch (error) {
-      console.log(error);
-    }
+    // try {
+    //   inviteToRevue(email, username);
+    // } catch (error) {
+    //   console.log(error);
+    // }
 
     return { token };
   }
