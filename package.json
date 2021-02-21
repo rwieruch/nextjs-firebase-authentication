@@ -19,7 +19,7 @@
     "@mdx-js/loader": "^1.5.5",
     "@mdx-js/runtime": "^1.5.5",
     "@next/mdx": "^9.2.1",
-    "@nivo/calendar": "^0.61.1",
+    "@nivo/calendar": "^0.62.0",
     "@paypal/checkout-server-sdk": "^1.0.2",
     "@sentry/browser": "^5.12.4",
     "@sentry/node": "^5.12.4",
