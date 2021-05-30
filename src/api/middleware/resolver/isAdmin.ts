@@ -1,7 +1,7 @@
 import { MiddlewareFn } from 'type-graphql';
 import { ForbiddenError } from 'apollo-server';
 
-import { ResolverContext } from '@typeDefs/resolver';
+import type { ResolverContext } from '@typeDefs/resolver';
 import { hasAdminRole } from '@validation/admin';
 
 export const isAdmin: MiddlewareFn<ResolverContext> = async (

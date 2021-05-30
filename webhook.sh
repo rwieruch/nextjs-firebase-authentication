@@ -1,5 +1,5 @@
 git pull --rebase origin master
-npm install
+yarn install
 cd src/data/courses
 git pull --rebase origin master
 cd ..

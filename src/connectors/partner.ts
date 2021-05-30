@@ -26,13 +26,11 @@ export class PartnerConnector {
   partnerSaleRepository: Repository<PartnerSale>;
 
   constructor(connection: Connection) {
-    this.partnerVisitorRepository = connection?.getRepository(
-      PartnerVisitor
-    );
+    this.partnerVisitorRepository =
+      connection?.getRepository<PartnerVisitor>('PartnerVisitor');
 
-    this.partnerSaleRepository = connection?.getRepository(
-      PartnerSale
-    );
+    this.partnerSaleRepository =
+      connection?.getRepository<PartnerSale>('PartnerSale');
   }
 
   async createSale(course: Course, partnerId: string) {

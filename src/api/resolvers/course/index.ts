@@ -10,7 +10,7 @@ import {
 } from 'type-graphql';
 
 import { StorefrontCourse } from '@api/resolvers/storefront';
-import { ResolverContext } from '@typeDefs/resolver';
+import type { ResolverContext } from '@typeDefs/resolver';
 import { createCourse } from '@services/firebase/course';
 import { mergeCourses } from '@services/course';
 import { COURSE } from '@data/course-keys-types';
@@ -42,13 +42,13 @@ class CurriculumSection {
   @Field()
   label: string;
 
-  @Field(type => [CurriculumItem])
+  @Field((type) => [CurriculumItem])
   items: CurriculumItem[];
 }
 
 @ObjectType()
 class CurriculumData {
-  @Field(type => [CurriculumSection])
+  @Field((type) => [CurriculumSection])
   sections: CurriculumSection[];
 }
 
@@ -77,13 +77,13 @@ class BookChapter {
   @Field({ nullable: true })
   url: string;
 
-  @Field(type => [BookSection], { nullable: true })
+  @Field((type) => [BookSection], { nullable: true })
   sections: BookSection[];
 }
 
 @ObjectType()
 class BookOnlineData {
-  @Field(type => [BookChapter])
+  @Field((type) => [BookChapter])
   chapters: BookChapter[];
 }
 
@@ -116,7 +116,7 @@ class BookDownloadData {
   @Field()
   label: string;
 
-  @Field(type => [BookDownloadItem])
+  @Field((type) => [BookDownloadItem])
   items: BookDownloadItem[];
 }
 @ObjectType()
@@ -144,7 +144,7 @@ class OnboardingItem {
 }
 @ObjectType()
 class OnboardingData {
-  @Field(type => [OnboardingItem])
+  @Field((type) => [OnboardingItem])
   items: OnboardingItem[];
 }
 @ObjectType()
@@ -224,7 +224,7 @@ export default class CourseResolver {
 
     const unlockedCourses = mergeCourses(courses);
 
-    return Object.values(unlockedCourses).map(unlockedCourse => ({
+    return Object.values(unlockedCourses).map((unlockedCourse) => ({
       courseId: unlockedCourse.courseId,
       header: unlockedCourse.header,
       url: unlockedCourse.url,
@@ -239,15 +239,16 @@ export default class CourseResolver {
     @Arg('courseId') courseId: string,
     @Ctx() ctx: ResolverContext
   ): Promise<UnlockedCourse> {
-    const courses = await ctx.courseConnector.getCoursesByUserIdAndCourseId(
-      ctx.me!.uid,
-      courseId as COURSE
-    );
+    const courses =
+      await ctx.courseConnector.getCoursesByUserIdAndCourseId(
+        ctx.me!.uid,
+        courseId as COURSE
+      );
 
     const unlockedCourses = mergeCourses(courses);
 
     const unlockedCourse = unlockedCourses.find(
-      unlockedCourse => unlockedCourse.courseId === courseId
+      (unlockedCourse) => unlockedCourse.courseId === courseId
     );
 
     return unlockedCourse;

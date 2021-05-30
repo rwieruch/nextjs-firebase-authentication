@@ -1,6 +1,6 @@
 import { MiddlewareFn } from 'type-graphql';
 
-import { ResolverContext } from '@typeDefs/resolver';
+import type { ResolverContext } from '@typeDefs/resolver';
 import storefront from '@data/course-storefront';
 import { COURSE } from '@data/course-keys-types';
 import { BUNDLE } from '@data/bundle-keys-types';

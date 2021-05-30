@@ -5,7 +5,7 @@ import { Card, Layout as AntdLayout } from 'antd';
 
 import { User } from '@generated/client';
 import { GET_ME } from '@queries/user';
-import { Session } from '@typeDefs/session';
+import type { Session } from '@typeDefs/session';
 import Layout from '@components/Layout';
 
 import CommunityJoinForm from './CommunityJoinForm';
@@ -47,7 +47,7 @@ const CommunityJoinPage: NextAuthPage = ({ data }) => {
 
 CommunityJoinPage.isAuthorized = (session: Session) => !!session;
 
-CommunityJoinPage.getInitialProps = async ctx => {
+CommunityJoinPage.getInitialProps = async (ctx) => {
   const isServer = ctx.req || ctx.res;
 
   const context = isServer

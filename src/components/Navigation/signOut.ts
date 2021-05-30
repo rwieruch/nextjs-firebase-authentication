@@ -1,7 +1,7 @@
 import Router from 'next/router';
 import cookie from 'js-cookie';
 
-import { ServerRequest, ServerResponse } from '@typeDefs/server';
+import type { ServerRequest, ServerResponse } from '@typeDefs/server';
 import * as ROUTES from '@constants/routes';
 
 export default (

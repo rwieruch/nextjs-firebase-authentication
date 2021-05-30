@@ -11,8 +11,8 @@ import { AdminConnector } from '@connectors/admin';
 import { PartnerConnector } from '@connectors/partner';
 import { CourseConnector } from '@connectors/course';
 import { CouponConnector } from '@connectors/coupon';
-import { ServerRequest, ServerResponse } from '@typeDefs/server';
-import { ResolverContext } from '@typeDefs/resolver';
+import type { ServerRequest, ServerResponse } from '@typeDefs/server';
+import type { ResolverContext } from '@typeDefs/resolver';
 
 import resolvers from '@api/resolvers';
 import meMiddleware from '@api/middleware/global/me';

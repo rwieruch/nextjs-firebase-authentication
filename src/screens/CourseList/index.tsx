@@ -8,7 +8,7 @@ import { upperSnakeCaseToKebabCase } from '@services/format';
 import { UnlockedCourse, StorefrontCourse } from '@generated/client';
 import { GET_UNLOCKED_COURSES } from '@queries/course';
 import { GET_STOREFRONT_COURSES } from '@queries/storefront';
-import { Session } from '@typeDefs/session';
+import type { Session } from '@typeDefs/session';
 import Layout from '@components/Layout';
 import Link from '@components/Link';
 
@@ -67,14 +67,14 @@ const CourseListPage: NextAuthPage = ({
 }) => {
   const isUnlocked = (storefrontCourse: StorefrontCourse) =>
     !unlockedCoursesData.unlockedCourses
-      .map(unlockedCourse => unlockedCourse.courseId)
+      .map((unlockedCourse) => unlockedCourse.courseId)
       .includes(storefrontCourse.courseId);
 
   return (
     <Layout>
       <StyledContent>
         <StyledCards>
-          {unlockedCoursesData.unlockedCourses.map(course => {
+          {unlockedCoursesData.unlockedCourses.map((course) => {
             let actions = [
               <Link
                 href={ROUTES.UNLOCKED_COURSE_DETAILS}
@@ -111,7 +111,7 @@ const CourseListPage: NextAuthPage = ({
 
           {storefrontCoursesData.storefrontCourses
             .filter(isUnlocked)
-            .map(storefrontCourse => {
+            .map((storefrontCourse) => {
               const actions = [
                 <Link href={storefrontCourse.url}>
                   <Icon type="unlock" key="unlock" /> Unlock Course
@@ -137,7 +137,7 @@ const CourseListPage: NextAuthPage = ({
 
 CourseListPage.isAuthorized = (session: Session) => true;
 
-CourseListPage.getInitialProps = async ctx => {
+CourseListPage.getInitialProps = async (ctx) => {
   const isServer = ctx.req || ctx.res;
 
   const context = isServer
@@ -156,11 +156,10 @@ CourseListPage.getInitialProps = async ctx => {
     ...(isServer && context),
   });
 
-  const {
-    data: storefrontCoursesData,
-  } = await ctx.apolloClient.query({
-    query: GET_STOREFRONT_COURSES,
-  });
+  const { data: storefrontCoursesData } =
+    await ctx.apolloClient.query({
+      query: GET_STOREFRONT_COURSES,
+    });
 
   return { unlockedCoursesData, storefrontCoursesData };
 };

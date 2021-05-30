@@ -8,7 +8,8 @@ export class CourseConnector {
   courseRepository: Repository<Course>;
 
   constructor(connection: Connection) {
-    this.courseRepository = connection?.getRepository(Course);
+    this.courseRepository =
+      connection?.getRepository<Course>('Course');
   }
 
   async createCourse({

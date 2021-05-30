@@ -7,7 +7,7 @@ import {
   UseMiddleware,
 } from 'type-graphql';
 
-import { ResolverContext } from '@typeDefs/resolver';
+import type { ResolverContext } from '@typeDefs/resolver';
 import { isAuthenticated } from '@api/middleware/resolver/isAuthenticated';
 
 @ObjectType()
@@ -21,7 +21,7 @@ class User {
   @Field()
   username: string;
 
-  @Field(type => [String])
+  @Field((type) => [String])
   roles: string[];
 }
 
@@ -33,7 +33,7 @@ export default class UserResolver {
     const rolesObject = ctx.me!.customClaims || {};
 
     const roles = Object.keys(rolesObject).filter(
-      key => rolesObject[key]
+      (key) => rolesObject[key]
     );
 
     return {

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { Layout as AntdLayout, Breadcrumb, Menu, Icon } from 'antd';
 
 import { UnlockedCourse } from '@generated/client';
-import { Session } from '@typeDefs/session';
+import type { Session } from '@typeDefs/session';
 import * as ROUTES from '@constants/routes';
 import { GET_UNLOCKED_COURSE } from '@queries/course';
 import Layout from '@components/Layout';
@@ -261,7 +261,7 @@ const CourseItemPage: NextAuthPage = ({ data }) => {
 
 CourseItemPage.isAuthorized = (session: Session) => !!session;
 
-CourseItemPage.getInitialProps = async ctx => {
+CourseItemPage.getInitialProps = async (ctx) => {
   const isServer = ctx.req || ctx.res;
 
   const context = isServer
@@ -275,7 +275,7 @@ CourseItemPage.getInitialProps = async ctx => {
     : null;
 
   const courseId = kebabCaseToUpperSnakeCase(
-    ctx.query['unlocked-course-id'].toString()
+    (ctx.query['unlocked-course-id'] || '').toString()
   );
 
   const { data } = await ctx.apolloClient.query({

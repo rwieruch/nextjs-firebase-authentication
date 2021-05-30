@@ -2,8 +2,8 @@ import { AuthenticationError } from 'apollo-server-micro';
 
 import firebaseAdmin from '@services/firebase/admin';
 
-import { ResolverContext } from '@typeDefs/resolver';
-import { User } from '@typeDefs/user';
+import type { ResolverContext } from '@typeDefs/resolver';
+import type { User } from '@typeDefs/user';
 
 export default async (
   resolve: Function,
@@ -23,10 +23,10 @@ export default async (
   const me = await firebaseAdmin
     .auth()
     .verifySessionCookie(session, CHECK_REVOKED)
-    .then(async claims => {
+    .then(async (claims) => {
       return (await firebaseAdmin.auth().getUser(claims.uid)) as User;
     })
-    .catch(error => {
+    .catch((error) => {
       throw new AuthenticationError(error.message);
     });
 

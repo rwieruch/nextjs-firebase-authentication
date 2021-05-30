@@ -7,7 +7,7 @@ import {
 } from 'type-graphql';
 
 import { StorefrontCourse } from '@api/resolvers/storefront';
-import { ResolverContext } from '@typeDefs/resolver';
+import type { ResolverContext } from '@typeDefs/resolver';
 import { getUpgradeableCourses } from '@services/course';
 import { COURSE } from '@data/course-keys-types';
 import { isAuthenticated } from '@api/middleware/resolver/isAuthenticated';
@@ -20,10 +20,11 @@ export default class UpgradeResolver {
     @Arg('courseId') courseId: string,
     @Ctx() ctx: ResolverContext
   ) {
-    const courses = await ctx.courseConnector.getCoursesByUserIdAndCourseId(
-      ctx.me!.uid,
-      courseId as COURSE
-    );
+    const courses =
+      await ctx.courseConnector.getCoursesByUserIdAndCourseId(
+        ctx.me!.uid,
+        courseId as COURSE
+      );
 
     return getUpgradeableCourses(courseId as COURSE, courses);
   }

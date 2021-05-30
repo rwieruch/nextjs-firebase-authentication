@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Card, Layout as AntdLayout } from 'antd';
 
-import { Session } from '@typeDefs/session';
+import type { Session } from '@typeDefs/session';
 import Layout from '@components/Layout';
 
 import EmailChangeForm from './EmailChangeForm';

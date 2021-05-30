@@ -1,7 +1,7 @@
 import { sentry } from 'graphql-middleware-sentry';
 import * as Sentry from '@sentry/node';
 
-import { ResolverContext } from '@typeDefs/resolver';
+import type { ResolverContext } from '@typeDefs/resolver';
 
 Sentry.init({
   dsn: process.env.SENTRY_DSN,

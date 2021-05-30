@@ -7,7 +7,8 @@ export class CouponConnector {
   couponRepository: Repository<Coupon>;
 
   constructor(connection: Connection) {
-    this.couponRepository = connection?.getRepository(Coupon);
+    this.couponRepository =
+      connection?.getRepository<Coupon>('Coupon');
   }
 
   async createCoupons(

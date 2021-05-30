@@ -10,7 +10,7 @@ import {
 
 import { COURSE } from '@data/course-keys-types';
 import { BUNDLE } from '@data/bundle-keys-types';
-import { ResolverContext } from '@typeDefs/resolver';
+import type { ResolverContext } from '@typeDefs/resolver';
 
 @ObjectType()
 class StripeId {

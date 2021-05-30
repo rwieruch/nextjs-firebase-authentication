@@ -8,7 +8,7 @@ import {
   UseMiddleware,
 } from 'type-graphql';
 
-import { ResolverContext } from '@typeDefs/resolver';
+import type { ResolverContext } from '@typeDefs/resolver';
 import { EXPIRES_IN } from '@constants/cookie';
 import firebase from '@services/firebase/client';
 import firebaseAdmin from '@services/firebase/admin';

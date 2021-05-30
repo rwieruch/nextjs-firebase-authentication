@@ -14,7 +14,7 @@ import { CouponConnector } from '@connectors/coupon';
 import { send } from 'micro';
 import getRawBody from 'raw-body';
 
-import { ServerRequest, ServerResponse } from '@typeDefs/server';
+import type { ServerRequest, ServerResponse } from '@typeDefs/server';
 
 export default async (
   request: ServerRequest,

@@ -2,7 +2,7 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import { useApolloClient } from '@apollo/react-hooks';
 
-import { Session } from '@typeDefs/session';
+import type { Session } from '@typeDefs/session';
 import { MIGRATE } from '@queries/migrate';
 import { CREATE_ADMIN_COURSE } from '@queries/course';
 import { PROMOTE_TO_PARTNER } from '@queries/partner';
@@ -69,8 +69,8 @@ const AdminPage = () => {
         mutation: COUPON_CREATE,
         variables: {
           coupon: formatRouteQuery(query.coupon),
-          discount: +formatRouteQuery(query.discount), // 1 - 100
-          count: +formatRouteQuery(query.count),
+          discount: Number(formatRouteQuery(query.discount)), // 1 - 100
+          count: Number(formatRouteQuery(query.count)),
         },
       });
     }

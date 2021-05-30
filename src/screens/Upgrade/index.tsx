@@ -6,7 +6,7 @@ import { Layout as AntdLayout, Breadcrumb, Card, Icon } from 'antd';
 import * as ROUTES from '@constants/routes';
 import { StorefrontCourse } from '@generated/client';
 import { GET_UPGRADEABLE_COURSES } from '@queries/upgrade';
-import { Session } from '@typeDefs/session';
+import type { Session } from '@typeDefs/session';
 import Layout from '@components/Layout';
 import Link from '@components/Link';
 import {
@@ -75,7 +75,7 @@ const UpgradePage: NextAuthPage = ({ upgradeableCoursesData }) => {
         </Breadcrumb>
         <StyledCards>
           {upgradeableCoursesData.upgradeableCourses.map(
-            storefrontCourse => {
+            (storefrontCourse) => {
               const actions = [
                 <Link
                   href={`${ROUTES.CHECKOUT}?courseId=${storefrontCourse.courseId}&bundleId=${storefrontCourse.bundle.bundleId}&coupon=${storefrontCourse.bundle.bundleId}`}
@@ -110,7 +110,7 @@ const UpgradePage: NextAuthPage = ({ upgradeableCoursesData }) => {
 
 UpgradePage.isAuthorized = (session: Session) => !!session;
 
-UpgradePage.getInitialProps = async ctx => {
+UpgradePage.getInitialProps = async (ctx) => {
   const isServer = ctx.req || ctx.res;
 
   const context = isServer
@@ -124,18 +124,17 @@ UpgradePage.getInitialProps = async ctx => {
     : null;
 
   const courseId = kebabCaseToUpperSnakeCase(
-    ctx.query['upgradeable-course-id'].toString()
+    (ctx.query['upgradeable-course-id'] || '').toString()
   );
 
-  const {
-    data: upgradeableCoursesData,
-  } = await ctx.apolloClient.query({
-    query: GET_UPGRADEABLE_COURSES,
-    variables: {
-      courseId,
-    },
-    ...(isServer && context),
-  });
+  const { data: upgradeableCoursesData } =
+    await ctx.apolloClient.query({
+      query: GET_UPGRADEABLE_COURSES,
+      variables: {
+        courseId,
+      },
+      ...(isServer && context),
+    });
 
   return { upgradeableCoursesData };
 };

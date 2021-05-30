@@ -9,7 +9,7 @@ import {
   UseMiddleware,
 } from 'type-graphql';
 
-import { ResolverContext } from '@typeDefs/resolver';
+import type { ResolverContext } from '@typeDefs/resolver';
 import { hasPartnerRole } from '@validation/partner';
 import { isAuthenticated } from '@api/middleware/resolver/isAuthenticated';
 import { isAdmin } from '@api/middleware/resolver/isAdmin';
@@ -56,7 +56,7 @@ class PageInfo {
 
 @ObjectType()
 class PartnerSaleConnection {
-  @Field(type => [PartnerSale])
+  @Field((type) => [PartnerSale])
   edges: PartnerSale[];
 
   @Field()
@@ -98,17 +98,15 @@ export default class PartnerResolver {
     @Ctx() ctx: ResolverContext
   ): Promise<PartnerSaleConnection> {
     try {
-      const {
-        edges,
-        total,
-      } = await ctx.partnerConnector.getSalesByPartner(
-        ctx.me!.uid,
-        offset,
-        limit
-      );
+      const { edges, total } =
+        await ctx.partnerConnector.getSalesByPartner(
+          ctx.me!.uid,
+          offset,
+          limit
+        );
 
       return {
-        edges: edges.map(saleByPartner => ({
+        edges: edges.map((saleByPartner) => ({
           id: saleByPartner.id,
           createdAt: saleByPartner.createdAt,
           royalty: saleByPartner.royalty,

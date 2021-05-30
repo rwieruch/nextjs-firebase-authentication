@@ -9,7 +9,7 @@ import {
 
 import { COURSE } from '@data/course-keys-types';
 import { BUNDLE } from '@data/bundle-keys-types';
-import { ResolverContext } from '@typeDefs/resolver';
+import type { ResolverContext } from '@typeDefs/resolver';
 
 // TODO https://github.com/paypal/Checkout-NodeJS-SDK/issues/25
 import paypal from '@paypal/checkout-server-sdk';
@@ -106,14 +106,11 @@ export default class PaypalResolver {
     try {
       const capture = await paypalClient().execute(request);
 
-      const {
-        amount,
-        custom_id,
-      } = capture.result.purchase_units[0].payments.captures[0];
+      const { amount, custom_id } =
+        capture.result.purchase_units[0].payments.captures[0];
 
-      const { courseId, bundleId, coupon, partnerId } = JSON.parse(
-        custom_id
-      );
+      const { courseId, bundleId, coupon, partnerId } =
+        JSON.parse(custom_id);
 
       const course = await ctx.courseConnector.createCourse({
         userId: ctx.me!.uid,

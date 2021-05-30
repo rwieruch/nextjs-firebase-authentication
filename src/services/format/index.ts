@@ -26,5 +26,6 @@ export const formatMonth = (date: Date) =>
     month: 'long',
   }).format(date);
 
-export const formatRouteQuery = (queryValue: string | string[]) =>
-  queryValue instanceof Array ? queryValue.join('') : queryValue;
+export const formatRouteQuery = (
+  queryValue: string | string[] | undefined
+) => (queryValue instanceof Array ? queryValue.join('') : queryValue);
