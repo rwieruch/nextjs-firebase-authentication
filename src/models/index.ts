@@ -1,3 +1,6 @@
+// https://github.com/typeorm/typeorm/issues/5676#issuecomment-797925238
+// https://github.com/typeorm/typeorm/issues/6241#issuecomment-643690383
+
 import { Connection, getConnectionManager } from 'typeorm';
 
 import * as CourseEntities from './course';

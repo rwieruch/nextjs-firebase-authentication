@@ -1,9 +1,4 @@
-//github.com/zeit/next.js/blob/canary/examples/with-ant-design-less/next.config.js
-
 require('dotenv').config();
-
-const fs = require('fs');
-const path = require('path');
 
 const withSourceMaps = require('@zeit/next-source-maps')();
 
@@ -13,7 +8,6 @@ const withMDX = require('@next/mdx')({
 
 const withPlugins = require('next-compose-plugins');
 const withLess = require('@zeit/next-less');
-const lessToJS = require('less-vars-to-js');
 const bundleAnalyzer = require('@next/bundle-analyzer');
 
 const nextConfig = {
@@ -56,6 +50,7 @@ const nextConfig = {
   },
   webpack: (config, { isServer }) => {
     // Less with Antd
+    // https://github.com/ant-design/ant-design/issues/15696#issuecomment-683440468
     if (isServer) {
       const antStyles = /antd\/.*?\/style.*?/;
       const origExternals = [...config.externals];
@@ -98,12 +93,6 @@ const nextConfig = {
 const lessWithAntdConfig = {
   lessLoaderOptions: {
     javascriptEnabled: true,
-    modifyVars: lessToJS(
-      fs.readFileSync(
-        path.resolve(__dirname, './assets/antd-custom.less'),
-        'utf8'
-      )
-    ),
   },
 };
 

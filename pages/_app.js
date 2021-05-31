@@ -7,6 +7,8 @@ import { ApolloProvider } from '@apollo/react-hooks';
 import { PageTransition } from 'next-page-transitions';
 import lf from 'localforage';
 
+import './styles.less';
+
 import { formatRouteQuery } from '@services/format';
 import Head from '@components/Head';
 import Loader from '@components/Loader';

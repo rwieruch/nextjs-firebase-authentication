@@ -1,5 +1,4 @@
-// https://github.com/zeit/next.js/blob/canary/examples/with-ant-design-less/next.config.js
-// https://github.com/zeit/next.js/blob/canary/examples/with-styled-components/pages/_document.js
+// https://github.com/vercel/next.js/blob/canary/examples/with-styled-components/.babelrc
 
 {
   "presets": ["next/babel"],
@@ -30,19 +29,6 @@
       "styled-components",
       {
         "ssr": true
-      }
-    ],
-    [
-      "inline-import",
-      {
-        "extensions": [".css"]
-      }
-    ],
-    [
-      "import",
-      {
-        "libraryName": "antd",
-        "style": true
       }
     ],
     "babel-plugin-transform-typescript-metadata",
