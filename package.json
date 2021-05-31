@@ -110,6 +110,7 @@
     "identity-obj-proxy": "3.0.0",
     "jest": "24.9.0",
     "next-compose-plugins": "2.2.0",
+    "prettier": "^2.3.0",
     "typescript": "3.8.3"
   }
 }
