@@ -94,17 +94,13 @@ const CourseItemPage: NextAuthPage = ({ data }) => {
           <Sider
             width={250}
             style={{
-              background: '#fff',
               overflow: 'auto',
-              position: 'sticky',
-              left: 0,
+              height: 'calc(100% - 224px)',
+              position: 'fixed',
+              background: '#fff',
             }}
           >
-            <Menu
-              mode="inline"
-              defaultSelectedKeys={[sKey]}
-              style={{ height: '100%' }}
-            >
+            <Menu mode="inline" defaultSelectedKeys={[sKey]}>
               {introduction && (
                 <Menu.Item
                   key="introduction:0:0"
@@ -222,7 +218,12 @@ const CourseItemPage: NextAuthPage = ({ data }) => {
             </Menu>
           </Sider>
 
-          <Content style={{ padding: '0 24px' }}>
+          <Content
+            style={{
+              padding: '0 24px',
+              marginLeft: 250,
+            }}
+          >
             {s.k === 'introduction' && introductionData && (
               <Introduction introductionData={introductionData} />
             )}
