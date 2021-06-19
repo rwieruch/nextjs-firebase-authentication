@@ -81,8 +81,8 @@ export const GET_UNLOCKED_COURSE = gql`
 `;
 
 export const CREATE_FREE_COURSE = gql`
-  mutation CreateFreeCourse($courseId: String!, $bundleId: String!) {
-    createFreeCourse(courseId: $courseId, bundleId: $bundleId)
+  mutation CreateFreeCourse($courseId: String!, $bundleId: String!, $coupon: String!) {
+    createFreeCourse(courseId: $courseId, bundleId: $bundleId, coupon: $coupon)
   }
 `;
 

@@ -192,6 +192,7 @@ export type MutationStripeCreateOrderArgs = {
 
 
 export type MutationCreateFreeCourseArgs = {
+  coupon: Scalars['String'];
   bundleId: Scalars['String'];
   courseId: Scalars['String'];
 };
@@ -550,6 +551,7 @@ export type GetCourseQuery = (
 export type CreateFreeCourseMutationVariables = {
   courseId: Scalars['String'];
   bundleId: Scalars['String'];
+  coupon: Scalars['String'];
 };
 
 
@@ -1102,8 +1104,8 @@ export type GetCourseQueryHookResult = ReturnType<typeof useGetCourseQuery>;
 export type GetCourseLazyQueryHookResult = ReturnType<typeof useGetCourseLazyQuery>;
 export type GetCourseQueryResult = ApolloReactCommon.QueryResult<GetCourseQuery, GetCourseQueryVariables>;
 export const CreateFreeCourseDocument = gql`
-    mutation CreateFreeCourse($courseId: String!, $bundleId: String!) {
-  createFreeCourse(courseId: $courseId, bundleId: $bundleId)
+    mutation CreateFreeCourse($courseId: String!, $bundleId: String!, $coupon: String!) {
+  createFreeCourse(courseId: $courseId, bundleId: $bundleId, coupon: $coupon)
 }
     `;
 export type CreateFreeCourseMutationFn = ApolloReactCommon.MutationFunction<CreateFreeCourseMutation, CreateFreeCourseMutationVariables>;
@@ -1123,6 +1125,7 @@ export type CreateFreeCourseMutationFn = ApolloReactCommon.MutationFunction<Crea
  *   variables: {
  *      courseId: // value for 'courseId'
  *      bundleId: // value for 'bundleId'
+ *      coupon: // value for 'coupon'
  *   },
  * });
  */

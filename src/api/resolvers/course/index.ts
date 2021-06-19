@@ -259,10 +259,15 @@ export default class CourseResolver {
   async createFreeCourse(
     @Arg('courseId') courseId: string,
     @Arg('bundleId') bundleId: string,
+    @Arg('coupon') coupon: string,
     @Ctx() ctx: ResolverContext
   ): Promise<boolean> {
     if (!ctx.me) {
       return false;
+    }
+
+    if (coupon) {
+      await ctx.couponConnector.removeCoupon(coupon);
     }
 
     await ctx.courseConnector.createCourse({

@@ -10,12 +10,14 @@ import { CREATE_FREE_COURSE } from '@queries/course';
 export type FreeCheckoutProps = {
   courseId: string;
   bundleId: string;
+  coupon: string;
   onSuccess: () => void;
 };
 
 const FreeCheckout = ({
   courseId,
   bundleId,
+  coupon,
   onSuccess,
 }: FreeCheckoutProps) => {
   const [createFreeCourse, { loading, error }] = useMutation(
@@ -29,7 +31,7 @@ const FreeCheckout = ({
   const handlePay = async () => {
     try {
       await createFreeCourse({
-        variables: { courseId, bundleId },
+        variables: { courseId, bundleId, coupon },
       });
 
       onSuccess();

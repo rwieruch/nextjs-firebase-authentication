@@ -61,7 +61,7 @@ const IdleForm = ({
     },
   };
 
-  const isFree = price === 0;
+  const isFree = price === 0 || (discount.isRedeemed && discount.price === 0);
 
   return (
     <Form {...formItemLayout}>
@@ -77,51 +77,47 @@ const IdleForm = ({
         </Form.Item>
       )}
 
-      {!isFree && (
-        <Form.Item style={{ margin: 0 }} label="Price">
-          <span
-            className="ant-form-text"
-            style={{
-              textDecoration: discount.isRedeemed
-                ? 'line-through'
-                : 'none',
-            }}
-          >
-            {formatPrice(price)}
+      <Form.Item style={{ margin: 0 }} label="Price">
+        <span
+          className="ant-form-text"
+          style={{
+            textDecoration: discount.isRedeemed
+              ? 'line-through'
+              : 'none',
+          }}
+        >
+          {formatPrice(price)}
+        </span>
+
+        {discount.isRedeemed && (
+          <span className="ant-form-text">
+            {formatPrice(discount.price)}
           </span>
+        )}
+      </Form.Item>
 
-          {discount.isRedeemed && (
-            <span className="ant-form-text">
-              {formatPrice(discount.price)}
-            </span>
-          )}
-        </Form.Item>
-      )}
-
-      {!isFree && (
-        <Form.Item label="Coupon">
-          <Row gutter={8}>
-            <Col span={16}>
-              <Input
-                value={coupon}
-                disabled={discount.isRedeemed}
-                onChange={onCouponChange}
-                prefix={<FormIcon type="tag" />}
-                placeholder="Discount Code"
-                aria-label="coupon"
-              />
-            </Col>
-            <Col span={8}>
-              <Button
-                loading={discountLoading}
-                onClick={onRedeemedChange}
-              >
-                {discount.isRedeemed ? 'Clear' : 'Apply'}
-              </Button>
-            </Col>
-          </Row>
-        </Form.Item>
-      )}
+      <Form.Item label="Coupon">
+        <Row gutter={8}>
+          <Col span={16}>
+            <Input
+              value={coupon}
+              disabled={discount.isRedeemed}
+              onChange={onCouponChange}
+              prefix={<FormIcon type="tag" />}
+              placeholder="Discount Code"
+              aria-label="coupon"
+            />
+          </Col>
+          <Col span={8}>
+            <Button
+              loading={discountLoading}
+              onClick={onRedeemedChange}
+            >
+              {discount.isRedeemed ? 'Clear' : 'Apply'}
+            </Button>
+          </Col>
+        </Row>
+      </Form.Item>
 
       <Row>
         <Col span={24} style={{ textAlign: 'right' }}>
@@ -230,6 +226,7 @@ const Pay = ({ storefrontCourse, onSuccess }: PayProps) => {
             <FreeCheckoutButton
               courseId={storefrontCourse.courseId}
               bundleId={storefrontCourse.bundle.bundleId}
+              coupon={discount.isRedeemed ? coupon : ''}
               onSuccess={onSuccess}
             />
           }
