@@ -6,6 +6,9 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
+import type { COURSE } from '@data/course-keys-types';
+import type { BUNDLE } from '@data/bundle-keys-types';
+
 @Entity()
 export class Coupon {
   @PrimaryGeneratedColumn('uuid')
@@ -26,4 +29,10 @@ export class Coupon {
 
   @Column('timestamp')
   expiresAt: Date;
+
+  @Column({ type: 'varchar', nullable: true })
+  courseId: COURSE;
+
+  @Column({ type: 'varchar', nullable: true })
+  bundleId: BUNDLE;
 }

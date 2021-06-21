@@ -2,6 +2,8 @@ import { LessThan } from 'typeorm';
 import { Connection, Repository } from 'typeorm';
 
 import { Coupon } from '@models/coupon';
+import { COURSE } from '@data/course-keys-types';
+import { BUNDLE } from '@data/bundle-keys-types';
 
 export class CouponConnector {
   couponRepository: Repository<Coupon>;
@@ -14,7 +16,9 @@ export class CouponConnector {
   async createCoupons(
     coupon: string,
     discount: number,
-    count: number
+    count: number,
+    courseId: COURSE,
+    bundleId: BUNDLE
   ) {
     await this.removeExpiredCoupons();
 
@@ -26,12 +30,19 @@ export class CouponConnector {
     couponEntity.coupon = coupon;
     couponEntity.discount = discount;
     couponEntity.count = count;
+    couponEntity.courseId = courseId;
+    couponEntity.bundleId = bundleId;
     couponEntity.expiresAt = expiresAt;
 
     return await this.couponRepository.save(couponEntity);
   }
 
-  async redeemCoupon(coupon: string, price: number) {
+  async redeemCoupon(
+    coupon: string,
+    price: number,
+    courseId: COURSE,
+    bundleId: BUNDLE
+  ) {
     const couponEntity = await this.couponRepository.findOne({
       coupon,
     });
@@ -40,12 +51,25 @@ export class CouponConnector {
       return price;
     }
 
+    const isNotTightToCourseOrBundle =
+      (couponEntity.courseId && couponEntity.courseId !== courseId) ||
+      (couponEntity.bundleId && couponEntity.bundleId !== bundleId);
+
+    if (isNotTightToCourseOrBundle) {
+      return price;
+    }
+
     const isExpired =
       new Date().getTime() >
       new Date(couponEntity.expiresAt).getTime();
 
     if (isExpired) {
-      await this.couponRepository.delete(couponEntity.id);
+      return price;
+    }
+
+    const count = couponEntity.count;
+
+    if (count === 0) {
       return price;
     }
 

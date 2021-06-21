@@ -206,6 +206,8 @@ export type MutationCreateAdminCourseArgs = {
 
 
 export type MutationCouponCreateArgs = {
+  bundleId: Scalars['String'];
+  courseId: Scalars['String'];
   count: Scalars['Float'];
   discount: Scalars['Float'];
   coupon: Scalars['String'];
@@ -460,6 +462,8 @@ export type CouponCreateMutationVariables = {
   coupon: Scalars['String'];
   discount: Scalars['Float'];
   count: Scalars['Float'];
+  courseId: Scalars['String'];
+  bundleId: Scalars['String'];
 };
 
 
@@ -943,8 +947,8 @@ export type GetDiscountedPriceQueryHookResult = ReturnType<typeof useGetDiscount
 export type GetDiscountedPriceLazyQueryHookResult = ReturnType<typeof useGetDiscountedPriceLazyQuery>;
 export type GetDiscountedPriceQueryResult = ApolloReactCommon.QueryResult<GetDiscountedPriceQuery, GetDiscountedPriceQueryVariables>;
 export const CouponCreateDocument = gql`
-    mutation CouponCreate($coupon: String!, $discount: Float!, $count: Float!) {
-  couponCreate(coupon: $coupon, discount: $discount, count: $count)
+    mutation CouponCreate($coupon: String!, $discount: Float!, $count: Float!, $courseId: String!, $bundleId: String!) {
+  couponCreate(coupon: $coupon, discount: $discount, count: $count, courseId: $courseId, bundleId: $bundleId)
 }
     `;
 export type CouponCreateMutationFn = ApolloReactCommon.MutationFunction<CouponCreateMutation, CouponCreateMutationVariables>;
@@ -965,6 +969,8 @@ export type CouponCreateMutationFn = ApolloReactCommon.MutationFunction<CouponCr
  *      coupon: // value for 'coupon'
  *      discount: // value for 'discount'
  *      count: // value for 'count'
+ *      courseId: // value for 'courseId'
+ *      bundleId: // value for 'bundleId'
  *   },
  * });
  */

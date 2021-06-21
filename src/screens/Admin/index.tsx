@@ -71,6 +71,8 @@ const AdminPage = () => {
           coupon: formatRouteQuery(query.coupon),
           discount: Number(formatRouteQuery(query.discount)), // 1 - 100
           count: Number(formatRouteQuery(query.count)),
+          courseId: formatRouteQuery(query.courseId),
+          bundleId: formatRouteQuery(query.bundleId),
         },
       });
     }

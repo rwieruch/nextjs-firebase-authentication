@@ -61,13 +61,17 @@ export default class CouponResolver {
     @Arg('coupon') coupon: string,
     @Arg('discount') discount: number,
     @Arg('count') count: number,
+    @Arg('courseId') courseId: string | undefined | null,
+    @Arg('bundleId') bundleId: string | undefined | null,
     @Ctx() ctx: ResolverContext
   ): Promise<Boolean> {
     try {
       await ctx.couponConnector.createCoupons(
         coupon,
         discount,
-        count
+        count,
+        courseId as COURSE,
+        bundleId as BUNDLE
       );
     } catch (error) {
       throw new Error(error);

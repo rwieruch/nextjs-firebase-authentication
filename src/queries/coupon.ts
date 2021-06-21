@@ -22,7 +22,15 @@ export const COUPON_CREATE = gql`
     $coupon: String!
     $discount: Float!
     $count: Float!
+    $courseId: String!
+    $bundleId: String!
   ) {
-    couponCreate(coupon: $coupon, discount: $discount, count: $count)
+    couponCreate(
+      coupon: $coupon
+      discount: $discount
+      count: $count
+      courseId: $courseId
+      bundleId: $bundleId
+    )
   }
 `;

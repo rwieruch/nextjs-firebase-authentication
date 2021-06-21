@@ -61,7 +61,8 @@ const IdleForm = ({
     },
   };
 
-  const isFree = price === 0 || (discount.isRedeemed && discount.price === 0);
+  const isFree =
+    price === 0 || (discount.isRedeemed && discount.price === 0);
 
   return (
     <Form {...formItemLayout}>
@@ -177,7 +178,9 @@ const Pay = ({ storefrontCourse, onSuccess }: PayProps) => {
       setDiscountLoading(false);
 
       if (!data.discountedPrice.isDiscount) {
-        message.error('Invalid coupon.');
+        message.error(
+          'Coupon is either invalid, expired, or used up.'
+        );
         return;
       }
 

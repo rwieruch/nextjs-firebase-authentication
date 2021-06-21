@@ -44,7 +44,7 @@ const tryUpgradeDiscount = async (
   const upgradeableCourses = getUpgradeableCourses(courseId, courses);
 
   const upgradeableCourse = upgradeableCourses.find(
-    course => course.bundle.bundleId === bundleId
+    (course) => course.bundle.bundleId === bundleId
   );
 
   if (upgradeableCourse?.bundle.bundleId === coupon) {
@@ -54,60 +54,68 @@ const tryUpgradeDiscount = async (
   return price;
 };
 
-export const priceWithDiscount = (
-  couponConnector: CouponConnector,
-  courseConnector: CourseConnector
-) => async (
-  courseId: COURSE,
-  bundleId: BUNDLE,
-  price: number,
-  coupon: string | undefined | null,
-  uid: string | undefined | null
-) => {
-  if (!coupon || price === 0 || !uid) {
+export const priceWithDiscount =
+  (
+    couponConnector: CouponConnector,
+    courseConnector: CourseConnector
+  ) =>
+  async (
+    courseId: COURSE,
+    bundleId: BUNDLE,
+    price: number,
+    coupon: string | undefined | null,
+    uid: string | undefined | null
+  ) => {
+    if (!coupon || price === 0 || !uid) {
+      return price;
+    }
+
+    // Custom Coupon
+
+    let discountedPrice;
+
+    discountedPrice = await couponConnector.redeemCoupon(
+      coupon,
+      price,
+      courseId,
+      bundleId
+    );
+
+    if (discountedPrice !== price) {
+      return discountedPrice;
+    }
+
+    // Upgrade
+
+    const courses =
+      await courseConnector.getCoursesByUserIdAndCourseId(
+        uid,
+        courseId
+      );
+
+    discountedPrice = await tryUpgradeDiscount(
+      courseId,
+      bundleId,
+      courses,
+      price,
+      coupon,
+      uid
+    );
+
+    if (discountedPrice !== price) {
+      return discountedPrice;
+    }
+
+    // PPP
+
+    discountedPrice = await tryPppDiscount(
+      discountedPrice,
+      coupon.replace(process.env.COUPON_SALT || '', '')
+    );
+
+    if (discountedPrice !== price) {
+      return discountedPrice;
+    }
+
     return price;
-  }
-
-  // Custom Coupon
-
-  let discountedPrice;
-
-  discountedPrice = await couponConnector.redeemCoupon(coupon, price);
-
-  if (discountedPrice !== price) {
-    return discountedPrice;
-  }
-
-  // Upgrade
-
-  const courses = await courseConnector.getCoursesByUserIdAndCourseId(
-    uid,
-    courseId
-  );
-
-  discountedPrice = await tryUpgradeDiscount(
-    courseId,
-    bundleId,
-    courses,
-    price,
-    coupon,
-    uid
-  );
-
-  if (discountedPrice !== price) {
-    return discountedPrice;
-  }
-
-  // PPP
-
-  discountedPrice = await tryPppDiscount(
-    discountedPrice,
-    coupon.replace(process.env.COUPON_SALT || '', '')
-  );
-
-  if (discountedPrice !== price) {
-    return discountedPrice;
-  }
-
-  return price;
-};
+  };

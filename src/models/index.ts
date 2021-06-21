@@ -61,7 +61,7 @@ async function updateConnectionEntities(
   }
 }
 
-export default async function(
+export default async function (
   name: string = 'default'
 ): Promise<Connection> {
   const connectionManager = getConnectionManager();
