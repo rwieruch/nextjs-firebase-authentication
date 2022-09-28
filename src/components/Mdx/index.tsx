@@ -3,6 +3,7 @@ import { Typography } from 'antd';
 
 import Link from '@components/Link';
 import Code from './Code';
+import Image from './Image';
 
 export default {
   h1: (props: any) => <Typography.Title level={1} {...props} />,
@@ -11,4 +12,5 @@ export default {
   h4: (props: any) => <Typography.Title level={4} {...props} />,
   code: (props: any) => <Code {...props} offset={354} />,
   a: (props: any) => <Link {...props} />,
+  img: (props: any) => <Image {...props} />,
 };
