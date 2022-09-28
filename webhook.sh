@@ -5,5 +5,5 @@ git pull --rebase origin master
 cd ..
 cd ..
 cd ..
-npm run build
+yarn run build
 pm2 restart courses.robinwieruch.de

@@ -1,6 +1,6 @@
 # My Course Platform
 
-[![Build Status](https://travis-ci.org/rwieruch/nextjs-firebase-authentication.svg?branch=master)](https://travis-ci.org/rwieruch/nextjs-firebase-authentication)   [![Greenkeeper badge](https://badges.greenkeeper.io/rwieruch/nextjs-firebase-authentication.svg)](https://greenkeeper.io/)
+[![Build Status](https://travis-ci.org/rwieruch/nextjs-firebase-authentication.svg?branch=master)](https://travis-ci.org/rwieruch/nextjs-firebase-authentication) [![Greenkeeper badge](https://badges.greenkeeper.io/rwieruch/nextjs-firebase-authentication.svg)](https://greenkeeper.io/)
 
 - [Demo](https://courses.robinwieruch.de/)
 - [Thread on "What went into this project"](https://twitter.com/rwieruch/status/1243209627707346944)
@@ -60,8 +60,8 @@
 - `git clone git@github.com:rwieruch/nextjs-firebase-authentication.git`
 - `cd nextjs-firebase-authentication`
 - See other installation instructions below ...
-- `npm install`
-- `npm run dev`
+- `yarn install`
+- `yarn run dev`
 - Visit http://localhost:3000/
 
 ### .env file
