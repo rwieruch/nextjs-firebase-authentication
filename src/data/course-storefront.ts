@@ -28,7 +28,7 @@ export default {
         price: 2900,
         weight: 1,
         imageUrl: `${ASSETS_URL}/road-to-react/3.png`,
-        benefits: ['200-page Book in PDF, MOBI & EPUB'],
+        benefits: ['200-page Book in PDF & EPUB'],
       },
       [THE_ROAD_TO_LEARN_REACT_BUNDLE_KEYS.INTERMEDIATE]: {
         header: 'The Essentials',
@@ -37,7 +37,7 @@ export default {
         weight: 2,
         imageUrl: `${ASSETS_URL}/road-to-react/2.png`,
         benefits: [
-          '200-page Book in PDF, MOBI & EPUB',
+          '200-page Book in PDF & EPUB',
           'Access the Book Online',
         ],
       },
@@ -48,7 +48,7 @@ export default {
         weight: 3,
         imageUrl: `${ASSETS_URL}/road-to-react/1.png`,
         benefits: [
-          '200-page Book in PDF, MOBI & EPUB',
+          '200-page Book in PDF & EPUB',
           'Access the Book Online',
           'Course Modules beyond the Book',
         ],
@@ -67,7 +67,7 @@ export default {
         price: 2900,
         weight: 1,
         imageUrl: `${ASSETS_URL}/road-to-redux/3.png`,
-        benefits: ['250-page Book in PDF, MOBI & EPUB'],
+        benefits: ['250-page Book in PDF & EPUB'],
       },
       [TAMING_THE_STATE_BUNDLE_KEYS.INTERMEDIATE]: {
         header: 'The Essentials',
@@ -76,7 +76,7 @@ export default {
         weight: 2,
         imageUrl: `${ASSETS_URL}/road-to-redux/2.png`,
         benefits: [
-          '250-page Book in PDF, MOBI & EPUB',
+          '250-page Book in PDF & EPUB',
           'Access the Book Online',
         ],
       },
@@ -87,7 +87,7 @@ export default {
         weight: 3,
         imageUrl: `${ASSETS_URL}/road-to-redux/1.png`,
         benefits: [
-          '250-page Book in PDF, MOBI & EPUB',
+          '250-page Book in PDF & EPUB',
           'Access the Book Online',
           'Course Modules beyond the Book',
         ],
@@ -106,7 +106,7 @@ export default {
         price: 2900,
         weight: 1,
         imageUrl: `${ASSETS_URL}/road-to-graphql/3.png`,
-        benefits: ['350-page Book in PDF, MOBI & EPUB'],
+        benefits: ['350-page Book in PDF & EPUB'],
       },
       [THE_ROAD_TO_GRAPHQL_BUNDLE_KEYS.INTERMEDIATE]: {
         header: 'The Essentials',
@@ -115,7 +115,7 @@ export default {
         weight: 2,
         imageUrl: `${ASSETS_URL}/road-to-graphql/2.png`,
         benefits: [
-          '350-page Book in PDF, MOBI & EPUB',
+          '350-page Book in PDF & EPUB',
           'Access the Book Online',
         ],
       },
@@ -126,7 +126,7 @@ export default {
         weight: 3,
         imageUrl: `${ASSETS_URL}/road-to-graphql/1.png`,
         benefits: [
-          '350-page Book in PDF, MOBI & EPUB',
+          '350-page Book in PDF & EPUB',
           'Access the Book Online',
           'Course Modules beyond the Book',
         ],
@@ -145,7 +145,7 @@ export default {
         price: 2900,
         weight: 1,
         imageUrl: `${ASSETS_URL}/road-to-firebase/3.png`,
-        benefits: ['200-page Book in PDF, MOBI & EPUB'],
+        benefits: ['200-page Book in PDF & EPUB'],
       },
       [THE_ROAD_TO_REACT_WITH_FIREBASE_BUNDLE_KEYS.INTERMEDIATE]: {
         header: 'The Essentials',
@@ -155,7 +155,7 @@ export default {
         weight: 2,
         imageUrl: `${ASSETS_URL}/road-to-firebase/2.png`,
         benefits: [
-          '200-page Book in PDF, MOBI & EPUB',
+          '200-page Book in PDF & EPUB',
           'Access the Book Online',
         ],
       },
@@ -167,7 +167,7 @@ export default {
         weight: 3,
         imageUrl: `${ASSETS_URL}/road-to-firebase/1.png`,
         benefits: [
-          '200-page Book in PDF, MOBI & EPUB',
+          '200-page Book in PDF & EPUB',
           'Access the Book Online',
           'Course Modules beyond the Book',
         ],
